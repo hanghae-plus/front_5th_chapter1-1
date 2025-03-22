@@ -1,11 +1,25 @@
 /**
- * String TO Element
+ * String to Element, create element
  * @param {string | string[]} element
- * @returns DocumentFragment
+ * @returns ChildNode
  */
 export const $CE = (element) => {
-  const template = document.createElement("template");
-  template.innerHTML =
-    typeof element === "string" ? element : element.join("\n");
-  return template.content;
+  const div = document.createElement("div");
+  div.innerHTML = typeof element === "string" ? element : element.join("\n");
+  const node = Array.from(div.childNodes).find(
+    (node) => node.nodeType === Node.ELEMENT_NODE,
+  );
+  return node || div;
+};
+
+/**
+ * Append Child
+ * @param {Node} target ParentNode
+ * @param {ChildNode[]} arr ChildNodes
+ * @returns target
+ */
+
+export const $AC = (target, arr) => {
+  arr?.forEach((el) => target.appendChild(el));
+  return target;
 };
