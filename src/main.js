@@ -4,22 +4,76 @@ const Header = () => `
   </header>
 `;
 
-const Nav = () => `
+const Nav = (now) => `
   <nav class="bg-white shadow-md p-2 sticky top-14">
     <ul class="flex justify-around">
-      <li><a href="/" class="text-blue-600">홈</a></li>
-      <li><a href="/profile" class="text-gray-600">프로필</a></li>
-      <li><a href="#" class="text-gray-600">로그아웃</a></li>
+      <li><a href="/" class="${now === "/" ? "text-blue-600" : "text-gray-600"}">홈</a></li>
+      <li><a href="/profile" class="${now === "/profile" ? "text-blue-600" : "text-gray-600"}">프로필</a></li>
+      ${
+        isLoggedIn()
+          ? `<li><a href="#" class="text-gray-600">로그아웃</a></li>`
+          : `<li><a href="/login" class="text-gray-600">로그인</a></li>`
+      }
     </ul>
   </nav>
+`;
+
+const postData = [
+  {
+    id: 0,
+    username: "홍길동",
+    content: "오늘 날씨가 정말 좋네요. 다들 좋은 하루 보내세요!",
+    createdAt: "5분전",
+  },
+  {
+    id: 1,
+    username: "김철수",
+    content: "새로운 프로젝트를 시작했어요. 열심히 코딩 중입니다!",
+    createdAt: "15분전",
+  },
+  {
+    id: 2,
+    username: "이영희",
+    content: "오늘 점심 메뉴 추천 받습니다. 뭐가 좋을까요?",
+    createdAt: "30분전",
+  },
+  {
+    id: 3,
+    username: "박민수",
+    content: "주말에 등산 가실 분 계신가요? 함께 가요!",
+    createdAt: "1시간전",
+  },
+  {
+    id: 4,
+    username: "정수연",
+    content: "새로 나온 영화 재미있대요. 같이 보러 갈 사람?",
+    createdAt: "2시간전",
+  },
+];
+
+const Post = (post) => `
+  <div class="bg-white rounded-lg shadow p-4">
+    <div class="flex items-center mb-2">
+      <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
+      <div>
+        <p class="font-bold">${post.username}</p>
+        <p class="text-sm text-gray-500">${post.createdAt}</p>
+      </div>
+    </div>
+    <p>${post.content}</p>
+    <div class="mt-2 flex justify-between text-gray-500">
+      <button>좋아요</button>
+      <button>댓글</button>
+      <button>공유</button>
+    </div>
+  </div>
 `;
 
 const MainPage = () => `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
       ${Header()}
-      ${Nav()}
-      
+      ${Nav("/")}
 
       <main class="p-4">
         <div class="mb-4 bg-white rounded-lg shadow p-4">
@@ -28,86 +82,7 @@ const MainPage = () => `
         </div>
 
         <div class="space-y-4">
-
-          <div class="bg-white rounded-lg shadow p-4">
-            <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
-              <div>
-                <p class="font-bold">홍길동</p>
-                <p class="text-sm text-gray-500">5분 전</p>
-              </div>
-            </div>
-            <p>오늘 날씨가 정말 좋네요. 다들 좋은 하루 보내세요!</p>
-            <div class="mt-2 flex justify-between text-gray-500">
-              <button>좋아요</button>
-              <button>댓글</button>
-              <button>공유</button>
-            </div>
-          </div>
-
-          <div class="bg-white rounded-lg shadow p-4">
-            <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
-              <div>
-                <p class="font-bold">김철수</p>
-                <p class="text-sm text-gray-500">15분 전</p>
-              </div>
-            </div>
-            <p>새로운 프로젝트를 시작했어요. 열심히 코딩 중입니다!</p>
-            <div class="mt-2 flex justify-between text-gray-500">
-              <button>좋아요</button>
-              <button>댓글</button>
-              <button>공유</button>
-            </div>
-          </div>
-
-          <div class="bg-white rounded-lg shadow p-4">
-            <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
-              <div>
-                <p class="font-bold">이영희</p>
-                <p class="text-sm text-gray-500">30분 전</p>
-              </div>
-            </div>
-            <p>오늘 점심 메뉴 추천 받습니다. 뭐가 좋을까요?</p>
-            <div class="mt-2 flex justify-between text-gray-500">
-              <button>좋아요</button>
-              <button>댓글</button>
-              <button>공유</button>
-            </div>
-          </div>
-
-          <div class="bg-white rounded-lg shadow p-4">
-            <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
-              <div>
-                <p class="font-bold">박민수</p>
-                <p class="text-sm text-gray-500">1시간 전</p>
-              </div>
-            </div>
-            <p>주말에 등산 가실 분 계신가요? 함께 가요!</p>
-            <div class="mt-2 flex justify-between text-gray-500">
-              <button>좋아요</button>
-              <button>댓글</button>
-              <button>공유</button>
-            </div>
-          </div>
-
-          <div class="bg-white rounded-lg shadow p-4">
-            <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
-              <div>
-                <p class="font-bold">정수연</p>
-                <p class="text-sm text-gray-500">2시간 전</p>
-              </div>
-            </div>
-            <p>새로 나온 영화 재미있대요. 같이 보러 갈 사람?</p>
-            <div class="mt-2 flex justify-between text-gray-500">
-              <button>좋아요</button>
-              <button>댓글</button>
-              <button>공유</button>
-            </div>
-          </div>
+          ${postData.map(Post).join("")}
         </div>
       </main>
 
@@ -138,9 +113,9 @@ const LoginPage = () => `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
-      <form>
+      <form id="login-form">
         <div class="mb-4">
-          <input type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
+          <input id="username" type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
         </div>
         <div class="mb-6">
           <input type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
@@ -163,7 +138,7 @@ const ProfilePage = () => `
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
         ${Header()}
-        ${Nav()}
+        ${Nav("/profile")}
 
         <main class="p-4">
           <div class="bg-white p-8 rounded-lg shadow-md">
@@ -232,6 +207,8 @@ const ProfilePage = () => `
   </div>
 `;
 
+const root = document.getElementById("root");
+
 const routes = {
   "/": MainPage,
   "/profile": ProfilePage,
@@ -239,10 +216,19 @@ const routes = {
   "*": ErrorPage,
 };
 
+const isLoggedIn = () => {
+  const user = localStorage.getItem("user");
+  return user ? true : false;
+};
+
 const Render = () => {
-  const root = document.getElementById("root");
   const path = window.location.pathname;
   const Component = routes[path] || routes["*"];
+  if (Component.name === "ProfilePage" && !isLoggedIn()) {
+    window.history.replaceState({}, "", "/login");
+    Render();
+    return;
+  }
   root.innerHTML = Component();
 };
 
@@ -252,6 +238,13 @@ Render();
 document.addEventListener("click", (e) => {
   if (e.target.tagName === "A") {
     e.preventDefault();
+    if (e.target.textContent === "로그아웃") {
+      localStorage.removeItem("user");
+      window.history.replaceState({}, "", "/");
+      Render();
+      return;
+    }
+
     const path = e.target.href.split("/").pop();
     window.history.pushState({}, "", path ? path : "/");
     Render();
@@ -261,4 +254,22 @@ document.addEventListener("click", (e) => {
 // 라우터 이벤트 리스너
 window.addEventListener("popstate", () => {
   Render();
+});
+
+// 로그인 폼 submit 이벤트 리스너
+document.addEventListener("submit", (e) => {
+  if (e.target.id === "login-form") {
+    e.preventDefault();
+    const username = document.getElementById("username").value;
+    if (username) {
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ username: "testuser", email: "", bio: "" }),
+      );
+      window.history.pushState({}, "", "/");
+      Render();
+    } else {
+      alert("이메일 또는 전화번호를 입력해주세요.");
+    }
+  }
 });
