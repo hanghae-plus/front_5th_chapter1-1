@@ -1,4 +1,4 @@
-const MainPage = () => `
+const _MainPage = () => `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
       <header class="bg-blue-600 text-white p-4 sticky top-0">
@@ -111,7 +111,7 @@ const MainPage = () => `
   </div>
 `;
 
-const ProfilePage = () => `
+const _ProfilePage = () => `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
@@ -210,7 +210,7 @@ const ErrorPage = () => `
   </main>
 `;
 
-const LoginPage = () => `
+const _LoginPage = () => `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
@@ -234,4 +234,4 @@ const LoginPage = () => `
   </main>
 `;
 
-export { ErrorPage, LoginPage, MainPage, ProfilePage };
+export { _MainPage, _ProfilePage, ErrorPage, _LoginPage as LoginPage };
