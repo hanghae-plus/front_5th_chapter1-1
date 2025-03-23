@@ -126,7 +126,7 @@ const hydrateLinkIntoRouter = () => {
   if (logoutButton) {
     logoutButton.addEventListener("click", () => {
       state.loggedInUser = null;
-      localStorage.setItem(CONST.lsKey.user, JSON.stringify(null));
+      localStorage.removeItem(CONST.lsKey.user);
     });
   }
 };
