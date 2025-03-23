@@ -1,18 +1,48 @@
-const MainPage = () => `
-  <div class="bg-gray-100 min-h-screen flex justify-center">
-    <div class="max-w-md w-full">
-      <header class="bg-blue-600 text-white p-4 sticky top-0">
+const Header = () => `
+  <header class="bg-blue-600 text-white p-4 sticky top-0">
         <h1 class="text-2xl font-bold">항해플러스</h1>
       </header>
+`;
 
+const Nav = () => {
+  // localStorage에서 user 값을 가져옵니다.
+  const user = localStorage.getItem("user");
+
+  // user 값이 없으면 홈과 로그인 링크를 반환
+  if (!user) {
+    return `
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
           <li><a href="/" class="text-blue-600">홈</a></li>
-          <li><a href="/profile" class="text-gray-600">프로필</a></li>
-          <li><a href="#" class="text-gray-600">로그아웃</a></li>
+          <li><a href="/login" class="text-gray-600">로그인</a></li>
         </ul>
       </nav>
+    `;
+  }
 
+  // user 값이 있으면 홈과 프로필, 로그아웃 링크를 반환
+  return `
+    <nav class="bg-white shadow-md p-2 sticky top-14">
+      <ul class="flex justify-around">
+        <li><a href="/" class="text-blue-600">홈</a></li>
+        <li><a href="/profile" class="text-gray-600">프로필</a></li>
+        <li><a id="logout" href="/logout" class="text-gray-600">로그아웃</a></li>
+      </ul>
+    </nav>
+  `;
+};
+
+const Footer = () => `
+  <footer class="bg-gray-200 p-4 text-center">
+        <p>&copy; 2024 항해플러스. All rights reserved.</p>
+      </footer>
+`;
+
+const MainPage = () => `
+  <div class="bg-gray-100 min-h-screen flex justify-center">
+    <div class="max-w-md w-full">
+      ${Header()}
+      ${Nav()}
       <main class="p-4">
         <div class="mb-4 bg-white rounded-lg shadow p-4">
           <textarea class="w-full p-2 border rounded" placeholder="무슨 생각을 하고 계신가요?"></textarea>
@@ -102,10 +132,7 @@ const MainPage = () => `
           </div>
         </div>
       </main>
-
-      <footer class="bg-gray-200 p-4 text-center">
-        <p>&copy; 2024 항해플러스. All rights reserved.</p>
-      </footer>
+      ${Footer()}
     </div>
   </div>
 `;
@@ -130,14 +157,14 @@ const LoginPage = () => `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
-      <form>
+      <form id="login-form">
         <div class="mb-4">
-          <input type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
+          <input id="username" type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
         </div>
         <div class="mb-6">
-          <input type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
+          <input id="userPw" type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
         </div>
-        <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
+        <button id="loginBtn" type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
       </form>
       <div class="mt-4 text-center">
         <a href="#" class="text-blue-600 text-sm">비밀번호를 잊으셨나요?</a>
@@ -154,18 +181,8 @@ const ProfilePage = () => `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
-        <header class="bg-blue-600 text-white p-4 sticky top-0">
-          <h1 class="text-2xl font-bold">항해플러스</h1>
-        </header>
-
-        <nav class="bg-white shadow-md p-2 sticky top-14">
-          <ul class="flex justify-around">
-            <li><a href="/" class="text-gray-600">홈</a></li>
-            <li><a href="/profile" class="text-blue-600">프로필</a></li>
-            <li><a href="#" class="text-gray-600">로그아웃</a></li>
-          </ul>
-        </nav>
-
+        ${Header()}
+        ${Nav()}
         <main class="p-4">
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
@@ -224,18 +241,159 @@ const ProfilePage = () => `
             </form>
           </div>
         </main>
-
-        <footer class="bg-gray-200 p-4 text-center">
-          <p>&copy; 2024 항해플러스. All rights reserved.</p>
-        </footer>
+        ${Footer()}
       </div>
     </div>
   </div>
 `;
 
-document.body.innerHTML = `
-  ${MainPage()}
-  ${ProfilePage()}
-  ${LoginPage()}
-  ${ErrorPage()}
-`;
+//routing 연결
+const routePath = {
+  "/login": LoginPage,
+  "/profile": ProfilePage,
+  "/": MainPage,
+  "/error": ErrorPage,
+};
+
+//페이지 렌더링
+const renderPage = (path) => {
+  console.log("renderPage 실행");
+  console.log("renderPage path", path);
+  // 경로가 routePath에 존재하는지 확인
+  const routeHandler = routePath[path];
+
+  // 경로가 유효하고 함수인 경우
+  if (typeof routeHandler === "function") {
+    return routeHandler();
+  }
+
+  // 경로가 유효하지 않거나 함수가 아닌 경우 ErrorPage 반환
+  return ErrorPage();
+};
+
+//로그아웃 처리
+const logoutUser = () => {
+  // 로그아웃 처리 로직
+  // localStorage의 데이터 제거
+  console.log("logoutUser 실행");
+  localStorage.removeItem("user");
+};
+
+//헤더 링크 클릭
+const handleLinkClick = (event) => {
+  if (event.target.tagName === "A") {
+    event.preventDefault();
+    const href = event.target.getAttribute("href");
+    console.log("href", href);
+    if (href === "/logout") {
+      console.log("logout 실행");
+      // 로그아웃 처리 로직
+      logoutUser(); // 로그아웃 함수 호출
+      navigateTo("/login");
+      return;
+    }
+    navigateTo(href);
+  }
+};
+//이메일 유효성 검사 (utils);
+// function validateEmail(email) {
+//   const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+//   return regex.test(email);
+// }
+
+//로그인 처리
+const handleLogin = (event) => {
+  event.preventDefault(); // 기본 폼 제출 방지
+
+  const email = document.getElementById("username").value;
+  const password = document.getElementById("userPw").value;
+
+  console.log("email", email);
+  console.log("password", password);
+
+  // if (!validateEmail(email)) {
+  //   alert("이메일 형식이 올바르지 않습니다.");
+  //   return;
+  // }
+
+  if (email === "testuser") {
+    const user = {
+      username: email,
+      email: "",
+      bio: "",
+    };
+    localStorage.setItem("user", user);
+    navigateTo("/");
+  } else if (!email || !password) {
+    alert("이메일 또는 비밀번호를 입력해주세요.");
+  } else {
+    alert("이메일 또는 비밀번호가 일치하지 않습니다.");
+  }
+};
+
+//최초 앱 실행 함수
+const App = () => {
+  console.log("app 실행");
+  console.log("초기렌더링 실행");
+
+  // 초기 렌더링
+  // document.body.innerHTML = renderPage(location.pathname);
+
+  //아 클릭할 때 App()이 새롭게 실행되면서 초기화가 이루어지는구나.
+  navigateTo(location.pathname);
+};
+
+//페이지 이동함수
+const navigateTo = (path) => {
+  console.log("navigate to path", path);
+  console.log("navigateTo 실행");
+  history.pushState(null, "", path);
+  //페이지 렌더링
+  document.body.innerHTML = renderPage(path);
+
+  // 로그인 페이지일 때 이벤트 리스너 등록
+  if (location.pathname === "/login") {
+    const loginForm = document.getElementById("login-form");
+    if (loginForm) {
+      loginForm.addEventListener("submit", handleLogin);
+    }
+  }
+
+  if (location.pathname === "/profile") {
+    const loginInfo = localStorage.getItem("user");
+    if (!loginInfo) {
+      navigateTo("/login");
+      return;
+    }
+  }
+
+  if (location.pathname !== "/login" && location.pathname !== "/logout") {
+    console.log("login or logout");
+
+    // document.body.addEventListener("click", (event) => {
+    //   if (event.target.tagName === "A") {
+    //     handleLinkClick(event);
+    //   }
+    // });
+    const navElement = document.querySelector("nav");
+
+    if (navElement) {
+      navElement.addEventListener("click", (event) => {
+        if (event.target.tagName === "A") {
+          handleLinkClick(event);
+        }
+      });
+    }
+  }
+};
+
+//첫 Dom이 로드되었을 때.
+document.addEventListener("DOMContentLoaded", () => {
+  App();
+});
+
+// popstate 이벤트 처리 popstate는 언제 발생하는건가?
+window.addEventListener("popstate", () => {
+  console.log("popstate 이벤트 처리");
+  navigateTo(location.pathname);
+});
