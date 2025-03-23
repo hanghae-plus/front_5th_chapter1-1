@@ -33,7 +33,7 @@ const LoginContent = {
     const userStore = useUserStore();
     const form = document.querySelector("#login-form");
 
-    form.addEventListener("submit", (e) => {
+    form?.addEventListener("submit", (e) => {
       e.preventDefault();
       const username = form.querySelector("#username").value;
       userStore.setUserInfo({ username, email: "", bio: "" });
