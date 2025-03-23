@@ -1,4 +1,5 @@
 export function createRouter(root, routes) {
+  let guard = null;
   const content = document.createElement("div");
   root.appendChild(content);
 
@@ -8,11 +9,17 @@ export function createRouter(root, routes) {
   };
 
   const renderRoute = () => {
-    const { component } = getRoute(window.location.pathname);
-    if (typeof component !== "function") {
-      throw new Error(`"${window.location.pathname}" 컴포넌트가 없습니다.`);
-    }
-    content.innerHTML = component();
+    const callback = (toPath = window.location.pathname) => {
+      const { component } = getRoute(toPath);
+      if (typeof component !== "function") {
+        throw new Error(`"${toPath}" 컴포넌트가 없습니다.`);
+      }
+      window.history.pushState(null, "", toPath);
+      content.innerHTML = component();
+    };
+
+    if (guard) guard(window.location.pathname, callback);
+    else callback();
   };
 
   const onLinkClick = (e) => {
@@ -24,7 +31,7 @@ export function createRouter(root, routes) {
     const isSamePath = window.location.pathname === newPathname;
     if (isSamePath) return;
 
-    history.pushState(null, "", newPathname);
+    window.history.pushState(null, "", newPathname);
     renderRoute();
   };
 
@@ -33,6 +40,10 @@ export function createRouter(root, routes) {
       window.addEventListener("popstate", renderRoute);
       document.body.addEventListener("click", onLinkClick);
       renderRoute();
+    },
+    beforeEach(callback) {
+      guard = callback;
+      return this;
     },
   };
 }
