@@ -1,24 +1,7 @@
-const Header = () => `
-  <header class="bg-blue-600 text-white p-4 sticky top-0">
-    <h1 class="text-2xl font-bold">항해플러스</h1>
-  </header>
-`;
-
-const Nav = () => `
-  <nav class="bg-white shadow-md p-2 sticky top-14">
-    <ul class="flex justify-around">
-      <li><a href="/" class="text-blue-600">홈</a></li>
-      <li><a href="/profile" class="text-gray-600">프로필</a></li>
-      <li><a href="#" class="text-gray-600">로그아웃</a></li>
-    </ul>
-  </nav>
-`;
-
-const Footer = () => `
-  <footer class="bg-gray-200 p-4 text-center">
-    <p>&copy; 2024 항해플러스. All rights reserved.</p>
-  </footer>
-`;
+import Header from "./components/Header";
+import Nav from "./components/Nav";
+import Footer from "./components/Footer";
+import SubmitBtn from "./components/SubmitBtn";
 
 const MainPage = () => `
   <div class="bg-gray-100 min-h-screen flex justify-center">
@@ -148,7 +131,7 @@ const LoginPage = () => `
         <div class="mb-6">
           <input type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
         </div>
-        <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
+        ${SubmitBtn({ text: "로그인" })}
       </form>
       <div class="mt-4 text-center">
         <a href="#" class="text-blue-600 text-sm">비밀번호를 잊으셨나요?</a>
@@ -217,12 +200,7 @@ const ProfilePage = () => `
 안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
                 >
               </div>
-              <button
-                type="submit"
-                class="w-full bg-blue-600 text-white p-2 rounded font-bold"
-              >
-                프로필 업데이트
-              </button>
+              ${SubmitBtn({ text: "프로필 업데이트" })}
             </form>
           </div>
         </main>
