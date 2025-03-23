@@ -276,6 +276,10 @@ const routes = {
   [CONST.pathname.login]: {
     render: LoginPage,
     onRender: () => {
+      if (state.loggedInUser) {
+        return render(CONST.pathname.main);
+      }
+
       const loginForm = document.getElementById(CONST.loginForm.formId);
       if (!loginForm) return;
 
@@ -319,6 +323,9 @@ const routes = {
   [CONST.pathname.profile]: {
     render: ProfilePage,
     onRender: () => {
+      if (!state.loggedInUser) {
+        return render(CONST.pathname.login);
+      }
       const profileForm = document.getElementById(CONST.profileForm.formId);
       if (!profileForm) return;
 
