@@ -1,7 +1,15 @@
 import { Header, Nav } from "./Header";
+import { isLoggedIn } from "../utils/login.js";
+import LoginPage from "./LoginPage.jsx";
+import { store } from "../utils/store.js";
 
 const ProfilePage = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
+  if (!isLoggedIn()) {
+    window.history.replaceState({}, "", "/login");
+    return LoginPage();
+  }
+
+  const user = store.getData("user");
   return `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
