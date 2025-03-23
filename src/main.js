@@ -1,13 +1,28 @@
 const CONST = {
   userDB: "user-db",
+  loginForm: {
+    formId: "login-form",
+    field: {
+      email: "email",
+      password: "password",
+    },
+  },
+  profileForm: {
+    formId: "profile-form",
+    field: {
+      username: "username",
+      email: "email",
+      bio: "bio",
+    },
+  },
 };
 
 const savedUserDB = localStorage.getItem(CONST.userDB) || "{}";
 const userDB = JSON.parse(savedUserDB);
 
 const state = {
-  users: userDB.users,
-  loggedInUser: userDB.loggedInUser,
+  users: userDB.users || [],
+  loggedInUser: userDB.loggedInUser || null,
 };
 
 const MainPage = () => `
@@ -142,12 +157,12 @@ const LoginPage = () => `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
-      <form>
+      <form id="${CONST.loginForm}">
         <div class="mb-4">
-          <input type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
+          <input type="text" id="${CONST.loginForm.field.email}" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
         </div>
         <div class="mb-6">
-          <input type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
+          <input type="password" id="${CONST.loginForm.field.password}" placeholder="비밀번호" class="w-full p-2 border rounded">
         </div>
         <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
       </form>
@@ -183,42 +198,42 @@ const ProfilePage = () => `
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
             </h2>
-            <form id="profile-form">
+            <form id="${CONST.profileForm.formId}">
               <div class="mb-4">
                 <label
-                  for="username"
+                  for="${CONST.profileForm.field.username}"
                   class="block text-gray-700 text-sm font-bold mb-2"
                   >사용자 이름</label
                 >
                 <input
                   type="text"
-                  id="username"
-                  name="username"
+                  id="${CONST.profileForm.field.username}"
+                  name="${CONST.profileForm.field.username}"
                   class="w-full p-2 border rounded"
                 />
               </div>
               <div class="mb-4">
                 <label
-                  for="email"
+                  for="${CONST.profileForm.field.email}"
                   class="block text-gray-700 text-sm font-bold mb-2"
                   >이메일</label
                 >
                 <input
                   type="email"
-                  id="email"
-                  name="email"
+                  id="${CONST.profileForm.field.email}"
+                  name="${CONST.profileForm.field.email}"
                   class="w-full p-2 border rounded"
                 />
               </div>
               <div class="mb-6">
                 <label
-                  for="bio"
+                  for="${CONST.profileForm.field.bio}"
                   class="block text-gray-700 text-sm font-bold mb-2"
                   >자기소개</label
                 >
                 <textarea
-                  id="bio"
-                  name="bio"
+                  id="${CONST.profileForm.field.bio}"
+                  name="${CONST.profileForm.field.bio}"
                   rows="4"
                   class="w-full p-2 border rounded"
                 ></textarea>
@@ -241,20 +256,60 @@ const ProfilePage = () => `
   </div>
 `;
 
+const initUser = ({ email, password }) => ({
+  id: crypto.randomUUID(),
+  email,
+  password,
+  username: "",
+  bio: "",
+});
+
 const routes = {
   "/": { render: MainPage },
-  "/login": { render: LoginPage },
+  "/login": {
+    render: LoginPage,
+    onRender: () => {
+      const loginForm = document.getElementById(CONST.loginForm);
+      if (!loginForm) return;
+
+      loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const formData = new FormData(loginForm);
+        const { email, password } = Object.fromEntries(formData);
+        const userInfo = state.users.find((user) => user.email === email);
+
+        if (userInfo) {
+          // 가입한 적 있는 유저
+          const isPasswordCorrect = userInfo.password === password;
+          if (isPasswordCorrect) {
+            state.loggedInUser = userInfo;
+          } else {
+            alert("비밀번호가 틀렸습니다.");
+            const passwordField = loginForm.getElementById(
+              CONST.loginForm.field.password,
+            );
+            passwordField?.focus();
+          }
+        } else {
+          const newUserInfo = initUser({ email, password });
+          state.loggedInUser = newUserInfo;
+          state.users.push(newUserInfo);
+        }
+        localStorage.setItem(CONST.userDB, JSON.stringify(state));
+      });
+    },
+  },
   "/profile": {
     render: ProfilePage,
     onRender: () => {
-      const profileForm = document.getElementById("profile-form");
+      const profileForm = document.getElementById(CONST.profileForm.formId);
       if (!profileForm) return;
 
       // 전역 객체에 저장된 user profile 데이터를 form에 초기화
       if (state.userProfile) {
         for (const [dataId, value] of Object.entries(state.userProfile)) {
-          const input = profileForm.querySelector(`#${dataId}`);
-          input.value = value;
+          const field = profileForm.querySelector(`#${dataId}`);
+          field.value = value;
         }
       }
 
