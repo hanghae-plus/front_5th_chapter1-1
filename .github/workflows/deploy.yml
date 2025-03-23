@@ -34,10 +34,13 @@ jobs:
         run: pnpm install
 
       - name: Build with Vite
-        run: pnpm run build
+        run: NODE_ENV=production pnpm run build
 
       - name: Verify dist exists
         run: test -f dist/index.html && echo "✅ Build output exists" || (echo "❌ dist missing!" && exit 1)
+
+      - name: Show dist/index.html content
+        run: cat dist/index.html
 
       - name: Copy index.html to 404.html (for SPA fallback)
         run: cp dist/index.html dist/404.html
