@@ -45,7 +45,7 @@ const routes = {
   "/login": LoginPage,
 };
 
-const router = new Router(routes);
+export const router = new Router(routes);
 router.render();
 
 document.addEventListener("click", (e) => {
