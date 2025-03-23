@@ -1,5 +1,5 @@
+import { userStore } from "../../entities/user";
 import { AuthenticationService } from "../../features/authentication/";
-import { userStore } from "../../shared/store";
 import { NavigationBar } from "./NavigationBar";
 
 export class Header {
