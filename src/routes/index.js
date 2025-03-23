@@ -1,7 +1,7 @@
 import { MainPage, ErrorPage, LoginPage, ProfilePage } from "../pages";
 
 export const routes = {
-  "/": { redirect: "/login" },
+  "/": { redirect: "/main" },
   "/login": { component: LoginPage },
   "/main": { component: MainPage },
   "/profile": { component: ProfilePage },
