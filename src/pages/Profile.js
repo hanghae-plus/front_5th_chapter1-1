@@ -27,7 +27,7 @@ const ProfilePage = () => {
                   type="text"
                   id="username"
                   name="username"
-                  value="${user.name}"
+                  value="${user.username}"
                   class="w-full p-2 border rounded"
                 />
               </div>
