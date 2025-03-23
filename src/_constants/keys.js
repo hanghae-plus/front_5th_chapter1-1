@@ -1,5 +1,5 @@
 const keys = {
-  userInfo: "userInfo",
+  user: "user",
 };
 
 export default keys;

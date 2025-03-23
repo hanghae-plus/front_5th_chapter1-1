@@ -7,14 +7,14 @@ const Header = () => {
   const isLoggedIn = !!getUserInfo();
 
   const loggedInRoutes = [routes.home, routes.profile, routes.logout];
-  const loggedOutRoutes = [routes.home, routes.login];
+  const loggedOutRoutes = [routes.home, routes.profile, routes.login];
 
   const getNavItems = () => {
     if (isLoggedIn) {
       return loggedInRoutes
         .map(
           (route) =>
-            `<li><a href="${route.path}" class="${pathname === route.path ? "text-blue-600" : "text-gray-600"}">${route.title}</a></li>`,
+            `<li><a id="${route.id}" href="${route.path}" class="${pathname === route.path ? "text-blue-600" : "text-gray-600"}">${route.title}</a></li>`,
         )
         .join("");
     }
@@ -22,7 +22,7 @@ const Header = () => {
     return loggedOutRoutes
       .map(
         (route) => `
-        <li><a href="${route.path}" class="${pathname === route.path ? "text-blue-600" : "text-gray-600"}">${route.title}</a></li>
+        <li><a id="${route.id}" href="${route.path}" class="${pathname === route.path ? "text-blue-600" : "text-gray-600"}">${route.title}</a></li>
       `,
       )
       .join("");

@@ -1,7 +1,13 @@
 import Header from "../layouts/Header";
 import Footer from "../layouts/Footer";
+import { getUserInfo, setUserInfo } from "../../_utils/user";
+import { goTo } from "../../_actions/goTo";
+import routes from "../../_constants/routes";
 
-const ProfilePage = () => `
+const ProfilePage = () => {
+  const userInfo = getUserInfo();
+
+  return `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
@@ -12,7 +18,7 @@ const ProfilePage = () => `
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
             </h2>
-            <form>
+            <form id="profile-form">
               <div class="mb-4">
                 <label
                   for="username"
@@ -23,7 +29,7 @@ const ProfilePage = () => `
                   type="text"
                   id="username"
                   name="username"
-                  value="홍길동"
+                  value="${userInfo.username}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -37,7 +43,7 @@ const ProfilePage = () => `
                   type="email"
                   id="email"
                   name="email"
-                  value="hong@example.com"
+                  value="${userInfo.email}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -52,9 +58,7 @@ const ProfilePage = () => `
                   name="bio"
                   rows="4"
                   class="w-full p-2 border rounded"
-                >
-안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
-                >
+                >${userInfo.bio}</textarea>
               </div>
               <button
                 type="submit"
@@ -71,5 +75,33 @@ const ProfilePage = () => `
     </div>
   </div>
 `;
+};
 
 export default ProfilePage;
+
+export const profileAction = () => {
+  /**
+   * @param {SubmitEvent} e
+   */
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const $form = e.target;
+
+    /** @type {string} */
+    const username = $form.elements.username.value;
+    /** @type {string} */
+    const email = $form.elements.email.value;
+    /** @type {string} */
+    const bio = $form.elements.bio.value;
+
+    const userInfo = { username, email, bio };
+
+    setUserInfo(userInfo);
+
+    goTo(routes.home.path);
+  };
+
+  const $form = document.querySelector("#profile-form");
+  $form.addEventListener("submit", handleSubmit);
+};

@@ -1,4 +1,4 @@
-import goTo from "../../_actions/goTo";
+import { goTo } from "../../_actions/goTo";
 import routes from "../../_constants/routes";
 import { setUserInfo } from "../../_utils/user";
 
@@ -9,10 +9,16 @@ const LoginPage = () => {
         <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
         <form id="login-form">
           <div class="mb-4">
-            <input type="text" name="email" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
+            <input type="text" id="username" name="username" placeholder="유저 이름" class="w-full p-2 border rounded">
+          </div>
+          <div class="mb-4">
+            <input type="text" id="email" name="email" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
           </div>
           <div class="mb-6">
-            <input type="password" name="password" placeholder="비밀번호" class="w-full p-2 border rounded">
+            <input type="password" id="password" name="password" placeholder="비밀번호" class="w-full p-2 border rounded">
+          </div>
+          <div class="mb-6">
+            <textarea id="bio" name="bio" placeholder="자기소개" class="w-full p-2 border rounded"></textarea>
           </div>
           <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
         </form>
@@ -40,11 +46,13 @@ export const loginAction = () => {
     const $form = e.target;
 
     /** @type {string} */
+    const username = $form.elements.username.value;
+    /** @type {string} */
     const email = $form.elements.email.value;
     /** @type {string} */
-    const password = $form.elements.password.value;
+    const bio = $form.elements.bio.value;
 
-    const userInfo = { email, password };
+    const userInfo = { username, email, bio };
 
     setUserInfo(userInfo);
 
