@@ -30,11 +30,14 @@ jobs:
           node-version: "20"
           cache: "pnpm"
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: pnpm install
 
-      - name: Build
+      - name: Build with Vite
         run: pnpm run build
+
+      - name: Verify dist exists
+        run: test -f dist/index.html && echo "✅ Build output exists" || (echo "❌ dist missing!" && exit 1)
 
       - name: Copy index.html to 404.html (for SPA fallback)
         run: cp dist/index.html dist/404.html
