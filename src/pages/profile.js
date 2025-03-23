@@ -5,10 +5,9 @@ import { Store } from "../store";
 export const ProfilePage = () => {
   const state = Store.getState();
   const userInfo = state.userInfo;
-  console.log("userInfo", userInfo);
 
   return `
-    <div id = "root" >
+    <div id = "root">
       <div class="bg-gray-100 min-h-screen flex justify-center">
         <div class="max-w-md w-full">
           ${header()}

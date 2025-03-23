@@ -14,7 +14,11 @@ export function renderRoute() {
   const path = window.location.pathname;
   const Page = routes[path] || NotFoundPage;
 
-  document.body.innerHTML = Page();
+  const root = document.getElementById("root");
+  if (root) {
+    root.innerHTML = Page();
+  }
+
   if (path === "/login") {
     initLoginPage();
   }
