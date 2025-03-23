@@ -1,4 +1,6 @@
 import { CONST } from "../constants";
+import { render } from "../router/router";
+import { initUser, state } from "../state";
 
 export const LoginPage = () => `
 <div id="root">
@@ -25,3 +27,36 @@ export const LoginPage = () => `
   </main>
   </div>
 `;
+
+export const onRenderLogin = () => {
+  if (state.loggedInUser) {
+    return render(CONST.pathname.main);
+  }
+
+  const loginForm = document.getElementById(CONST.loginForm.formId);
+  if (!loginForm) return;
+
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formData = new FormData(loginForm);
+    const { username } = Object.fromEntries(formData);
+
+    if (!username) {
+      return alert("이름을 입력해주세요");
+    }
+
+    const userInfo = state.users.find((user) => user.username === username);
+
+    if (userInfo) {
+      // 가입한 적 있는 유저
+      state.loggedInUser = userInfo;
+    } else {
+      const newUserInfo = initUser({ username });
+      state.loggedInUser = newUserInfo;
+      state.users.push(newUserInfo);
+      localStorage.setItem(CONST.lsKey.users, JSON.stringify(state.users));
+    }
+    localStorage.setItem(CONST.lsKey.user, JSON.stringify(state.loggedInUser));
+    render(CONST.pathname.main);
+  });
+};
