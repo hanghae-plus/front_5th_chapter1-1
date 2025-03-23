@@ -14,6 +14,8 @@ export const onBeforeEach = (nextPathname, next) => {
 
   if (!userStore.isAuthenticated && nextPathname === "/profile") {
     next("/login");
+  } else if (userStore.isAuthenticated && nextPathname === "/login") {
+    next("/");
   } else {
     next();
   }
