@@ -8,42 +8,49 @@ export function createRouter(root, routes) {
     return route.redirect ? getRoute(route.redirect) : route;
   };
 
-  const renderRoute = () => {
-    const callback = (toPath = window.location.pathname) => {
-      const { component } = getRoute(toPath);
-      if (typeof component !== "function") {
-        throw new Error(`"${toPath}" 컴포넌트가 없습니다.`);
+  const renderRoute = (toPath = window.location.pathname) => {
+    const proceed = (path = toPath) => {
+      const { component } = getRoute(path);
+
+      if (typeof component !== "object") {
+        throw new Error(`"${path}" 컴포넌트가 없습니다.`);
       }
-      window.history.pushState(null, "", toPath);
-      content.innerHTML = component();
+      window.history.pushState(null, "", path);
+      content.innerHTML = component.template();
+      if (typeof component.domEvent === "function")
+        component.domEvent({ contentElement: content });
     };
 
-    if (guard) guard(window.location.pathname, callback);
-    else callback();
+    if (guard) {
+      guard(toPath, proceed);
+    } else {
+      proceed();
+    }
   };
 
   const onLinkClick = (e) => {
-    e.preventDefault();
-    const link = e.target.closest("a");
+    const link = e.target.closest("#menu a");
     if (!link) return;
 
+    e.preventDefault();
     const newPathname = link.href.replace(window.location.origin, "");
     const isSamePath = window.location.pathname === newPathname;
     if (isSamePath) return;
-
-    window.history.pushState(null, "", newPathname);
-    renderRoute();
+    renderRoute(newPathname);
   };
 
   return {
     start() {
-      window.addEventListener("popstate", renderRoute);
+      window.addEventListener("popstate", () => renderRoute());
       document.body.addEventListener("click", onLinkClick);
       renderRoute();
     },
     beforeEach(callback) {
       guard = callback;
       return this;
+    },
+    navigate(path) {
+      renderRoute(path);
     },
   };
 }
