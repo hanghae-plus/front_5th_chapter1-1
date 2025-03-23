@@ -1,4 +1,8 @@
+import { useUserStore } from "../stores/user.js";
+
 export default function Header() {
+  const userStore = useUserStore();
+
   function isActive(path) {
     const pathname = window.location.pathname;
     return pathname === path ? "text-blue-600" : "text-gray-600";
@@ -12,7 +16,11 @@ export default function Header() {
       <ul class="flex justify-around">
         <li><a href="/" class="${isActive("/")}">홈</a></li>
         <li><a href="/profile" class="${isActive("/profile")}">프로필</a></li>
-        <li><a href="#" class="text-gray-600">로그아웃</a></li>
+        ${
+          userStore.isAuthenticated
+            ? '<li><a href="#" class="text-gray-600">로그아웃</a></li>'
+            : `<li><a href="/login" class="${isActive("/login")}">로그인</a></li>`
+        }
       </ul>
     </nav>
     `;

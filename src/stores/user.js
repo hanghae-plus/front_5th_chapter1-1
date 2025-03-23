@@ -17,6 +17,10 @@ class UserStore {
   get userInfo() {
     return this.#userInfo;
   }
+
+  get isAuthenticated() {
+    return this.#userInfo !== null;
+  }
 }
 
 export function useUserStore() {
