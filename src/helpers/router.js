@@ -16,10 +16,15 @@ export function createRouter(root, routes) {
   };
 
   const onLinkClick = (e) => {
-    const link = e.target.closest("a[data-link]");
-    if (!link) return;
     e.preventDefault();
-    history.pushState(null, "", link.pathname);
+    const link = e.target.closest("a");
+    if (!link) return;
+
+    const newPathname = link.href.replace(window.location.origin, "");
+    const isSamePath = window.location.pathname === newPathname;
+    if (isSamePath) return;
+
+    history.pushState(null, "", newPathname);
     renderRoute();
   };
 
