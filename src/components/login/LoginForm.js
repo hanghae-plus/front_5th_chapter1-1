@@ -1,5 +1,6 @@
 import { router } from "../../main";
 import SubmitBtn from "../common/SubmitBtn";
+import { login } from "../../store/Auth";
 
 const LoginForm = () => {
   const handleSubmit = (e) => {
@@ -7,10 +8,7 @@ const LoginForm = () => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    localStorage.setItem(
-      "user",
-      JSON.stringify({ email, password, userName: "", bio: "" }),
-    );
+    login({ email, password, userName: "", bio: "" });
     router.navigate("/profile");
   };
 

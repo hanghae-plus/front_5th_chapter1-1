@@ -2,7 +2,7 @@ import MainPage from "./pages/Main";
 import ProfilePage from "./pages/Profile";
 import LoginPage from "./pages/Login";
 import ErrorPage from "./pages/Error";
-
+import { isLoggedIn } from "./store/Auth";
 class Router {
   constructor(routes) {
     this.routes = routes;
@@ -27,11 +27,6 @@ class Router {
     document.body.innerHTML = page;
   }
 }
-
-const isLoggedIn = () => {
-  const user = localStorage.getItem("user");
-  return !!user;
-};
 
 const routes = {
   "/": MainPage,
