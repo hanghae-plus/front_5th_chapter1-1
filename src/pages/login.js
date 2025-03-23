@@ -1,3 +1,4 @@
+import { Store } from "../store";
 import { renderProfilePage } from "./profile";
 
 export const LoginPage = () => `
@@ -43,7 +44,12 @@ export const initLoginPage = () => {
       return;
     }
 
-    localStorage.setItem("username", username);
+    Store.setState({
+      isLoggedIn: true,
+      userInfo: {
+        username: username,
+      },
+    });
     window.history.pushState(null, "", "/profile");
     renderProfilePage();
   });

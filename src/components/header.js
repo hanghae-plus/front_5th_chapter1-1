@@ -1,7 +1,8 @@
 import { Store } from "../store";
 
 export const header = () => {
-  const isLogin = Store.localStorageKey;
+  const state = Store.getState();
+  const isLogin = state.isLoggedIn;
 
   const currentPath = window.location.pathname;
 
