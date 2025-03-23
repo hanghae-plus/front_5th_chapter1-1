@@ -1,6 +1,6 @@
-import { MainPage } from "./main";
 import { ErrorPage } from "./pages/error";
 import { LoginPage } from "./pages/login";
+import { MainPage } from "./pages/main";
 import { ProfilePage } from "./pages/profile";
 
 const routes = {
