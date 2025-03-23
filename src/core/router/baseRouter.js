@@ -31,12 +31,12 @@ export class BaseRouter {
 
   renderRoute(toPath) {
     const proceed = (path = toPath) => {
-      const formattedPath = this.formatPath(path);
-      const route = this.getRoute(formattedPath);
-      this.renderComponent(route, formattedPath);
+      const nextPath = this.formatPath(path);
+      const route = this.getRoute(nextPath);
+      this.renderComponent(route, nextPath);
     };
     if (this.guard) {
-      this.guard(toPath, proceed);
+      this.guard(this.formatPath(toPath), proceed);
     } else {
       proceed();
     }

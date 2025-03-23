@@ -6,11 +6,12 @@ export class HashRouter extends BaseRouter {
   }
 
   start() {
-    window.addEventListener("hashchange", () => {
-      this.renderRoute(window.location.hash);
-    });
     window.addEventListener("DOMContentLoaded", () => {
       this.renderRoute(window.location.hash);
+    });
+    window.addEventListener("hashchange", () => {
+      const path = window.location.hash;
+      if (path) this.renderRoute(path);
     });
   }
 
