@@ -10,10 +10,14 @@ export const changeUrl = (url) => {
   render(url);
 };
 
+window.addEventListener("popstate", render);
+
 window.addEventListener("click", (e) => {
   if (e.target.classList.contains("move-to-home")) {
+    e.preventDefault();
     changeUrl("/");
   } else if (e.target.classList.contains("move-to-profile")) {
+    e.preventDefault();
     changeUrl("/profile");
   }
 });
