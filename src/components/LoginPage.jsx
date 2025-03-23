@@ -1,10 +1,10 @@
 import { isLoggedIn } from "../utils/login.js";
-import ProfilePage from "./ProfilePage.jsx";
+import MainPage from "./MainPage.jsx";
 
 const LoginPage = () => {
   if (isLoggedIn()) {
-    window.history.replaceState({}, "", "/profile");
-    return ProfilePage();
+    window.history.replaceState({}, "", "/");
+    return MainPage();
   }
   return `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">

@@ -9,8 +9,8 @@ const Header = () => `
 const Nav = (now) => `
   <nav class="bg-white shadow-md p-2 sticky top-14">
     <ul class="flex justify-around">
-      <li><a href="/" class="${now === "/" ? "text-blue-600" : "text-gray-600"}">홈</a></li>
-      <li><a href="/profile" class="${now === "/profile" ? "text-blue-600" : "text-gray-600"}">프로필</a></li>
+      <li><a href="/" class="${now === "/" ? "text-blue-600 font-bold" : "text-gray-600"}">홈</a></li>
+      <li><a href="/profile" class="${now === "/profile" ? "text-blue-600 font-bold" : "text-gray-600"}">프로필</a></li>
       ${
         isLoggedIn()
           ? `<li><a id="logout" href="#" class="text-gray-600">로그아웃</a></li>`

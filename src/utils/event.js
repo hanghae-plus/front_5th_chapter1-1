@@ -1,9 +1,9 @@
-import { Render } from "./router.js";
+import { Router } from "./router.js";
 import { store } from "./store.js";
 
 // 라우터 이벤트 리스너
 window.addEventListener("popstate", () => {
-  Render();
+  Router.Render();
 });
 
 // 클릭 이벤트 리스너
@@ -13,13 +13,13 @@ document.addEventListener("click", (e) => {
     if (e.target.textContent === "로그아웃") {
       localStorage.removeItem("user");
       window.history.replaceState({}, "", "/");
-      Render();
+      Router.Render();
       return;
     }
 
     const path = e.target.href.split("/").pop();
     window.history.pushState({}, "", path ? path : "/");
-    Render();
+    Router.Render();
   }
 });
 

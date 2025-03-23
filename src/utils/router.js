@@ -10,11 +10,12 @@ const routes = {
   "*": NotFoundPage,
 };
 
-const Render = () => {
-  const root = document.getElementById("root");
-  const path = window.location.pathname;
-  const Component = routes[path] || routes["*"];
-  root.innerHTML = Component();
+export const Router = {
+  RouterType: "basic",
+  Render: () => {
+    const root = document.getElementById("root");
+    let path = window.location.pathname;
+    const Component = routes[path] || routes["*"];
+    root.innerHTML = Component();
+  },
 };
-
-export { Render };
