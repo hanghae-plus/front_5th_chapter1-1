@@ -171,7 +171,7 @@ const ProfilePage = () => `
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
             </h2>
-            <form>
+            <form id="profile-form">
               <div class="mb-4">
                 <label
                   for="username"
@@ -234,10 +234,24 @@ const ProfilePage = () => `
 `;
 
 const routes = {
-  "/": MainPage,
-  "/login": LoginPage,
-  "/profile": ProfilePage,
-  default: ErrorPage,
+  "/": { render: MainPage },
+  "/login": { render: LoginPage },
+  "/profile": {
+    render: ProfilePage,
+    onRender: () => {
+      const profileForm = document.getElementById("profile-form");
+      if (!profileForm) return;
+
+      // 제출시 form의 data를 localstorage에 저장
+      profileForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const formData = new FormData(profileForm);
+        const data = Object.fromEntries(formData);
+        localStorage.setItem("user-profile", JSON.stringify(data));
+      });
+    },
+  },
+  default: { render: ErrorPage },
 };
 
 const hydrateLinkIntoRouter = () => {
@@ -256,7 +270,8 @@ const hydrateLinkIntoRouter = () => {
 const render = () => {
   const pathname = window.location.pathname;
   const page = routes[pathname] || routes["default"];
-  document.body.innerHTML = page();
+  document.body.innerHTML = page.render();
+  page.onRender?.();
   hydrateLinkIntoRouter();
 };
 
