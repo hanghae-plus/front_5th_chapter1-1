@@ -9,11 +9,11 @@ const Layout = () => {
 
   const getPage = () => {
     switch (pathname) {
-      case routes.home:
+      case routes.home.path:
         return MainPage();
-      case routes.login:
+      case routes.login.path:
         return LoginPage();
-      case routes.profile:
+      case routes.profile.path:
         return ProfilePage();
       default:
         return NotFoundPage();

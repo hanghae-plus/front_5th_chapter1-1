@@ -1,5 +1,5 @@
-import Layout from "./_components/layouts/Layout";
+import initLinkNavigation from "./actions/anchors";
+import render from "./actions/render";
 
-document.body.innerHTML = `
-  ${Layout()}
-`;
+initLinkNavigation();
+render();

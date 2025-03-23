@@ -1,15 +1,43 @@
-const Header = () => `
-  <header class="bg-blue-600 text-white p-4 sticky top-0">
-    <h1 class="text-2xl font-bold">항해플러스</h1>
-  </header>
+import routes from "../../_constants/routes";
 
-  <nav class="bg-white shadow-md p-2 sticky top-14">
-    <ul class="flex justify-around">
-      <li><a href="/" class="text-blue-600">홈</a></li>
-      <li><a href="/profile" class="text-gray-600">프로필</a></li>
-      <li><a href="#" class="text-gray-600">로그아웃</a></li>
-    </ul>
-  </nav>
-`;
+const Header = () => {
+  const pathname = location.pathname;
+
+  const isLoggedIn = false;
+
+  const loggedInRoutes = [routes.home, routes.profile];
+  const loggedOutRoutes = [routes.home, routes.login];
+
+  const getNavItems = () => {
+    if (isLoggedIn) {
+      return loggedInRoutes
+        .map(
+          (route) =>
+            `<li><a href="${route.path}" class="${pathname === route.path ? "text-blue-600" : "text-gray-600"}">${route.title}</a></li>`,
+        )
+        .join("");
+    }
+
+    return loggedOutRoutes
+      .map(
+        (route) => `
+        <li><a href="${route.path}" class="${pathname === route.path ? "text-blue-600" : "text-gray-600"}">${route.title}</a></li>
+      `,
+      )
+      .join("");
+  };
+
+  return `
+    <header class="bg-blue-600 text-white p-4 sticky top-0">
+      <h1 class="text-2xl font-bold">항해플러스</h1>
+    </header>
+
+    <nav class="bg-white shadow-md p-2 sticky top-14">
+      <ul class="flex justify-around">
+        ${getNavItems()}
+      </ul>
+      </nav>
+  `;
+};
 
 export default Header;
