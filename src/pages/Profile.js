@@ -4,7 +4,6 @@ import ProfileForm from "../components/profile/ProfileForm";
 
 const ProfilePage = () => {
   return `
-  <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
         ${Header()}
@@ -21,8 +20,7 @@ const ProfilePage = () => {
         ${Footer()}
       </div>
     </div>
-  </div>
-`;
+  `;
 };
 
 export default ProfilePage;

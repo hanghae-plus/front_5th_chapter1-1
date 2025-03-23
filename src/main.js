@@ -24,7 +24,10 @@ class Router {
     const page = this.routes[this.currentPath]
       ? this.routes[this.currentPath]()
       : ErrorPage();
-    document.body.innerHTML = page;
+    const rootElement = document.getElementById("root");
+    if (rootElement) {
+      rootElement.innerHTML = page;
+    }
   }
 }
 
