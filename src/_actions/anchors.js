@@ -1,4 +1,4 @@
-import render from "./render";
+import goTo from "./goTo";
 
 /** `<a>` 기본 동작을 막고, 클릭 시 페이지 이동하는 함수 */
 const initLinkNavigation = () => {
@@ -14,9 +14,7 @@ const initLinkNavigation = () => {
       const href = event.target.href;
       const targetPathname = href.replace(window.location.origin, "");
 
-      history.pushState({}, "", targetPathname);
-
-      render();
+      goTo(targetPathname);
     });
   });
 };

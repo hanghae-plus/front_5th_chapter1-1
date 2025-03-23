@@ -14,6 +14,10 @@ const routes = {
     path: "/profile",
     title: "프로필",
   },
+  logout: {
+    path: "#",
+    title: "로그아웃",
+  },
 };
 
 export default routes;

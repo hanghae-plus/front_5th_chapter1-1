@@ -1,11 +1,12 @@
 import routes from "../../_constants/routes";
+import { getUserInfo } from "../../_utils/user";
 
 const Header = () => {
   const pathname = location.pathname;
 
-  const isLoggedIn = false;
+  const isLoggedIn = !!getUserInfo();
 
-  const loggedInRoutes = [routes.home, routes.profile];
+  const loggedInRoutes = [routes.home, routes.profile, routes.logout];
   const loggedOutRoutes = [routes.home, routes.login];
 
   const getNavItems = () => {
@@ -36,7 +37,7 @@ const Header = () => {
       <ul class="flex justify-around">
         ${getNavItems()}
       </ul>
-      </nav>
+    </nav>
   `;
 };
 
