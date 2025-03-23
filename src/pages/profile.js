@@ -2,6 +2,7 @@ import { Header, Footer } from "../components";
 import { CONST } from "../constants";
 
 export const ProfilePage = () => `
+<div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
         ${Header()}
@@ -61,5 +62,6 @@ export const ProfilePage = () => `
         </main>
         ${Footer()}
       </div>
+    </div>
     </div>
 `;

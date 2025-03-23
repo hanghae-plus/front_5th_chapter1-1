@@ -1,6 +1,7 @@
 import { Footer, Header } from "../components";
 
 export const MainPage = () => `
+<div id="root">
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
       ${Header()}
@@ -95,5 +96,6 @@ export const MainPage = () => `
       </main>
     ${Footer()}
     </div>
+  </div>
   </div>
 `;
