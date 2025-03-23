@@ -240,10 +240,24 @@ const routes = {
   default: ErrorPage,
 };
 
+const hydrateLinkIntoRouter = () => {
+  const anchorList = document.getElementsByTagName("a");
+  for (const anchor of anchorList) {
+    anchor.addEventListener("click", (e) => {
+      e.preventDefault();
+      const href = e.target.href;
+      const newPathname = new URL(href).pathname;
+      history.pushState({}, "", newPathname);
+      render();
+    });
+  }
+};
+
 const render = () => {
   const pathname = window.location.pathname;
   const page = routes[pathname] || routes["default"];
   document.body.innerHTML = page();
+  hydrateLinkIntoRouter();
 };
 
 render();
