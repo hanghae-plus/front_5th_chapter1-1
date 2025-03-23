@@ -1,22 +1,6 @@
 import { CONST } from "./constants";
 import { ErrorPage, LoginPage, MainPage, ProfilePage } from "./pages";
-
-const savedUserList = localStorage.getItem(CONST.lsKey.users) || "[]";
-const users = JSON.parse(savedUserList);
-
-const savedUser = localStorage.getItem(CONST.lsKey.user) || "null";
-const user = JSON.parse(savedUser);
-
-const state = {
-  users,
-  loggedInUser: user,
-};
-
-const initUser = ({ username }) => ({
-  username,
-  email: "",
-  bio: "",
-});
+import { initUser, state } from "./state";
 
 const routes = {
   [CONST.pathname.main]: { render: MainPage },
