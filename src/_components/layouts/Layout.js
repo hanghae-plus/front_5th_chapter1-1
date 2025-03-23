@@ -12,6 +12,8 @@ const Layout = () => {
   // TODO: 예외적으로 처리 아니 왜 로그아웃이 버튼이 아니라 anchor인가요 선생님
   if (location.href.includes("#")) {
     removeUserInfo();
+    goTo(routes.login.path);
+    return LoginPage();
   }
 
   const userInfo = getUserInfo();

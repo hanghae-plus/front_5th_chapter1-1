@@ -1,8 +1,6 @@
 import Header from "../layouts/Header";
 import Footer from "../layouts/Footer";
 import { getUserInfo, setUserInfo } from "../../_utils/user";
-import { goTo } from "../../_actions/goTo";
-import routes from "../../_constants/routes";
 
 const ProfilePage = () => {
   const userInfo = getUserInfo();
@@ -98,8 +96,6 @@ export const profileAction = () => {
     const userInfo = { username, email, bio };
 
     setUserInfo(userInfo);
-
-    goTo(routes.home.path);
   };
 
   const $form = document.querySelector("#profile-form");
