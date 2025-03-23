@@ -1,4 +1,4 @@
-import SubmitBtn from "../components/SubmitBtn";
+import SubmitBtn from "../components/common/SubmitBtn";
 
 const LoginPage = () => `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">

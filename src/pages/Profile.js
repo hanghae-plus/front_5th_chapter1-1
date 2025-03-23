@@ -1,7 +1,7 @@
-import Header from "../components/Header";
-import Nav from "../components/Nav";
-import Footer from "../components/Footer";
-import SubmitBtn from "../components/SubmitBtn";
+import Header from "../components/common/Header";
+import Nav from "../components/common/Nav";
+import Footer from "../components/common/Footer";
+import SubmitBtn from "../components/common/SubmitBtn";
 const ProfilePage = () => `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
