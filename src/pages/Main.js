@@ -1,3 +1,5 @@
+import Footer from "../components/Footer.js";
+
 export default function MainPage() {
   return `
   <div class="bg-gray-100 min-h-screen flex justify-center">
@@ -103,10 +105,7 @@ export default function MainPage() {
           </div>
         </div>
       </main>
-
-      <footer class="bg-gray-200 p-4 text-center">
-        <p>&copy; 2024 항해플러스. All rights reserved.</p>
-      </footer>
+      ${Footer()}
     </div>
   </div>
 `;

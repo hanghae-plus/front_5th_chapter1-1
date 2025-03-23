@@ -1,3 +1,5 @@
+import Footer from "../components/Footer.js";
+
 export default function ProfilePage() {
   return `
   <div id="root">
@@ -73,10 +75,7 @@ export default function ProfilePage() {
             </form>
           </div>
         </main>
-
-        <footer class="bg-gray-200 p-4 text-center">
-          <p>&copy; 2024 항해플러스. All rights reserved.</p>
-        </footer>
+        ${Footer()}
       </div>
     </div>
   </div>
