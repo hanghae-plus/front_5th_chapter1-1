@@ -14,3 +14,8 @@ export const logout = () => {
 export const isLoggedIn = () => {
   return getUser() !== null;
 };
+
+export const updateUser = (user) => {
+  const currentUser = getUser();
+  localStorage.setItem("user", JSON.stringify({ ...currentUser, ...user }));
+};
