@@ -1,5 +1,3 @@
-import { CONST } from "../constants";
-import { state } from "../state";
 import { render } from "./router";
 
 export const hydrateLinkIntoRouter = () => {
@@ -10,14 +8,6 @@ export const hydrateLinkIntoRouter = () => {
       const href = e.target.href;
       const newPathname = new URL(href).pathname;
       render(newPathname);
-    });
-  }
-
-  const logoutButton = document.getElementById("logout");
-  if (logoutButton) {
-    logoutButton.addEventListener("click", () => {
-      state.loggedInUser = null;
-      localStorage.removeItem(CONST.lsKey.user);
     });
   }
 };

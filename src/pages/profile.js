@@ -1,4 +1,4 @@
-import { Header, Footer } from "../components";
+import { Footer, HeaderComponent } from "../components";
 import { CONST } from "../constants";
 import { render } from "../router/router";
 import { state } from "../state";
@@ -7,7 +7,7 @@ export const ProfilePage = () => `
 <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
-        ${Header()}
+        ${new HeaderComponent().render()}
         <main class="p-4">
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">

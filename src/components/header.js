@@ -1,4 +1,7 @@
-export const Header = () => {
+import { CONST } from "../constants";
+import { state } from "../state";
+
+export const HeaderContent = () => {
   return `
     <header class="bg-blue-600 text-white p-4 sticky top-0">
         <h1 class="text-2xl font-bold">항해플러스</h1>
@@ -13,3 +16,26 @@ export const Header = () => {
       </nav>
 `;
 };
+
+export class HeaderComponent {
+  constructor() {
+    this.container = document.createElement("div");
+  }
+
+  render() {
+    this.container.innerHTML = HeaderContent();
+    return this.container.innerHTML;
+  }
+
+  addEventListeners() {
+    const logoutButton = document.getElementById("logout");
+    if (logoutButton) {
+      logoutButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        state.loggedInUser = null;
+        localStorage.removeItem(CONST.lsKey.user);
+        this.render(CONST.pathname.login);
+      });
+    }
+  }
+}
