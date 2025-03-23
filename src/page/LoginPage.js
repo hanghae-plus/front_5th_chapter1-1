@@ -1,30 +1,4 @@
 export const LoginPage = () => /* HTML */ {
-  let inputValue;
-  setTimeout(() => {
-    const username = document.getElementById("username");
-    const loginBtn = document.getElementById("loginBtn");
-
-    username.addEventListener("input", function (e) {
-      inputValue = e.target.value;
-      console.log(inputValue);
-    });
-
-    loginBtn.addEventListener("click", function (event) {
-      console.log(event, "로그인함?");
-      //사용자 정보 업데이트
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          name: inputValue,
-          introduce: "",
-        }),
-      );
-      //로그인 처리
-      localStorage.setItem("loggedIn", true);
-      history.pushState(null, "", "profile");
-    });
-  }, 0);
-
   return /*html*/ `
 	 <main class="bg-gray-100 flex items-center justify-center min-h-screen">
 	  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">

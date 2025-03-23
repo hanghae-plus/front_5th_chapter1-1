@@ -3,15 +3,6 @@ const BLUETEXT = "text-blue-600";
 const GRAYTEXT = "text-gray-600";
 
 export const Header = (loginState) => /* HTML */ {
-  setTimeout(() => {
-    const logout = document.getElementById("logout");
-    console.log(logout);
-    logout.addEventListener(
-      "click",
-      console.log("sdfsdf"),
-      // localStorage.setItem("loggedIn", JSON.parse(false)),
-    );
-  }, 0);
   const nav =
     loginState === true
       ? `<nav class="bg-white shadow-md p-2 sticky top-14">
@@ -48,7 +39,7 @@ export const Header = (loginState) => /* HTML */ {
 	  </ul>
 	</nav>`;
 
-  return `
+  return /*html*/ `
 	<header class="bg-blue-600 text-white p-4 sticky top-0">
 	  <h1 class="text-2xl font-bold">항해플러스</h1>
 	</header>
