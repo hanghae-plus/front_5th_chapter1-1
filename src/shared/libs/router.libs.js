@@ -38,6 +38,9 @@ class Router {
     if (path.startsWith(base)) {
       path = path.slice(base.length);
     }
+    if (path.length > 1 && path.endsWith("/")) {
+      path = path.slice(0, -1);
+    }
     const handler = this.routes[path] || this.routes["*"];
     handler?.();
   }
