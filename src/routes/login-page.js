@@ -2,6 +2,24 @@ import { CUSTOM_EVENT, ROUTES } from "../config/index.js";
 import store from "../store/index.js";
 
 const LoginPage = () => {
+  const eventListner = () => {
+    const loginForm = document.querySelector("#login-form");
+    if (!loginForm) return;
+    loginForm.addEventListener("submit", (e) => {
+      console.log(e);
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const username = formData.get("username");
+      const password = formData.get("password");
+      if (username && password) {
+        store.set({ username });
+      }
+      const url = ROUTES.MAIN;
+      const config = { detail: { url }, bubbles: true, cancelable: true };
+      document.dispatchEvent(new CustomEvent(CUSTOM_EVENT.PAGE_PUSH, config));
+    });
+  };
+
   const template = `
     <main class="bg-gray-100 flex items-center justify-center min-h-screen">
       <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
@@ -25,24 +43,7 @@ const LoginPage = () => {
       </div>
     </main>
   `;
-  //login.addEventListener("submit", handleLogin);
-  const eventListner = () => {
-    const loginForm = document.querySelector("#login-form");
-    if (!loginForm) return;
-    loginForm.addEventListener("submit", (e) => {
-      console.log(e);
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      const username = formData.get("username");
-      const password = formData.get("password");
-      if (username && password) {
-        store.set({ username });
-      }
-      const url = ROUTES.MAIN;
-      const config = { detail: { url }, bubbles: true, cancelable: true };
-      document.dispatchEvent(new CustomEvent(CUSTOM_EVENT.PAGE_PUSH, config));
-    });
-  };
+
   return { template, eventListner };
 };
 export default LoginPage;
