@@ -5,8 +5,7 @@ export class Router {
 
   render(pathname = window.location.pathname) {
     const route = this.routes[pathname] || this.routes["default"];
-    document.body.innerHTML = route.render();
-    route.onRender?.();
+    route.render();
   }
 
   start() {
