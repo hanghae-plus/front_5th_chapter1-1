@@ -1,6 +1,6 @@
-import { ErrorPage } from "./pages/error";
 import { LoginPage } from "./pages/login";
 import { MainPage } from "./pages/main";
+import { NotFoundPage } from "./pages/notFound";
 import { ProfilePage } from "./pages/profile";
 
 const routes = {
@@ -11,7 +11,7 @@ const routes = {
 
 export function renderRoute() {
   const path = window.location.pathname;
-  const Page = routes[path] || ErrorPage;
+  const Page = routes[path] || NotFoundPage;
 
   document.body.innerHTML = Page();
 }
