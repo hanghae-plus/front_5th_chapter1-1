@@ -4,37 +4,40 @@ import Header from "../components/header.js";
 import Nav from "../components/nav.js";
 import { CUSTOM_EVENT, ROUTES } from "../config/index.js";
 import store from "../store/index.js";
-import { $AC, $CE } from "../utils/create-component.js";
 
 const ProfilePage = () => {
   const isLogon = !!store.get("username");
-  const profileData = store.get("profile");
+  const profileData = store.get();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const newProfileData = {
-      username: formData.get("username") || "",
-      email: formData.get("email") || "",
-      bio: formData.get("bio") || "",
-    };
-    store.setLocalProfile(newProfileData);
-    const config = {
-      detail: { url: ROUTES.PROFILE },
-      bubbles: true,
-      cancelable: true,
-    };
-    document.dispatchEvent(new CustomEvent(CUSTOM_EVENT.PAGE_PUSH, config));
+  const eventListner = () => {
+    const profileForm = document.querySelector("#profile-form");
+    if (!profileForm) return;
+
+    profileForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const newProfileData = {
+        username: formData.get("username") || "",
+        email: formData.get("email") || "",
+        bio: formData.get("bio") || "",
+      };
+      store.set(newProfileData);
+      const config = {
+        detail: { url: ROUTES.PROFILE },
+        bubbles: true,
+        cancelable: true,
+      };
+      document.dispatchEvent(new CustomEvent(CUSTOM_EVENT.PAGE_PUSH, config));
+    });
   };
 
-  const container = Container();
-  const profile = $CE(`
+  const profile = `
     <main class="p-4">
       <div class="bg-white p-8 rounded-lg shadow-md">
         <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
           내 프로필
         </h2>
-        <form>
+        <form id="profile-form">
           <div class="mb-4">
             <label
               for="username"
@@ -85,15 +88,15 @@ const ProfilePage = () => {
         </form>
       </div>
     </main>
-  `);
-  profile.addEventListener("submit", handleSubmit);
-
-  $AC(container.wrapper, [
-    Header(),
-    Nav({ url: ROUTES.PROFILE, isLogon }),
-    profile,
-    Footer(),
-  ]);
-  return container;
+  `;
+  const template = Container({
+    children: [
+      Header(),
+      Nav({ url: ROUTES.PROFILE, isLogon }),
+      profile,
+      Footer(),
+    ].join(""),
+  });
+  return { template, eventListner };
 };
 export default ProfilePage;

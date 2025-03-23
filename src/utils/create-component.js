@@ -1,3 +1,5 @@
+// 만들었었으나 미사용
+
 /**
  * String to Element, create element
  * @param {string | string[]} element

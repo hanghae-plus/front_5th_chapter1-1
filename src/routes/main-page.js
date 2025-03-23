@@ -4,23 +4,22 @@ import Header from "../components/header.js";
 import Nav from "../components/nav.js";
 import { ROUTES } from "../config/index.js";
 import store from "../store/index.js";
-import { $AC, $CE } from "../utils/create-component.js";
 
 const MainPage = () => {
   const isLogon = !!store.get("username");
-  const container = Container();
-  $AC(container.wrapper, [
-    Header(),
-    Nav({ url: ROUTES.MAIN, isLogon }),
-    DummyMain(),
-    Footer(),
-  ]);
-  return container;
+  const template = Container({
+    children: [
+      Header(),
+      Nav({ url: ROUTES.MAIN, isLogon }),
+      DummyMain(),
+      Footer(),
+    ].join(""),
+  });
+  return { template };
 };
 export default MainPage;
 
-const DummyMain = () =>
-  $CE(`
+const DummyMain = () => `
   <main class="p-4">
     <div class="mb-4 bg-white rounded-lg shadow p-4">
       <textarea class="w-full p-2 border rounded" placeholder="무슨 생각을 하고 계신가요?"></textarea>
@@ -110,4 +109,4 @@ const DummyMain = () =>
       </div>
     </div>
   </main>
-`);
+`;

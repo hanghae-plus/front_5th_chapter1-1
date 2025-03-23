@@ -1,11 +1,9 @@
-import { $CE } from "../utils/create-component.js";
-
 const Footer = () => {
-  return $CE(`
+  return `
     <footer class="bg-gray-200 p-4 text-center">
       <p>&copy; 2024 항해플러스. All rights reserved.</p>
     </footer>
-  `);
+  `;
 };
 
 export default Footer;
