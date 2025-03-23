@@ -9,10 +9,11 @@ const user = JSON.parse(savedUser);
 export const state = {
   users,
   loggedInUser: user,
+  initUser({ username }) {
+    return {
+      username,
+      email: "",
+      bio: "",
+    };
+  },
 };
-
-export const initUser = ({ username }) => ({
-  username,
-  email: "",
-  bio: "",
-});

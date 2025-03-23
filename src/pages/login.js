@@ -1,6 +1,6 @@
 import { CONST } from "../constants";
 import { render } from "../router/router";
-import { initUser, state } from "../state";
+import { state } from "../state";
 
 export const LoginPage = () => `
 <div id="root">
@@ -51,7 +51,7 @@ export const onRenderLogin = () => {
       // 가입한 적 있는 유저
       state.loggedInUser = userInfo;
     } else {
-      const newUserInfo = initUser({ username });
+      const newUserInfo = state.initUser({ username });
       state.loggedInUser = newUserInfo;
       state.users.push(newUserInfo);
       localStorage.setItem(CONST.lsKey.users, JSON.stringify(state.users));

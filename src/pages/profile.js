@@ -4,7 +4,7 @@ import { render } from "../router/router";
 import { state } from "../state";
 
 export const ProfilePage = () => `
-<div id="root">
+  <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
         ${new HeaderComponent().render()}
@@ -65,7 +65,7 @@ export const ProfilePage = () => `
         ${Footer()}
       </div>
     </div>
-    </div>
+  </div>
 `;
 
 export const onRenderProfile = () => {
@@ -103,7 +103,7 @@ export const onRenderProfile = () => {
     if (isProfileChanged) {
       const newUserInfo = { ...state.loggedInUser, ...newData };
       const userIndex = state.users.findIndex(
-        (user) => user.id === state.loggedInUser.id,
+        (user) => user.username === state.loggedInUser.username,
       );
       state.users.splice(userIndex, 1, newUserInfo);
       localStorage.setItem(CONST.lsKey.users, JSON.stringify(state.users));
