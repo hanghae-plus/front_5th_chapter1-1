@@ -1,7 +1,7 @@
 export function render(rootSelector) {
   const root = document.querySelector(rootSelector);
   if (!root) {
-    document.body.innerHTML = "<div id='app'></div>";
+    document.body.innerHTML = "<div id='root'></div>";
   } else {
     root.innerHTML = "";
   }
