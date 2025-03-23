@@ -15,6 +15,11 @@ const CONST = {
       bio: "bio",
     },
   },
+  pathname: {
+    main: "/",
+    login: "/login",
+    profile: "/profile",
+  },
 };
 
 const savedUserDB = localStorage.getItem(CONST.userDB) || "{}";
@@ -24,6 +29,8 @@ const state = {
   users: userDB.users || [],
   loggedInUser: userDB.loggedInUser || null,
 };
+
+console.log(state);
 
 const MainPage = () => `
   <div class="bg-gray-100 min-h-screen flex justify-center">
@@ -265,8 +272,8 @@ const initUser = ({ email, password }) => ({
 });
 
 const routes = {
-  "/": { render: MainPage },
-  "/login": {
+  [CONST.pathname.main]: { render: MainPage },
+  [CONST.pathname.login]: {
     render: LoginPage,
     onRender: () => {
       const loginForm = document.getElementById(CONST.loginForm);
@@ -296,10 +303,11 @@ const routes = {
           state.users.push(newUserInfo);
         }
         localStorage.setItem(CONST.userDB, JSON.stringify(state));
+        render(CONST.pathname.main);
       });
     },
   },
-  "/profile": {
+  [CONST.pathname.profile]: {
     render: ProfilePage,
     onRender: () => {
       const profileForm = document.getElementById(CONST.profileForm.formId);
@@ -340,8 +348,7 @@ const hydrateLinkIntoRouter = () => {
   }
 };
 
-const render = () => {
-  const pathname = window.location.pathname;
+const render = (pathname = window.location.pathname) => {
   const page = routes[pathname] || routes["default"];
   document.body.innerHTML = page.render();
   page.onRender?.();
