@@ -1,15 +1,14 @@
 import { render } from "./helpers/render.js";
-import { createHashRouter } from "./helpers/hashRouter.js";
-import { createHistoryRouter } from "./helpers/historyRouter.js";
+import { createRouter } from "./core/router";
 import { routes, onBeforeEach } from "./router.js";
 import { Context } from "./helpers/context.js";
 
+const root = render("#root");
 const isHashRouter = window.location.href.includes("index.hash.html");
 
-const root = render("#root");
-const router = isHashRouter
-  ? createHashRouter(root, routes)
-  : createHistoryRouter(root, routes);
+const router = createRouter(root, routes, {
+  mode: isHashRouter ? "hash" : "history",
+});
 
 Context.provide("router", router);
 
