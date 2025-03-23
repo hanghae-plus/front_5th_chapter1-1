@@ -1,4 +1,4 @@
-export function createRouter(root, routes) {
+export function createHistoryRouter(root, routes) {
   let guard = null;
   const content = document.createElement("div");
   root.appendChild(content);
@@ -17,8 +17,9 @@ export function createRouter(root, routes) {
       }
       window.history.pushState(null, "", path);
       content.innerHTML = component.template();
-      if (typeof component.domEvent === "function")
+      if (typeof component.domEvent === "function") {
         component.domEvent({ contentElement: content });
+      }
     };
 
     if (guard) {

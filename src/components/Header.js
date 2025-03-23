@@ -5,10 +5,13 @@ const HeaderContent = {
   name: "Header",
   template: () => {
     const userStore = useUserStore();
+    const isHashRouter = window.location.href.includes("index.hash.html");
 
     function isActive(path) {
-      const pathname = window.location.pathname;
-      return pathname === path ? "text-blue-600" : "text-gray-600";
+      const currentPath = isHashRouter
+        ? window.location.hash.slice(1) || "/"
+        : window.location.pathname;
+      return currentPath === path ? "text-blue-600 font-bold" : "text-gray-600";
     }
 
     return `
@@ -18,12 +21,12 @@ const HeaderContent = {
 
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around" id="menu">
-          <li><a href="/" class="${isActive("/")}">홈</a></li>
-          <li><a href="/profile" class="${isActive("/profile")}">프로필</a></li>
+          <li><a href="/" data-link class="${isActive("/")}">홈</a></li>
+          <li><a href="/profile" data-link class="${isActive("/profile")}">프로필</a></li>
           ${
             userStore.isAuthenticated
-              ? '<li><a href="/login" id="logout" class="text-gray-600">로그아웃</a></li>'
-              : `<li><a href="/login" class="${isActive("/login")}">로그인</a></li>`
+              ? '<li><a href="/login" id="logout" data-link class="text-gray-600">로그아웃</a></li>'
+              : `<li><a href="/login" data-link class="${isActive("/login")}">로그인</a></li>`
           }
         </ul>
       </nav>
