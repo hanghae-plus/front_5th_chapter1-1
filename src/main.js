@@ -1,3 +1,20 @@
+const CONST = {
+  userProfile: "user-profile",
+};
+
+const savedUserProfile = localStorage.getItem(CONST.userProfile);
+let userProfile = null;
+
+try {
+  userProfile = JSON.parse(savedUserProfile);
+} catch (e) {
+  console.warn("저장된 유저 프로필 데이터가 고의적으로 수정되었습니다.", e);
+}
+
+const state = {
+  userProfile,
+};
+
 const MainPage = () => `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
@@ -247,8 +264,10 @@ const routes = {
         e.preventDefault();
         const formData = new FormData(profileForm);
         const data = Object.fromEntries(formData);
-        localStorage.setItem("user-profile", JSON.stringify(data));
+        localStorage.setItem(CONST.userProfile, JSON.stringify(data));
       });
+
+      console.log(state.userProfile);
     },
   },
   default: { render: ErrorPage },
