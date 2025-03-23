@@ -1,18 +1,13 @@
 const CONST = {
-  userProfile: "user-profile",
+  userDB: "user-db",
 };
 
-const savedUserProfile = localStorage.getItem(CONST.userProfile);
-let userProfile = null;
-
-try {
-  userProfile = JSON.parse(savedUserProfile);
-} catch (e) {
-  console.warn("저장된 유저 프로필 데이터가 고의적으로 수정되었습니다.", e);
-}
+const savedUserDB = localStorage.getItem(CONST.userDB) || "{}";
+const userDB = JSON.parse(savedUserDB);
 
 const state = {
-  userProfile,
+  users: userDB.users,
+  loggedInUser: userDB.loggedInUser,
 };
 
 const MainPage = () => `
