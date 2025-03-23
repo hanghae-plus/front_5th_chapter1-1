@@ -9,7 +9,7 @@ export const header = () => {
   const loginHTML = isLogin
     ? `
         <li><a href="/profile" data-route-link class="${currentPath === "/profile" ? "text-blue-600" : "text-gray-600"}">프로필</a></li>
-        <li><a href="#" data-route-link class="text-gray-600">로그아웃</a></li>
+        <li><a href="#" id="logout-btn" data-route-link class="text-gray-600">로그아웃</a></li>
         `
     : `<li><a href="/login" data-route-link class="${currentPath === "/login" ? "text-blue-600" : "text-gray-600"}">로그인</a></li>`;
 

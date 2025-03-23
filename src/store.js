@@ -17,4 +17,8 @@ export const Store = {
     const json = JSON.stringify(newState);
     localStorage.setItem(this.localStorageKey, json);
   },
+  //로그 아웃 시
+  logout() {
+    localStorage.removeItem(this.localStorageKey);
+  },
 };

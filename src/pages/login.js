@@ -54,3 +54,7 @@ export const initLoginPage = () => {
     renderProfilePage();
   });
 };
+
+export const renderLoginPage = () => {
+  document.body.innerHTML = LoginPage();
+};
