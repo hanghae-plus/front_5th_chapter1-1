@@ -3,16 +3,6 @@ import SubmitBtn from "../common/SubmitBtn";
 import { login } from "../../store/Auth";
 
 const LoginForm = () => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const username = document.getElementById("username").value;
-
-    login({ username, email: "", bio: "" });
-    router.navigate("/profile");
-  };
-
-  window.handleLogin = handleSubmit;
-
   return `
     <form id="login-form">
       <div class="mb-4">
