@@ -1,14 +1,7 @@
-import { MainPage, ErrorPage, LoginPage, ProfilePage } from "./pages";
+import { render } from "./helpers/render.js";
+import { createRouter } from "./helpers/router.js";
+import { routes } from "./routes";
 
-function render() {
-  document.body.innerHTML = `<div id="app"></div>`;
-  const app = document.getElementById("app");
-  app.innerHTML = `
-    ${MainPage()}
-    ${ProfilePage()}
-    ${LoginPage()}
-    ${ErrorPage()}
-  `;
-}
+const root = render("#app");
 
-render();
+createRouter(root, routes).start();
