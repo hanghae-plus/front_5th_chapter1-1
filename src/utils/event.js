@@ -13,9 +13,9 @@ document.addEventListener("click", (e) => {
     if (e.target.textContent === "로그아웃") {
       localStorage.removeItem("user");
       if (Router.RouterType === "hash") {
-        window.location.hash = "/";
+        window.location.hash = "/login";
       } else {
-        window.history.replaceState({}, "", "/");
+        window.history.replaceState({}, "", "/login");
       }
       Router.Render();
       return;
@@ -47,6 +47,5 @@ document.addEventListener("submit", (e) => {
     const email = document.getElementById("email").value;
     const bio = document.getElementById("bio").value;
     store.setData("user", { username, email, bio });
-    alert("프로필 수정 완료");
   }
 });
