@@ -233,9 +233,17 @@ const ProfilePage = () => `
   </div>
 `;
 
-document.body.innerHTML = `
-  ${MainPage()}
-  ${ProfilePage()}
-  ${LoginPage()}
-  ${ErrorPage()}
-`;
+const routes = {
+  "/": MainPage,
+  "/login": LoginPage,
+  "/profile": ProfilePage,
+  default: ErrorPage,
+};
+
+const render = () => {
+  const pathname = window.location.pathname;
+  const page = routes[pathname] || routes["default"];
+  document.body.innerHTML = page();
+};
+
+render();
