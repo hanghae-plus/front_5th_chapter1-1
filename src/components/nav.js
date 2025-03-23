@@ -1,4 +1,5 @@
 import { CUSTOM_EVENT, ROUTES } from "../config/index.js";
+import store from "../store/index.js";
 import { $CE } from "../utils/create-component.js";
 
 const Nav = ({ url, isLogon }) => {
@@ -7,6 +8,7 @@ const Nav = ({ url, isLogon }) => {
     let url = e.target.getAttribute("href");
     if (url === ROUTES.LOGOUT) {
       localStorage.setItem("username", "");
+      store.set({ username: "" });
       url = ROUTES.MAIN;
     }
     const config = { detail: { url }, bubbles: true, cancelable: true };
@@ -24,7 +26,7 @@ const Nav = ({ url, isLogon }) => {
               <li><a href="/logout" class="text-gray-600">로그아웃</a></li>
             `
               : `
-              <li><a href="/login"  class="${url === ROUTES.LOGIN ? "text-blue-600" : "text-gray-600"}">로그인</a></li>
+              <li><a href="/login" id="login-link" class="${url === ROUTES.LOGIN ? "text-blue-600" : "text-gray-600"}">로그인</a></li>
               `
           }
         </ul>

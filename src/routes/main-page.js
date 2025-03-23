@@ -3,10 +3,11 @@ import Footer from "../components/footer.js";
 import Header from "../components/header.js";
 import Nav from "../components/nav.js";
 import { ROUTES } from "../config/index.js";
+import store from "../store/index.js";
 import { $AC, $CE } from "../utils/create-component.js";
 
 const MainPage = () => {
-  const isLogon = !!localStorage.getItem("username");
+  const isLogon = !!store.get("username");
   const container = Container();
   $AC(container.wrapper, [
     Header(),

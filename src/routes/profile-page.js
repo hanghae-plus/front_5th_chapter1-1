@@ -2,11 +2,31 @@ import Container from "../components/container.js";
 import Footer from "../components/footer.js";
 import Header from "../components/header.js";
 import Nav from "../components/nav.js";
-import { ROUTES } from "../config/index.js";
+import { CUSTOM_EVENT, ROUTES } from "../config/index.js";
+import store from "../store/index.js";
 import { $AC, $CE } from "../utils/create-component.js";
 
 const ProfilePage = () => {
-  const isLogon = !!localStorage.getItem("username");
+  const isLogon = !!store.get("username");
+  const profileData = store.get("profile");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const newProfileData = {
+      username: formData.get("username") || "",
+      email: formData.get("email") || "",
+      bio: formData.get("bio") || "",
+    };
+    store.setLocalProfile(newProfileData);
+    const config = {
+      detail: { url: ROUTES.PROFILE },
+      bubbles: true,
+      cancelable: true,
+    };
+    document.dispatchEvent(new CustomEvent(CUSTOM_EVENT.PAGE_PUSH, config));
+  };
+
   const container = Container();
   const profile = $CE(`
     <main class="p-4">
@@ -25,7 +45,7 @@ const ProfilePage = () => {
               type="text"
               id="username"
               name="username"
-              value="홍길동"
+              value="${profileData?.username || "홍길동"}"
               class="w-full p-2 border rounded"
             />
           </div>
@@ -39,7 +59,7 @@ const ProfilePage = () => {
               type="email"
               id="email"
               name="email"
-              value="hong@example.com"
+              value="${profileData?.email || "hong@example.com"}"
               class="w-full p-2 border rounded"
             />
           </div>
@@ -54,7 +74,7 @@ const ProfilePage = () => {
               name="bio"
               rows="4"
               class="w-full p-2 border rounded"
-            >안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea>
+            >${profileData?.bio || "안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다."}</textarea>
           </div>
           <button
             type="submit"
@@ -66,6 +86,8 @@ const ProfilePage = () => {
       </div>
     </main>
   `);
+  profile.addEventListener("submit", handleSubmit);
+
   $AC(container.wrapper, [
     Header(),
     Nav({ url: ROUTES.PROFILE, isLogon }),

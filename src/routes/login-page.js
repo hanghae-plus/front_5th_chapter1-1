@@ -1,4 +1,5 @@
 import { CUSTOM_EVENT, ROUTES } from "../config/index.js";
+import store from "../store/index.js";
 import { $CE } from "../utils/create-component.js";
 
 const LoginPage = () => {
@@ -7,7 +8,9 @@ const LoginPage = () => {
     const formData = new FormData(e.target);
     const username = formData.get("username");
     const password = formData.get("password");
-    if (username && password) localStorage.setItem("username", username);
+    if (username && password) {
+      store.set({ username });
+    }
     const url = ROUTES.MAIN;
     const config = { detail: { url }, bubbles: true, cancelable: true };
     document.dispatchEvent(new CustomEvent(CUSTOM_EVENT.PAGE_PUSH, config));

@@ -1,3 +1,4 @@
+// 미사용 분리
 const _MainPage = () => `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
@@ -194,7 +195,7 @@ const _ProfilePage = () => `
   </div>
 `;
 
-const ErrorPage = () => `
+const _ErrorPage = () => `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full text-center" style="max-width: 480px">
       <h1 class="text-2xl font-bold text-blue-600 mb-4">항해플러스</h1>
@@ -234,4 +235,4 @@ const _LoginPage = () => `
   </main>
 `;
 
-export { _MainPage, _ProfilePage, ErrorPage, _LoginPage as LoginPage };
+export { _ErrorPage, _MainPage, _ProfilePage, _LoginPage as LoginPage };
