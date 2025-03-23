@@ -15,7 +15,5 @@ window.addEventListener("click", (e) => {
     changeUrl("/");
   } else if (e.target.classList.contains("move-to-profile")) {
     changeUrl("/profile");
-  } else if (e.target.classList.contains("move-to-logout")) {
-    changeUrl("/logout");
   }
 });

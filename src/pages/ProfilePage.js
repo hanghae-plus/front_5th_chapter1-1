@@ -1,19 +1,10 @@
+import { Header } from "../components/Header";
+import { Footer } from "../components/Footer";
 const ProfilePage = () => `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
-        <header class="bg-blue-600 text-white p-4 sticky top-0">
-          <h1 class="text-2xl font-bold">항해플러스</h1>
-        </header>
-
-        <nav class="bg-white shadow-md p-2 sticky top-14">
-          <ul class="flex justify-around">
-            <li><button class="move-to-home text-gray-600">홈</button></li>
-            <li><button class="move-to-profile text-blue-600">프로필</button></li>
-            <li><button class="move-to-logout text-gray-600">로그아웃</button></li>
-          </ul>
-        </nav>
-
+        ${Header()}
         <main class="p-4">
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
@@ -72,10 +63,7 @@ const ProfilePage = () => `
             </form>
           </div>
         </main>
-
-        <footer class="bg-gray-200 p-4 text-center">
-          <p>&copy; 2024 항해플러스. All rights reserved.</p>
-        </footer>
+        ${Footer()}
       </div>
     </div>
   </div>
