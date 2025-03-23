@@ -1,4 +1,4 @@
-import { LoginPage } from "./pages/login";
+import { initLoginPage, LoginPage } from "./pages/login";
 import { MainPage } from "./pages/main";
 import { NotFoundPage } from "./pages/notFound";
 import { ProfilePage } from "./pages/profile";
@@ -14,6 +14,9 @@ export function renderRoute() {
   const Page = routes[path] || NotFoundPage;
 
   document.body.innerHTML = Page();
+  if (path === "/login") {
+    initLoginPage();
+  }
 }
 
 export function navigateTo(path) {

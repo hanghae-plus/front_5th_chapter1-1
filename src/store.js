@@ -1,10 +1,10 @@
 const DEFAULT_STATE = {
   isLoggedIn: false,
-  userInfo: { name: "", introduction: "" },
+  userInfo: { username: "", email: "", bio: "" },
 };
 
 export const Store = {
-  localStorageKey: "user-data",
+  localStorageKey: "user",
 
   //상태 가져올 때
   getState() {

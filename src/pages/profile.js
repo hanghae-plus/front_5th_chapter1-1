@@ -69,3 +69,7 @@ export const ProfilePage = () => `
     </div>
   </div>
 `;
+
+export const renderProfilePage = () => {
+  document.body.innerHTML = ProfilePage();
+};
