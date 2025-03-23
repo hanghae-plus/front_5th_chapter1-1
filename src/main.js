@@ -1,19 +1,20 @@
 import { CONST } from "./constants";
 import { ErrorPage, LoginPage, MainPage, ProfilePage } from "./pages";
 
-const savedUserDB = localStorage.getItem(CONST.userDB) || "{}";
-const userDB = JSON.parse(savedUserDB);
+const savedUserList = localStorage.getItem(CONST.lsKey.users) || "[]";
+const users = JSON.parse(savedUserList);
+
+const savedUser = localStorage.getItem(CONST.lsKey.user) || "null";
+const user = JSON.parse(savedUser);
 
 const state = {
-  users: userDB.users || [],
-  loggedInUser: userDB.loggedInUser || null,
+  users,
+  loggedInUser: user,
 };
 
-const initUser = ({ email, password }) => ({
-  id: crypto.randomUUID(),
-  email,
-  password,
-  username: "",
+const initUser = ({ username }) => ({
+  username,
+  email: "",
   bio: "",
 });
 
@@ -32,36 +33,27 @@ const routes = {
       loginForm.addEventListener("submit", (e) => {
         e.preventDefault();
         const formData = new FormData(loginForm);
-        const { email, password } = Object.fromEntries(formData);
+        const { username } = Object.fromEntries(formData);
 
-        if (!email) {
-          return alert("이메일을 입력해주세요");
+        if (!username) {
+          return alert("이름을 입력해주세요");
         }
 
-        if (!password) {
-          return alert("password를 입력해주세요.");
-        }
-
-        const userInfo = state.users.find((user) => user.email === email);
+        const userInfo = state.users.find((user) => user.username === username);
 
         if (userInfo) {
           // 가입한 적 있는 유저
-          const isPasswordCorrect = userInfo.password === password;
-          if (isPasswordCorrect) {
-            state.loggedInUser = userInfo;
-          } else {
-            alert("비밀번호가 틀렸습니다.");
-            const passwordField = loginForm.getElementById(
-              CONST.loginForm.field.password,
-            );
-            passwordField?.focus();
-          }
+          state.loggedInUser = userInfo;
         } else {
-          const newUserInfo = initUser({ email, password });
+          const newUserInfo = initUser({ username });
           state.loggedInUser = newUserInfo;
           state.users.push(newUserInfo);
+          localStorage.setItem(CONST.lsKey.users, JSON.stringify(state.users));
         }
-        localStorage.setItem(CONST.userDB, JSON.stringify(state));
+        localStorage.setItem(
+          CONST.lsKey.user,
+          JSON.stringify(state.loggedInUser),
+        );
         render(CONST.pathname.main);
       });
     },
@@ -106,8 +98,11 @@ const routes = {
             (user) => user.id === state.loggedInUser.id,
           );
           state.users.splice(userIndex, 1, newUserInfo);
+          localStorage.setItem(CONST.lsKey.users, JSON.stringify(state.users));
+
           state.loggedInUser = newUserInfo;
-          localStorage.setItem(CONST.userDB, JSON.stringify(state));
+          localStorage.setItem(CONST.lsKey.user, JSON.stringify(newUserInfo));
+
           alert("profile 변경 완료");
         }
       });
@@ -131,7 +126,7 @@ const hydrateLinkIntoRouter = () => {
   if (logoutButton) {
     logoutButton.addEventListener("click", () => {
       state.loggedInUser = null;
-      localStorage.setItem(CONST.userDB, JSON.stringify(state));
+      localStorage.setItem(CONST.lsKey.user, JSON.stringify(null));
     });
   }
 };

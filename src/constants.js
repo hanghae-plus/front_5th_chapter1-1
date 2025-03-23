@@ -1,9 +1,12 @@
 export const CONST = {
-  userDB: "user-db",
+  lsKey: {
+    users: "users",
+    user: "user",
+  },
   loginForm: {
     formId: "login-form",
     field: {
-      email: "email",
+      username: "username",
       password: "password",
     },
   },

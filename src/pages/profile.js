@@ -1,7 +1,6 @@
 import { CONST } from "../constants";
 
 export const ProfilePage = () => `
-  
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
         <header class="bg-blue-600 text-white p-4 sticky top-0">
@@ -76,5 +75,4 @@ export const ProfilePage = () => `
         </footer>
       </div>
     </div>
-  
 `;

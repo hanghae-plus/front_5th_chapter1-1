@@ -6,7 +6,7 @@ export const LoginPage = () => `
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
       <form id="${CONST.loginForm.formId}">
         <div class="mb-4">
-          <input type="text"  name="${CONST.loginForm.field.email}" id="${CONST.loginForm.field.email}" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
+          <input type="text"  name="${CONST.loginForm.field.username}" id="${CONST.loginForm.field.username}" placeholder="이름" class="w-full p-2 border rounded">
         </div>
         <div class="mb-6">
           <input type="password" name="${CONST.loginForm.field.password}" id="${CONST.loginForm.field.password}"  placeholder="비밀번호" class="w-full p-2 border rounded">
