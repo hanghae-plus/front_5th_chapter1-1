@@ -15,9 +15,9 @@ class Router {
     if (this.isHashMode) {
       window.location.hash = "#" + path;
     } else {
-      const fullPath = this.basePath !== "/" ? this.basePath + path : path;
+      const fullPath = this.basePath + path;
       history.pushState(null, "", fullPath);
-      this.handleRoute(path);
+      this.handleRoute(fullPath);
     }
   }
 
@@ -36,9 +36,8 @@ class Router {
 
   handleRoute(path) {
     // * 배포 후 라우팅 처리
-    const base = "/front_5th_chapter1-1";
-    if (path.startsWith(base)) {
-      path = path.slice(base.length);
+    if (path.startsWith(this.basePath)) {
+      path = path.slice(this.basePath.length);
     }
     if (path === "") {
       path = "/";
