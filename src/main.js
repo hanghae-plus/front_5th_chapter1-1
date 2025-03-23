@@ -1,15 +1,59 @@
 import { mockFeed } from "./mock/feed.mock";
 
-const Header = () => `
+const Router = () => {
+  const path = window.location.pathname;
+  const token = localStorage.getItem("token");
+
+  if (path === "/") {
+    document.body.innerHTML = MainPage(token);
+  } else if (path === "/profile") {
+    if (token) {
+      document.body.innerHTML = ProfilePage();
+    } else {
+      alert("로그인이 필요합니다");
+    }
+  } else if (path === "/login") {
+    document.body.innerHTML = LoginPage();
+    goToHome();
+  } else {
+    document.body.innerHTML = ErrorPage();
+  }
+
+  const logoutButton = document.getElementById("logout");
+  if (logoutButton && token) {
+    logoutButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      goToLogin();
+      history.pushState({}, "", "/");
+      Router();
+    });
+  }
+};
+
+const Header = (token) => `
   <header class="bg-blue-600 text-white p-4 sticky top-0">
           <h1 class="text-2xl font-bold">항해플러스</h1>
   </header>
 
   <nav class="bg-white shadow-md p-2 sticky top-14">
     <ul class="flex justify-around">
-      <li><a href="/" class="text-blue-600">홈</a></li>
-      <li><a href="/profile" class="text-gray-600">프로필</a></li>
-      <li><a href="#" class="text-gray-600">로그아웃</a></li>
+      <li><a href="/" id="home" class="text-blue-600">홈</a></li>
+      ${
+        token
+          ? `<li>
+                <a href="/profile" id="profile" class="text-gray-600">
+                  프로필
+                </a>
+             </li>`
+          : ""
+      }
+     <li>
+  ${
+    token
+      ? `<a href="/login" id="logout" class="text-gray-600">로그아웃</a>`
+      : `<a href="/login" id="login" class="text-gray-600">로그인</a>`
+  }
+</li>
     </ul>
   </nav>
 `;
@@ -20,11 +64,11 @@ const Footer = () => `
   </footer>
 `;
 
-const MainPage = () => `
+const MainPage = (token) => `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
     
-  ${Header()}
+  ${Header(token)}
       <main class="p-4">
         <div class="mb-4 bg-white rounded-lg shadow p-4">
           <textarea class="w-full p-2 border rounded" placeholder="무슨 생각을 하고 계신가요?"></textarea>
@@ -36,7 +80,6 @@ const MainPage = () => `
     .map(
       (feed) => `
            <div class="bg-white rounded-lg shadow p-4">
-        
             <div class="flex items-center mb-2">
               <img src="${feed.src}" alt="프로필" class="rounded-full mr-2">
               <div>
@@ -77,18 +120,41 @@ const ErrorPage = () => `
   </main>
 `;
 
+const goToHome = () => {
+  const loginForm = document.getElementById("login-form");
+  if (loginForm) {
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = e.target.email.value.trim();
+      const password = e.target.password.value.trim();
+
+      if (email.length > 0 && password.length > 0) {
+        localStorage.setItem("token", "token");
+        history.pushState({}, "", "/");
+        Router();
+      } else {
+        alert("이메일과 비밀번호를 모두 입력해주세요.");
+      }
+    });
+  }
+};
+
+const goToLogin = () => {
+  localStorage.removeItem("token");
+};
+
 const LoginPage = () => `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
-      <form>
+      <form id="login-form">
         <div class="mb-4">
-          <input type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
+          <input type="text" name="email" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
         </div>
         <div class="mb-6">
-          <input type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
+          <input type="password" name="password" placeholder="비밀번호" class="w-full p-2 border rounded">
         </div>
-        <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
+        <button type="submit" id="login" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
       </form>
       <div class="mt-4 text-center">
         <a href="#" class="text-blue-600 text-sm">비밀번호를 잊으셨나요?</a>
@@ -113,7 +179,7 @@ const ProfilePage = () => `
           <ul class="flex justify-around">
             <li><a href="/" class="text-gray-600">홈</a></li>
             <li><a href="/profile" class="text-blue-600">프로필</a></li>
-            <li><a href="#" class="text-gray-600">로그아웃</a></li>
+            <li><a href="/login" class="text-gray-600">로그아웃</a></li>
           </ul>
         </nav>
 
@@ -184,9 +250,8 @@ const ProfilePage = () => `
   </div>
 `;
 
-document.body.innerHTML = `
-  ${MainPage()}
-  ${ProfilePage()}
-  ${LoginPage()}
-  ${ErrorPage()}
-`;
+Router();
+
+window.addEventListener("popstate", () => {
+  Router();
+});
