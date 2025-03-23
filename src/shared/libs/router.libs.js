@@ -33,6 +33,11 @@ class Router {
   }
 
   handleRoute(path) {
+    // * 배포 후 라우팅 처리
+    const base = "/front_5th_chapter1-1";
+    if (path.startsWith(base)) {
+      path = path.slice(base.length);
+    }
     const handler = this.routes[path] || this.routes["*"];
     handler?.();
   }
