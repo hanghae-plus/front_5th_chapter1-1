@@ -323,10 +323,15 @@ const routes = {
       if (!profileForm) return;
 
       // 전역 객체에 저장된 user profile 데이터를 form에 초기화
-      if (state.userProfile) {
-        for (const [dataId, value] of Object.entries(state.userProfile)) {
-          const field = profileForm.querySelector(`#${dataId}`);
-          field.value = value;
+      if (state.loggedInUser) {
+        const fieldIdList = [
+          CONST.profileForm.field.username,
+          CONST.profileForm.field.bio,
+          CONST.profileForm.field.email,
+        ];
+        for (const fieldId of fieldIdList) {
+          const field = profileForm.querySelector(`#${fieldId}`);
+          field.value = state.loggedInUser[fieldId];
         }
       }
 
@@ -334,13 +339,25 @@ const routes = {
       profileForm.addEventListener("submit", (e) => {
         e.preventDefault();
         const formData = new FormData(profileForm);
-        console.log(formData);
-        const data = Object.fromEntries(formData);
-        console.log(data);
-        localStorage.setItem(CONST.userProfile, JSON.stringify(data));
-      });
+        const newData = Object.fromEntries(formData);
+        const oldData = state.loggedInUser;
 
-      console.log(state.userProfile);
+        const isProfileChanged =
+          newData.username !== oldData.username ||
+          newData.email !== oldData.email ||
+          newData.bio !== oldData.bio;
+
+        if (isProfileChanged) {
+          const newUserInfo = { ...state.loggedInUser, ...newData };
+          const userIndex = state.users.findIndex(
+            (user) => user.id === state.loggedInUser.id,
+          );
+          state.users.splice(userIndex, 1, newUserInfo);
+          state.loggedInUser = newUserInfo;
+          localStorage.setItem(CONST.userDB, JSON.stringify(state));
+          alert("profile 변경 완료");
+        }
+      });
     },
   },
   default: { render: ErrorPage },
