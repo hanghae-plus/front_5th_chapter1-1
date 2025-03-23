@@ -1,5 +1,7 @@
-import initLinkNavigation from "./actions/anchors";
-import render from "./actions/render";
+import render from "./_actions/render";
 
-initLinkNavigation();
 render();
+
+window.addEventListener("popstate", () => {
+  render();
+});
