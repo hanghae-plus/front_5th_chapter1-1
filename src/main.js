@@ -164,12 +164,12 @@ const LoginPage = () => `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
-      <form id="${CONST.loginForm}">
+      <form id="${CONST.loginForm.formId}">
         <div class="mb-4">
-          <input type="text" id="${CONST.loginForm.field.email}" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
+          <input type="text"  name="${CONST.loginForm.field.email}" id="${CONST.loginForm.field.email}" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
         </div>
         <div class="mb-6">
-          <input type="password" id="${CONST.loginForm.field.password}" placeholder="비밀번호" class="w-full p-2 border rounded">
+          <input type="password" name="${CONST.loginForm.field.password}" id="${CONST.loginForm.field.password}"  placeholder="비밀번호" class="w-full p-2 border rounded">
         </div>
         <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
       </form>
@@ -276,13 +276,22 @@ const routes = {
   [CONST.pathname.login]: {
     render: LoginPage,
     onRender: () => {
-      const loginForm = document.getElementById(CONST.loginForm);
+      const loginForm = document.getElementById(CONST.loginForm.formId);
       if (!loginForm) return;
 
       loginForm.addEventListener("submit", (e) => {
         e.preventDefault();
         const formData = new FormData(loginForm);
         const { email, password } = Object.fromEntries(formData);
+
+        if (!email) {
+          return alert("이메일을 입력해주세요");
+        }
+
+        if (!password) {
+          return alert("password를 입력해주세요.");
+        }
+
         const userInfo = state.users.find((user) => user.email === email);
 
         if (userInfo) {
@@ -325,7 +334,9 @@ const routes = {
       profileForm.addEventListener("submit", (e) => {
         e.preventDefault();
         const formData = new FormData(profileForm);
+        console.log(formData);
         const data = Object.fromEntries(formData);
+        console.log(data);
         localStorage.setItem(CONST.userProfile, JSON.stringify(data));
       });
 
@@ -342,13 +353,16 @@ const hydrateLinkIntoRouter = () => {
       e.preventDefault();
       const href = e.target.href;
       const newPathname = new URL(href).pathname;
-      history.pushState({}, "", newPathname);
-      render();
+      render(newPathname);
     });
   }
 };
 
 const render = (pathname = window.location.pathname) => {
+  const isNewPath = pathname !== window.location.pathname;
+  if (isNewPath) {
+    history.pushState({}, "", pathname);
+  }
   const page = routes[pathname] || routes["default"];
   document.body.innerHTML = page.render();
   page.onRender?.();
