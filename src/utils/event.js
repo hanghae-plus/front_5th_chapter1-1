@@ -12,13 +12,21 @@ document.addEventListener("click", (e) => {
     e.preventDefault();
     if (e.target.textContent === "로그아웃") {
       localStorage.removeItem("user");
-      window.history.replaceState({}, "", "/");
+      if (Router.RouterType === "hash") {
+        window.location.hash = "/";
+      } else {
+        window.history.replaceState({}, "", "/");
+      }
       Router.Render();
       return;
     }
 
     const path = e.target.href.split("/").pop();
-    window.history.pushState({}, "", path ? path : "/");
+    if (Router.RouterType === "hash") {
+      window.location.hash = path ? "/" + path : "/";
+    } else {
+      window.history.pushState({}, "", path ? path : "/");
+    }
     Router.Render();
   }
 });

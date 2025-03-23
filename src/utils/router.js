@@ -14,7 +14,12 @@ export const Router = {
   RouterType: "basic",
   Render: () => {
     const root = document.getElementById("root");
-    let path = window.location.pathname;
+    let path;
+    if (Router.RouterType === "basic") {
+      path = window.location.pathname;
+    } else if (Router.RouterType === "hash") {
+      path = window.location.hash.slice(1);
+    }
     const Component = routes[path] || routes["*"];
     root.innerHTML = Component();
   },

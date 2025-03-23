@@ -1,9 +1,14 @@
 import { isLoggedIn } from "../utils/login.js";
 import MainPage from "./MainPage.jsx";
+import { Router } from "../utils/router.js";
 
 const LoginPage = () => {
   if (isLoggedIn()) {
-    window.history.replaceState({}, "", "/");
+    if (Router.RouterType === "hash") {
+      window.history.replaceState({}, "", "#/");
+    } else {
+      window.history.replaceState({}, "", "/");
+    }
     return MainPage();
   }
   return `
