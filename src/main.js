@@ -261,3 +261,4 @@ const render = () => {
 };
 
 render();
+window.addEventListener("popstate", render);
