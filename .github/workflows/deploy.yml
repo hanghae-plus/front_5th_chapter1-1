@@ -24,10 +24,8 @@ jobs:
       - name: Build
         run: pnpm run build
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+        id: deployment
+        uses: actions/deploy-pages@v4
         with:
           github_token: ${{ secrets.ACCESS_TOKEN }}
           path: ./dist
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
