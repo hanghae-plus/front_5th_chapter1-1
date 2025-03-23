@@ -199,7 +199,6 @@ const ProfilePage = () => `
                   type="text"
                   id="username"
                   name="username"
-                  value="홍길동"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -213,7 +212,6 @@ const ProfilePage = () => `
                   type="email"
                   id="email"
                   name="email"
-                  value="hong@example.com"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -228,9 +226,7 @@ const ProfilePage = () => `
                   name="bio"
                   rows="4"
                   class="w-full p-2 border rounded"
-                >
-안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
-                >
+                ></textarea>
               </div>
               <button
                 type="submit"
@@ -258,6 +254,14 @@ const routes = {
     onRender: () => {
       const profileForm = document.getElementById("profile-form");
       if (!profileForm) return;
+
+      // 전역 객체에 저장된 user profile 데이터를 form에 초기화
+      if (state.userProfile) {
+        for (const [dataId, value] of Object.entries(state.userProfile)) {
+          const input = profileForm.querySelector(`#${dataId}`);
+          input.value = value;
+        }
+      }
 
       // 제출시 form의 data를 localstorage에 저장
       profileForm.addEventListener("submit", (e) => {
