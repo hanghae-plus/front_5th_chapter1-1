@@ -1,7 +1,7 @@
 import { initLoginPage, LoginPage, renderLoginPage } from "./pages/login";
 import { MainPage } from "./pages/main";
 import { NotFoundPage } from "./pages/notFound";
-import { ProfilePage } from "./pages/profile";
+import { ProfilePage, updateProfile } from "./pages/profile";
 import { Store } from "./store";
 
 const routes = {
@@ -18,8 +18,11 @@ export function renderRoute() {
   if (path === "/login") {
     initLoginPage();
   }
+  if (path === "/profile") {
+    updateProfile();
+  }
 
-  const logoutBtn = document.getElementById("logout-btn");
+  const logoutBtn = document.getElementById("logout");
   if (logoutBtn) {
     logoutBtn.addEventListener("click", (e) => {
       e.preventDefault();
