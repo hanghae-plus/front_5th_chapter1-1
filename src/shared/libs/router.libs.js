@@ -4,6 +4,7 @@ class Router {
     window.addEventListener("popstate", this.handlePopState.bind(this));
     window.addEventListener("hashchange", this.handleHashChange.bind(this));
     this.isHashMode = window.location.pathname.includes("hash.html");
+    this.basePath = import.meta.env.BASE_URL || "/";
   }
 
   addRoute(path, handler) {
@@ -14,7 +15,8 @@ class Router {
     if (this.isHashMode) {
       window.location.hash = "#" + path;
     } else {
-      history.pushState(null, "", path);
+      const fullPath = this.basePath !== "/" ? this.basePath + path : path;
+      history.pushState(null, "", fullPath);
       this.handleRoute(path);
     }
   }
@@ -38,6 +40,10 @@ class Router {
     if (path.startsWith(base)) {
       path = path.slice(base.length);
     }
+    if (path === "") {
+      path = "/";
+    }
+
     if (path.length > 1 && path.endsWith("/")) {
       path = path.slice(0, -1);
     }
