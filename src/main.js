@@ -1,113 +1,232 @@
-const MainPage = () => `
+class Router {
+  constructor(routes) {
+    this.routes = routes;
+    this.attachEventHandle();
+    window.addEventListener("popstate", this.handlePopState.bind(this));
+  }
+  addRoute(path, handler) {
+    this.routes[path] = handler;
+  }
+  navigationTo(path) {
+    if (path === "/profile" && !localStorage.getItem("user")) {
+      this.handleRoute("/login");
+    }
+    history.pushState(null, "", path);
+    this.handleRoute(path);
+  }
+  handlePopState() {
+    this.handleRoute(window.location.pathname);
+  }
+  handleRoute(path) {
+    const handler = this.routes[path];
+    if (!handler) {
+      throw new NotFoundError(path);
+    }
+    if (path === "/profile" && !localStorage.getItem("user")) {
+      this.navigationTo("/login");
+    }
+    if (path === "/login") {
+      document.getElementById("root").innerHTML = handler();
+    } else {
+      document.getElementById("root").innerHTML = Layout(handler());
+    }
+  }
+  attachEventHandle() {
+    const root = document.getElementById("root");
+
+    root.addEventListener("submit", (e) => {
+      e.preventDefault();
+      // 로그인 폼 이벤트부여
+      if (e.target.nodeName === "FORM" && e.target.id === "login-form") {
+        const username = document.getElementById("username").value;
+        if (!username || username.length === 0) {
+          alert("이메일 또는 전화번호를 입력해주세요.");
+          return;
+        }
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ username, email: "", bio: "" }),
+        );
+        this.navigationTo("/");
+      }
+      // 프로필 업데이트 이벤트부여
+      if (e.target.tagName === "FORM" && e.target.id === "profile-form") {
+        const username = document.getElementById("username").value;
+        const email = document.getElementById("email").value;
+        const bio = document.getElementById("bio").value;
+        if (!username || username.length === 0) {
+          alert("사용자 이름을 입력해주세요.");
+          return;
+        }
+        localStorage.setItem("user", JSON.stringify({ username, email, bio }));
+        alert("성공적으로 프로필을 업데이트 하였습니다.");
+      }
+    });
+
+    // 로그아웃 이벤트부여
+    root.addEventListener("click", (e) => {
+      if (e.target.tagName === "A") {
+        e.preventDefault();
+        if (e.target.id === "logout") {
+          localStorage.removeItem("user");
+          this.navigationTo("/login");
+        }
+        if (e.target.pathname.startsWith("/")) {
+          this.navigationTo(e.target.pathname);
+        }
+      }
+    });
+  }
+}
+
+class NotFoundError extends Error {
+  constructor(path) {
+    super(`Not Found: ${path}`);
+    this.path = path;
+    this.name = "HTTP ERROR 404";
+    document.getElementById("root").innerHTML = ErrorPage();
+  }
+}
+
+// Header는 로그인상태와 비로그인상태 그리고 현재 라우터에 대한 상태표시 가 주된 기능이다.
+const Header = () => {
+  return `
+    <header class="bg-blue-600 text-white p-4 sticky top-0">
+      <h1 class="text-2xl font-bold">항해플러스</h1>
+    </header>
+    ${NavTab()}
+  `;
+};
+
+const NavTab = () => {
+  const pathname = window.location.pathname;
+  if (localStorage.getItem("user")) {
+    return `<nav class="bg-white shadow-md p-2 sticky top-14" id="NavigationTab">
+      <ul class="flex justify-around">
+        <li><a href="/" class="${pathname === "/" ? "text-blue-600" : "text-gray-600"}">홈</a></li>
+        <li><a href="/profile" class="${pathname === "/profile" ? "text-blue-600" : "text-gray-600"}">프로필</a></li>
+        <li><a href="#" class="text-gray-600" id="logout">로그아웃</a></li>
+      </ul>
+    </nav>`;
+  } else {
+    return `<nav class="bg-white shadow-md p-2 sticky top-14" id="NavigationTab">
+      <ul class="flex justify-around">
+        <li><a href="/" class="${pathname === "/" ? "text-blue-600" : "text-gray-600"}">홈</a></li>
+        <li><a href="/login" class="text-gray-600">로그인</a></li>
+      </ul>
+    </nav>`;
+  }
+};
+
+// Footer는 특정 페이지를 제외하곤 하단에 위치하면된다.
+const Footer = () => `
+<footer class="bg-gray-200 p-4 text-center">
+  <p>&copy; 2024 항해플러스. All rights reserved.</p>
+</footer>
+`;
+
+const Layout = (children) => {
+  return `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
-      <header class="bg-blue-600 text-white p-4 sticky top-0">
-        <h1 class="text-2xl font-bold">항해플러스</h1>
-      </header>
-
-      <nav class="bg-white shadow-md p-2 sticky top-14">
-        <ul class="flex justify-around">
-          <li><a href="/" class="text-blue-600">홈</a></li>
-          <li><a href="/profile" class="text-gray-600">프로필</a></li>
-          <li><a href="#" class="text-gray-600">로그아웃</a></li>
-        </ul>
-      </nav>
-
-      <main class="p-4">
-        <div class="mb-4 bg-white rounded-lg shadow p-4">
-          <textarea class="w-full p-2 border rounded" placeholder="무슨 생각을 하고 계신가요?"></textarea>
-          <button class="mt-2 bg-blue-600 text-white px-4 py-2 rounded">게시</button>
-        </div>
-
-        <div class="space-y-4">
-
-          <div class="bg-white rounded-lg shadow p-4">
-            <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
-              <div>
-                <p class="font-bold">홍길동</p>
-                <p class="text-sm text-gray-500">5분 전</p>
-              </div>
-            </div>
-            <p>오늘 날씨가 정말 좋네요. 다들 좋은 하루 보내세요!</p>
-            <div class="mt-2 flex justify-between text-gray-500">
-              <button>좋아요</button>
-              <button>댓글</button>
-              <button>공유</button>
-            </div>
-          </div>
-
-          <div class="bg-white rounded-lg shadow p-4">
-            <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
-              <div>
-                <p class="font-bold">김철수</p>
-                <p class="text-sm text-gray-500">15분 전</p>
-              </div>
-            </div>
-            <p>새로운 프로젝트를 시작했어요. 열심히 코딩 중입니다!</p>
-            <div class="mt-2 flex justify-between text-gray-500">
-              <button>좋아요</button>
-              <button>댓글</button>
-              <button>공유</button>
-            </div>
-          </div>
-
-          <div class="bg-white rounded-lg shadow p-4">
-            <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
-              <div>
-                <p class="font-bold">이영희</p>
-                <p class="text-sm text-gray-500">30분 전</p>
-              </div>
-            </div>
-            <p>오늘 점심 메뉴 추천 받습니다. 뭐가 좋을까요?</p>
-            <div class="mt-2 flex justify-between text-gray-500">
-              <button>좋아요</button>
-              <button>댓글</button>
-              <button>공유</button>
-            </div>
-          </div>
-
-          <div class="bg-white rounded-lg shadow p-4">
-            <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
-              <div>
-                <p class="font-bold">박민수</p>
-                <p class="text-sm text-gray-500">1시간 전</p>
-              </div>
-            </div>
-            <p>주말에 등산 가실 분 계신가요? 함께 가요!</p>
-            <div class="mt-2 flex justify-between text-gray-500">
-              <button>좋아요</button>
-              <button>댓글</button>
-              <button>공유</button>
-            </div>
-          </div>
-
-          <div class="bg-white rounded-lg shadow p-4">
-            <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
-              <div>
-                <p class="font-bold">정수연</p>
-                <p class="text-sm text-gray-500">2시간 전</p>
-              </div>
-            </div>
-            <p>새로 나온 영화 재미있대요. 같이 보러 갈 사람?</p>
-            <div class="mt-2 flex justify-between text-gray-500">
-              <button>좋아요</button>
-              <button>댓글</button>
-              <button>공유</button>
-            </div>
-          </div>
-        </div>
-      </main>
-
-      <footer class="bg-gray-200 p-4 text-center">
-        <p>&copy; 2024 항해플러스. All rights reserved.</p>
-      </footer>
+    ${Header()}
+    ${children}
+    ${Footer()}
     </div>
   </div>
+  `;
+};
+
+const MainPage = () => `
+<main class="p-4">
+  <div class="mb-4 bg-white rounded-lg shadow p-4">
+    <textarea class="w-full p-2 border rounded" placeholder="무슨 생각을 하고 계신가요?"></textarea>
+    <button class="mt-2 bg-blue-600 text-white px-4 py-2 rounded">게시</button>
+  </div>
+
+  <div class="space-y-4">
+
+    <div class="bg-white rounded-lg shadow p-4">
+      <div class="flex items-center mb-2">
+        <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
+        <div>
+          <p class="font-bold">홍길동</p>
+          <p class="text-sm text-gray-500">5분 전</p>
+        </div>
+      </div>
+      <p>오늘 날씨가 정말 좋네요. 다들 좋은 하루 보내세요!</p>
+      <div class="mt-2 flex justify-between text-gray-500">
+        <button>좋아요</button>
+        <button>댓글</button>
+        <button>공유</button>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-4">
+      <div class="flex items-center mb-2">
+        <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
+        <div>
+          <p class="font-bold">김철수</p>
+          <p class="text-sm text-gray-500">15분 전</p>
+        </div>
+      </div>
+      <p>새로운 프로젝트를 시작했어요. 열심히 코딩 중입니다!</p>
+      <div class="mt-2 flex justify-between text-gray-500">
+        <button>좋아요</button>
+        <button>댓글</button>
+        <button>공유</button>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-4">
+      <div class="flex items-center mb-2">
+        <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
+        <div>
+          <p class="font-bold">이영희</p>
+          <p class="text-sm text-gray-500">30분 전</p>
+        </div>
+      </div>
+      <p>오늘 점심 메뉴 추천 받습니다. 뭐가 좋을까요?</p>
+      <div class="mt-2 flex justify-between text-gray-500">
+        <button>좋아요</button>
+        <button>댓글</button>
+        <button>공유</button>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-4">
+      <div class="flex items-center mb-2">
+        <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
+        <div>
+          <p class="font-bold">박민수</p>
+          <p class="text-sm text-gray-500">1시간 전</p>
+        </div>
+      </div>
+      <p>주말에 등산 가실 분 계신가요? 함께 가요!</p>
+      <div class="mt-2 flex justify-between text-gray-500">
+        <button>좋아요</button>
+        <button>댓글</button>
+        <button>공유</button>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-4">
+      <div class="flex items-center mb-2">
+        <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
+        <div>
+          <p class="font-bold">정수연</p>
+          <p class="text-sm text-gray-500">2시간 전</p>
+        </div>
+      </div>
+      <p>새로 나온 영화 재미있대요. 같이 보러 갈 사람?</p>
+      <div class="mt-2 flex justify-between text-gray-500">
+        <button>좋아요</button>
+        <button>댓글</button>
+        <button>공유</button>
+      </div>
+    </div>
+  </div>
+</main>
 `;
 
 const ErrorPage = () => `
@@ -126,16 +245,17 @@ const ErrorPage = () => `
   </main>
 `;
 
-const LoginPage = () => `
+const LoginPage = () => {
+  return `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
-      <form>
+      <form id="login-form">
         <div class="mb-4">
-          <input type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
+          <input type="text" placeholder="사용자이름" class="w-full p-2 border rounded" id="username">
         </div>
         <div class="mb-6">
-          <input type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
+          <input type="password" placeholder="비밀번호" class="w-full p-2 border rounded" id="password">
         </div>
         <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
       </form>
@@ -149,29 +269,17 @@ const LoginPage = () => `
     </div>
   </main>
 `;
+};
 
-const ProfilePage = () => `
-  <div id="root">
-    <div class="bg-gray-100 min-h-screen flex justify-center">
-      <div class="max-w-md w-full">
-        <header class="bg-blue-600 text-white p-4 sticky top-0">
-          <h1 class="text-2xl font-bold">항해플러스</h1>
-        </header>
-
-        <nav class="bg-white shadow-md p-2 sticky top-14">
-          <ul class="flex justify-around">
-            <li><a href="/" class="text-gray-600">홈</a></li>
-            <li><a href="/profile" class="text-blue-600">프로필</a></li>
-            <li><a href="#" class="text-gray-600">로그아웃</a></li>
-          </ul>
-        </nav>
-
+const ProfilePage = () => {
+  const { username, email, bio } = JSON.parse(localStorage.getItem("user"));
+  return `
         <main class="p-4">
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
             </h2>
-            <form>
+            <form id="profile-form">
               <div class="mb-4">
                 <label
                   for="username"
@@ -182,7 +290,7 @@ const ProfilePage = () => `
                   type="text"
                   id="username"
                   name="username"
-                  value="홍길동"
+                  value="${username}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -196,7 +304,7 @@ const ProfilePage = () => `
                   type="email"
                   id="email"
                   name="email"
-                  value="hong@example.com"
+                  value="${email}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -211,9 +319,7 @@ const ProfilePage = () => `
                   name="bio"
                   rows="4"
                   class="w-full p-2 border rounded"
-                >
-안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
-                >
+                >${bio}</textarea>
               </div>
               <button
                 type="submit"
@@ -224,18 +330,18 @@ const ProfilePage = () => `
             </form>
           </div>
         </main>
-
-        <footer class="bg-gray-200 p-4 text-center">
-          <p>&copy; 2024 항해플러스. All rights reserved.</p>
-        </footer>
-      </div>
-    </div>
-  </div>
 `;
+};
 
-document.body.innerHTML = `
-  ${MainPage()}
-  ${ProfilePage()}
-  ${LoginPage()}
-  ${ErrorPage()}
-`;
+// Route 정리
+const routes = {
+  "/": () => MainPage(),
+  "/profile": () => ProfilePage(),
+  "/login": () => LoginPage(),
+};
+
+const router = new Router(routes);
+
+window.addEventListener("load", () => {
+  router.handleRoute(window.location.pathname);
+});
