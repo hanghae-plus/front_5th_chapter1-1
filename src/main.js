@@ -5,7 +5,7 @@ import MainPage from "./routes/main-page.js";
 import ProfilePage from "./routes/profile-page.js";
 import store from "./store/index.js";
 
-const navigate = (e) => {
+const handleLink = (e) => {
   e.preventDefault();
   let url = e.target.getAttribute("href");
   if (url === ROUTES.LOGOUT) {
@@ -19,7 +19,7 @@ const navigate = (e) => {
 
 const eventListner = () => {
   document.querySelectorAll("a").forEach((el) => {
-    el.addEventListener("click", navigate);
+    el.addEventListener("click", handleLink);
   });
 };
 
@@ -30,32 +30,22 @@ const URL_MAP = {
   [ROUTES.ERROR]: ErrorPage,
 };
 
-const getTemplate = (url = ROUTES.MAIN) => {
-  return (URL_MAP[url] || ErrorPage)();
-};
-
-document.addEventListener(CUSTOM_EVENT.PAGE_PUSH, (e) => {
-  if (!e.detail?.url) return;
-  let url = e.detail.url;
+const navigate = (url = ROUTES.MAIN) => {
+  const root = document.querySelector("#root");
   const username = store.get("username");
   if (!username && url === ROUTES.PROFILE) url = ROUTES.LOGIN;
   if (!!username && url === ROUTES.LOGIN) url = ROUTES.MAIN;
   history.pushState({}, "", url);
-  const page = getTemplate(url);
-  root.innerHTML = page.template;
-  if (page.eventListner) page.eventListner();
-  eventListner();
-});
-
-window.onpopstate = () => {
-  const page = getTemplate(location.pathname);
+  const page = (URL_MAP[url] || ErrorPage)();
   root.innerHTML = page.template;
   if (page.eventListner) page.eventListner();
   eventListner();
 };
 
-const root = document.querySelector("#root");
-const page = getTemplate();
-root.innerHTML = page.template;
-if (page.eventListner) page.eventListner();
-eventListner();
+document.addEventListener(CUSTOM_EVENT.PAGE_PUSH, (e) => {
+  if (!e.detail?.url) return;
+  navigate(e.detail.url);
+});
+
+window.addEventListener("DOMContentLoaded", () => navigate());
+window.onpopstate = () => navigate(location.pathname);
