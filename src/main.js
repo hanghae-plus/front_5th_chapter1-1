@@ -1,6 +1,5 @@
-const MainPage = () => `
-  <div class="bg-gray-100 min-h-screen flex justify-center">
-    <div class="max-w-md w-full">
+const Header = () => /*html*/ `
+  <div class="max-w-md w-full">
       <header class="bg-blue-600 text-white p-4 sticky top-0">
         <h1 class="text-2xl font-bold">항해플러스</h1>
       </header>
@@ -12,7 +11,12 @@ const MainPage = () => `
           <li><a href="#" class="text-gray-600">로그아웃</a></li>
         </ul>
       </nav>
+`;
 
+const MainPage = () => /*html*/ `
+  <div class="bg-gray-100 min-h-screen flex justify-center">
+    
+      ${Header()}
       <main class="p-4">
         <div class="mb-4 bg-white rounded-lg shadow p-4">
           <textarea class="w-full p-2 border rounded" placeholder="무슨 생각을 하고 계신가요?"></textarea>
@@ -126,7 +130,7 @@ const ErrorPage = () => `
   </main>
 `;
 
-const LoginPage = () => `
+const LoginPage = () => /*html*/ `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
@@ -150,7 +154,7 @@ const LoginPage = () => `
   </main>
 `;
 
-const ProfilePage = () => `
+const ProfilePage = () => /*html*/ `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
@@ -233,9 +237,30 @@ const ProfilePage = () => `
   </div>
 `;
 
+const app = () => {
+  console.log(location.pathname);
+  // a태그 하면 리플래시 되면 dom만 갈아끼우는 방식.. string
+  if (location.pathname === "/") {
+    document.getElementById("root").innerHTML = `${MainPage()}`;
+  } else if (location.pathname === "/profile") {
+    document.getElementById("root").innerHTML = `${ProfilePage()}`;
+  } else if (location.pathname === "/login") {
+    document.getElementById("root").innerHTML = LoginPage();
+  } else {
+    document.getElementById("root").innerHTML = `${ErrorPage()}`;
+  }
+};
+
+const render = () => {
+  app();
+};
+
+render();
+/*
 document.body.innerHTML = `
   ${MainPage()}
   ${ProfilePage()}
   ${LoginPage()}
   ${ErrorPage()}
 `;
+*/
