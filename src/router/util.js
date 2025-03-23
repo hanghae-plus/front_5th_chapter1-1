@@ -13,6 +13,12 @@ export const render = (path) => {
     return;
   }
 
+  if (path === "/login" && isLoggedIn) {
+    push("/");
+
+    return;
+  }
+
   const root = document.getElementById("root");
   const wrapper = document.createElement("div");
 
