@@ -1,6 +1,6 @@
 class UserStore {
   #userInfo = null;
-  #localKey = "userInfo:v1";
+  #localKey = "user";
   static instance;
 
   constructor() {
@@ -12,6 +12,11 @@ class UserStore {
   setUserInfo(info) {
     this.#userInfo = info;
     localStorage.setItem(this.#localKey, JSON.stringify(info));
+  }
+
+  removeUserInfo() {
+    this.#userInfo = null;
+    localStorage.removeItem(this.#localKey);
   }
 
   get userInfo() {
