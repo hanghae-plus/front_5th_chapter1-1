@@ -387,4 +387,4 @@ const render = (pathname = window.location.pathname) => {
 };
 
 render();
-window.addEventListener("popstate", render);
+window.addEventListener("popstate", () => render());
