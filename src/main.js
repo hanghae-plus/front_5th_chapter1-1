@@ -43,7 +43,7 @@ const MainPage = () => `
         <ul class="flex justify-around">
           <li><a href="/" class="text-blue-600">홈</a></li>
           <li><a href="/profile" class="text-gray-600">프로필</a></li>
-          <li><a href="#" class="text-gray-600">로그아웃</a></li>
+          <li><a href="#" id="logout" class="text-gray-600">로그아웃</a></li>
         </ul>
       </nav>
 
@@ -185,7 +185,7 @@ const LoginPage = () => `
 `;
 
 const ProfilePage = () => `
-  <div id="root">
+  
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
         <header class="bg-blue-600 text-white p-4 sticky top-0">
@@ -260,7 +260,7 @@ const ProfilePage = () => `
         </footer>
       </div>
     </div>
-  </div>
+  
 `;
 
 const initUser = ({ email, password }) => ({
@@ -378,6 +378,14 @@ const hydrateLinkIntoRouter = () => {
       const href = e.target.href;
       const newPathname = new URL(href).pathname;
       render(newPathname);
+    });
+  }
+
+  const logoutButton = document.getElementById("logout");
+  if (logoutButton) {
+    logoutButton.addEventListener("click", () => {
+      state.loggedInUser = null;
+      localStorage.setItem(CONST.userDB, JSON.stringify(state));
     });
   }
 };
