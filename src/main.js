@@ -1,3 +1,4 @@
-import { startRouter } from "./router/router";
+import { Router, routes } from "./router";
 
-startRouter();
+export const router = new Router(routes);
+router.start();

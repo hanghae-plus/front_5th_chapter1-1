@@ -1,19 +1,23 @@
-import { hydrateLinkIntoRouter } from "./hydrate";
-import { routes } from "./routes";
-
-export const render = (pathname) => {
-  if (pathname) {
-    history.pushState({}, "", pathname);
+export class Router {
+  constructor(routes) {
+    this.routes = routes;
   }
-  const page =
-    routes[pathname || window.location.pathname] || routes["default"];
 
-  document.body.innerHTML = page.render();
-  page.onRender?.();
-  hydrateLinkIntoRouter();
-};
+  render(pathname = window.location.pathname) {
+    const route = this.routes[pathname] || this.routes["default"];
+    document.body.innerHTML = route.render();
+    route.onRender?.();
+  }
 
-export const startRouter = () => {
-  render();
-  window.addEventListener("popstate", () => render());
-};
+  start() {
+    this.render();
+    window.addEventListener("popstate", () => this.render());
+  }
+
+  navigate(pathname) {
+    if (pathname !== window.location.pathname) {
+      history.pushState({}, "", pathname);
+      this.render(pathname);
+    }
+  }
+}
