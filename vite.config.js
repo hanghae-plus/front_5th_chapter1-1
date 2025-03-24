@@ -1,4 +1,4 @@
-import { defineConfig } from "vitest/config";
+import { configDefaults, defineConfig } from "vitest/config";
 
 export default defineConfig(({ command }) => {
   const isProd = command === "build";
@@ -9,7 +9,12 @@ export default defineConfig(({ command }) => {
       globals: true,
       environment: "jsdom",
       setupFiles: "./src/setupTests.js",
-      exclude: ["**/e2e/**", "**/*.e2e.spec.js", "**/node_modules/**"],
+      exclude: [
+        ...configDefaults.exclude,
+        "**/e2e/**",
+        "**/*.e2e.spec.js",
+        "**/node_modules/**",
+      ],
     },
   };
 });
