@@ -1,12 +1,12 @@
-import { ErrorPage } from "./pages/error/page.js";
-import { handleSubmitLogin } from "./pages/login/logic.js";
-import { LoginPage } from "./pages/login/page.js";
-import { MainPage } from "./pages/main/page.js";
-import { handleSubmitProfile } from "./pages/profile/logic.js";
-import { ProfilePage } from "./pages/profile/page.js";
 import { getUserInfoFromStorage } from "./shared/logic/localStorage.js";
 import { goTo } from "./shared/logic/router.js";
 import { ID } from "./constant.js";
+import { HomePage } from "./components/HomePage/page.js";
+import { LoginPage } from "./components/LoginPage/page.js";
+import { NotFoundPage } from "./components/NotFoundPage/page.js";
+import { ProfilePage } from "./components/ProfilePage/page.js";
+import { handleSubmitLogin } from "./components/LoginPage/logic.js";
+import { handleSubmitProfile } from "./components/ProfilePage/logic.js";
 
 function getHtmlByPathName() {
   const location = window.location.pathname;
@@ -14,13 +14,13 @@ function getHtmlByPathName() {
 
   switch (location) {
     case "/":
-      return MainPage();
+      return HomePage();
     case "/login":
       return LoginPage();
     case "/profile":
       return isLoggedIn ? ProfilePage() : LoginPage();
     default:
-      return ErrorPage();
+      return NotFoundPage();
   }
 }
 

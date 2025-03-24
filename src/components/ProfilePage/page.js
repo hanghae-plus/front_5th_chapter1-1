@@ -1,4 +1,5 @@
-import { Header } from "../../shared/components/header/page.js";
+import { Header } from "../../shared/components/Header/page.js";
+import { Footer } from "../../shared/components/Footer/page.js";
 import { getUserInfoFromStorage } from "../../shared/logic/localStorage.js";
 import { goTo } from "../../shared/logic/router.js";
 import { ID } from "../../constant.js";
@@ -11,11 +12,12 @@ export const ProfilePage = () => {
   }
 
   const { username, email, bio } = user;
+
   return `
   <div>
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
-        ${Header()}
+        ${Header()}w
 
         <nav class="bg-white shadow-md p-2 sticky top-14">
           <ul class="flex justify-around">
@@ -85,9 +87,7 @@ export const ProfilePage = () => {
           </div>
         </main>
 
-        <footer class="bg-gray-200 p-4 text-center">
-          <p>&copy; 2024 항해플러스. All rights reserved.</p>
-        </footer>
+        ${Footer()}
       </div>
     </div>
   </div>
