@@ -1,9 +1,9 @@
-import { render } from "./helpers/render.js";
+import { mount } from "./core/render";
 import { createRouter } from "./core/router";
 import { routes, onBeforeEach } from "./router.js";
 import { provide } from "./core/context";
 
-const root = render("#root");
+const root = mount("#root");
 const router = createRouter(root, routes, { mode: "history" });
 
 provide("router", router);
