@@ -11,7 +11,17 @@ export const render = () => {
     const path = window.location.hash.substring(1) || "/";
     router.handleRoute(path);
   } else {
-    const path = window.location.pathname;
+    let path = window.location.pathname;
+    const basePath = window.location.hostname.includes("github.io")
+      ? "/front_5th_chapter1-1"
+      : "";
+
+    if (basePath && path.startsWith(basePath)) {
+      path = path.replace(basePath, "") || "/";
+    }
+
+    if (path === "") path = "/";
+
     router.handleRoute(path);
   }
 };
