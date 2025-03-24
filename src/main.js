@@ -227,7 +227,7 @@ const ProfilePage = () => `
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
             </h2>
-            <form>
+            <form id="profile-form">
               <div class="mb-4">
                 <label
                   for="username"
@@ -238,7 +238,6 @@ const ProfilePage = () => `
                   type="text"
                   id="username"
                   name="username"
-                  value="홍길동"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -252,7 +251,6 @@ const ProfilePage = () => `
                   type="email"
                   id="email"
                   name="email"
-                  value="hong@example.com"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -268,7 +266,6 @@ const ProfilePage = () => `
                   rows="4"
                   class="w-full p-2 border rounded"
                 >
-                  안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.
                 </textarea>
               </div>
               <button
@@ -304,9 +301,18 @@ const App = () => {
   return ErrorPage();
 };
 
-const setLocalStorage = (userInfo) => {
+const setLocalStorage = (key, userInfo) => {
   try {
-    localStorage.setItem("user", JSON.stringify(userInfo));
+    localStorage.setItem(key, JSON.stringify(userInfo));
+  } catch (error) {
+    alert("error", error);
+  }
+};
+
+const getLocalStorage = (key) => {
+  try {
+    const item = localStorage.getItem(key);
+    return JSON.parse(item);
   } catch (error) {
     alert("error", error);
   }
@@ -348,7 +354,11 @@ const render = () => {
     $loginForm.addEventListener("submit", (e) => {
       e.preventDefault();
       if ($usernameInput.value !== "") {
-        setLocalStorage({ username: $usernameInput.value, email: "", bio: "" });
+        setLocalStorage("user", {
+          username: $usernameInput.value,
+          email: "",
+          bio: "",
+        });
         history.pushState(null, "", "/profile");
         state.isLoggedIn = true;
         render();
@@ -364,6 +374,30 @@ const render = () => {
       state.isLoggedIn = false;
       removeLocalStorage("user");
       render();
+    });
+  }
+
+  if (location.pathname === "/profile") {
+    const $profileForm = document.getElementById("profile-form");
+    const $username = document.getElementById("username");
+    const $email = document.getElementById("email");
+    const $bio = document.getElementById("bio");
+
+    const userInfo = getLocalStorage("user");
+
+    $username.value = userInfo.username;
+    $email.value = userInfo.email;
+    $bio.value = userInfo.bio;
+
+    $profileForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      setLocalStorage("user", {
+        username: userInfo.username,
+        email: userInfo.email,
+        bio: $bio.value,
+      });
+
+      alert("프로필이 업데이트 되었습니다.");
     });
   }
 };
