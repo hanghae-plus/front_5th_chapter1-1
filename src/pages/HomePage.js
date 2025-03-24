@@ -1,5 +1,5 @@
-import Header from "../components/Header_";
-import footer from "../components/Footer_";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const HomePage = () => {
   const isLoggedIn = false;
@@ -98,7 +98,7 @@ const HomePage = () => {
       </div>
     </main>
 
-    ${footer}
+    ${Footer}
   </div>
 </div>
 `;

@@ -1,4 +1,4 @@
-import footer from "../components/Footer_";
+import Footer from "../components/Footer";
 
 const ProfilePage = () => `
 <div id="root">
@@ -75,7 +75,7 @@ const ProfilePage = () => `
         </div>
       </main>
 
-    ${footer}      
+    ${Footer}      
     </div>
   </div>
 </div>
