@@ -48,7 +48,18 @@ class Router {
       document.body.appendChild(root);
     }
 
-    const handler = this.routes[path] || this.routes["*"];
+    let normalizedPath = path;
+
+    if (
+      window.location.hostname.includes("github.io") &&
+      path.startsWith("/front_5th_chapter1-1")
+    ) {
+      normalizedPath = path.replace("/front_5th_chapter1-1", "") || "/";
+    }
+
+    if (normalizedPath === "") normalizedPath = "/";
+
+    const handler = this.routes[normalizedPath] || this.routes["*"];
 
     if (handler) {
       handler();

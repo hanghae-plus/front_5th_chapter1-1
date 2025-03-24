@@ -12,15 +12,15 @@ export const render = () => {
     router.handleRoute(path);
   } else {
     let path = window.location.pathname;
-    const basePath = window.location.hostname.includes("github.io")
-      ? "/front_5th_chapter1-1"
-      : "";
 
-    if (basePath && path.startsWith(basePath)) {
-      path = path.replace(basePath, "") || "/";
+    if (window.location.hostname.includes("github.io")) {
+      if (
+        path === "/front_5th_chapter1-1/" ||
+        path === "/front_5th_chapter1-1"
+      ) {
+        path = "/";
+      }
     }
-
-    if (path === "") path = "/";
 
     router.handleRoute(path);
   }
