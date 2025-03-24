@@ -1,7 +1,28 @@
+//전역객체
+const globalState = {
+  //상태 가져오기
+  getUser(key) {
+    //type 확인
+    return JSON.parse(localStorage.getItem(key));
+  },
+
+  //상태 설정
+  setUser(key, user) {
+    // this.user = user;
+    localStorage.setItem(key, JSON.stringify(user));
+  },
+
+  //상태 초기화
+  initUser(key) {
+    localStorage.removeItem(key);
+  },
+};
+
+//헤더 컴포넌트
 const Header = () => `
-  <header class="bg-blue-600 text-white p-4 sticky top-0">
+    <header class="bg-blue-600 text-white p-4 sticky top-0">
         <h1 class="text-2xl font-bold">항해플러스</h1>
-      </header>
+    </header>
 `;
 
 const Nav = () => {
@@ -160,7 +181,7 @@ const LoginPage = () => {
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
       <form id="login-form">
         <div class="mb-4">
-          <input id="username" type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
+          <input id="username" type="text" placeholder="사용자 이름" class="w-full p-2 border rounded">
         </div>
         <div class="mb-6">
           <input id="userPw" type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
@@ -180,92 +201,44 @@ const LoginPage = () => {
 };
 
 const ProfilePage = () => {
-  setTimeout(() => {
-    const userString = localStorage.getItem("user");
-    if (userString) {
-      try {
-        const loginInfo = JSON.parse(userString);
-        if (loginInfo) {
-          document.getElementById("username").value = loginInfo.username || "";
-          document.getElementById("email").value = loginInfo.email || "";
-          document.getElementById("bio").value = loginInfo.bio || "";
-        }
-      } catch (error) {
-        console.log(error);
-        console.error("localStorage에서 user 값을 가져오는 중 오류 발생");
-      }
-    }
-  }, 0);
+  // user 정보를 가져옵니다
+  const user = globalState.getUser("user") || {
+    username: "",
+    email: "",
+    bio: "",
+  };
+
   return `
-  <div id="root">
-    <div class="bg-gray-100 min-h-screen flex justify-center">
-      <div class="max-w-md w-full">
-        ${Header()}
-        ${Nav()}
-        <main class="p-4">
-          <div class="bg-white p-8 rounded-lg shadow-md">
-            <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
-              내 프로필
-            </h2>
-            <form id="profile-form">
-              <div class="mb-4">
-                <label
-                  for="username"
-                  class="block text-gray-700 text-sm font-bold mb-2"
-                  >사용자 이름</label
-                >
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  value=""
-                  class="w-full p-2 border rounded"
-                  disabled
-                />
-              </div>
-              <div class="mb-4">
-                <label
-                  for="email"
-                  class="block text-gray-700 text-sm font-bold mb-2"
-                  >이메일</label
-                >
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value=""
-                  class="w-full p-2 border rounded"
-                />
-              </div>
-              <div class="mb-6">
-                <label
-                  for="bio"
-                  class="block text-gray-700 text-sm font-bold mb-2"
-                  >자기소개</label
-                >
-                <textarea
-                  id="bio"
-                  name="bio"
-                  rows="4"
-                  class="w-full p-2 border rounded"
-                >
-                </textarea
-                >
-              </div>
-              <button
-                type="submit"
-                class="w-full bg-blue-600 text-white p-2 rounded font-bold"
-              >
-                프로필 업데이트
-              </button>
-            </form>
-          </div>
-        </main>
-        ${Footer()}
-      </div>
+  <div class="bg-gray-100 min-h-screen flex justify-center">
+    <div class="max-w-md w-full">
+      ${Header()}
+      ${Nav()}
+      <main class="p-4">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+          <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
+             내 프로필
+          </h2>
+          <form id="profile-form">
+            <div class="mb-4">
+              <label for="username" class="block text-gray-700 text-sm font-bold mb-2">사용자 이름</label>
+              <input type="text" id="username" name="username" value="${user.username || ""}" class="w-full p-2 border rounded" />
+            </div>
+            <div class="mb-4">
+              <label for="email" class="block text-gray-700 text-sm font-bold mb-2">이메일</label>
+              <input type="email" id="email" name="email" value="${user.email || ""}" class="w-full p-2 border rounded" />
+            </div>
+            <div class="mb-6">
+              <label for="bio" class="block text-gray-700 text-sm font-bold mb-2">자기소개</label>
+              <textarea id="bio" name="bio" rows="4" class="w-full p-2 border rounded">${user.bio || ""}</textarea>
+            </div>
+            <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">프로필 업데이트</button>
+          </form>
+        </div>
+      </main>
+      ${Footer()}
     </div>
   </div>
-`;
+  `;
 };
 
 //routing 연결
@@ -278,8 +251,6 @@ const routePath = {
 
 //페이지 렌더링
 const renderPage = (path) => {
-  console.log("renderPage 실행");
-  console.log("renderPage path", path);
   // 경로가 routePath에 존재하는지 확인
   const routeHandler = routePath[path];
 
@@ -297,7 +268,8 @@ const logoutUser = () => {
   // 로그아웃 처리 로직
   // localStorage의 데이터 제거
   console.log("logoutUser 실행");
-  localStorage.removeItem("user");
+  // localStorage.removeItem("user");
+  globalState.initUser("user");
 };
 
 //헤더 링크 클릭
@@ -305,7 +277,6 @@ const handleLinkClick = (event) => {
   if (event.target.tagName === "A") {
     event.preventDefault();
     const href = event.target.getAttribute("href");
-    console.log("href", href);
     if (href === "/logout") {
       console.log("logout 실행");
       // 로그아웃 처리 로직
@@ -343,7 +314,8 @@ const handleLogin = (event) => {
       email: "",
       bio: "",
     };
-    localStorage.setItem("user", JSON.stringify(user));
+    globalState.setUser("user", user);
+    // localStorage.setItem("user", JSON.stringify(user));
     navigateTo("/profile");
   } else if (!username || !password) {
     alert("이름 또는 비밀번호를 입력해주세요.");
@@ -355,13 +327,13 @@ const handleLogin = (event) => {
 //profile update 처리
 const handleUpdateProfile = (event) => {
   event.preventDefault();
-  console.log("handleUpdateProfile");
 
-  const username = document.getElementById("username").value;
-  const email = document.getElementById("email").value;
-  const bio = document.getElementById("bio").value;
+  const username = document.getElementById("username").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const bio = document.getElementById("bio").value.trim();
 
-  //user이름은 변경되게 하면 안될 거 같아.
+  console.log("업데이트할 bio:", bio);
+
   if (username) {
     const user = {
       username: username,
@@ -369,16 +341,13 @@ const handleUpdateProfile = (event) => {
       bio: bio,
     };
 
-    localStorage.setItem("user", JSON.stringify(user));
-    navigateTo("/profile");
+    globalState.setUser("user", user);
+    location.reload();
   }
 };
 
 //최초 앱 실행 함수
 const App = () => {
-  console.log("app 실행");
-  console.log("초기렌더링 실행");
-
   //아 클릭할 때 App()이 새롭게 실행되면서 초기화가 이루어지는구나.
   navigateTo(location.pathname);
 };
@@ -389,10 +358,16 @@ const navigateTo = (path) => {
   console.log("navigateTo 실행");
   history.pushState(null, "", path);
   //페이지 렌더링
-  document.body.innerHTML = renderPage(path);
+  const rootElement = document.getElementById("root");
+  rootElement.innerHTML = renderPage(path);
 
   // 로그인 페이지일 때 이벤트 리스너 등록
   if (location.pathname === "/login") {
+    const userData = globalState.getUser("user");
+    if (userData) {
+      navigateTo("/profile");
+      return;
+    }
     const loginForm = document.getElementById("login-form");
     if (loginForm) {
       loginForm.addEventListener("submit", handleLogin);
@@ -400,7 +375,8 @@ const navigateTo = (path) => {
   }
 
   if (location.pathname === "/profile") {
-    const loginInfo = JSON.parse(localStorage.getItem("user"));
+    const loginInfo = globalState.getUser("user");
+    console.log("loginInfo", loginInfo);
     if (!loginInfo) {
       navigateTo("/login");
       return;
