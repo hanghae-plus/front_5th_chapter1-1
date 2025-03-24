@@ -11,14 +11,13 @@ const handleLink = (e) => {
   e.preventDefault();
   let url = e.target.getAttribute("href");
   if (url === ROUTES.LOGOUT) {
-    store.reset();
+    localStorage.removeItem("user");
     url = ROUTES.MAIN;
   } else if (url === ROUTES.LOGIN) {
     if (store.get("username")) url = ROUTES.MAIN;
   }
   const config = { detail: { url }, bubbles: true, cancelable: true };
   document.dispatchEvent(new CustomEvent(CUSTOM_EVENT.PAGE_PUSH, config));
-  // 구현중
 };
 
 const eventListener = () => {
@@ -62,19 +61,22 @@ document.addEventListener("submit", (e) => {
     const username = formData.get("username");
     const password = formData.get("password");
     if (username && password) {
-      store.set({ username, email: "", bio: "" });
+      const data = { username, email: "", bio: "" };
+      localStorage.setItem("user", JSON.stringify(data));
+      store.set(data);
     }
     const url = ROUTES.MAIN;
     const config = { detail: { url }, bubbles: true, cancelable: true };
     document.dispatchEvent(new CustomEvent(CUSTOM_EVENT.PAGE_PUSH, config));
   } else if (e.target.id === ELEMENT_ID.PROFILE_FORM) {
     const formData = new FormData(e.target);
-    const newProfileData = {
+    const data = {
       username: formData.get("username") || "",
       email: formData.get("email") || "",
       bio: formData.get("bio") || "",
     };
-    store.set(newProfileData);
+    localStorage.setItem("user", JSON.stringify(data));
+    store.set(data);
     const url = ROUTES.PROFILE;
     const config = { detail: { url }, bubbles: true, cancelable: true };
     document.dispatchEvent(new CustomEvent(CUSTOM_EVENT.PAGE_PUSH, config));
@@ -82,5 +84,6 @@ document.addEventListener("submit", (e) => {
 });
 
 // 기본 페이지 이동, DOM 로드 이벤트 변경..
+window.addEventListener("storage", store.sync());
 window.addEventListener("popstate", navigate);
 window.addEventListener("DOMContentLoaded", navigate);

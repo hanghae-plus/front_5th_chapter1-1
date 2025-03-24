@@ -11,26 +11,32 @@ const createStore = () => {
   const state = getStorage();
 
   const isLogon = () => {
-    return !!getStorage()?.["username"];
+    return !!state.user;
   };
 
   const get = (key) => {
-    const local = getStorage();
     if (!key) return state;
-    else return state?.[key] || local?.[key] || undefined;
+    else return state?.[key] || undefined;
   };
 
   const set = (obj) => {
-    localStorage.setItem("user", JSON.stringify(obj));
     Object.entries(obj).forEach(([key, value]) => (state[key] = value));
     return state;
   };
 
-  const reset = () => {
-    Object.keys(state).forEach((key) => delete state[key]);
-    localStorage.removeItem("user");
+  const sync = () => {
+    ["user", "users"].forEach((key) => {
+      try {
+        const local = JSON.stringify(localStorage.getItem(key));
+        state[key] = local || null;
+      } catch (e) {
+        e;
+        state[key] = undefined;
+      }
+    });
   };
-  return { isLogon, get, set, reset };
+
+  return { isLogon, get, set, sync };
 };
 const store = globalThis.store || createStore();
 globalThis.store = store;
