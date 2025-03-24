@@ -9,7 +9,7 @@ const ProfilePage = () => {
   const isLogon = !!store.get("username");
   const profileData = store.get();
 
-  const eventListner = () => {
+  const eventListener = () => {
     const profileForm = document.querySelector("#profile-form");
     if (!profileForm) return;
 
@@ -97,6 +97,6 @@ const ProfilePage = () => {
       Footer(),
     ].join(""),
   });
-  return { template, eventListner };
+  return { template, eventListener };
 };
 export default ProfilePage;

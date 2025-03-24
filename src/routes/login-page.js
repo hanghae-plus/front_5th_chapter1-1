@@ -2,7 +2,7 @@ import { CUSTOM_EVENT, ROUTES } from "../config/index.js";
 import store from "../store/index.js";
 
 const LoginPage = () => {
-  const eventListner = () => {
+  const eventListener = () => {
     const loginForm = document.querySelector("#login-form");
     if (!loginForm) return;
     loginForm.addEventListener("submit", (e) => {
@@ -44,6 +44,6 @@ const LoginPage = () => {
     </main>
   `;
 
-  return { template, eventListner };
+  return { template, eventListener };
 };
 export default LoginPage;

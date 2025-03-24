@@ -11,6 +11,8 @@ const handleLink = (e) => {
   if (url === ROUTES.LOGOUT) {
     store.set({ username: "" });
     url = ROUTES.MAIN;
+  } else if (url === ROUTES.LOGIN) {
+    if (store.get("username")) url = ROUTES.MAIN;
   }
   const config = { detail: { url }, bubbles: true, cancelable: true };
   document.dispatchEvent(new CustomEvent(CUSTOM_EVENT.PAGE_PUSH, config));

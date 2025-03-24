@@ -9,7 +9,7 @@ const Nav = ({ url, isLogon }) => {
           isLogon
             ? `
             <li><a href="/profile" class="${url === ROUTES.PROFILE ? "text-blue-600" : "text-gray-600"}">프로필</a></li>
-            <li><a href="/logout" class="text-gray-600">로그아웃</a></li>
+            <li><a href="/logout" id="logout" class="text-gray-600">로그아웃</a></li>
           `
             : `
             <li><a href="/login" id="login-link" class="${url === ROUTES.LOGIN ? "text-blue-600" : "text-gray-600"}">로그인</a></li>
