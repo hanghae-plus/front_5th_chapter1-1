@@ -1,5 +1,6 @@
 import { Header } from "../../shared/components/Header/page.js";
 import { Footer } from "../../shared/components/Footer/page.js";
+import { ID } from "../../constant.js";
 
 export const HomePage = () => `
   <div class="bg-gray-100 min-h-screen flex justify-center">
@@ -10,7 +11,7 @@ export const HomePage = () => `
         <ul class="flex justify-around">
           <li><a href="/" class="text-blue-600">홈</a></li>
           <li><a href="/profile" class="text-gray-600">프로필</a></li>
-          <li><a href="#" class="text-gray-600">로그아웃</a></li>
+          <li><a href="#" id=${ID.LOGOUT_BUTTON} class="text-gray-600">로그아웃</a></li>
         </ul>
       </nav>
 
