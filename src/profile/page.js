@@ -10,7 +10,6 @@ const ProfilePage = () => {
   }
 
   const { username, email, bio } = getUser;
-
   return /* HTML */ `
     <main class="p-4">
       <div class="bg-white p-8 rounded-lg shadow-md">
@@ -55,6 +54,7 @@ const ProfilePage = () => {
               name="bio"
               rows="4"
               class="w-full p-2 border rounded"
+              value="${bio}"
             >
 ${bio}</textarea
             >
@@ -79,10 +79,10 @@ document.addEventListener("submit", (e) => {
     const emailValue = document.getElementById("email").value;
     const bioValue = document.getElementById("bio").value;
 
-    console.log(usernameValue, emailValue, bioValue);
-
     const { saveUser } = user();
     saveUser({ username: usernameValue, email: emailValue, bio: bioValue });
+
+    alert("프로필 업데이트 완료");
   }
 });
 
