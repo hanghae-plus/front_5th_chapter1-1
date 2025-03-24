@@ -1,16 +1,13 @@
-import Main from "./pages/Main.js";
-import Login from "./pages/Login.js";
-import Profile from "./pages/Profile.js";
+import { Main, handleMain } from "./pages/Main.js";
+import { Login, handleLogin } from "./pages/Login.js";
+import { Profile, handleProfile } from "./pages/Profile.js";
 import Error from "./pages/Error.js";
+import { navigateTo } from "./utils/router.js";
 
 const routes = {
   "/login": Login,
   "/profile": Profile,
   "/": Main,
-};
-const navigateTo = (path) => {
-  history.pushState(null, "", path);
-  render();
 };
 
 const handleLink = () => {
@@ -20,17 +17,19 @@ const handleLink = () => {
       e.preventDefault();
       const newPath = e.target.getAttribute("href");
       navigateTo(newPath);
-      render();
     });
   });
 };
 
-const render = () => {
+window.render = () => {
   const App = routes[location.pathname] ? routes[location.pathname] : Error;
   document.body.innerHTML = App();
   handleLink();
+  if (location.pathname === "/login") handleLogin();
+  if (location.pathname === "/profile") handleProfile();
+  if (location.pathname === "/") handleMain();
 };
 
-window.addEventListener("popstate", render);
+window.addEventListener("popstate", window.render);
 
-render();
+window.render();

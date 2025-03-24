@@ -1,8 +1,15 @@
 import Header from "../components/Header.js";
-import Nav from "../components/Nav.js";
+import { Nav, handleLogout } from "../components/Nav.js";
 import Footer from "../components/Footer.js";
+import { isAuthenticated } from "../utils/auth.js";
+import { navigateTo } from "../utils/router.js";
 
-const Profile = () => `
+const Profile = () => {
+  if (!isAuthenticated()) {
+    navigateTo("/login");
+    return "";
+  }
+  return `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
@@ -53,8 +60,7 @@ const Profile = () => `
                   name="bio"
                   rows="4"
                   class="w-full p-2 border rounded"
-                >
-안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
+                >안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
                 >
               </div>
               <button
@@ -71,5 +77,8 @@ const Profile = () => `
     </div>
   </div>
 `;
-
-export default Profile;
+};
+const handleProfile = () => {
+  handleLogout(); // ✅ 로그아웃 버튼 이벤트 연결
+};
+export { Profile, handleProfile };

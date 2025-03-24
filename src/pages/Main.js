@@ -1,5 +1,5 @@
 import Header from "../components/Header.js";
-import Nav from "../components/Nav.js";
+import { Nav, handleLogout } from "../components/Nav.js";
 import Post from "../components/Post.js";
 import Footer from "../components/Footer.js";
 
@@ -49,4 +49,7 @@ const Main = () => `
     </div>
   </div>
 `;
-export default Main;
+const handleMain = () => {
+  handleLogout();
+};
+export { Main, handleMain };
