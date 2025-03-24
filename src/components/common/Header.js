@@ -8,7 +8,7 @@ const Header = () => {
     if (isLoggedIn()) {
       return `
         <li><a href="/profile" class=${path === "/profile" ? "text-blue-600" : "text-gray-600"}>프로필</a></li>
-        <li><button id="logout" class="text-gray-600" data-action="logout">로그아웃</button></li>
+        <li><a href="#" class="text-gray-600" data-action="logout">로그아웃</a></li>
       `;
     }
     return `<li><a href="/login" class=${path === "/login" ? "text-blue-600" : "text-gray-600"}>로그인</a></li>`;
