@@ -330,9 +330,8 @@ const handleUpdateProfile = (event) => {
 
   const username = document.getElementById("username").value.trim();
   const email = document.getElementById("email").value.trim();
-  const bio = document.getElementById("bio").value.trim();
-
-  console.log("업데이트할 bio:", bio);
+  const bioText = document.getElementById("bio").value.trim();
+  const bio = bioText + (bioText ? ` ${bioText}` : "");
 
   if (username) {
     const user = {
