@@ -25,7 +25,7 @@ export const LoginPage = () => `
   </main>
 `;
 
-export const initLoginPage = () => {
+export const setUpLoginForm = () => {
   const form = document.getElementById("login-form");
   const usernameInput = document.getElementById("username");
 

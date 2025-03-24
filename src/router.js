@@ -1,4 +1,4 @@
-import { initLoginPage, LoginPage, renderLoginPage } from "./pages/login";
+import { setUpLoginForm, LoginPage, renderLoginPage } from "./pages/login";
 import { MainPage } from "./pages/main";
 import { NotFoundPage } from "./pages/notFound";
 import { ProfilePage, updateProfile } from "./pages/profile";
@@ -29,9 +29,9 @@ export function renderRoute() {
     root.innerHTML = Page();
   }
 
-  // 3.로그인 페이지 동작 초기화
+  // 3.로그인 폼 제출관련
   if (path === "/login") {
-    initLoginPage();
+    setUpLoginForm();
     return;
   }
   // 4. 프로필 업데이트 관련
