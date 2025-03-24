@@ -1,6 +1,29 @@
 import { Footer, Header } from '../components/index.js';
+import { afterRender } from '../utils/afterRender.js';
 
-export const ProfilePage = ({ loggedIn }) => /* HTML */ `
+export const ProfilePage = ({ loggedIn }) => {
+  const user = JSON.parse(localStorage.getItem('user')) || {
+    username: '',
+    email: '',
+    bio: '',
+  };
+
+  afterRender(() => {
+    const form = document.getElementById('profile-form');
+    if (!form) return;
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const updatedUser = {
+        username: document.getElementById('username').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        bio: document.getElementById('bio').value.trim(),
+      };
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+    });
+  });
+  return `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
@@ -10,7 +33,7 @@ export const ProfilePage = ({ loggedIn }) => /* HTML */ `
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
             </h2>
-            <form>
+            <form id="profile-form">
               <div class="mb-4">
                 <label
                   for="username"
@@ -21,7 +44,7 @@ export const ProfilePage = ({ loggedIn }) => /* HTML */ `
                   type="text"
                   id="username"
                   name="username"
-                  value="홍길동"
+                  value="${user.username}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -35,7 +58,7 @@ export const ProfilePage = ({ loggedIn }) => /* HTML */ `
                   type="email"
                   id="email"
                   name="email"
-                  value="hong@example.com"
+                  value="${user.email}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -50,8 +73,7 @@ export const ProfilePage = ({ loggedIn }) => /* HTML */ `
                   name="bio"
                   rows="4"
                   class="w-full p-2 border rounded"
-                >
-안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
+                >${user.bio}</textarea
                 >
               </div>
               <button
@@ -68,3 +90,4 @@ export const ProfilePage = ({ loggedIn }) => /* HTML */ `
     </div>
   </div>
 `;
+};
