@@ -4,6 +4,10 @@ import { state } from "../data/state";
 export function LoginPage(container) {
   if (!container) return;
 
+  if (state.loggedInUser) {
+    return window.router.navigate(CONST.pathname.main);
+  }
+
   container.innerHTML = `
     <main class="bg-gray-100 flex items-center justify-center min-h-screen">
       <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
