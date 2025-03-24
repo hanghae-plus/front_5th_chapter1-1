@@ -1,11 +1,11 @@
 import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
-import ErrorPage from "./pages/ErrorPage";
-import MainPage from "./pages/mainPage";
+import NotFoundPage from "./pages/NotFoundPage";
+import HomePage from "./pages/HomePage";
 
 export const router = (app) => {
   const ROUTES = {
-    "/": MainPage(),
+    "/": HomePage(),
     "/login": LoginPage(),
     "/profile": ProfilePage(),
   };
@@ -15,7 +15,7 @@ export const router = (app) => {
     if (ROUTES[page]) {
       app.innerHTML = ROUTES[page];
     } else {
-      app.innerHTML = ErrorPage();
+      app.innerHTML = NotFoundPage();
     }
   };
 

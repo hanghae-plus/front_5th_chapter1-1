@@ -1,3 +1,5 @@
+import footer from "../components/Footer_";
+
 const ProfilePage = () => `
 <div id="root">
   <div class="bg-gray-100 min-h-screen flex justify-center">
@@ -73,9 +75,7 @@ const ProfilePage = () => `
         </div>
       </main>
 
-      <footer class="bg-gray-200 p-4 text-center">
-        <p>&copy; 2024 항해플러스. All rights reserved.</p>
-      </footer>
+    ${footer}      
     </div>
   </div>
 </div>

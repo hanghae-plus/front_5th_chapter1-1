@@ -1,12 +1,13 @@
-import header from "../components/header";
+import Header from "../components/Header_";
+import footer from "../components/Footer_";
 
-const MainPage = () => {
-  const isLoggedIn = true;
+const HomePage = () => {
+  const isLoggedIn = false;
 
   return `
 <div class="bg-gray-100 min-h-screen flex justify-center">
   <div class="max-w-md w-full">
-    ${header({ isLoggedIn })}
+    ${Header({ isLoggedIn })}
     <main class="p-4">
       <div class="mb-4 bg-white rounded-lg shadow p-4">
         <textarea class="w-full p-2 border rounded" placeholder="무슨 생각을 하고 계신가요?"></textarea>
@@ -97,11 +98,9 @@ const MainPage = () => {
       </div>
     </main>
 
-    <footer class="bg-gray-200 p-4 text-center">
-      <p>&copy; 2024 항해플러스. All rights reserved.</p>
-    </footer>
+    ${footer}
   </div>
 </div>
 `;
 };
-export default MainPage;
+export default HomePage;
