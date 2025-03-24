@@ -8,7 +8,7 @@ export const getUser = () => {
   return { username, email, bio };
 };
 
-export const setUser = ({ username, email, bio }) => {
+export const setUser = ({ username = "", email = "", bio = "" }) => {
   localStorage.setItem("user", JSON.stringify({ username, email, bio }));
 };
 
