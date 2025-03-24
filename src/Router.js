@@ -3,14 +3,21 @@ import MainPage from "./pages/MainPage";
 import ProfilePage from "./pages/ProfilePage";
 import ErrorPage from "./pages/ErrorPage";
 
-export const Router = () => {
+function Router($container) {
+  this.$container = $container;
+
+  // const router=()=>{
+  //   currentPage = null;
+  //   const TargetPage =
+
   switch (location.pathname) {
     case "/":
       console.log("/");
       return MainPage();
     case "/login":
       console.log("/login");
-      return LoginPage();
+      new LoginPage($container);
+      break;
     case "/profile":
       console.log("/profile");
       return ProfilePage();
@@ -18,4 +25,6 @@ export const Router = () => {
       console.log("error");
       return ErrorPage();
   }
-};
+}
+
+export default Router;
