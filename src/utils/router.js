@@ -19,6 +19,9 @@ export const Router = {
       path = window.location.pathname;
     } else if (Router.RouterType === "hash") {
       path = window.location.hash.slice(1);
+      if (path === "") {
+        path = "/";
+      }
     }
     const Component = routes[path] || routes["*"];
     root.innerHTML = Component();
