@@ -1,6 +1,9 @@
 import { Store } from "../store";
 import { renderProfilePage } from "./profile";
 
+const isProd = location.hostname.includes("github.io");
+const BASE_PATH = isProd ? "/front_5th_chapter1-1" : "";
+
 export const LoginPage = () => `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
@@ -50,7 +53,7 @@ export const setUpLoginForm = () => {
       bio: "",
     });
 
-    history.pushState({}, "", "/profile");
+    history.pushState({}, "", `${BASE_PATH}/profile`);
     renderProfilePage();
   });
 };
