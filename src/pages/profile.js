@@ -4,7 +4,6 @@ import { Store } from "../store";
 
 export const ProfilePage = () => {
   const state = Store.getState();
-  const userInfo = state.userInfo;
 
   return `
     <div id = "root">
@@ -27,7 +26,7 @@ export const ProfilePage = () => {
                     type="text"
                     id="username"
                     name="username"
-                    value="${userInfo.username || ""}"
+                    value="${state.username || ""}"
                     class="w-full p-2 border rounded"
                   />
                 </div>
@@ -41,7 +40,7 @@ export const ProfilePage = () => {
                     type="email"
                     id="email"
                     name="email"
-                    value="${userInfo.email || ""}"
+                    value="${state.email || ""}"
                     class="w-full p-2 border rounded"
                   />
                 </div>
@@ -57,7 +56,7 @@ export const ProfilePage = () => {
                     rows="4"
                     class="w-full p-2 border rounded"
                   >
-                  ${userInfo.bio || ""}</textarea>
+                  ${state.bio || ""}</textarea>
                 </div>
                 <button
                   type="submit"
@@ -83,14 +82,10 @@ export const updateProfile = () => {
     // <form> 요소로부터 사용자가 입력한 데이터를 한 번에 가져오기
     const formData = new FormData(profileForm);
 
-    const updatedUserInfo = {
+    Store.setState({
       username: formData.get("username") || "",
       email: formData.get("email") || "",
       bio: formData.get("bio") || "",
-    };
-
-    Store.setState({
-      userInfo: updatedUserInfo,
     });
     alert("프로필 업데이트가 완료되었어요.");
   });

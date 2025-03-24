@@ -18,28 +18,28 @@ export function renderRoute() {
 
   const root = document.getElementById("root");
 
-  // if (path === "/profile" && !isLogin) {
-  //   history.replaceState(null, "", "/login");
-  //   // renderLoginPage(); 페이지 이동 후 render가 되어야 정상동작되는데 이 부분을 추가하면 왜 테스트 코드에 에러가 나는가;;
-  //   return;
-  // }
-
+  //1. 로그인 안된 상태에서 프로필 페이지 접근 시 -> 로그인페이지로 리다이렉트
+  if (path === "/profile" && !isLogin) {
+    history.replaceState(null, "", "/login");
+    root.innerHTML = routes["/login"]();
+    return;
+  }
+  // 2. 정상적인 라우트 페이지를 가져온다. (없으면 NotFoundPage)
   if (root) {
     root.innerHTML = Page();
   }
 
+  // 3.로그인 페이지 동작 초기화
   if (path === "/login") {
     initLoginPage();
-  }
-  if (path === "/profile" && !isLogin) {
-    history.replaceState(null, "", "/login");
-    renderLoginPage();
     return;
   }
+  // 4. 프로필 업데이트 관련
   if (path === "/profile" && isLogin) {
     updateProfile();
   }
 
+  //5. 로그아웃 버튼 이벤트 연결
   const logoutBtn = document.getElementById("logout");
   if (logoutBtn) {
     logoutBtn.addEventListener("click", (e) => {

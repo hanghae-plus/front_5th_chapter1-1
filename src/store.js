@@ -1,6 +1,4 @@
-const DEFAULT_USER_INFO = {
-  userInfo: { username: "", email: "", bio: "" },
-};
+const DEFAULT_USER_INFO = { username: "", email: "", bio: "" };
 
 export const Store = {
   localStorageKey: "user",
@@ -19,10 +17,11 @@ export const Store = {
   //로그인 시
   logIn() {
     const user = this.getState();
-    return Boolean(user.userInfo.username);
+    return Boolean(user.username);
   },
   //로그 아웃 시
   logout() {
+    this.setState(null);
     localStorage.removeItem(this.localStorageKey);
   },
 };

@@ -45,11 +45,12 @@ export const initLoginPage = () => {
     }
 
     Store.setState({
-      userInfo: {
-        username: username,
-      },
+      username,
+      email: "",
+      bio: "",
     });
-    window.history.pushState(null, "", "/profile");
+
+    history.pushState({}, "", "/profile");
     renderProfilePage();
   });
 };
