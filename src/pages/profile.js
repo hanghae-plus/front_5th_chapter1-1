@@ -1,6 +1,6 @@
 import { Footer, HeaderComponent } from "../components";
-import { CONST } from "../constants";
-import { state } from "../state";
+import { CONST } from "../data/constants";
+import { state } from "../data/state";
 
 export const ProfilePage = (container) => {
   if (!container) return;

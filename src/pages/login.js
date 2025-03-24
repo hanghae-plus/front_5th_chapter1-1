@@ -1,5 +1,5 @@
-import { CONST } from "../constants";
-import { state } from "../state";
+import { CONST } from "../data/constants";
+import { state } from "../data/state";
 
 export function LoginPage(container) {
   if (!container) return;

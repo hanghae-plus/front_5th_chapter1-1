@@ -1,4 +1,4 @@
-import { CONST } from "../constants";
+import { CONST } from "../data/constants";
 import { ErrorPage, LoginPage, MainPage, ProfilePage } from "../pages";
 
 export const routes = {
