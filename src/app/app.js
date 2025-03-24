@@ -1,3 +1,4 @@
+import { config } from "../shared/config";
 import { router } from "../shared/libs";
 import { delegateNavigationEvents, ensureRootElement } from "../shared/utils";
 import { setupRoutes } from "./route";
@@ -14,11 +15,13 @@ export const render = () => {
     let path = window.location.pathname;
 
     if (window.location.hostname.includes("github.io")) {
-      if (
-        path === "/front_5th_chapter1-1/" ||
-        path === "/front_5th_chapter1-1"
-      ) {
+      const basePath = config.basePath.endsWith("/")
+        ? config.basePath.slice(0, -1)
+        : config.basePath;
+      if (path === basePath + "/" || path === basePath) {
         path = "/";
+      } else if (path.startsWith(basePath)) {
+        path = path.replace(basePath, "");
       }
     }
 

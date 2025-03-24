@@ -1,7 +1,9 @@
+import { config } from "../config";
+
 class Router {
-  constructor(basePath = "") {
+  constructor() {
     this.routes = {};
-    this.basePath = basePath;
+    this.basePath = config.basePath;
     window.addEventListener("popstate", this.handlePopState.bind(this));
     window.addEventListener("hashchange", this.handleHashChange.bind(this));
   }
@@ -50,11 +52,8 @@ class Router {
 
     let normalizedPath = path;
 
-    if (
-      window.location.hostname.includes("github.io") &&
-      path.startsWith("/front_5th_chapter1-1")
-    ) {
-      normalizedPath = path.replace("/front_5th_chapter1-1", "") || "/";
+    if (path.startsWith(this.basePath)) {
+      normalizedPath = path.replace(this.basePath, "") || "/";
     }
 
     if (normalizedPath === "") normalizedPath = "/";
@@ -68,6 +67,4 @@ class Router {
 }
 
 // ? singleton pattern을 위한 export
-export const router = new Router(
-  window.location.hostname.includes("github.io") ? "/front_5th_chapter1-1" : "",
-);
+export const router = new Router();
