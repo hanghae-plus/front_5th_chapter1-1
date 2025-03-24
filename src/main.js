@@ -153,7 +153,8 @@ const ErrorPage = () => `
   </main>
 `;
 
-const LoginPage = () => `
+const LoginPage = () => {
+  return `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
@@ -176,8 +177,26 @@ const LoginPage = () => `
     </div>
   </main>
 `;
+};
 
-const ProfilePage = () => `
+const ProfilePage = () => {
+  setTimeout(() => {
+    const userString = localStorage.getItem("user");
+    if (userString) {
+      try {
+        const loginInfo = JSON.parse(userString);
+        if (loginInfo) {
+          document.getElementById("username").value = loginInfo.username || "";
+          document.getElementById("email").value = loginInfo.email || "";
+          document.getElementById("bio").value = loginInfo.bio || "";
+        }
+      } catch (error) {
+        console.log(error);
+        console.error("localStorage에서 user 값을 가져오는 중 오류 발생");
+      }
+    }
+  }, 0);
+  return `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
@@ -188,7 +207,7 @@ const ProfilePage = () => `
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
             </h2>
-            <form>
+            <form id="profile-form">
               <div class="mb-4">
                 <label
                   for="username"
@@ -199,8 +218,9 @@ const ProfilePage = () => `
                   type="text"
                   id="username"
                   name="username"
-                  value="홍길동"
+                  value=""
                   class="w-full p-2 border rounded"
+                  disabled
                 />
               </div>
               <div class="mb-4">
@@ -213,7 +233,7 @@ const ProfilePage = () => `
                   type="email"
                   id="email"
                   name="email"
-                  value="hong@example.com"
+                  value=""
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -229,7 +249,7 @@ const ProfilePage = () => `
                   rows="4"
                   class="w-full p-2 border rounded"
                 >
-안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
+                </textarea
                 >
               </div>
               <button
@@ -246,6 +266,7 @@ const ProfilePage = () => `
     </div>
   </div>
 `;
+};
 
 //routing 연결
 const routePath = {
@@ -305,10 +326,10 @@ const handleLinkClick = (event) => {
 const handleLogin = (event) => {
   event.preventDefault(); // 기본 폼 제출 방지
 
-  const email = document.getElementById("username").value;
+  const username = document.getElementById("username").value;
   const password = document.getElementById("userPw").value;
 
-  console.log("email", email);
+  console.log("email", username);
   console.log("password", password);
 
   // if (!validateEmail(email)) {
@@ -316,18 +337,40 @@ const handleLogin = (event) => {
   //   return;
   // }
 
-  if (email === "testuser") {
+  if (username === "testuser") {
     const user = {
-      username: email,
+      username: username,
       email: "",
       bio: "",
     };
-    localStorage.setItem("user", user);
-    navigateTo("/");
-  } else if (!email || !password) {
-    alert("이메일 또는 비밀번호를 입력해주세요.");
+    localStorage.setItem("user", JSON.stringify(user));
+    navigateTo("/profile");
+  } else if (!username || !password) {
+    alert("이름 또는 비밀번호를 입력해주세요.");
   } else {
-    alert("이메일 또는 비밀번호가 일치하지 않습니다.");
+    alert("이름 또는 비밀번호가 일치하지 않습니다.");
+  }
+};
+
+//profile update 처리
+const handleUpdateProfile = (event) => {
+  event.preventDefault();
+  console.log("handleUpdateProfile");
+
+  const username = document.getElementById("username").value;
+  const email = document.getElementById("email").value;
+  const bio = document.getElementById("bio").value;
+
+  //user이름은 변경되게 하면 안될 거 같아.
+  if (username) {
+    const user = {
+      username: username,
+      email: email,
+      bio: bio,
+    };
+
+    localStorage.setItem("user", JSON.stringify(user));
+    navigateTo("/profile");
   }
 };
 
@@ -335,9 +378,6 @@ const handleLogin = (event) => {
 const App = () => {
   console.log("app 실행");
   console.log("초기렌더링 실행");
-
-  // 초기 렌더링
-  // document.body.innerHTML = renderPage(location.pathname);
 
   //아 클릭할 때 App()이 새롭게 실행되면서 초기화가 이루어지는구나.
   navigateTo(location.pathname);
@@ -360,21 +400,19 @@ const navigateTo = (path) => {
   }
 
   if (location.pathname === "/profile") {
-    const loginInfo = localStorage.getItem("user");
+    const loginInfo = JSON.parse(localStorage.getItem("user"));
     if (!loginInfo) {
       navigateTo("/login");
       return;
+    }
+    const profileForm = document.getElementById("profile-form");
+    if (profileForm) {
+      profileForm.addEventListener("submit", handleUpdateProfile);
     }
   }
 
   if (location.pathname !== "/login" && location.pathname !== "/logout") {
     console.log("login or logout");
-
-    // document.body.addEventListener("click", (event) => {
-    //   if (event.target.tagName === "A") {
-    //     handleLinkClick(event);
-    //   }
-    // });
     const navElement = document.querySelector("nav");
 
     if (navElement) {
