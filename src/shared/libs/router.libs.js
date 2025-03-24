@@ -1,9 +1,6 @@
-import { config } from "../config";
-
 class Router {
   constructor() {
     this.routes = {};
-    this.basePath = config.basePath;
     window.addEventListener("popstate", this.handlePopState.bind(this));
     window.addEventListener("hashchange", this.handleHashChange.bind(this));
   }
@@ -25,7 +22,7 @@ class Router {
       const routePath = path || "/";
       this.handleRoute(routePath);
     } else {
-      history.pushState(null, "", `${this.basePath}${path}`);
+      history.pushState(null, "", path);
       this.handleRoute(path);
     }
   }
@@ -50,15 +47,7 @@ class Router {
       document.body.appendChild(root);
     }
 
-    let normalizedPath = path;
-
-    if (path.startsWith(this.basePath)) {
-      normalizedPath = path.replace(this.basePath, "") || "/";
-    }
-
-    if (normalizedPath === "") normalizedPath = "/";
-
-    const handler = this.routes[normalizedPath] || this.routes["*"];
+    const handler = this.routes[path] || this.routes["*"];
 
     if (handler) {
       handler();
