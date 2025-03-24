@@ -18,7 +18,7 @@ export const NavContent = () => {
       ${
         state.loggedInUser
           ? '<li><a href="#" id="logout" class="text-gray-600">로그아웃</a></li>'
-          : '<li><a href="#" id="login" class="text-gray-600">로그인</a></li>'
+          : `<li><a href="${CONST.pathname.login}" class="text-gray-600">로그인</a></li>`
       }
     </ul>
 `;
@@ -42,8 +42,6 @@ export class NavComponent {
       if (target.id === "logout") {
         state.loggedInUser = null;
         localStorage.removeItem(CONST.lsKey.user);
-        window.router.navigate(CONST.pathname.login);
-      } else if (target.id === "login") {
         window.router.navigate(CONST.pathname.login);
       } else if (target.tagName === "A") {
         const path = target.getAttribute("href");
