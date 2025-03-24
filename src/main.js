@@ -1,15 +1,20 @@
-const Header = () => /*html*/ `
+const Header = ({ isLoggedIn } /*html*/) =>
+  `
   <div class="max-w-md w-full">
       <header class="bg-blue-600 text-white p-4 sticky top-0">
         <h1 class="text-2xl font-bold">항해플러스</h1>
       </header>
+      <span> ${isLoggedIn}</span>
 
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
           <li><a href="/" class="text-blue-600">홈</a></li>
-          <li><a href="/profile" class="text-gray-600">프로필</a></li>
-          <li><a href="/login" class="text-gray-600">로그인</a></li>
-          
+          <li>
+            ${isLoggedIn ? `<a href="/profile" class="text-gray-600">프로필</a>` : ``}
+          </li>
+          <li>
+            ${isLoggedIn ? `<a href="#" class="text-gray-600">로그아웃</a>` : `<a href="/login" class="text-gray-600">로그인</a>`}
+          </li>
         </ul>
       </nav>
 `;
@@ -23,7 +28,7 @@ const Footer = () => /*html*/ `
 const MainPage = () => /*html*/ `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     
-      ${Header()}
+      ${Header({ isLoggedIn: isLoggedIn() })}
       <main class="p-4">
         <div class="mb-4 bg-white rounded-lg shadow p-4">
           <textarea class="w-full p-2 border rounded" placeholder="무슨 생각을 하고 계신가요?"></textarea>
@@ -163,8 +168,7 @@ const ProfilePage = () => /*html*/ `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
-        ${Header()}
-
+        ${Header({ isLoggedIn: isLoggedIn() })}
         <main class="p-4">
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
@@ -247,15 +251,39 @@ function handleRoute() {
   const path = window.location.pathname;
   // console.log(`path: ${path}`);
 
-  const content = routes[path];
-  // console.log(content);
+  let content = routes[path];
+  // console.log(`content: ${content}`);
 
   // routes값에 정의되어 있지 않은 url값이 들어올 때
   if (content === undefined) {
     document.getElementById("root").innerHTML = `${ErrorPage()}`;
   } else {
-    document.getElementById("root").innerHTML = content;
+    // 비로그인 상태에서 /profile 경로
+    const userData = JSON.parse(localStorage.getItem("user"));
+
+    // 비로그인 상태에서 Profile경로 이동 시
+    if (userData === null && path === "/profile") {
+      content = routes["/login"];
+      document.getElementById("root").innerHTML = content;
+    } else {
+      document.getElementById("root").innerHTML = content;
+    }
+
+    // if (userData === null) {
+    //   content = "/login";
+    //   document.getElementById("root").innerHTML = content;
+    // } else {
+    //   document.getElementById("root").innerHTML = content;
+    // }
   }
+}
+
+function isLoggedIn() {
+  // LocalStorage에서 데이터 가져오기
+  const userData = JSON.parse(localStorage.getItem("user"));
+  console.log(userData);
+  console.log(typeof userData);
+  return userData !== null;
 }
 
 const app = () => {
@@ -268,6 +296,8 @@ window.addEventListener("popstate", () => {
 });
 
 const render = () => {
+  // LocalStorage 모두 비우기
+  // localStorage.clear();
   app();
   document.querySelectorAll("nav").forEach((nav) => {
     console.log(nav);
@@ -284,6 +314,7 @@ const render = () => {
   const form = document.getElementById("login-form");
   console.log(form);
 
+  // form태그 selector
   document.querySelectorAll("form").forEach((form) => {
     form.addEventListener("submit", (e) => {
       e.preventDefault(); // 기본 제출 동작 방지
@@ -302,10 +333,11 @@ const render = () => {
 
         // LocalStorage에 데이터 저장
         localStorage.setItem("user", JSON.stringify(user));
+
+        // const userData = JSON.parse(localStorage.getItem("user2"));
+        // console.log(userData);
+
         navigateTo("/profile");
-        // LocalStorage에서 데이터 가져오기
-        // const userTest = JSON.parse(localStorage.getItem("user"));
-        // console.log(userTest);
       }
 
       //console.log("Submitted Data:", Object.fromEntries(formData.entries())); // 데이터 출력
