@@ -1,7 +1,7 @@
 export const UserStorage = {
   preferences: JSON.parse(localStorage.getItem("user")) || {},
-  get(key) {
-    return this.preferences[key];
+  get() {
+    return this.preferences;
   },
   set({ username, email = "", bio = "" }) {
     this.preferences.username = username;
@@ -20,6 +20,7 @@ export const UserStorage = {
 
 export default {
   loggedIn: false,
+  username: "",
   login(username) {
     UserStorage.set({
       username,
@@ -31,5 +32,11 @@ export default {
     this.loggedIn = false;
     UserStorage.clear();
     history.pushState({ path: "/" }, "", "/");
+  },
+  getUser() {
+    return UserStorage.get();
+  },
+  setUser(user = { username: this.username, email: "", bio: "" }) {
+    UserStorage.set(user);
   },
 };

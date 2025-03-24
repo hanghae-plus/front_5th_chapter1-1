@@ -29,6 +29,20 @@ const render = () => {
 const router = () => {
   render();
 
+  // 프로필
+  if (location.pathname === "/profile") {
+    const profileForm = document.getElementById("profile-form");
+    profileForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const user = {
+        username: document.getElementById("username").value,
+        email: document.getElementById("email").value,
+        bio: document.getElementById("bio").value,
+      };
+      auth.setUser(user);
+    });
+  }
+
   // 로그인/로그아웃 이벤트
   if (location.pathname === "/login") {
     const loginForm = document.getElementById("login-form");
@@ -52,6 +66,7 @@ const router = () => {
     });
   }
 
+  // 탭 라우팅
   document.querySelectorAll("a").forEach((el) => {
     el.addEventListener("click", (e) => {
       e.preventDefault();
