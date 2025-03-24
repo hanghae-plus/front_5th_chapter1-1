@@ -1,7 +1,10 @@
+import { getUser } from "../auth/auth";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
 function ProfilePage() {
+  const user = getUser();
+
   return `
 		<div id="root">
 			<div class="bg-gray-100 min-h-screen flex justify-center">
@@ -13,7 +16,7 @@ function ProfilePage() {
 							<h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
 								내 프로필
 							</h2>
-							<form>
+							<form id="profile-form">
 								<div class="mb-4">
 									<label
 										for="username"
@@ -24,7 +27,7 @@ function ProfilePage() {
 										type="text"
 										id="username"
 										name="username"
-										value="홍길동"
+										value="${user.username}"
 										class="w-full p-2 border rounded"
 									/>
 								</div>
@@ -32,7 +35,7 @@ function ProfilePage() {
 									<label
 										for="email"
 										class="block text-gray-700 text-sm font-bold mb-2"
-										>이메일</label
+										>${user.email}</label
 									>
 									<input
 										type="email"
@@ -54,7 +57,7 @@ function ProfilePage() {
 										rows="4"
 										class="w-full p-2 border rounded"
 									>
-	안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
+	${user.bio}</textarea
 									>
 								</div>
 								<button

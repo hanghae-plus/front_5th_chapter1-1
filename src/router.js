@@ -1,3 +1,4 @@
+import { getUser, login, logout, updateProfile } from "./auth/auth";
 import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -12,14 +13,28 @@ const routes = {
 
 export function render() {
   const path = window.location.pathname;
-  const component = routes[path] || routes["*"];
+  let component;
+
+  const user = getUser();
+
+  if (user && path === "/login") {
+    component = routes["/"];
+  } else if (!user && path === "/profile") {
+    component = routes["/login"];
+  } else {
+    component = routes[path] || routes["*"];
+  }
   const $app = document.querySelector("#root");
   $app.innerHTML = component();
+
+  setupEventListeners();
 }
 
-export function onClikcLink(e) {
+export function onClickLink(e) {
   if (e.target.matches("[data-link]")) {
     e.preventDefault();
+  } else if (e.target.href.includes("#")) {
+    logout();
   }
   navigate(e.target.href);
 }
@@ -31,9 +46,32 @@ export function navigate(path) {
 
 export function initRouter() {
   window.addEventListener("popstate", render);
+  document.body.addEventListener("click", onClickLink);
 
-  document.addEventListener("DOMContentLoaded", () => {
-    render();
-    document.body.addEventListener("click", onClikcLink);
-  });
+  render();
+}
+
+export function setupEventListeners() {
+  const loginForm = document.getElementById("login-form");
+  if (loginForm) {
+    loginForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const { username } = event.target.elements;
+      login({ username: username.value, email: "", bio: "" });
+      navigate("/profile");
+    });
+  }
+
+  const profileForm = document.getElementById("profile-form");
+  if (profileForm) {
+    profileForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const { username, bio } = event.target.elements;
+      updateProfile({
+        username: username.value,
+        email: "",
+        bio: bio.value,
+      });
+    });
+  }
 }

@@ -2,7 +2,7 @@ import { navigate } from "../router";
 
 export function login(data) {
   localStorage.setItem("user", JSON.stringify(data));
-  navigate;
+  navigate("/profile");
 }
 
 export function logout() {
@@ -12,4 +12,8 @@ export function logout() {
 
 export function getUser() {
   return JSON.parse(localStorage.getItem("user"));
+}
+
+export function updateProfile(data) {
+  localStorage.setItem("user", JSON.stringify(data));
 }
