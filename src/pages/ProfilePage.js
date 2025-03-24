@@ -1,6 +1,19 @@
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
-const ProfilePage = () => `
+import { getData } from "../utils/localStorage";
+import { navigate } from "../utils/navigate";
+
+function ProfilePage($container) {
+  const user = getData("user", null);
+  if (!user) {
+    console.log("navigate");
+    navigate("/login", true);
+    return;
+  }
+  this.$container = $container;
+
+  this.render = () => {
+    this.$container.innerHTML = /*html*/ `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
@@ -68,5 +81,8 @@ const ProfilePage = () => `
     </div>
   </div>
 `;
+  };
+  this.render();
+}
 
 export default ProfilePage;

@@ -1,10 +1,12 @@
 import { setData, getData } from "../utils/localStorage";
-
+import { navigate } from "../utils/navigate";
 function LoginPage($container) {
+  console.log("LoginPage");
   // TODO: 공통 로직으로 분리하기
   const user = getData("user", null);
   if (user) {
-    history.pushState(null, null, "/");
+    navigate("/", true);
+    return;
   }
 
   this.$container = $container;
@@ -16,10 +18,10 @@ function LoginPage($container) {
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
       <form id="login-form">
         <div class="mb-4">
-          <input required type="text" placeholder="아이디" class="id-input w-full p-2 border rounded">
+          <input id="username" required type="text" placeholder="아이디" class="w-full p-2 border rounded">
         </div>
         <div class="mb-6">
-          <input required type="password" placeholder="비밀번호" class="password-input w-full p-2 border rounded">
+          <input id="password" required type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
         </div>
         <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
       </form>
@@ -39,16 +41,19 @@ function LoginPage($container) {
   this.form = this.$container.querySelector("#login-form");
   this.form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const $idInput = this.form.querySelector(".id-input");
-    const $passwordInput = this.form.querySelector(".password-input");
+    const $idInput = this.form.querySelector("#username");
+    const $passwordInput = this.form.querySelector("#password");
 
-    const id = $idInput.value;
-    const password = $passwordInput.value;
+    const username = $idInput.value;
+    const email = "";
+    const bio = "";
 
-    setData("user", { id, password });
+    setData("user", { username, email, bio });
 
     $idInput.value = "";
     $passwordInput.value = "";
+
+    navigate("/", true);
   });
 }
 

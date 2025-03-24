@@ -2,7 +2,13 @@ import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { MOCK_DATA } from "../const/mockData";
 import { FeedCard } from "../components/FeedCard";
-const MainPage = () => `
+import { removeData } from "../utils/localStorage";
+import { navigate } from "../utils/navigate";
+function MainPage($container) {
+  this.$container = $container;
+
+  this.render = () => {
+    this.$container.innerHTML = /*html*/ `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
       ${Header()}
@@ -20,5 +26,27 @@ const MainPage = () => `
     </div>
   </div>
 `;
+  };
+  this.render();
+
+  this.$loginButton = this.$container.querySelector("#login");
+  this.$logoutButton = this.$container.querySelector("#logout");
+
+  console.log(this.$loginButton, this.$logoutButton);
+
+  if (this.$logoutButton) {
+    this.$logoutButton.addEventListener("click", () => {
+      console.log("logout");
+      removeData("user");
+      this.render();
+    });
+  }
+
+  if (this.$loginButton) {
+    this.$loginButton.addEventListener("click", () => {
+      navigate("/login");
+    });
+  }
+}
 
 export default MainPage;

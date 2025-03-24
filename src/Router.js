@@ -1,30 +1,33 @@
-import LoginPage from "./pages/LoginPage";
-import MainPage from "./pages/MainPage";
-import ProfilePage from "./pages/ProfilePage";
 import ErrorPage from "./pages/ErrorPage";
-
-function Router($container) {
+import { routes } from "./routes";
+export function Router($container) {
   this.$container = $container;
 
-  // const router=()=>{
-  //   currentPage = null;
-  //   const TargetPage =
+  const findPage = () => {
+    const TargetPage =
+      routes.find((route) => route.path === location.pathname)?.component ||
+      ErrorPage;
 
-  switch (location.pathname) {
-    case "/":
-      console.log("/");
-      return MainPage();
-    case "/login":
-      console.log("/login");
-      new LoginPage($container);
-      break;
-    case "/profile":
-      console.log("/profile");
-      return ProfilePage();
-    default:
-      console.log("error");
-      return ErrorPage();
-  }
+    new TargetPage(this.$container);
+  };
+
+  // historychanged가 발생했을 때 페이지를 변경 처리
+  const router = () => {
+    window.addEventListener("historychanged", ({ detail }) => {
+      const { to, isReplace } = detail;
+
+      if (isReplace || to === location.pathname)
+        history.replaceState(null, "", to);
+      else history.pushState(null, "", to);
+
+      findPage();
+    });
+    window.addEventListener("popstate", () => {
+      console.log("popstate");
+      findPage();
+    });
+  };
+
+  router();
+  findPage();
 }
-
-export default Router;
