@@ -1,4 +1,4 @@
-import { isLoggedIn } from "../../store/Auth";
+import { isLoggedIn } from "../../store/auth";
 import { getRouter } from "../../router";
 
 const Header = () => {
@@ -22,7 +22,7 @@ const Header = () => {
 
     <nav class="bg-white shadow-md p-2 sticky top-14">
       <ul class="flex justify-around">
-        <li><a href="${router.getLinkHref("/")}" class=${path === "/" ? "text-blue-600" : "text-gray-600"}>홈</a></li>
+        <li><a href="${router.getLinkHref("/")}" class="${path === "/" ? "text-blue-600 font-bold" : "text-gray-600"}">홈</a></li>
         ${renderNavLinks()}
       </ul>
     </nav>
