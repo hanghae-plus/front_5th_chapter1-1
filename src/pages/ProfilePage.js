@@ -2,6 +2,8 @@ import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { getData } from "../utils/localStorage";
 import { navigate } from "../utils/navigate";
+import { setData } from "../utils/localStorage";
+import { removeData } from "../utils/localStorage";
 
 function ProfilePage($container) {
   const user = getData("user", null);
@@ -23,7 +25,7 @@ function ProfilePage($container) {
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
             </h2>
-            <form>
+            <form id="profile-form">
               <div class="mb-4">
                 <label
                   for="username"
@@ -34,7 +36,7 @@ function ProfilePage($container) {
                   type="text"
                   id="username"
                   name="username"
-                  value="홍길동"
+                  value="${user.username}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -48,7 +50,7 @@ function ProfilePage($container) {
                   type="email"
                   id="email"
                   name="email"
-                  value="hong@example.com"
+                  value="${user.email}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -63,8 +65,7 @@ function ProfilePage($container) {
                   name="bio"
                   rows="4"
                   class="w-full p-2 border rounded"
-                >
-안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
+                >${user.bio}</textarea
                 >
               </div>
               <button
@@ -83,6 +84,28 @@ function ProfilePage($container) {
 `;
   };
   this.render();
+
+  // profile 페이지에는 logout만 렌더됨.
+  this.$logoutButton = this.$container.querySelector("#logout");
+
+  this.$logoutButton.addEventListener("click", () => {
+    removeData("user");
+    navigate("/", true);
+  });
+
+  this.form = this.$container.querySelector("#profile-form");
+  this.form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const $usernameInput = this.form.querySelector("#username");
+    const $emailInput = this.form.querySelector("#email");
+    const $bioInput = this.form.querySelector("#bio");
+
+    setData("user", {
+      username: $usernameInput.value,
+      email: $emailInput.value,
+      bio: $bioInput.value,
+    });
+  });
 }
 
 export default ProfilePage;
