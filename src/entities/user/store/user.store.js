@@ -1,5 +1,9 @@
 class UserStore {
   constructor() {
+    // ? 1-4 SPA를 만들기 위한 지식 뭉치에서 나오는 코드 패턴
+    // if (UserStore.instance) return UserStore.instance;
+    // UserStore.instance = this;
+
     this.user = null;
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -13,7 +17,7 @@ class UserStore {
   }
 
   updateUser(user) {
-    this.user = user;
+    this.user = { ...this.user, ...user };
     localStorage.setItem("user", JSON.stringify(user));
   }
 
@@ -29,10 +33,11 @@ class UserStore {
     localStorage.removeItem("user");
     this.user = null;
   }
+
   getIsLogin() {
     return this.user !== null;
   }
 }
 
-// ? 여기도 singleton pattern을 위해 사용
+// ? singleton pattern을 위해 사용
 export const userStore = new UserStore();

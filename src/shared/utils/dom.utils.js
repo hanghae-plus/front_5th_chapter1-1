@@ -1,3 +1,4 @@
+// * Root Element 확인 및 생성
 export const ensureRootElement = () => {
   let root = document.getElementById("root");
   if (!root) {
