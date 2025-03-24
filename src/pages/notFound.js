@@ -13,3 +13,7 @@ export const NotFoundPage = () => `
     </div>
   </main>
 `;
+
+export const renderNotFoundPage = () => {
+  document.body.innerHTML = NotFoundPage();
+};
