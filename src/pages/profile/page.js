@@ -1,16 +1,28 @@
-export const ProfilePage = () => `
+import { Header } from "../../shared/components/header/page.js";
+import { getUserInfoFromStorage } from "../../shared/logic/localStorage.js";
+import { goTo } from "../../shared/logic/router.js";
+import { ID } from "../../constant.js";
+
+export const ProfilePage = () => {
+  const user = getUserInfoFromStorage();
+
+  if (!user) {
+    goTo("/login");
+    return;
+  }
+
+  const { username, email, bio } = user;
+  return `
   <div>
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
-        <header class="bg-blue-600 text-white p-4 sticky top-0">
-          <h1 class="text-2xl font-bold">항해플러스</h1>
-        </header>
+        ${Header()}
 
         <nav class="bg-white shadow-md p-2 sticky top-14">
           <ul class="flex justify-around">
             <li><a href="/" class="text-gray-600">홈</a></li>
             <li><a href="/profile" class="text-blue-600">프로필</a></li>
-            <li><a href="#" class="text-gray-600">로그아웃</a></li>
+            <li><a href="#" id=${ID.LOGOUT_BUTTON} class="text-gray-600">로그아웃</a></li>
           </ul>
         </nav>
 
@@ -19,7 +31,7 @@ export const ProfilePage = () => `
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
             </h2>
-            <form>
+            <form id=${ID.PROFILE_FORM}>
               <div class="mb-4">
                 <label
                   for="username"
@@ -30,7 +42,7 @@ export const ProfilePage = () => `
                   type="text"
                   id="username"
                   name="username"
-                  value="홍길동"
+                  value="${username}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -44,7 +56,7 @@ export const ProfilePage = () => `
                   type="email"
                   id="email"
                   name="email"
-                  value="hong@example.com"
+                  value="${email}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -54,14 +66,15 @@ export const ProfilePage = () => `
                   class="block text-gray-700 text-sm font-bold mb-2"
                   >자기소개</label
                 >
-                <textarea
+                <input
                   id="bio"
                   name="bio"
                   rows="4"
                   class="w-full p-2 border rounded"
+                  value="${bio}"
                 >
-안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
-                >
+                
+                </textarea>
               </div>
               <button
                 type="submit"
@@ -80,3 +93,4 @@ export const ProfilePage = () => `
     </div>
   </div>
 `;
+};
