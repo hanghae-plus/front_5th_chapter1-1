@@ -1,8 +1,3 @@
-import { ErrorPage } from "./pages/ErrorPage";
-import { LoginPage } from "./pages/LoginPage";
-import { MainPage } from "./pages/MainPage";
-import { ProfilePage } from "./pages/ProfilePage";
+import { Router } from "./router";
 
-document.body.innerHTML = `
-  ${MainPage()}
-`;
+Router.Render();
