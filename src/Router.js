@@ -1,18 +1,21 @@
 import ErrorPage from "./pages/ErrorPage";
-import { routes } from "./routes";
+import { browserRoutes, hashRoutes } from "./routes";
 export function Router($container) {
   this.$container = $container;
 
   const findPage = () => {
     const TargetPage =
-      routes.find((route) => route.path === location.pathname)?.component ||
-      ErrorPage;
+      location.hash === ""
+        ? browserRoutes.find((route) => route.path === location.pathname)
+            ?.component || ErrorPage
+        : hashRoutes.find((route) => route.path === location.hash)?.component ||
+          ErrorPage;
 
     new TargetPage(this.$container);
   };
 
   // historychanged가 발생했을 때 페이지를 변경 처리
-  const router = () => {
+  const browserRouter = () => {
     window.addEventListener("historychanged", ({ detail }) => {
       const { to, isReplace } = detail;
 
@@ -28,6 +31,21 @@ export function Router($container) {
     });
   };
 
-  router();
+  const hashRouter = () => {
+    window.addEventListener("hashchange", () => {
+      // history.replaceState(null, "", e.target.hash);
+
+      findPage();
+    });
+    window.addEventListener("popstate", () => {
+      // console.log("popstate");
+      findPage();
+    });
+  };
+
+  hashRouter();
+  browserRouter();
+  // isHash ? hashRouter() : browserRouter();
+
   findPage();
 }

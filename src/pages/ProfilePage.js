@@ -1,15 +1,15 @@
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { getData } from "../utils/localStorage";
-import { navigate } from "../utils/navigate";
+import { browserNavigate } from "../utils/navigate";
 import { setData } from "../utils/localStorage";
 import { removeData } from "../utils/localStorage";
+import { isHash } from "../utils/isHash";
 
 function ProfilePage($container) {
-  console.log("profilepage");
   const user = getData("user", null);
   if (!user) {
-    navigate("/login", true);
+    isHash ? (location.hash = "/login") : browserNavigate("/login", true);
     return;
   }
   this.$container = $container;
@@ -113,8 +113,9 @@ function ProfilePage($container) {
       if (!(target instanceof HTMLAnchorElement)) return;
 
       e.preventDefault();
+
       const targetPath = target.href.replace(location.origin, "");
-      navigate(targetPath);
+      isHash ? (location.hash = targetPath) : browserNavigate(targetPath, true);
     });
 }
 

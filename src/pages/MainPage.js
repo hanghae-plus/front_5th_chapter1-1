@@ -3,9 +3,9 @@ import { Footer } from "../components/Footer";
 import { MOCK_DATA } from "../const/mockData";
 import { FeedCard } from "../components/FeedCard";
 import { removeData } from "../utils/localStorage";
-import { navigate } from "../utils/navigate";
+import { browserNavigate } from "../utils/navigate";
+import { isHash } from "../utils/isHash";
 function MainPage($container) {
-  console.log("mainpage");
   this.$container = $container;
 
   this.render = () => {
@@ -47,7 +47,9 @@ function MainPage($container) {
 
       e.preventDefault();
       const targetPath = target.href.replace(location.origin, "");
-      navigate(targetPath);
+      console.log(targetPath, "targetPath");
+
+      isHash ? (location.hash = targetPath) : browserNavigate(targetPath, true);
     });
 }
 

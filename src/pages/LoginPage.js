@@ -1,12 +1,13 @@
 import { setData, getData } from "../utils/localStorage";
-import { navigate } from "../utils/navigate";
+import { browserNavigate } from "../utils/navigate";
+import { isHash } from "../utils/isHash";
 function LoginPage($container) {
   console.log("LoginPage");
 
   // TODO: 공통 로직으로 분리하기
   const user = getData("user", null);
   if (user) {
-    navigate("/", true);
+    isHash ? (location.hash = "/") : browserNavigate("/", true);
     return;
   }
 
@@ -54,7 +55,10 @@ function LoginPage($container) {
     $idInput.value = "";
     $passwordInput.value = "";
 
-    navigate("/", true);
+    // const isHash = location.hash !== "";
+    // const redirectUrl = isHash ? "/index.hash.html#/" : "/";
+
+    isHash ? (location.hash = "#/") : browserNavigate("/", true);
   });
 }
 

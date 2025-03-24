@@ -2,7 +2,7 @@
  * @param  { string } to
  * @param  { boolean } isReplace
  */
-export const navigate = (to, isReplace = false) => {
+export const browserNavigate = (to, isReplace = false) => {
   const historyChangeEvent = new CustomEvent("historychanged", {
     detail: {
       to,
