@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "dev:hash": "vite --open ./index.hash.html",
-    "deploy": "vite build && gh-pages -d dist",
+    "deploy": "gh-pages -d dist",
+    "predeploy": "vite build && node scripts/postbuild.js",
     "build": "vite build",
     "lint:fix": "eslint --fix",
     "prettier:write": "prettier --write ./src",
