@@ -67,14 +67,17 @@ const router = () => {
   }
 
   // 탭 라우팅
-  document.querySelectorAll("a").forEach((el) => {
-    el.addEventListener("click", (e) => {
+  const nav = document.querySelector("nav");
+  if (nav) {
+    nav.addEventListener("click", (e) => {
       e.preventDefault();
-      const newPathname = e.target.href.replace(location.origin, "");
-      history.pushState({ path: newPathname }, "", newPathname);
-      router();
+      if (e.target.nodeName === "A") {
+        const newPathname = e.target.href.replace(location.origin, "");
+        history.pushState({ path: newPathname }, "", newPathname);
+        router();
+      }
     });
-  });
+  }
 };
 
 window.addEventListener("popstate", () => {
