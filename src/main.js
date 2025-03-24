@@ -1,3 +1,20 @@
+import { router } from "./controller/route";
+
+{
+  /* <li><a href="/" class="text-blue-600">홈</a></li>
+          <li><a href="/profile" class="text-gray-600">프로필</a></li>
+          <li><a href="#" class="text-gray-600">로그아웃</a></li> */
+}
+
+{
+  /* <li><div id="profile" class="text-gray-600">프로필</div></li> */
+}
+
+const NavComponent = () => `
+          <li><div id="home" class="text-blue-600">홈</div></li>
+          <li><div id="login" class="text-gray-600">로그인</div></li>
+`;
+
 const MainPage = () => `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
@@ -7,9 +24,7 @@ const MainPage = () => `
 
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
-          <li><a href="/" class="text-blue-600">홈</a></li>
-          <li><a href="/profile" class="text-gray-600">프로필</a></li>
-          <li><a href="#" class="text-gray-600">로그아웃</a></li>
+          ${NavComponent()}
         </ul>
       </nav>
 
@@ -160,9 +175,7 @@ const ProfilePage = () => `
 
         <nav class="bg-white shadow-md p-2 sticky top-14">
           <ul class="flex justify-around">
-            <li><a href="/" class="text-gray-600">홈</a></li>
-            <li><a href="/profile" class="text-blue-600">프로필</a></li>
-            <li><a href="#" class="text-gray-600">로그아웃</a></li>
+          ${NavComponent()}  
           </ul>
         </nav>
 
@@ -235,10 +248,42 @@ const ProfilePage = () => `
 
 document.body.innerHTML = `
   ${MainPage()}
-  ${ProfilePage()}
-  ${LoginPage()}
-  ${ErrorPage()}
 `;
 
-// commit test
-// commit test
+// ${ProfilePage()}
+// ${LoginPage()}
+// ${ErrorPage()}
+
+function route(path, callback) {
+  if (window.location.pathname === path) {
+    callback();
+  }
+}
+
+function loadContent(content) {
+  document.body.innerHTML = content;
+}
+
+// 페이지 로드 시 라우팅 실행
+window.addEventListener("load", () => {
+  route("/", () => loadContent(MainPage()));
+  route("/profile", () => loadContent(ProfilePage()));
+  route("/login", () => loadContent(LoginPage()));
+  route("/temp", () => loadContent(ErrorPage()));
+});
+
+// router 사용
+router.addRoute("/", () => loadContent(MainPage()));
+router.addRoute("/profile", () => loadContent(ProfilePage()));
+router.addRoute("/login", () => loadContent(LoginPage()));
+
+window.addEventListener("click", (e) => {
+  const targetId = e.target.id;
+  if (targetId === "home") {
+    router.navigateTo("/");
+  } else if (targetId === "profile") {
+    router.navigateTo("/profile");
+  } else if (targetId === "login") {
+    router.navigateTo("/login");
+  }
+});
