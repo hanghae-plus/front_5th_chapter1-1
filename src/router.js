@@ -15,21 +15,21 @@ export const Router = () => {
     switch (path) {
       case "/":
         whatPage = HomePage();
-        layout = `${Header()} ${Footer()}`;
+        layout = `${Header()}${Footer()}`;
         break;
       case "/login":
         whatPage = LoginPage();
         break;
       case "/profile":
         whatPage = ProfilePage();
-        layout = `${Header()}${whatPage}${Footer()}`;
+        layout = `${Header()}${Footer()}`;
         break;
       default:
         whatPage = NotFoundPage();
     }
 
     document.body.innerHTML = `
-    ${layout}
+      $${layout || ""}${whatPage}
     `;
   };
 
