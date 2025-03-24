@@ -15,3 +15,11 @@ export const setData = (key, value) => {
     console.log(e);
   }
 };
+
+export const removeData = (key) => {
+  try {
+    window.localStorage.removeItem(key);
+  } catch (e) {
+    console.log(e);
+  }
+};
