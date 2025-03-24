@@ -7,6 +7,11 @@ export class BaseRouter {
     this.root.appendChild(this.content);
   }
 
+  getCurrentPath() {
+    const path = window.location.pathname;
+    return this.formatPath(path);
+  }
+
   getRoute(path) {
     const route = this.routes[path] ?? this.routes["*"];
     return route.redirect ? this.getRoute(route.redirect) : route;

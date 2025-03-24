@@ -5,6 +5,11 @@ export class HashRouter extends BaseRouter {
     return path.replace("#", "") || "/";
   }
 
+  getCurrentPath() {
+    const path = window.location.hash;
+    return this.formatPath(path);
+  }
+
   start() {
     window.addEventListener("DOMContentLoaded", () => {
       this.renderRoute(window.location.hash);

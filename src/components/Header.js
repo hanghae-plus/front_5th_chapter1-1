@@ -1,17 +1,17 @@
 import { useUserStore } from "../stores/user.js";
 import { defineComponent } from "../helpers/component";
+import { Context } from "../helpers/context";
 
 const HeaderContent = {
   name: "Header",
   template: () => {
     const userStore = useUserStore();
-    const isHashRouter = window.location.href.includes("index.hash.html");
+    const router = Context.inject("router");
 
     function isActive(path) {
-      const currentPath = isHashRouter
-        ? window.location.hash.slice(1) || "/"
-        : window.location.pathname;
-      return currentPath === path ? "text-blue-600 font-bold" : "text-gray-600";
+      return router.getCurrentPath() === path
+        ? "text-blue-600 font-bold"
+        : "text-gray-600";
     }
 
     return `
