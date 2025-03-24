@@ -1,11 +1,11 @@
-import { ProfilePage } from "./pages/ProfilePage";
-import { LoginPage } from "./pages/LoginPage";
-import { ErrorPage } from "./pages/ErrorPage";
-import { MainPage, MainPageLoggedIn } from "./pages/mainPage";
+import ProfilePage from "./pages/ProfilePage";
+import LoginPage from "./pages/LoginPage";
+import ErrorPage from "./pages/ErrorPage";
+import MainPage from "./pages/mainPage";
 
 export const router = (app) => {
   const ROUTES = {
-    "/": MainPageLoggedIn(),
+    "/": MainPage(),
     "/login": LoginPage(),
     "/profile": ProfilePage(),
   };
