@@ -5,9 +5,11 @@ import { LoginPage } from "./LoginPage";
 
 export const ProfilePage = () => {
   let user = getUser();
+
   if (!user.username) {
     return LoginPage();
   }
+
   return /* HTML */ `
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
@@ -59,7 +61,7 @@ export const ProfilePage = () => {
                   class="w-full p-2 border rounded"
                   value=${user.bio || ""}
                 >
-안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
+자기소개입니다. 자기소개입니다.</textarea
                 >
               </div>
               <button

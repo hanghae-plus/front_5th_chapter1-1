@@ -9,7 +9,6 @@ export const getUser = () => {
 };
 
 export const setUser = ({ username, bio, email }) => {
-  console.log(username, bio, email);
   localStorage.setItem(
     "user",
     JSON.stringify({ username: username, email: email, bio: bio }),
