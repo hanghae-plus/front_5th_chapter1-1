@@ -1,6 +1,6 @@
 export const NotFoundPage = () => {
   const isProd = location.hostname.includes("github.io");
-  const BASE_PATH = isProd ? "/front-5th-chapter1-1" : "";
+  const BASE_PATH = isProd ? "/front_5th_chapter1-1" : "";
 
   const goHomeHTML = `<a href="${BASE_PATH}/" class="bg-blue-600 text-white px-4 py-2 rounded font-bold">
   홈으로 돌아가기

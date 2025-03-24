@@ -5,7 +5,7 @@ export const header = () => {
 
   const currentPath = window.location.pathname;
   const isProd = location.hostname.includes("github.io");
-  const BASE_PATH = isProd ? "/front-5th-chapter1-1" : "";
+  const BASE_PATH = isProd ? "/front_5th_chapter1-1" : "";
 
   const loginHTML = isLogin
     ? `
