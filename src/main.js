@@ -323,7 +323,6 @@ const render = () => {
 };
 
 window.addEventListener("popstate", () => {
-  console.log("popstate");
   render();
 });
 
