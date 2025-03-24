@@ -2,35 +2,51 @@ import { mockFeed } from "./mock/feed.mock";
 
 const Router = () => {
   const path = window.location.pathname;
-  const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (user && path === "/login") {
+    history.pushState({}, "", "/");
+    Router();
+    return;
+  }
 
   if (path === "/") {
-    document.body.innerHTML = MainPage(token);
+    document.getElementById("root").innerHTML = MainPage(user);
   } else if (path === "/profile") {
-    if (token) {
-      document.body.innerHTML = ProfilePage();
+    if (user) {
+      document.getElementById("root").innerHTML = ProfilePage(user);
     } else {
       alert("로그인이 필요합니다");
     }
   } else if (path === "/login") {
-    document.body.innerHTML = LoginPage();
-    goToHome();
+    document.getElementById("root").innerHTML = LoginPage();
   } else {
-    document.body.innerHTML = ErrorPage();
+    document.getElementById("root").innerHTML = ErrorPage();
   }
-
-  const logoutButton = document.getElementById("logout");
-  if (logoutButton && token) {
-    logoutButton.addEventListener("click", (e) => {
-      e.preventDefault();
-      goToLogin();
-      history.pushState({}, "", "/");
-      Router();
-    });
-  }
+  goToHome();
+  updateProfile();
 };
 
-const Header = (token) => `
+document.addEventListener("click", (e) => {
+  const target = e.target.closest("a");
+  if (target && target.id === "logout") {
+    e.preventDefault();
+    goToLogin();
+  }
+
+  if (
+    target &&
+    target.getAttribute("href") &&
+    target.getAttribute("href").startsWith("/")
+  ) {
+    e.preventDefault();
+    const href = target.getAttribute("href");
+    history.pushState({}, "", href);
+    Router();
+  }
+});
+
+const Header = (user) => `
   <header class="bg-blue-600 text-white p-4 sticky top-0">
           <h1 class="text-2xl font-bold">항해플러스</h1>
   </header>
@@ -39,7 +55,7 @@ const Header = (token) => `
     <ul class="flex justify-around">
       <li><a href="/" id="home" class="text-blue-600">홈</a></li>
       ${
-        token
+        user
           ? `<li>
                 <a href="/profile" id="profile" class="text-gray-600">
                   프로필
@@ -49,7 +65,7 @@ const Header = (token) => `
       }
      <li>
   ${
-    token
+    user
       ? `<a href="/login" id="logout" class="text-gray-600">로그아웃</a>`
       : `<a href="/login" id="login" class="text-gray-600">로그인</a>`
   }
@@ -64,11 +80,11 @@ const Footer = () => `
   </footer>
 `;
 
-const MainPage = (token) => `
+const MainPage = (user) => `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
     
-  ${Header(token)}
+  ${Header(user)}
       <main class="p-4">
         <div class="mb-4 bg-white rounded-lg shadow p-4">
           <textarea class="w-full p-2 border rounded" placeholder="무슨 생각을 하고 계신가요?"></textarea>
@@ -125,11 +141,14 @@ const goToHome = () => {
   if (loginForm) {
     loginForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const email = e.target.email.value.trim();
-      const password = e.target.password.value.trim();
+      const form = e.currentTarget;
+      const username = form.querySelector("#username").value.trim();
 
-      if (email.length > 0 && password.length > 0) {
-        localStorage.setItem("token", "token");
+      if (username.length) {
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ username, email: "", bio: "" }),
+        );
         history.pushState({}, "", "/");
         Router();
       } else {
@@ -139,8 +158,28 @@ const goToHome = () => {
   }
 };
 
+const updateProfile = () => {
+  const profileForm = document.getElementById("profile-form");
+  if (profileForm) {
+    profileForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const username = profileForm.querySelector("#username").value.trim();
+      const email = profileForm.querySelector("#email").value.trim();
+      const bio = profileForm.querySelector("#bio").value.trim();
+      const user = JSON.parse(localStorage.getItem("user"));
+      const updateUser = { ...user, username, email, bio };
+
+      localStorage.setItem("user", JSON.stringify(updateUser));
+      alert("프로필이 수정되었습니다");
+      Router();
+    });
+  }
+};
+
 const goToLogin = () => {
-  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  history.pushState({}, "", "/");
+  Router();
 };
 
 const LoginPage = () => `
@@ -149,10 +188,10 @@ const LoginPage = () => `
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
       <form id="login-form">
         <div class="mb-4">
-          <input type="text" name="email" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
+          <input type="text" id="username" name="username" placeholder="username" class="w-full p-2 border rounded">
         </div>
         <div class="mb-6">
-          <input type="password" name="password" placeholder="비밀번호" class="w-full p-2 border rounded">
+          <input type="password" name="password"  placeholder="비밀번호" class="w-full p-2 border rounded">
         </div>
         <button type="submit" id="login" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
       </form>
@@ -167,28 +206,18 @@ const LoginPage = () => `
   </main>
 `;
 
-const ProfilePage = () => `
-  <div id="root">
+const ProfilePage = (user) => `
+  <div>
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
-        <header class="bg-blue-600 text-white p-4 sticky top-0">
-          <h1 class="text-2xl font-bold">항해플러스</h1>
-        </header>
-
-        <nav class="bg-white shadow-md p-2 sticky top-14">
-          <ul class="flex justify-around">
-            <li><a href="/" class="text-gray-600">홈</a></li>
-            <li><a href="/profile" class="text-blue-600">프로필</a></li>
-            <li><a href="/login" class="text-gray-600">로그아웃</a></li>
-          </ul>
-        </nav>
+      ${Header(user)}
 
         <main class="p-4">
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
             </h2>
-            <form>
+            <form id="profile-form">
               <div class="mb-4">
                 <label
                   for="username"
@@ -199,7 +228,7 @@ const ProfilePage = () => `
                   type="text"
                   id="username"
                   name="username"
-                  value="홍길동"
+                  value="${user.username}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -213,7 +242,7 @@ const ProfilePage = () => `
                   type="email"
                   id="email"
                   name="email"
-                  value="hong@example.com"
+                  value="${user.email}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -229,7 +258,7 @@ const ProfilePage = () => `
                   rows="4"
                   class="w-full p-2 border rounded"
                 >
-안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
+${user.bio}</textarea
                 >
               </div>
               <button
@@ -242,9 +271,7 @@ const ProfilePage = () => `
           </div>
         </main>
 
-        <footer class="bg-gray-200 p-4 text-center">
-          <p>&copy; 2024 항해플러스. All rights reserved.</p>
-        </footer>
+        ${Footer()}
       </div>
     </div>
   </div>
