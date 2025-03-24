@@ -13,6 +13,12 @@ const Header = () => /*html*/ `
       </nav>
 `;
 
+const Footer = () => /*html*/ `
+      <footer class="bg-gray-200 p-4 text-center">
+        <p>&copy; 2024 항해플러스. All rights reserved.</p>
+      </footer>
+`;
+
 const MainPage = () => /*html*/ `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     
@@ -106,10 +112,8 @@ const MainPage = () => /*html*/ `
           </div>
         </div>
       </main>
-
-      <footer class="bg-gray-200 p-4 text-center">
-        <p>&copy; 2024 항해플러스. All rights reserved.</p>
-      </footer>
+      ${Footer()}
+      
     </div>
   </div>
 `;
@@ -158,17 +162,7 @@ const ProfilePage = () => /*html*/ `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
-        <header class="bg-blue-600 text-white p-4 sticky top-0">
-          <h1 class="text-2xl font-bold">항해플러스</h1>
-        </header>
-
-        <nav class="bg-white shadow-md p-2 sticky top-14">
-          <ul class="flex justify-around">
-            <li><a href="/" class="text-gray-600">홈</a></li>
-            <li><a href="/profile" class="text-blue-600">프로필</a></li>
-            <li><a href="#" class="text-gray-600">로그아웃</a></li>
-          </ul>
-        </nav>
+        ${Header()}
 
         <main class="p-4">
           <div class="bg-white p-8 rounded-lg shadow-md">
@@ -237,22 +231,54 @@ const ProfilePage = () => /*html*/ `
   </div>
 `;
 
-const app = () => {
-  console.log(location.pathname);
-  // a태그 하면 리플래시 되면 dom만 갈아끼우는 방식.. string
-  if (location.pathname === "/") {
-    document.getElementById("root").innerHTML = `${MainPage()}`;
-  } else if (location.pathname === "/profile") {
-    document.getElementById("root").innerHTML = `${ProfilePage()}`;
-  } else if (location.pathname === "/login") {
-    document.getElementById("root").innerHTML = LoginPage();
-  } else {
-    document.getElementById("root").innerHTML = `${ErrorPage()}`;
-  }
+// 라우트앱 설정
+const routes = {
+  "/": MainPage(),
+  "/login": LoginPage(),
+  "/profile": ProfilePage(),
 };
+function navigateTo(url) {
+  history.pushState("", null, url); // URL 변경(새로고침 없이)
+  handleRoute();
+}
+
+function handleRoute() {
+  const path = window.location.pathname;
+  // console.log(`path: ${path}`);
+
+  const content = routes[path];
+  // console.log(content);
+
+  // routes값에 정의되어 있지 않은 url값이 들어올 때
+  if (content === undefined) {
+    document.getElementById("root").innerHTML = `${ErrorPage()}`;
+  } else {
+    document.getElementById("root").innerHTML = content;
+  }
+}
+
+const app = () => {
+  handleRoute();
+};
+
+window.addEventListener("popstate", () => {
+  console.log("popstate");
+  app();
+});
 
 const render = () => {
   app();
+  document.querySelectorAll("nav").forEach((nav) => {
+    console.log(nav);
+    nav.addEventListener("click", (e) => {
+      e.preventDefault();
+      console.log(`href: ${e.target.href}`);
+      if (e.target.href !== undefined) {
+        const url = e.target.href.replace("http://localhost:5173", "");
+        navigateTo(url);
+      }
+    });
+  });
 };
 
 render();
