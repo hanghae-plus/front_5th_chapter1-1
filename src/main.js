@@ -17,7 +17,7 @@ const handleLink = (e) => {
   // 구현중
 };
 
-const eventListner = () => {
+const eventListener = () => {
   document.querySelectorAll("a").forEach((el) => {
     el.addEventListener("click", handleLink);
   });
@@ -38,8 +38,8 @@ const navigate = (url = ROUTES.MAIN) => {
   history.pushState({}, "", url);
   const page = (URL_MAP[url] || ErrorPage)();
   root.innerHTML = page.template;
-  if (page.eventListner) page.eventListner();
-  eventListner();
+  if (page.eventListener) page.eventListener();
+  eventListener();
 };
 
 document.addEventListener(CUSTOM_EVENT.PAGE_PUSH, (e) => {
@@ -47,5 +47,6 @@ document.addEventListener(CUSTOM_EVENT.PAGE_PUSH, (e) => {
   navigate(e.detail.url);
 });
 
+window.addEventListener("popstate", () => navigate());
 window.addEventListener("DOMContentLoaded", () => navigate());
 window.onpopstate = () => navigate(location.pathname);
