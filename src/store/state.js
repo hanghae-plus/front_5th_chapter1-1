@@ -1,5 +1,5 @@
 const state = {
-  loggedIn: false,
+  loggedIn: true,
 };
 
 export default state;

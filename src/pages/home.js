@@ -1,7 +1,7 @@
-import { Header } from "../components/header.js";
-import { Footer } from "../components/footer.js";
+import Header from "../components/header.js";
+import Footer from "../components/footer.js";
 import state from "../store/state.js";
-export const homePage = () => /* html */ `
+const HomePage = () => /* html */ `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
       ${Header(state.loggedIn)}
@@ -94,8 +94,9 @@ export const homePage = () => /* html */ `
           </div>
         </div>
       </main>
-
       ${Footer()}
     </div>
   </div>
 `;
+
+export default HomePage;

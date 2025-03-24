@@ -1,11 +1,11 @@
-import { Header } from "../components/header.js";
-import { Footer } from "../components/footer.js";
+import Header from "../components/header.js";
+import Footer from "../components/footer.js";
 import state from "../store/state.js";
-export const ProfilePage = () => /* html */ `
-  <div id="root">
+
+const ProfilePage = () => /* html */ `
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
-        ${Header(state.loggedIn)}
+      ${Header(state.loggedIn)}
         <main class="p-4">
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
@@ -62,10 +62,11 @@ export const ProfilePage = () => /* html */ `
                 프로필 업데이트
               </button>
             </form>
-            </div>
-            </main>
-            ${Footer()}
+          </div>
+        </main>
+        ${Footer()} 
       </div>
     </div>
-  </div>
 `;
+
+export default ProfilePage;

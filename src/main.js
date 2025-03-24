@@ -1,39 +1,16 @@
-import { homePage } from "./pages/home.js";
-import { ProfilePage } from "./pages/profile.js";
-import { LoginPage } from "./pages/login.js";
-import { ErrorPage } from "./pages/error.js";
+import handleRoute from "./router.js";
 
-// import state from "./store/state.js";
+window.addEventListener("popstate", handleRoute);
 
-const App = () => {
-  switch (window.location.pathname) {
-    case "/":
-      return homePage();
-    case "/profile":
-      return ProfilePage();
-    case "/login":
-      return LoginPage();
-    default:
-      return ErrorPage();
-  }
-};
+document.addEventListener("DOMContentLoaded", () => {
+  handleRoute();
 
-window.addEventListener("popstate", () => {
-  render();
-});
-
-const render = () => {
-  document.body.innerHTML = App();
-
-  document.querySelectorAll("a").forEach((el) => {
-    el.addEventListener("click", (e) => {
+  document.body.addEventListener("click", (e) => {
+    if (e.target.matches('a[href^="/"]')) {
       e.preventDefault();
-
-      const newPathName = e.target.href.replace(location.origin, "");
-      history.pushState(null, "", newPathName);
-      render();
-    });
+      const path = e.target.getAttribute("href");
+      window.history.pushState({}, "", path);
+      handleRoute();
+    }
   });
-};
-
-render();
+});
