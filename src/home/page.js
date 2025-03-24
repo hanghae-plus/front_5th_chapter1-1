@@ -1,6 +1,6 @@
 import contents from "./content";
 
-export const BoardPage = () => /* HTML */ `
+export const HomePage = () => /* HTML */ `
   <!-- 메인 컨텐츠 -->
   <main class="p-4">
     <!-- 게시글 작성 -->
