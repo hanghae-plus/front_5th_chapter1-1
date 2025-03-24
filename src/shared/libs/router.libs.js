@@ -41,12 +41,6 @@ class Router {
   }
 
   handleRoute(path) {
-    if (!document.getElementById("root")) {
-      const root = document.createElement("div");
-      root.id = "root";
-      document.body.appendChild(root);
-    }
-
     const handler = this.routes[path] || this.routes["*"];
 
     if (handler) {

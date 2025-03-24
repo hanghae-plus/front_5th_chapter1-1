@@ -8,6 +8,7 @@ export const ensureRootElement = () => {
   return root;
 };
 
+// * a 태그 클릭 이벤트 위임
 export const delegateNavigationEvents = (router) => {
   document.body.addEventListener("click", (e) => {
     const link = e.target.closest("[data-link]");

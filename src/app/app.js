@@ -1,19 +1,20 @@
 import { config } from "../shared/config";
 import { router } from "../shared/libs";
-import { delegateNavigationEvents, ensureRootElement } from "../shared/utils";
-import { setupRoutes } from "./route";
+import { delegateNavigationEvents } from "../shared/utils";
+import { routes } from "./route";
 
 export const render = () => {
-  setupRoutes();
-  ensureRootElement();
+  // * 각 Routes 초기화
+  routes();
   delegateNavigationEvents(router);
 
+  // * Hash Router 처리 로직
   if (window.location.pathname.includes("hash.html")) {
     const path = window.location.hash.substring(1) || "/";
     router.handleRoute(path);
   } else {
+    // * GitHub Pages & Basic Router 처리 로직
     let path = window.location.pathname;
-
     if (window.location.hostname.includes("github.io")) {
       const basePath = config.basePath.endsWith("/")
         ? config.basePath.slice(0, -1)
@@ -24,7 +25,6 @@ export const render = () => {
         path = path.replace(basePath, "");
       }
     }
-
     router.handleRoute(path);
   }
 };

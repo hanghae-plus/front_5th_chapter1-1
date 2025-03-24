@@ -1,11 +1,13 @@
-import { setupErrorRoutes } from "./error.routes";
-import { setupLoginRoutes } from "./login.routes";
-import { setupMainRoutes } from "./main.routes";
-import { setupProfileRoutes } from "./profile.routes";
+import { errorRoutes } from "./error.routes";
+import { loginRoutes } from "./login.routes";
+import { mainRoutes } from "./main.routes";
+import { profileRoutes } from "./profile.routes";
 
-export const setupRoutes = () => {
-  setupMainRoutes();
-  setupLoginRoutes();
-  setupProfileRoutes();
-  setupErrorRoutes();
+export const routes = () => {
+  Object.values({
+    main: mainRoutes,
+    login: loginRoutes,
+    profile: profileRoutes,
+    error: errorRoutes,
+  }).forEach((handler) => handler());
 };
