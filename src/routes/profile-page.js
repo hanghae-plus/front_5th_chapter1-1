@@ -2,34 +2,12 @@ import Container from "../components/container.js";
 import Footer from "../components/footer.js";
 import Header from "../components/header.js";
 import Nav from "../components/nav.js";
-import { CUSTOM_EVENT, ROUTES } from "../config/index.js";
+import { ROUTES } from "../config/index.js";
 import store from "../store/index.js";
 
 const ProfilePage = () => {
   const isLogon = !!store.get("username");
   const profileData = store.get();
-
-  const eventListener = () => {
-    const profileForm = document.querySelector("#profile-form");
-    if (!profileForm) return;
-
-    profileForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      const newProfileData = {
-        username: formData.get("username") || "",
-        email: formData.get("email") || "",
-        bio: formData.get("bio") || "",
-      };
-      store.set(newProfileData);
-      const config = {
-        detail: { url: ROUTES.PROFILE },
-        bubbles: true,
-        cancelable: true,
-      };
-      document.dispatchEvent(new CustomEvent(CUSTOM_EVENT.PAGE_PUSH, config));
-    });
-  };
 
   const profile = `
     <main class="p-4">
@@ -97,6 +75,6 @@ const ProfilePage = () => {
       Footer(),
     ].join(""),
   });
-  return { template, eventListener };
+  return { template };
 };
 export default ProfilePage;

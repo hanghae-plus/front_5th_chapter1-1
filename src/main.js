@@ -1,15 +1,17 @@
-import { CUSTOM_EVENT, ROUTES } from "./config/index.js";
+import { CUSTOM_EVENT, ELEMENT_ID, ROUTES } from "./config/index.js";
 import ErrorPage from "./routes/error-page.js";
 import LoginPage from "./routes/login-page.js";
 import MainPage from "./routes/main-page.js";
 import ProfilePage from "./routes/profile-page.js";
 import store from "./store/index.js";
 
+const PREFIX = "/front_5th_chapter1-1";
+
 const handleLink = (e) => {
   e.preventDefault();
   let url = e.target.getAttribute("href");
   if (url === ROUTES.LOGOUT) {
-    store.set({ username: "" });
+    store.reset();
     url = ROUTES.MAIN;
   } else if (url === ROUTES.LOGIN) {
     if (store.get("username")) url = ROUTES.MAIN;
@@ -32,23 +34,53 @@ const URL_MAP = {
   [ROUTES.ERROR]: ErrorPage,
 };
 
-const navigate = (url = ROUTES.MAIN) => {
-  const root = document.querySelector("#root");
+const navigate = (e) => {
+  let url = e.detail?.url || location.pathname || ROUTES.MAIN;
   const username = store.get("username");
   if (!username && url === ROUTES.PROFILE) url = ROUTES.LOGIN;
   if (!!username && url === ROUTES.LOGIN) url = ROUTES.MAIN;
+  if (!url.includes(PREFIX)) url = PREFIX + url;
   history.pushState({}, "", url);
-  const page = (URL_MAP[url] || ErrorPage)();
+  render(url);
+};
+
+const render = (url) => {
+  const key = url.replace(PREFIX, "");
+  const page = (URL_MAP[key] || ErrorPage)();
+  const root = document.querySelector("#root");
   root.innerHTML = page.template;
-  if (page.eventListener) page.eventListener();
   eventListener();
 };
 
-document.addEventListener(CUSTOM_EVENT.PAGE_PUSH, (e) => {
-  if (!e.detail?.url) return;
-  navigate(e.detail.url);
+// 로그인에서도 커스텀 이벤트로 페이지 이동
+document.addEventListener(CUSTOM_EVENT.PAGE_PUSH, navigate);
+
+document.addEventListener("submit", (e) => {
+  e.preventDefault();
+  if (e.target.id === ELEMENT_ID.LOGIN_FORM) {
+    const formData = new FormData(e.target);
+    const username = formData.get("username");
+    const password = formData.get("password");
+    if (username && password) {
+      store.set({ username, email: "", bio: "" });
+    }
+    const url = ROUTES.MAIN;
+    const config = { detail: { url }, bubbles: true, cancelable: true };
+    document.dispatchEvent(new CustomEvent(CUSTOM_EVENT.PAGE_PUSH, config));
+  } else if (e.target.id === ELEMENT_ID.PROFILE_FORM) {
+    const formData = new FormData(e.target);
+    const newProfileData = {
+      username: formData.get("username") || "",
+      email: formData.get("email") || "",
+      bio: formData.get("bio") || "",
+    };
+    store.set(newProfileData);
+    const url = ROUTES.PROFILE;
+    const config = { detail: { url }, bubbles: true, cancelable: true };
+    document.dispatchEvent(new CustomEvent(CUSTOM_EVENT.PAGE_PUSH, config));
+  }
 });
 
-window.addEventListener("popstate", () => navigate());
-window.addEventListener("DOMContentLoaded", () => navigate());
-window.onpopstate = () => navigate(location.pathname);
+// 기본 페이지 이동, DOM 로드 이벤트 변경..
+window.addEventListener("popstate", navigate);
+window.addEventListener("DOMContentLoaded", navigate);
