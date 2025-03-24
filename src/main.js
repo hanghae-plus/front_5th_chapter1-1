@@ -1,3 +1,6 @@
+// TODO: 로그인 라우터별 이벤트 리스너 맞게 변경하기
+// TODO: nav바 하이라이트 변경
+
 const state = {
   isLoggedIn: false,
 };
@@ -295,6 +298,7 @@ const App = () => {
     if (state.isLoggedIn) {
       return ProfilePage();
     } else {
+      history.pushState(null, "", "/login");
       return LoginPage();
     }
   }
