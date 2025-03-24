@@ -350,15 +350,14 @@ const routes = {
 };
 
 // NOTE : 기본 렌더
-const app = document.querySelector("#root");
 const render = (page) => {
+  const app = document.querySelector("#root");
   if (routes[page]) {
     app.innerHTML = routes[page];
   } else {
     app.innerHTML = ErrorPage();
   }
 };
-render("/");
 
 // NOTE : 메인 페이지 히스토리 초기화
 window.addEventListener("DOMContentLoaded", () => {
@@ -368,26 +367,32 @@ window.addEventListener("DOMContentLoaded", () => {
       "",
       window.location.pathname,
     );
-});
 
-// NOTE : 로그인 버튼 클릭 시 로그인 페이지로
-// const loginBtn = document.querySelector("#btn-login");
-// loginBtn.addEventListener("click", (e) => {
-//   e.preventDefault();
-//   history.pushState({ page: "login" }, "", "/login");
-//   renderLogin();
-// });
+  render(window.location.pathname);
 
-// NOTE : 프로필 버튼 클릭 시 프로필 페이지로
-const profileBtn = document.querySelector("#btn-profile");
-profileBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  history.pushState({ page: "profile" }, "", "/profile");
-  render("/profile");
-});
+  // NOTE : 로그인 버튼 클릭 시 로그인 페이지로
+  const loginBtn = document.querySelector("#btn-login");
+  if (loginBtn) {
+    loginBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      history.pushState({ page: "login" }, "", "/login");
+      renderLogin();
+    });
+  }
 
-// NOTE : 뒤로가기
-window.addEventListener("popstate", (e) => {
-  e.preventDefault();
-  render(e.state.path);
+  // NOTE : 프로필 버튼 클릭 시 프로필 페이지로
+  const profileBtn = document.querySelector("#btn-profile");
+  if (profileBtn) {
+    profileBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      history.pushState({ page: "profile" }, "", "/profile");
+      render("/profile");
+    });
+  }
+
+  // NOTE : 뒤로가기
+  window.addEventListener("popstate", (e) => {
+    e.preventDefault();
+    render(e.state.path);
+  });
 });
