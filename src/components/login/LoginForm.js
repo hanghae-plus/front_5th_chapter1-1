@@ -1,6 +1,4 @@
-import { router } from "../../main";
 import SubmitBtn from "../common/SubmitBtn";
-import { login } from "../../store/Auth";
 
 const LoginForm = () => {
   return `
@@ -15,14 +13,5 @@ const LoginForm = () => {
     </form>
   `;
 };
-
-document.addEventListener("submit", (e) => {
-  if (e.target.id === "login-form") {
-    e.preventDefault();
-    const username = document.getElementById("username").value;
-    login({ username, email: "", bio: "" });
-    router.navigate("/profile");
-  }
-});
 
 export default LoginForm;

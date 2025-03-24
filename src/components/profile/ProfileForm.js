@@ -1,4 +1,4 @@
-import { getUser, updateUser } from "../../store/Auth";
+import { getUser } from "../../store/Auth";
 import SubmitBtn from "../common/SubmitBtn";
 
 const ProfileForm = () => {
@@ -52,15 +52,5 @@ const ProfileForm = () => {
     </form>
   `;
 };
-
-document.addEventListener("submit", (e) => {
-  if (e.target.id === "profile-form") {
-    e.preventDefault();
-    const username = document.getElementById("username").value;
-    const email = document.getElementById("email").value;
-    const bio = document.getElementById("bio").value;
-    updateUser({ username, email, bio });
-  }
-});
 
 export default ProfileForm;

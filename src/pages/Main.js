@@ -3,7 +3,8 @@ import Footer from "../components/common/Footer";
 import Post from "../components/main/Post";
 import FEED_DATA from "../consts/data";
 
-const MainPage = () => `
+const MainPage = () => {
+  return `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
       ${Header()}
@@ -24,5 +25,6 @@ const MainPage = () => `
     </div>
   </div>
 `;
+};
 
 export default MainPage;

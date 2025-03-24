@@ -1,26 +1,19 @@
-import { isLoggedIn, logout } from "../../store/Auth";
-import { router } from "../../main";
+import { isLoggedIn } from "../../store/Auth";
+import { getRouter } from "../../router";
 
 const Header = () => {
-  const path = window.location.pathname;
+  const router = getRouter();
+  const path = router.currentPath;
 
   const renderNavLinks = () => {
     if (isLoggedIn()) {
       return `
-        <li><a href="/profile" class=${path === "/profile" ? "text-blue-600" : "text-gray-600"}>프로필</a></li>
-        <li><a href="#" class="text-gray-600" data-action="logout">로그아웃</a></li>
+        <li><a href="${router.getLinkHref("/profile")}" class=${path === "/profile" ? "text-blue-600" : "text-gray-600"}>프로필</a></li>
+        <li><a id="logout" href="#" class="text-gray-600" data-action="logout">로그아웃</a></li>
       `;
     }
-    return `<li><a href="/login" class=${path === "/login" ? "text-blue-600" : "text-gray-600"}>로그인</a></li>`;
+    return `<li><a href="${router.getLinkHref("/login")}" class=${path === "/login" ? "text-blue-600" : "text-gray-600"}>로그인</a></li>`;
   };
-
-  document.addEventListener("click", (e) => {
-    if (e.target.matches('[data-action="logout"]')) {
-      e.preventDefault();
-      logout();
-      router.navigate("/login");
-    }
-  });
 
   return `
     <header class="bg-blue-600 text-white p-4 sticky top-0">
@@ -29,7 +22,7 @@ const Header = () => {
 
     <nav class="bg-white shadow-md p-2 sticky top-14">
       <ul class="flex justify-around">
-        <li><a href="/" class=${path === "/" ? "text-blue-600" : "text-gray-600"}>홈</a></li>
+        <li><a href="${router.getLinkHref("/")}" class=${path === "/" ? "text-blue-600" : "text-gray-600"}>홈</a></li>
         ${renderNavLinks()}
       </ul>
     </nav>
