@@ -1,6 +1,6 @@
 import ErrorPage from "../pages/Error";
 
-import { login, logout, updateUser } from "../store/Auth";
+import { login, logout, updateUser } from "../store/auth";
 
 class Router {
   static instance = null;

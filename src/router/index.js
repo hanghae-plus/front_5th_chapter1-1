@@ -1,4 +1,4 @@
-import Router from "./Router";
+import Router from "./router";
 import routes from "./routes";
 
 let routerInstance = null;
