@@ -11,6 +11,7 @@ export const render = () => {
     const path = window.location.hash.substring(1) || "/";
     router.handleRoute(path);
   } else {
-    router.handleRoute(window.location.pathname);
+    const path = window.location.pathname;
+    router.handleRoute(path);
   }
 };

@@ -34,7 +34,15 @@ jobs:
         run: pnpm install
 
       - name: Build with Vite
-        run: NODE_ENV=production pnpm run build
+        run: pnpm run build
+        env:
+          NODE_ENV: production
+
+      - name: Create 404 page
+        run: cp dist/index.html dist/404.html
+
+      - name: Disable Jekyll
+        run: touch dist/.nojekyll
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
