@@ -24,7 +24,9 @@ const App = () => {
       return `${ErrorPage()}`;
   }
 };
-
+window.addEventListener("popstate", () => {
+  render();
+});
 export default App;
 
 render();

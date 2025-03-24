@@ -10,9 +10,9 @@ const isHash = window.location.href.includes("index.hash.html");
 const handleFormSubmit = (e) => {
   e.preventDefault();
 
-  if (e.target && e.target.id === "loginForm") {
+  if (e.target && e.target.id === "login-form") {
     const username = e.target.querySelector("#username").value;
-    store.setUserInfo({ username, bio: "", email: "" });
+    store.setUserInfo({ username, email: "", bio: "" });
     isHash
       ? (location.hash = "#/profile")
       : history.pushState(null, "", "/profile");
@@ -20,7 +20,7 @@ const handleFormSubmit = (e) => {
     updateRoot();
   }
 
-  if (e.target && e.target.id === "profileForm") {
+  if (e.target && e.target.id === "profile-form") {
     const username = e.target.querySelector("#username").value;
     const email = e.target.querySelector("#email").value;
     const bio = e.target.querySelector("#bio").value;
