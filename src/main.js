@@ -1,5 +1,3 @@
-// 헤더 메뉴 분리: 로그인 시 - 홈, 프로필, 로그아웃
-//                로그아웃 시 - 홈, 로그인
 let isLoggedIn = false;
 
 const Header = `
@@ -18,7 +16,7 @@ const Header = `
           `
             : `
           <li><a href="/" class="text-blue-600">홈</a></li>
-          <li><a href="/profile" class="text-gray-600">로그인</a></li>
+          <li><a href="/login" class="text-gray-600">로그인</a></li>
           `
         }
         </ul>
@@ -240,28 +238,36 @@ const ProfilePage = `
   </div>
 `;
 
+const routes = [
+  { path: "/", component: MainPage },
+  { path: "/login", component: LoginPage },
+  { path: "/profile", component: ProfilePage },
+];
+
 const renderPages = () => {
-  console.log(window.location.pathname, isLoggedIn);
-  if (window.location.pathname === "/") {
-    document.body.innerHTML = `${MainPage}`;
-  } else if (window.location.pathname === "/profile") {
-    document.body.innerHTML = isLoggedIn ? `${ProfilePage}` : `${LoginPage}`;
-  } else if (window.location.pathname === "/login") {
-    document.body.innerHTML = `${LoginPage}`;
-  } else {
-    document.body.innerHTML = `${ErrorPage}`;
+  const currentPath = window.location.pathname;
+  const route = routes.find((r) => r.path === currentPath);
+
+  if (!route) {
+    document.body.innerHTML = ErrorPage;
+    return;
   }
+
+  if (route.path === "/profile" && !isLoggedIn) {
+    window.history.pushState({}, "", "/login");
+    //renderPages();
+    return;
+  }
+
+  document.body.innerHTML = route.component;
 };
 
 const main = () => {
-  console.log(window.location.pathname);
+  // console.log(window.location.pathname);
   renderPages();
-  // window.onpopstate = renderPages;
+
+  window.removeEventListener("popstate", renderPages);
   window.addEventListener("popstate", renderPages);
 };
 
 main();
-
-//${ProfilePage()}
-//${LoginPage()}
-//${ErrorPage()}
