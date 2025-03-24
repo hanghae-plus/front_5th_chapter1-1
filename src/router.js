@@ -18,6 +18,7 @@ export const router = (app) => {
       app.innerHTML = NotFoundPage();
     }
   };
+  render(window.location.pathname);
 
   // NOTE : 메인 페이지 히스토리 초기화
   window.addEventListener("DOMContentLoaded", () => {
@@ -27,8 +28,6 @@ export const router = (app) => {
         "",
         window.location.pathname,
       );
-
-    render(window.location.pathname);
 
     // NOTE : 로그인 버튼 클릭 시 로그인 페이지로
     const loginBtn = document.querySelector("#btn-login");
