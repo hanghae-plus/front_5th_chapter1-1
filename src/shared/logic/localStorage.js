@@ -8,3 +8,7 @@ export function getUserInfoFromStorage() {
 export function setUserInfoToStorage(userInfo) {
   localStorage.setItem(USER_KEY, JSON.stringify(userInfo));
 }
+
+export function removeUserInfoFromStorage() {
+  localStorage.removeItem(USER_KEY);
+}

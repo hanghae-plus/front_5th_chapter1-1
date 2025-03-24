@@ -44,12 +44,14 @@ function setEventListeners() {
 
   const loginForm = document.getElementById(ID.LOGIN_FORM);
   loginForm?.addEventListener("submit", (event) => {
-    handleSubmitLogin(event);
+    const loginSuccess = handleSubmitLogin(event);
+    loginSuccess && renderPage();
   });
 
   const profileForm = document.getElementById(ID.PROFILE_FORM);
   profileForm?.addEventListener("submit", (event) => {
     handleSubmitProfile(event);
+    renderPage();
   });
 }
 export function renderPage() {

@@ -8,9 +8,15 @@ export function handleSubmitLogin(event) {
   const username = formData.get("username");
   const bio = formData.get("bio");
 
+  if (!username) {
+    return false;
+  }
+
   setUserInfoToStorage({
     username,
     email,
     bio,
   });
+
+  return true;
 }

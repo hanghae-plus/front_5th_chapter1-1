@@ -1,7 +1,6 @@
 import { setUserInfoToStorage } from "../../shared/logic/localStorage.js";
 
 export function handleSubmitProfile(event) {
-  console.info("profile event", event);
   event.preventDefault();
 
   const formData = new FormData(event.target);
