@@ -5,10 +5,15 @@ const state = {
   isLoggedIn: false,
 };
 
+const textHighlighter = (href) => {
+  if (location.pathname === href) return "text-blue-600";
+  return "text-gray-600";
+};
+
 const Header = ({ isLoggedIn }) => {
   const nav = isLoggedIn
     ? `
-        <li><a href="/profile" class="text-gray-600">프로필</a></li>
+        <li><a href="/profile" class="${textHighlighter("/profile")}">프로필</a></li>
         <li><a href="#" class="text-gray-600" id="logout">로그아웃</a></li>
       `
     : `
@@ -22,7 +27,7 @@ const Header = ({ isLoggedIn }) => {
 
     <nav class="bg-white shadow-md p-2 sticky top-14">
       <ul class="flex justify-around">
-        <li><a href="/" class="text-blue-600">홈</a></li>
+        <li><a href="/" class="${textHighlighter("/")}">홈</a></li>
         ${nav}
       </ul>
     </nav>
@@ -235,7 +240,7 @@ const ProfilePage = () => `
                 <label
                   for="username"
                   class="block text-gray-700 text-sm font-bold mb-2"
-                  >사용자 이름
+                  >이메일 또는 전화번호
                 </label>
                 <input
                   type="text"
