@@ -13,7 +13,7 @@ export const ProfilePage = (container) => {
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
         ${Header()}
-        <nav></nav>
+        <nav class="bg-white shadow-md p-2 sticky top-14"></nav>
         <main class="p-4">
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
