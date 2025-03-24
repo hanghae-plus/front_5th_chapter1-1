@@ -1,8 +1,16 @@
 class Router {
   constructor() {
     this.routes = {};
+    this.basePath = this.getBasePath();
     window.addEventListener("popstate", this.handlePopState.bind(this));
     window.addEventListener("hashchange", this.handleHashChange.bind(this));
+  }
+
+  getBasePath() {
+    //
+    return window.location.hostname.includes("github.io")
+      ? "/front_5th_chapter1-1"
+      : "";
   }
 
   get isHashMode() {
@@ -13,23 +21,28 @@ class Router {
   }
 
   addRoute(path, handler) {
-    this.routes[path] = handler;
+    const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+    this.routes[normalizedPath] = handler;
   }
 
   navigateTo(path) {
+    const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+
     if (this.isHashMode) {
-      window.location.hash = path;
-      const routePath = path || "/";
+      window.location.hash = normalizedPath;
+      const routePath = normalizedPath || "/";
       this.handleRoute(routePath);
     } else {
-      history.pushState(null, "", path);
-      this.handleRoute(path);
+      const fullPath = `${this.basePath}${normalizedPath}`;
+      history.pushState(null, "", fullPath);
+      this.handleRoute(normalizedPath);
     }
   }
 
   handlePopState() {
     if (!this.isHashMode) {
-      this.handleRoute(window.location.pathname);
+      const path = window.location.pathname.replace(this.basePath, "") || "/";
+      this.handleRoute(path);
     }
   }
 
@@ -47,7 +60,16 @@ class Router {
       document.body.appendChild(root);
     }
 
-    const handler = this.routes[path] || this.routes["*"];
+    const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+
+    let routePath = normalizedPath;
+    if (routePath.startsWith(this.basePath)) {
+      routePath = routePath.replace(this.basePath, "") || "/";
+    }
+
+    if (routePath === "") routePath = "/";
+
+    const handler = this.routes[routePath] || this.routes["*"];
 
     if (handler) {
       handler();

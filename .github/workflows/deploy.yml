@@ -35,8 +35,6 @@ jobs:
 
       - name: Build with Vite
         run: pnpm run build
-        env:
-          NODE_ENV: production
 
       - name: Create 404 page
         run: cp dist/index.html dist/404.html
