@@ -2,7 +2,6 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 export default () => `
-  <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
         ${Header()}
@@ -69,5 +68,4 @@ export default () => `
         ${Footer()}
       </div>
     </div>
-  </div>
 `;
