@@ -35,7 +35,7 @@ const URL_MAP = {
 
 const navigate = (e) => {
   let url = e.detail?.url || location.pathname || ROUTES.MAIN;
-  const username = store.get("username");
+  const username = store.isLogon();
   if (!username && url === ROUTES.PROFILE) url = ROUTES.LOGIN;
   if (!!username && url === ROUTES.LOGIN) url = ROUTES.MAIN;
   if (!url.includes(PREFIX)) url = PREFIX + url;
@@ -58,13 +58,10 @@ document.addEventListener("submit", (e) => {
   e.preventDefault();
   if (e.target.id === ELEMENT_ID.LOGIN_FORM) {
     const formData = new FormData(e.target);
-    const username = formData.get("username");
-    const password = formData.get("password");
-    if (username && password) {
-      const data = { username, email: "", bio: "" };
-      localStorage.setItem("user", JSON.stringify(data));
-      store.set(data);
-    }
+    const username = formData.get("username") || "";
+    const data = { username, email: "", bio: "" };
+    localStorage.setItem("user", JSON.stringify(data));
+    store.set(data);
     const url = ROUTES.MAIN;
     const config = { detail: { url }, bubbles: true, cancelable: true };
     document.dispatchEvent(new CustomEvent(CUSTOM_EVENT.PAGE_PUSH, config));

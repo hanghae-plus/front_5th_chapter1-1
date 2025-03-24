@@ -8,10 +8,11 @@ const createStore = () => {
     }
   };
 
-  const state = getStorage();
+  const state = {};
 
   const isLogon = () => {
-    return !!state.user;
+    const tmp = getStorage();
+    return !!tmp.username;
   };
 
   const get = (key) => {

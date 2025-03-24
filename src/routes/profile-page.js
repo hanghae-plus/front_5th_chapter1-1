@@ -26,7 +26,7 @@ const ProfilePage = () => {
               type="text"
               id="username"
               name="username"
-              value="${profileData?.username || "홍길동"}"
+              value="${profileData?.username || ""}"
               class="w-full p-2 border rounded"
             />
           </div>
@@ -40,7 +40,7 @@ const ProfilePage = () => {
               type="email"
               id="email"
               name="email"
-              value="${profileData?.email || "hong@example.com"}"
+              value="${profileData?.email || ""}"
               class="w-full p-2 border rounded"
             />
           </div>
@@ -55,7 +55,7 @@ const ProfilePage = () => {
               name="bio"
               rows="4"
               class="w-full p-2 border rounded"
-            >${profileData?.bio || "안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다."}</textarea>
+            >${profileData?.bio || ""}</textarea>
           </div>
           <button
             type="submit"
