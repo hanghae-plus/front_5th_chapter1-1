@@ -2,10 +2,9 @@
 const BLUETEXT = "text-blue-600";
 const GRAYTEXT = "text-gray-600";
 
-export const Header = (loginState) => /* HTML */ {
-  const nav =
-    loginState === true
-      ? `<nav class="bg-white shadow-md p-2 sticky top-14">
+export const Header = (userName) => /* HTML */ {
+  const nav = userName
+    ? `<nav class="bg-white shadow-md p-2 sticky top-14">
 	  <ul class="flex justify-around">
 		<li>
 		  <a href="/" class=${location.pathname === "/" ? BLUETEXT : GRAYTEXT}
@@ -20,11 +19,11 @@ export const Header = (loginState) => /* HTML */ {
 		  >
 		</li>
 		<li>
-		  <a id="logout"href="#" class=${GRAYTEXT}>로그아웃</a>
+		  <a id="logout" href="#" class=${GRAYTEXT}>로그아웃</a>
 		</li>
 	  </ul>
 	</nav>`
-      : `<nav class="bg-white shadow-md p-2 sticky top-14">
+    : `<nav class="bg-white shadow-md p-2 sticky top-14">
 	  <ul class="flex justify-around">
 		<li>
 		  <a href="/" class=${location.pathname === "/" ? BLUETEXT : GRAYTEXT}
@@ -38,7 +37,8 @@ export const Header = (loginState) => /* HTML */ {
 		</li>
 	  </ul>
 	</nav>`;
-
+  const logoutButton = document.getElementById("logout");
+  console.log(logoutButton);
   return /*html*/ `
 	<header class="bg-blue-600 text-white p-4 sticky top-0">
 	  <h1 class="text-2xl font-bold">항해플러스</h1>

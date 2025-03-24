@@ -1,19 +1,14 @@
 import { MainPage, LoginPage, ErrorPage, ProfilePage } from "./page";
-
-const App = () => {
-  if (location.pathname === "/") {
-    return MainPage();
-  }
-  if (location.pathname === "/profile") {
-    return ProfilePage();
-  }
-  if (location.pathname === "/login") {
-    return LoginPage();
-  }
-  return ErrorPage();
-};
+import { clearUser, setUser } from "./store/user";
 
 const root = document.getElementById("root");
+
+const App = () => {
+  if (location.pathname === "/") return MainPage();
+  if (location.pathname === "/profile") return ProfilePage();
+  if (location.pathname === "/login") return LoginPage();
+  return ErrorPage();
+};
 
 const render = () => {
   root.innerHTML = App();
@@ -36,28 +31,21 @@ window.addEventListener("popstate", () => {
 });
 
 //login
-root.addEventListener("click", function (event) {
+root.addEventListener("submit", function (event) {
   event.preventDefault();
-  if (event.target && event.target.id === "loginBtn") {
-    let inputValue = root.querySelector("#username")?.value;
-    localStorage.setItem(
-      "user",
-      JSON.stringify({
-        name: inputValue,
-        introduce: "",
-      }),
-    );
-    localStorage.setItem("loggedIn", true);
+
+  if (event.target && event.target.id === "login-form") {
+    let username = document.getElementById("username")?.value;
+    setUser({ username, bio: "", email: "" });
     history.pushState(null, "", "profile");
     render();
   }
 });
 
 root.addEventListener("click", function (evnet) {
-  if (evnet.target && evnet.target.innerText === "로그아웃") {
+  if (evnet.target && evnet.target.id === "logout") {
     console.log("로그아웃");
-    localStorage.clear("user");
-    localStorage.setItem("loggedIn", false);
+    clearUser();
     history.pushState(null, "", "login");
     render();
   }

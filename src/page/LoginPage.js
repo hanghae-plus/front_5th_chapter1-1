@@ -5,7 +5,7 @@ export const LoginPage = () => /* HTML */ {
 		<h1 class="text-2xl font-bold text-center text-blue-600 mb-8">
 		  항해플러스
 		</h1>
-		<form>
+		<form id="login-form">
 		  <div class="mb-4">
 			<input
 			  id="username"

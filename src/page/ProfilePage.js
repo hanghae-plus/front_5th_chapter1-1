@@ -1,36 +1,17 @@
 import { Footer } from "../component/Footer";
 import { Header } from "../component/Header";
+import { getUser } from "../store/user";
 import { LoginPage } from "./LoginPage";
-import { state } from "../store/loginState";
 
 export const ProfilePage = () => {
-  if (!state.loginState) {
+  let user = getUser();
+  if (!user.username) {
     return LoginPage();
   }
-
-  let userData = JSON.parse(localStorage.getItem("user"));
-  let username = userData.name;
-  let introduce = userData.introduce;
-  setTimeout(() => {
-    const userName = document.getElementById("username");
-
-    userName.addEventListener("input", function (e) {
-      username = e.target.value;
-    });
-
-    const profileUpdate = document.getElementById("profileUpdate");
-    profileUpdate.addEventListener("click", function () {
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ name: username, introduce: introduce }),
-      );
-    });
-  }, 0);
-
   return /* HTML */ `
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
-        ${Header(state.loginState)}
+        ${Header(user.username)}
         <main class="p-4">
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
@@ -47,7 +28,7 @@ export const ProfilePage = () => {
                   type="text"
                   id="username"
                   name="username"
-                  value=${username}
+                  value=${user.username}
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -61,7 +42,7 @@ export const ProfilePage = () => {
                   type="email"
                   id="email"
                   name="email"
-                  value="hong@example.com"
+                  value=${user.email || "nnn@naver.com"}
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -76,6 +57,7 @@ export const ProfilePage = () => {
                   name="bio"
                   rows="4"
                   class="w-full p-2 border rounded"
+                  value=${user.bio}
                 >
 안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
                 >

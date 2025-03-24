@@ -1,14 +1,13 @@
 import { Header } from "../component/Header";
 import { Footer } from "../component/Footer";
+import { getUser } from "../store/user";
 
-const state = {
-  loginState: JSON.parse(localStorage.getItem("loggedIn")),
-};
+const user = getUser();
 
 export const MainPage = () => /* HTML */ `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
-      ${Header(state.loginState)}
+      ${Header(user.username)}
       <main class="p-4">
         <div class="mb-4 bg-white rounded-lg shadow p-4">
           <textarea
