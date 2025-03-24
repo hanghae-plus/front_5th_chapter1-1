@@ -1,14 +1,5 @@
 import userEvent from "@testing-library/user-event";
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from "vitest";
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 beforeAll(async () => {
   // DOM 초기화
@@ -45,9 +36,7 @@ describe("기본과제 테스트", () => {
 
     it('"/login" 경로로 접근하면 로그인 페이지가 렌더링된다', () => {
       goTo("/login");
-      const submitButtons = [
-        ...document.querySelectorAll("form button[type='submit']"),
-      ];
+      const submitButtons = [...document.querySelectorAll("form button[type='submit']")];
       expect([...document.querySelectorAll("header")].length).toBe(0);
       expect(submitButtons.length).toBe(1);
       expect(submitButtons[0].innerHTML.includes("로그인")).toBe(true);
@@ -57,9 +46,7 @@ describe("기본과제 테스트", () => {
       // 로그인 상태 시뮬레이션
       goTo("/profile");
 
-      const submitButtons = [
-        ...document.querySelectorAll("form button[type='submit']"),
-      ];
+      const submitButtons = [...document.querySelectorAll("form button[type='submit']")];
       expect([...document.querySelectorAll("header")].length).toBe(0);
       expect(submitButtons.length).toBe(1);
       expect(submitButtons[0].innerHTML.includes("로그인")).toBe(true);
@@ -79,13 +66,9 @@ describe("기본과제 테스트", () => {
 
       await user.type(document.getElementById("username"), "testuser");
 
-      loginForm.dispatchEvent(
-        new SubmitEvent("submit", { bubbles: true, cancelable: true }),
-      );
+      loginForm.dispatchEvent(new SubmitEvent("submit", { bubbles: true, cancelable: true }));
 
-      expect(localStorage.getItem("user")).toEqual(
-        `{"username":"testuser","email":"","bio":""}`,
-      );
+      expect(localStorage.getItem("user")).toEqual(`{"username":"testuser","email":"","bio":""}`);
 
       const logoutButton = document.getElementById("logout");
       logoutButton.click();
@@ -102,9 +85,7 @@ describe("기본과제 테스트", () => {
 
       await user.type(document.getElementById("username"), "testuser");
 
-      loginForm.dispatchEvent(
-        new SubmitEvent("submit", { bubbles: true, cancelable: true }),
-      );
+      loginForm.dispatchEvent(new SubmitEvent("submit", { bubbles: true, cancelable: true }));
 
       goTo("/profile");
     });
@@ -124,9 +105,7 @@ describe("기본과제 테스트", () => {
       const bioInput = document.getElementById("bio");
 
       bioInput.value = "Updated bio";
-      profileForm.dispatchEvent(
-        new SubmitEvent("submit", { bubbles: true, cancelable: true }),
-      );
+      profileForm.dispatchEvent(new SubmitEvent("submit", { bubbles: true, cancelable: true }));
 
       expect(localStorage.getItem("user")).toEqual(
         `{"username":"testuser","email":"","bio":"Updated bio"}`,
@@ -142,9 +121,7 @@ describe("기본과제 테스트", () => {
 
       await user.type(document.getElementById("username"), "testuser");
 
-      loginForm.dispatchEvent(
-        new SubmitEvent("submit", { bubbles: true, cancelable: true }),
-      );
+      loginForm.dispatchEvent(new SubmitEvent("submit", { bubbles: true, cancelable: true }));
 
       window.history.pushState({}, "", "/profile");
       window.dispatchEvent(new Event("popstate"));
@@ -188,9 +165,7 @@ describe("기본과제 테스트", () => {
 
       await user.type(document.getElementById("username"), "testuser");
 
-      loginForm.dispatchEvent(
-        new SubmitEvent("submit", { bubbles: true, cancelable: true }),
-      );
+      loginForm.dispatchEvent(new SubmitEvent("submit", { bubbles: true, cancelable: true }));
 
       // 로그인 상태
       expect(document.body.innerHTML).toContain("로그아웃");
