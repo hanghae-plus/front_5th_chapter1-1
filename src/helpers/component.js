@@ -1,3 +1,5 @@
+// TODO: 구조 변경하기(template, setup) 형식으로 간소화해볼까?
+
 export function defineComponent(pageComponent) {
   const childrenTemplates = {};
   const childrenDomEvents = {};
