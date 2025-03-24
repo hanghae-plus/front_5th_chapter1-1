@@ -1,10 +1,10 @@
 import { render } from "./helpers/render.js";
 import { createRouter } from "./core/router";
 import { routes, onBeforeEach } from "./router.js";
-import { Context } from "./helpers/context.js";
+import { provide } from "./core/context";
 
 const root = render("#root");
 const router = createRouter(root, routes, { mode: "hash" });
 
-Context.provide("router", router);
+provide("router", router);
 router.beforeEach(onBeforeEach).start();

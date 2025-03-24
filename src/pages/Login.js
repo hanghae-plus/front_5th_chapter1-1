@@ -1,5 +1,5 @@
 import { useUserStore } from "../stores/user";
-import { Context } from "../helpers/context";
+import { inject } from "../core/context";
 import { defineComponent } from "../helpers/component";
 
 const LoginContent = {
@@ -29,7 +29,7 @@ const LoginContent = {
     `,
 
   domEvent: () => {
-    const router = Context.inject("router");
+    const router = inject("router");
     const userStore = useUserStore();
     const form = document.querySelector("#login-form");
 

@@ -1,17 +1,18 @@
 import { useUserStore } from "../stores/user.js";
 import { defineComponent } from "../helpers/component";
-import { Context } from "../helpers/context";
+import { inject } from "../core/context";
 
 const HeaderContent = {
   name: "Header",
   template: () => {
     const userStore = useUserStore();
-    const router = Context.inject("router");
+    const router = inject("router");
 
     function isActive(path) {
-      return router.getCurrentPath() === path
-        ? "text-blue-600 font-bold"
-        : "text-gray-600";
+      const isSamePath = router.getCurrentPath() === path;
+
+      if (isSamePath) return "text-blue-600 font-bold";
+      else return "text-gray-600";
     }
 
     return `

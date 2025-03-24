@@ -1,4 +1,4 @@
-export class Context {
+class Context {
   static #store = {};
 
   static provide(key, value) {
@@ -12,3 +12,6 @@ export class Context {
     return Context.#store[key];
   }
 }
+
+export const provide = Context.provide;
+export const inject = Context.inject;
