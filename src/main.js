@@ -8,7 +8,8 @@ const Header = () => /*html*/ `
         <ul class="flex justify-around">
           <li><a href="/" class="text-blue-600">홈</a></li>
           <li><a href="/profile" class="text-gray-600">프로필</a></li>
-          <li><a href="#" class="text-gray-600">로그아웃</a></li>
+          <li><a href="/login" class="text-gray-600">로그인</a></li>
+          
         </ul>
       </nav>
 `;
@@ -138,12 +139,12 @@ const LoginPage = () => /*html*/ `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
-      <form>
+      <form id="login-form">
         <div class="mb-4">
-          <input type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
+          <input type="text" id="username" name="username" placeholder="사용자 이름" class="w-full p-2 border rounded">
         </div>
         <div class="mb-6">
-          <input type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
+          <input type="password" id="password" name="password" placeholder="비밀번호" class="w-full p-2 border rounded">
         </div>
         <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
       </form>
@@ -271,12 +272,43 @@ const render = () => {
   document.querySelectorAll("nav").forEach((nav) => {
     console.log(nav);
     nav.addEventListener("click", (e) => {
-      e.preventDefault();
+      e.preventDefault(); // 기본 제출 동작 방지
       console.log(`href: ${e.target.href}`);
       if (e.target.href !== undefined) {
         const url = e.target.href.replace("http://localhost:5173", "");
         navigateTo(url);
       }
+    });
+  });
+
+  const form = document.getElementById("login-form");
+  console.log(form);
+
+  document.querySelectorAll("form").forEach((form) => {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault(); // 기본 제출 동작 방지
+      console.log(e);
+
+      console.log(e.target);
+      if (e.target.id === "login-form") {
+        const formData = new FormData(e.target); // 폼 데이터 가져오기
+
+        const user = {};
+        // form데이터 추출
+        formData.forEach((value, key) => {
+          console.log(`${key}: ${value}`);
+          user[key] = value;
+        });
+
+        // LocalStorage에 데이터 저장
+        localStorage.setItem("user", JSON.stringify(user));
+        navigateTo("/profile");
+        // LocalStorage에서 데이터 가져오기
+        // const userTest = JSON.parse(localStorage.getItem("user"));
+        // console.log(userTest);
+      }
+
+      //console.log("Submitted Data:", Object.fromEntries(formData.entries())); // 데이터 출력
     });
   });
 };
