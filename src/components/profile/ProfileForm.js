@@ -1,4 +1,4 @@
-import { getUser } from "../../store/Auth";
+import { getUser } from "../../store/auth";
 import SubmitBtn from "../common/SubmitBtn";
 
 const ProfileForm = () => {
