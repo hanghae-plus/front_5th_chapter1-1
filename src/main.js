@@ -6,7 +6,7 @@ const Header = ({ isLoggedIn }) => {
   const nav = isLoggedIn
     ? `
         <li><a href="/profile" class="text-gray-600">프로필</a></li>
-        <li><a href="#" class="text-gray-600">로그아웃</a></li>
+        <li><a href="#" class="text-gray-600" id="logout">로그아웃</a></li>
       `
     : `
       <li><a href="/login" class="text-gray-600">로그인</a></li>
@@ -181,12 +181,13 @@ const LoginPage = () => /* HTML */ `
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">
         항해플러스
       </h1>
-      <form>
+      <form id="login-form">
         <div class="mb-4">
           <input
             type="text"
             placeholder="이메일 또는 전화번호"
             class="w-full p-2 border rounded"
+            id="username"
           />
         </div>
         <div class="mb-6">
@@ -303,10 +304,29 @@ const App = () => {
   return ErrorPage();
 };
 
+const setLocalStorage = (userInfo) => {
+  try {
+    localStorage.setItem("user", JSON.stringify(userInfo));
+  } catch (error) {
+    alert("error", error);
+  }
+};
+
+const removeLocalStorage = (key) => {
+  try {
+    localStorage.removeItem(key);
+  } catch (error) {
+    alert("error", error);
+  }
+};
+
 const render = () => {
   document.querySelector("#root").innerHTML = App();
 
   const $ul = document.querySelector("ul");
+  const $loginForm = document.getElementById("login-form");
+  const $usernameInput = document.getElementById("username");
+  const $logoutButton = document.getElementById("logout");
 
   if ($ul) {
     $ul.addEventListener(
@@ -322,6 +342,29 @@ const render = () => {
       },
       false,
     );
+  }
+
+  if ($loginForm) {
+    $loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if ($usernameInput.value !== "") {
+        setLocalStorage({ username: $usernameInput.value, email: "", bio: "" });
+        history.pushState(null, "", "/profile");
+        state.isLoggedIn = true;
+        render();
+      } else {
+        alert("아이디 필수");
+      }
+    });
+  }
+
+  if ($logoutButton) {
+    $logoutButton.addEventListener("click", () => {
+      history.pushState(null, "", "/login");
+      state.isLoggedIn = false;
+      removeLocalStorage("user");
+      render();
+    });
   }
 };
 
