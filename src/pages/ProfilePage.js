@@ -6,9 +6,9 @@ import { setData } from "../utils/localStorage";
 import { removeData } from "../utils/localStorage";
 
 function ProfilePage($container) {
+  console.log("profilepage");
   const user = getData("user", null);
   if (!user) {
-    console.log("navigate");
     navigate("/login", true);
     return;
   }
@@ -90,7 +90,6 @@ function ProfilePage($container) {
 
   this.$logoutButton.addEventListener("click", () => {
     removeData("user");
-    navigate("/", true);
   });
 
   this.form = this.$container.querySelector("#profile-form");
@@ -106,6 +105,17 @@ function ProfilePage($container) {
       bio: $bioInput.value,
     });
   });
+
+  this.$nav = this.$container
+    .querySelector("nav")
+    .addEventListener("click", (e) => {
+      const target = e.target.closest("a");
+      if (!(target instanceof HTMLAnchorElement)) return;
+
+      e.preventDefault();
+      const targetPath = target.href.replace(location.origin, "");
+      navigate(targetPath);
+    });
 }
 
 export default ProfilePage;

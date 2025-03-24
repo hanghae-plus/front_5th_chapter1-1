@@ -14,9 +14,9 @@ export const Header = () => {
 
     <nav class="bg-white shadow-md p-2 sticky top-14">
       <ul class="flex justify-around">
-        <li><button class="move-to-home ${isHome ? "text-blue-600" : "text-gray-600"}">홈</button></li>
-        <li><button class="move-to-profile ${isProfile ? "text-blue-600" : "text-gray-600"}">프로필</button></li>
-        <li>${user ? "<button id='logout' class='text-gray-600'>로그아웃</button>" : "<button id='login' class='text-gray-600'>로그인</button>"}</li>
+        <li><a href="/" class="move-to-home ${isHome ? "text-blue-600 font-bold" : "text-gray-600 font-normal"}">홈</a></li>
+        <li><a href="/profile" class="move-to-profile ${isProfile ? "text-blue-600 font-bold" : "text-gray-600 font-normal"}">프로필</a></li>
+        <li>${user ? "<a href='/login' id='logout' class='text-gray-600 font-normal'>로그아웃</a>" : "<a href='/login' id='login' class='text-gray-600 font-normal'>로그인</a>"}</li>
       </ul>
     </nav>
 `;

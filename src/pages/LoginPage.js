@@ -2,6 +2,7 @@ import { setData, getData } from "../utils/localStorage";
 import { navigate } from "../utils/navigate";
 function LoginPage($container) {
   console.log("LoginPage");
+
   // TODO: 공통 로직으로 분리하기
   const user = getData("user", null);
   if (user) {
@@ -18,7 +19,7 @@ function LoginPage($container) {
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
       <form id="login-form">
         <div class="mb-4">
-          <input id="username" required type="text" placeholder="아이디" class="w-full p-2 border rounded">
+          <input id="username" required type="text" placeholder="사용자 이름" class="w-full p-2 border rounded">
         </div>
         <div class="mb-6">
           <input id="password" required type="password" placeholder="비밀번호" class="w-full p-2 border rounded">

@@ -5,6 +5,7 @@ import { FeedCard } from "../components/FeedCard";
 import { removeData } from "../utils/localStorage";
 import { navigate } from "../utils/navigate";
 function MainPage($container) {
+  console.log("mainpage");
   this.$container = $container;
 
   this.render = () => {
@@ -32,21 +33,22 @@ function MainPage($container) {
   this.$loginButton = this.$container.querySelector("#login");
   this.$logoutButton = this.$container.querySelector("#logout");
 
-  console.log(this.$loginButton, this.$logoutButton);
-
   if (this.$logoutButton) {
     this.$logoutButton.addEventListener("click", () => {
-      console.log("logout");
       removeData("user");
-      this.render();
     });
   }
 
-  if (this.$loginButton) {
-    this.$loginButton.addEventListener("click", () => {
-      navigate("/login");
+  this.$nav = this.$container
+    .querySelector("nav")
+    .addEventListener("click", (e) => {
+      const target = e.target.closest("a");
+      if (!(target instanceof HTMLAnchorElement)) return;
+
+      e.preventDefault();
+      const targetPath = target.href.replace(location.origin, "");
+      navigate(targetPath);
     });
-  }
 }
 
 export default MainPage;
