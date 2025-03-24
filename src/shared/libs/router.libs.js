@@ -3,7 +3,13 @@ class Router {
     this.routes = {};
     window.addEventListener("popstate", this.handlePopState.bind(this));
     window.addEventListener("hashchange", this.handleHashChange.bind(this));
-    this.isHashMode = window.location.pathname.includes("hash.html");
+  }
+
+  get isHashMode() {
+    return (
+      window.location.pathname.includes("index.hash.html") ||
+      window.location.hash !== ""
+    );
   }
 
   addRoute(path, handler) {
@@ -12,7 +18,9 @@ class Router {
 
   navigateTo(path) {
     if (this.isHashMode) {
-      window.location.hash = "#" + path;
+      window.location.hash = path;
+      const routePath = path || "/";
+      this.handleRoute(routePath);
     } else {
       history.pushState(null, "", path);
       this.handleRoute(path);
@@ -33,8 +41,17 @@ class Router {
   }
 
   handleRoute(path) {
+    if (!document.getElementById("root")) {
+      const root = document.createElement("div");
+      root.id = "root";
+      document.body.appendChild(root);
+    }
+
     const handler = this.routes[path] || this.routes["*"];
-    handler?.();
+
+    if (handler) {
+      handler();
+    }
   }
 }
 

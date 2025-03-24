@@ -6,7 +6,7 @@ export const setupLoginRoutes = () => {
   router.addRoute("/login", () => {
     const isLogin = userStore.getIsLogin();
     if (isLogin) {
-      router.navigateTo("/");
+      return router.navigateTo("/");
     } else {
       new LoginPage().render();
     }

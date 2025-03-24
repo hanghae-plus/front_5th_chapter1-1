@@ -1,5 +1,6 @@
 import { userStore } from "../../entities/user";
 import { UserService } from "../../features/user";
+import { ensureRootElement } from "../../shared/utils";
 import { Footer } from "../../widget/footer";
 import { Header } from "../../widget/header";
 
@@ -86,7 +87,8 @@ export class ProfilePage {
     });
   }
   render() {
-    document.body.innerHTML = this.template();
+    const root = ensureRootElement();
+    root.innerHTML = this.template();
     this.addEvent();
     this.header.bindEvents();
     return this.template;
