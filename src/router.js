@@ -10,25 +10,26 @@ export const Router = () => {
 
   const rederPage = () => {
     let whatPage = "";
+    let layout = "";
 
     switch (path) {
       case "/":
         whatPage = HomePage();
+        layout = `${Header()} ${Footer()}`;
         break;
       case "/login":
         whatPage = LoginPage();
         break;
       case "/profile":
         whatPage = ProfilePage();
+        layout = `${Header()}${whatPage}${Footer()}`;
         break;
       default:
         whatPage = NotFoundPage();
     }
 
     document.body.innerHTML = `
-    ${Header()}
-    ${whatPage}
-    ${Footer()}
+    ${layout}
     `;
   };
 
