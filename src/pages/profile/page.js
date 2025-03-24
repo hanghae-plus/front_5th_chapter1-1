@@ -7,8 +7,7 @@ export const ProfilePage = () => {
   const user = getUserInfoFromStorage();
 
   if (!user) {
-    goTo("/login");
-    return;
+    return goTo("/login");
   }
 
   const { username, email, bio } = user;

@@ -28,9 +28,7 @@ function setHtml(html) {
   document.body.innerHTML = `<div id="root">${html}</div>`;
 }
 
-export function render() {
-  setHtml(getHtmlByPathName());
-
+function setEventListeners() {
   //root 요소에 이벤트 리스너를 추가해서 delegation
   document.querySelector("#root").addEventListener("click", (event) => {
     if (event.target.tagName === "A") {
@@ -54,6 +52,15 @@ export function render() {
     handleSubmitProfile(event);
   });
 }
+export function renderPage() {
+  setHtml(getHtmlByPathName());
+  setEventListeners();
+}
 
-window.addEventListener("popstate", render);
+function render() {
+  renderPage();
+}
+
+//goTo 함수에서는 pushState로 히스토리를 추가
+window.addEventListener("popstate", () => renderPage(window.location.pathname));
 render();
