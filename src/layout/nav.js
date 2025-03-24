@@ -21,9 +21,7 @@ const nav = () => {
               return isLoggedIn
                 ? /* HTML */ `
                     <li>
-                      <button id="logout" class="text-gray-600">
-                        로그아웃
-                      </button>
+                      <a href="#" id="logout" class="text-gray-600">로그아웃</a>
                     </li>
                   `
                 : /* HTML */ `
@@ -64,7 +62,6 @@ document.addEventListener("click", (e) => {
   if (e.target.id === "logout") {
     e.preventDefault();
 
-    console.log("jiwon 로그아웃 버튼 클릭");
     const { logout } = login;
     logout();
   }

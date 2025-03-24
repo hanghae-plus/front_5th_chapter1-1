@@ -17,7 +17,7 @@ const login = (function () {
   const logout = () => {
     localStorage.removeItem("user");
     changeAuth();
-    router.navigateTo("/");
+    router.navigateTo("/login");
   };
 
   const loginHandler = () => {
