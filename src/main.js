@@ -308,18 +308,21 @@ const render = () => {
 
   const $ul = document.querySelector("ul");
 
-  $ul.addEventListener(
-    "click",
-    (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const href = e.target.getAttribute("href");
+  if ($ul) {
+    $ul.addEventListener(
+      "click",
+      (e) => {
+        if (e.target.tagName === "A") {
+          e.preventDefault();
+          const href = e.target.getAttribute("href");
 
-      history.pushState(null, "", href);
-      render();
-    },
-    false,
-  );
+          history.pushState(null, "", href);
+          render();
+        }
+      },
+      false,
+    );
+  }
 };
 
 window.addEventListener("popstate", () => {
