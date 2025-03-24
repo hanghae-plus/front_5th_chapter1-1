@@ -1,8 +1,7 @@
 import { Store } from "../store";
 
 export const header = () => {
-  const state = Store.getState();
-  const isLogin = state.isLoggedIn;
+  const isLogin = Store.logIn();
 
   const currentPath = window.location.pathname;
 

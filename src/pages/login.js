@@ -45,7 +45,6 @@ export const initLoginPage = () => {
     }
 
     Store.setState({
-      isLoggedIn: true,
       userInfo: {
         username: username,
       },

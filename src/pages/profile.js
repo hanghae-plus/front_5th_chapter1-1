@@ -90,7 +90,6 @@ export const updateProfile = () => {
     };
 
     Store.setState({
-      isLoggedIn: true,
       userInfo: updatedUserInfo,
     });
     alert("프로필 업데이트가 완료되었어요.");

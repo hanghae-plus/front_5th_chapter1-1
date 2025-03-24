@@ -14,7 +14,16 @@ export function renderRoute() {
   const path = window.location.pathname;
   const Page = routes[path] || NotFoundPage;
 
+  const isLogin = Store.logIn();
+
   const root = document.getElementById("root");
+
+  // if (path === "/profile" && !isLogin) {
+  //   history.replaceState(null, "", "/login");
+  //   // renderLoginPage(); 페이지 이동 후 render가 되어야 정상동작되는데 이 부분을 추가하면 왜 테스트 코드에 에러가 나는가;;
+  //   return;
+  // }
+
   if (root) {
     root.innerHTML = Page();
   }
@@ -22,7 +31,12 @@ export function renderRoute() {
   if (path === "/login") {
     initLoginPage();
   }
-  if (path === "/profile") {
+  if (path === "/profile" && !isLogin) {
+    history.replaceState(null, "", "/login");
+    renderLoginPage();
+    return;
+  }
+  if (path === "/profile" && isLogin) {
     updateProfile();
   }
 
