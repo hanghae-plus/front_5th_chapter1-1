@@ -35,21 +35,20 @@ export class NavComponent {
   }
 
   onMount() {
-    const anchorList = this.container.querySelectorAll("a");
-    anchorList.forEach((anchor) => {
-      anchor.addEventListener("click", (e) => {
-        e.preventDefault();
-        if (anchor.id === "logout") {
-          state.loggedInUser = null;
-          localStorage.removeItem(CONST.lsKey.user);
-          window.router.navigate(CONST.pathname.login);
-        } else if (anchor.id === "login") {
-          window.router.navigate(CONST.pathname.login);
-        } else {
-          const path = anchor.getAttribute("href");
-          window.router.navigate(path);
-        }
-      });
+    const nav = this.container;
+    nav.addEventListener("click", (e) => {
+      e.preventDefault();
+      const target = e.target;
+      if (target.id === "logout") {
+        state.loggedInUser = null;
+        localStorage.removeItem(CONST.lsKey.user);
+        window.router.navigate(CONST.pathname.login);
+      } else if (target.id === "login") {
+        window.router.navigate(CONST.pathname.login);
+      } else if (target.tagName === "A") {
+        const path = target.getAttribute("href");
+        window.router.navigate(path);
+      }
     });
   }
 }
