@@ -1,19 +1,22 @@
 import { Footer } from "../component/Footer";
 import { Header } from "../component/Header";
-import { getUser } from "../store/user";
+import User from "../store/user";
 import { LoginPage } from "./LoginPage";
 
 export const ProfilePage = () => {
-  let user = getUser();
-
-  if (!user.username) {
+  const user = new User();
+  let username = user.get()?.username;
+  let email = user.get()?.email;
+  let bio = user.get()?.bio;
+  console.log(username, email, bio);
+  if (!username) {
     return LoginPage();
   }
 
   return /* HTML */ `
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
-        ${Header(user.username)}
+        ${Header(username)}
         <main class="p-4">
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
@@ -30,7 +33,7 @@ export const ProfilePage = () => {
                   type="text"
                   id="username"
                   name="username"
-                  value=${user.username}
+                  value=${username}
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -45,7 +48,7 @@ export const ProfilePage = () => {
                   id="email"
                   name="email"
                   class="w-full p-2 border rounded"
-                  value="${user.email || ""}"
+                  value="${email || ""}"
                 />
               </div>
               <div class="mb-6">
@@ -59,7 +62,7 @@ export const ProfilePage = () => {
                   name="bio"
                   rows="4"
                   class="w-full p-2 border rounded"
-                  value=${user.bio || ""}
+                  value=${bio || ""}
                 >
 자기소개입니다. 자기소개입니다.</textarea
                 >
