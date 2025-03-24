@@ -5,7 +5,7 @@ import { ProfilePage, updateProfile } from "./pages/profile";
 import { Store } from "./store";
 
 const isProd = location.hostname.includes("github.io");
-const BASE_PATH = isProd ? "/front-5th-chapter1-1" : "";
+const BASE_PATH = isProd ? "/front_5th_chapter1-1" : "";
 
 const routes = {
   [`${BASE_PATH}/`]: MainPage,
