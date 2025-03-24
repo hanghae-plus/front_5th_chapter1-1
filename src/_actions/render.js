@@ -1,6 +1,6 @@
 import initLinkNavigation from "./anchors";
 import Layout from "../_components/layouts/Layout";
-import routes from "../_constants/routes";
+import route from "../_constants/route";
 
 // FIXME:
 import { loginAction } from "../_components/pages/LoginPage";
@@ -13,10 +13,10 @@ const render = () => {
 
   const pathname = location.pathname;
 
-  if (pathname === routes.login.path) {
+  if (pathname === route.login.path) {
     loginAction();
   }
-  if (pathname === routes.profile.path) {
+  if (pathname === route.profile.path) {
     profileAction();
   }
 };

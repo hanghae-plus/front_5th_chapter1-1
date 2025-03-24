@@ -1,4 +1,7 @@
-import routes from "../../_constants/routes";
+import {
+  loggedInAccessRoutes,
+  loggedOutAccessRoutes,
+} from "../../_constants/route";
 import { getUserInfo } from "../../_utils/user";
 
 const Header = () => {
@@ -6,12 +9,9 @@ const Header = () => {
 
   const isLoggedIn = !!getUserInfo();
 
-  const loggedInRoutes = [routes.home, routes.profile, routes.logout];
-  const loggedOutRoutes = [routes.home, routes.profile, routes.login];
-
   const getNavItems = () => {
     if (isLoggedIn) {
-      return loggedInRoutes
+      return loggedInAccessRoutes
         .map(
           (route) =>
             `<li><a id="${route.id}" href="${route.path}" class="${pathname === route.path ? "text-blue-600" : "text-gray-600"}">${route.title}</a></li>`,
@@ -19,7 +19,7 @@ const Header = () => {
         .join("");
     }
 
-    return loggedOutRoutes
+    return loggedOutAccessRoutes
       .map(
         (route) => `
         <li><a id="${route.id}" href="${route.path}" class="${pathname === route.path ? "text-blue-600" : "text-gray-600"}">${route.title}</a></li>

@@ -1,7 +1,4 @@
 import render from "./_actions/render";
 
-render();
-
-window.addEventListener("popstate", () => {
-  render();
-});
+window.addEventListener("load", render);
+window.addEventListener("popstate", render);

@@ -1,8 +1,17 @@
 import { goTo } from "../../_actions/goTo";
-import routes from "../../_constants/routes";
+import route from "../../_constants/route";
 import { setUserInfo } from "../../_utils/user";
 
+/**
+ * 진짜 안되면 클래스형으로 바꾸기
+ */
 const LoginPage = () => {
+  /**
+   * 리액트 컴포넌트처럼 사용하고 싶은데 방법을 모르겠어요
+   * 1. window.addEventListener("load", () => {});
+   * 2. window.addEventListener("beforeunload", () => {});
+   */
+
   return `
     <main class="bg-gray-100 flex items-center justify-center min-h-screen">
       <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
@@ -56,7 +65,7 @@ export const loginAction = () => {
 
     setUserInfo(userInfo);
 
-    goTo(routes.home.path);
+    goTo(route.home.path);
   };
 
   const $form = document.querySelector("#login-form");
