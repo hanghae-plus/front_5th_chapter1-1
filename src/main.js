@@ -8,9 +8,6 @@ class Router {
     this.routes[path] = handler;
   }
   navigationTo(path) {
-    if (path === "/profile" && !localStorage.getItem("user")) {
-      this.handleRoute("/login");
-    }
     history.pushState(null, "", path);
     this.handleRoute(path);
   }
@@ -18,6 +15,7 @@ class Router {
     this.handleRoute(window.location.pathname);
   }
   handleRoute(path) {
+    console.log(`Navigation : ${path}`);
     const handler = this.routes[path];
     if (!handler) {
       throw new NotFoundError(path);
@@ -25,6 +23,10 @@ class Router {
     if (path === "/profile" && !localStorage.getItem("user")) {
       this.navigationTo("/login");
     }
+    if (path === "/login" && localStorage.getItem("user")) {
+      this.navigationTo("/");
+    }
+    console.log(`Navigation : ${handler}`);
     if (path === "/login") {
       document.getElementById("root").innerHTML = handler();
     } else {
@@ -39,10 +41,6 @@ class Router {
       // 로그인 폼 이벤트부여
       if (e.target.nodeName === "FORM" && e.target.id === "login-form") {
         const username = document.getElementById("username").value;
-        if (!username || username.length === 0) {
-          alert("이메일 또는 전화번호를 입력해주세요.");
-          return;
-        }
         localStorage.setItem(
           "user",
           JSON.stringify({ username, email: "", bio: "" }),
@@ -54,12 +52,8 @@ class Router {
         const username = document.getElementById("username").value;
         const email = document.getElementById("email").value;
         const bio = document.getElementById("bio").value;
-        if (!username || username.length === 0) {
-          alert("사용자 이름을 입력해주세요.");
-          return;
-        }
         localStorage.setItem("user", JSON.stringify({ username, email, bio }));
-        alert("성공적으로 프로필을 업데이트 하였습니다.");
+        this.navigationTo("/profile");
       }
     });
 
@@ -103,8 +97,8 @@ const NavTab = () => {
   if (localStorage.getItem("user")) {
     return `<nav class="bg-white shadow-md p-2 sticky top-14" id="NavigationTab">
       <ul class="flex justify-around">
-        <li><a href="/" class="${pathname === "/" ? "text-blue-600" : "text-gray-600"}">홈</a></li>
-        <li><a href="/profile" class="${pathname === "/profile" ? "text-blue-600" : "text-gray-600"}">프로필</a></li>
+        <li><a href="/" class="${pathname === "/" ? "text-blue-600 font-bold" : "text-gray-600"}">홈</a></li>
+        <li><a href="/profile" class="${pathname === "/profile" ? "text-blue-600 font-bold" : "text-gray-600"}">프로필</a></li>
         <li><a href="#" class="text-gray-600" id="logout">로그아웃</a></li>
       </ul>
     </nav>`;
@@ -252,7 +246,7 @@ const LoginPage = () => {
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
       <form id="login-form">
         <div class="mb-4">
-          <input type="text" placeholder="사용자이름" class="w-full p-2 border rounded" id="username">
+          <input type="text" placeholder="사용자 이름" class="w-full p-2 border rounded" id="username">
         </div>
         <div class="mb-6">
           <input type="password" placeholder="비밀번호" class="w-full p-2 border rounded" id="password">
