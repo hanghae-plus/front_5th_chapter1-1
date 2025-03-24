@@ -17,7 +17,7 @@ export const ProfilePage = () => {
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
             </h2>
-            <form>
+            <form id="profile-form">
               <div class="mb-4">
                 <label
                   for="username"
@@ -42,8 +42,8 @@ export const ProfilePage = () => {
                   type="email"
                   id="email"
                   name="email"
-                  value=${user.email || "nnn@naver.com"}
                   class="w-full p-2 border rounded"
+                  value="${user.email || ""}"
                 />
               </div>
               <div class="mb-6">
@@ -57,7 +57,7 @@ export const ProfilePage = () => {
                   name="bio"
                   rows="4"
                   class="w-full p-2 border rounded"
-                  value=${user.bio}
+                  value=${user.bio || ""}
                 >
 안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
                 >
