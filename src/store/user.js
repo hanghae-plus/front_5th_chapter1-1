@@ -2,17 +2,14 @@ export const getUser = () => {
   let user = JSON.parse(localStorage.getItem("user"));
 
   let username = user?.username;
-  let bio = user?.bio;
   let email = user?.email;
+  let bio = user?.bio;
 
-  return { username, bio, email };
+  return { username, email, bio };
 };
 
-export const setUser = ({ username, bio, email }) => {
-  localStorage.setItem(
-    "user",
-    JSON.stringify({ username: username, email: email, bio: bio }),
-  );
+export const setUser = ({ username, email, bio }) => {
+  localStorage.setItem("user", JSON.stringify({ username, email, bio }));
 };
 
 export const clearUser = () => {
