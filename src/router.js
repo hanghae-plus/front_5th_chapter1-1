@@ -36,7 +36,7 @@ export const router = (app) => {
       loginBtn.addEventListener("click", (e) => {
         e.preventDefault();
         history.pushState({ page: "login" }, "", "/login");
-        renderLogin();
+        render("/login");
       });
     }
 
