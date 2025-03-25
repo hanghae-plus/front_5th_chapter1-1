@@ -1,8 +1,10 @@
 export class BaseRouter {
-  constructor(root, routes) {
+  constructor(root, routes, options) {
     this.root = root;
     this.routes = routes;
     this.guard = null;
+    this.basePath = options.basePath ?? "/";
+
     this.content = document.createElement("div");
     this.root.appendChild(this.content);
   }
@@ -18,11 +20,12 @@ export class BaseRouter {
   }
 
   renderComponent(route, path) {
+    const fullPath = this.basePath + path.replace(/^\/+/, "");
     const { component } = route;
     if (typeof component !== "object") {
       throw new Error(`"${path}" 컴포넌트가 없습니다.`);
     }
-    window.history.pushState(null, "", path);
+    window.history.pushState(null, "", fullPath);
     this.content.innerHTML = component.template();
     if (typeof component.domEvent === "function") {
       component.domEvent({ contentElement: this.content });
@@ -36,7 +39,8 @@ export class BaseRouter {
 
   renderRoute(toPath) {
     const proceed = (path = toPath) => {
-      const nextPath = this.formatPath(path);
+      const pathWithoutBase = path.replace(this.basePath, "/");
+      const nextPath = this.formatPath(pathWithoutBase);
       const route = this.getRoute(nextPath);
       this.renderComponent(route, nextPath);
     };
