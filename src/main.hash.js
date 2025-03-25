@@ -3,10 +3,9 @@ import "./main.js";
 // -- router --
 
 // 전역 상태 관리 객체
-// loggedIn: 사용자의 로그인 상태
-// currentPath: 현재 페이지 경로
+// loggedIn: 사용자의 로그인 상태 (true/false)
+// currentPath: 현재 페이지 경로 (예: "/", "/login", "/profile")
 // username: 현재 로그인한 사용자의 이름
-console.log(window.location.hash);
 const state = {
   loggedIn: false,
   currentPath: window.location.hash.slice(1) || "/",
@@ -14,12 +13,31 @@ const state = {
 };
 
 // 네비게이션 이벤트 리스너를 저장할 변수
+// 이벤트 리스너를 제거하기 위해 참조를 저장합니다.
 let navigationListener = null;
+
+// 라우팅 가드 함수들
+// isLoggedIn: localStorage에서 사용자 정보를 확인하여 로그인 상태를 반환
+const isLoggedIn = () => {
+  return !!localStorage.getItem("user");
+};
+
+// requireAuth: 로그인이 필요한 페이지를 위한 가드
+// 로그인하지 않은 사용자가 접근하면 로그인 페이지로 리다이렉트
+const requireAuth = (component) => {
+  return () => {
+    if (!isLoggedIn()) {
+      window.location.hash = "/login";
+      return LoginPage();
+    }
+    return component();
+  };
+};
 
 // 라우터 함수: URL 해시에 따라 적절한 페이지 컴포넌트를 렌더링
 // - /: 메인 페이지
 // - /profile: 로그인 상태에 따라 프로필 페이지 또는 로그인 페이지
-// - /login: 로그인 페이지
+// - /login: 로그인 상태에 따라 메인 페이지 또는 로그인 페이지
 // - 그 외: 에러 페이지
 const router = () => {
   const path = window.location.hash.slice(1) || "/";
@@ -29,8 +47,12 @@ const router = () => {
     case "/":
       return MainPage();
     case "/profile":
-      return state.loggedIn ? ProfilePage() : LoginPage();
+      return requireAuth(ProfilePage)();
     case "/login":
+      if (isLoggedIn()) {
+        window.location.hash = "/";
+        return MainPage();
+      }
       return LoginPage();
     default:
       return ErrorPage();
@@ -60,9 +82,15 @@ const render = () => {
     document.body.appendChild(root);
   }
 
+  // root 엘리먼트가 존재하는지 한 번 더 확인
+  if (!root) {
+    console.error("Failed to create root element");
+    return;
+  }
+
   root.innerHTML = content;
 
-  // 이전 이벤트 리스너 제거 후 새로운 이벤트 리스너 등록
+  // 이벤트 리스너 등록
   if (navigationListener) {
     document.removeEventListener("click", navigationListener);
   }
@@ -70,9 +98,6 @@ const render = () => {
   document.addEventListener("click", navigationListener);
 
   // 로그인 폼 이벤트 리스너
-  // - 폼 제출 시 사용자 정보를 localStorage에 저장
-  // - 로그인 상태 업데이트
-  // - 홈 페이지로 리다이렉트
   const loginForm = document.getElementById("login-form");
   if (loginForm) {
     loginForm.addEventListener("submit", (e) => {
@@ -91,7 +116,6 @@ const render = () => {
         );
         setState({ loggedIn: true, username });
         window.location.hash = "/";
-        render();
       } else {
         alert("아이디를 입력해주세요.");
       }
@@ -99,8 +123,6 @@ const render = () => {
   }
 
   // 프로필 폼 이벤트 리스너
-  // - 폼 제출 시 사용자 정보를 localStorage에 업데이트
-  // - 로그인 상태 유지
   const profileForm = document.getElementById("profile-form");
   if (profileForm) {
     profileForm.addEventListener("submit", (e) => {
@@ -122,9 +144,6 @@ const render = () => {
   }
 
   // 로그아웃 버튼 이벤트 리스너
-  // - localStorage에서 사용자 정보 제거
-  // - 로그아웃 상태로 변경
-  // - 홈 페이지로 리다이렉트
   const logoutButton = document.getElementById("logout");
   if (logoutButton) {
     logoutButton.onclick = (e) => {
@@ -156,6 +175,7 @@ const handleNavigation = (e) => {
 };
 
 // 해시 변경 이벤트 처리
+// URL 해시가 변경될 때마다 화면을 다시 렌더링
 window.addEventListener("hashchange", () => {
   render();
 });
@@ -205,7 +225,7 @@ const MainPage = () => /*html*/ `
           ? /*html*/ `<nav class="bg-white shadow-md p-2 sticky top-14">
               <ul class="flex justify-around">
                 <li>
-                  <a href="/" class="text-blue-600">
+                  <a href="/" class="text-blue-600 font-bold">
                     홈
                   </a>
                 </li>
@@ -224,7 +244,7 @@ const MainPage = () => /*html*/ `
           : /*html*/ `<nav class="bg-white shadow-md p-2 sticky top-14">
               <ul class="flex justify-around">
                 <li>
-                  <a href="/" class="text-blue-600">
+                  <a href="/" class="text-blue-600 font-bold">
                     홈
                   </a>
                 </li>
