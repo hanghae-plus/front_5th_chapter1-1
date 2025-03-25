@@ -52,8 +52,13 @@ export const setUpLoginForm = () => {
       email: "",
       bio: "",
     });
-
-    history.pushState({}, "", `${BASE_PATH}/profile`);
+    alert("로그인되었습니다.");
+    const isHash = location.hash;
+    if (isHash) {
+      location.hash = `${BASE_PATH}/profile`;
+    } else {
+      history.pushState({}, "", `${BASE_PATH}/profile`);
+    }
     renderProfilePage();
   });
 };

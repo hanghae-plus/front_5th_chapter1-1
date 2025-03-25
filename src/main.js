@@ -1,4 +1,4 @@
-import { navigateTo, renderRoute } from "./router";
+import { navigateTo, renderRoute } from "./routers/router";
 
 // 맨 처음 렌더 시
 window.addEventListener("DOMContentLoaded", renderRoute);

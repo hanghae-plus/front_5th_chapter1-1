@@ -1,8 +1,8 @@
-import { LoginPage, setUpLoginForm } from "./pages/login";
-import { MainPage } from "./pages/main";
-import { NotFoundPage } from "./pages/notFound";
-import { ProfilePage, updateProfile } from "./pages/profile";
-import { Store } from "./store";
+import { LoginPage, setUpLoginForm } from "../pages/login";
+import { MainPage } from "../pages/main";
+import { NotFoundPage } from "../pages/notFound";
+import { ProfilePage, updateProfile } from "../pages/profile";
+import { Store } from "../store";
 
 const isProd = location.hostname.includes("github.io");
 const BASE_PATH = isProd ? "/front_5th_chapter1-1" : "";
@@ -39,6 +39,7 @@ export function renderRoute() {
   // 3.로그인 폼 제출관련
   if (path === `${BASE_PATH}/login`) {
     setUpLoginForm();
+
     return;
   }
   // 4. 프로필 업데이트 관련
@@ -51,6 +52,7 @@ export function renderRoute() {
   if (logoutBtn) {
     logoutBtn.addEventListener("click", (e) => {
       e.preventDefault();
+      alert("로그아웃 되었습니다.");
       Store.logout();
 
       history.replaceState(null, "", `${BASE_PATH}/login`);

@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 
 export default defineConfig(({ command }) => {
+  // vite에서는 command로 개발서버,프로덕션 구분 가능
   const isProd = command === "build";
 
   return {
