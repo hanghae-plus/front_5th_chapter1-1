@@ -3,31 +3,37 @@ import User from "../store/user";
 import { mode } from "./mode";
 
 export const route = () => {
-  let currentMode = mode();
+  let routeMode = mode();
   let user = new User();
   let username = user.get().username;
-
-  if (currentMode === "hash") {
-    switch (location.hash) {
+  if (routeMode === "hash") {
+    console.log("hash");
+    switch (window.location.hash) {
       case "#/":
         return MainPage();
       case "#/profile":
         return ProfilePage();
       case "#/login":
-        if (username) return MainPage();
+        if (username) {
+          return MainPage();
+        }
         return LoginPage();
       default:
         return ErrorPage();
     }
   }
-  if (currentMode === "history") {
+  if (routeMode === "history") {
+    console.log("test hisroty?");
     switch (location.pathname) {
       case "/":
         return MainPage();
       case "/profile":
         return ProfilePage();
       case "/login":
-        if (username) return MainPage();
+        if (username) {
+          // location.pathname = "/";
+          // return MainPage();
+        }
         return LoginPage();
       default:
         return ErrorPage();

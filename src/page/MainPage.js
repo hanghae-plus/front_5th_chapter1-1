@@ -1,7 +1,9 @@
 import { Header } from "../component/Header";
 import { Footer } from "../component/Footer";
 
-export const MainPage = () => /* HTML */ `
+export const MainPage = () => /* HTML */ {
+  console.log("main 진입 2");
+  return `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
       ${Header()}
@@ -122,3 +124,4 @@ export const MainPage = () => /* HTML */ `
     </div>
   </div>
 `;
+};

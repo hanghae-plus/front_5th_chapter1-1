@@ -7,12 +7,11 @@ const GRAYTEXT = "text-gray-600";
 export const Header = () => /* HTML */ {
   const user = new User();
   let username = user.get().username;
-
   const nav = username
     ? `<nav class="bg-white shadow-md p-2 sticky top-14">
 	  <ul class="flex justify-around">
 		<li>
-		  <a href="/" class="${location.pathname === "/" || location.hash === "#/" ? BLUETEXT : GRAYTEXT}"
+		  <a href="/" class="${location.pathname === "/" || location.hash === "#/" ? "text-blue-600 font-bold" : GRAYTEXT}"
 			>홈</a
 		  >
 		</li>

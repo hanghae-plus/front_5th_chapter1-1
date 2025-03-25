@@ -1,5 +1,5 @@
 export const LoginPage = () => /* HTML */ {
-  console.log("login안에서 path", window.location.hash);
+  console.log("login 진입 1");
   return /*html*/ `
 	 <main class="bg-gray-100 flex items-center justify-center min-h-screen">
 	  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">

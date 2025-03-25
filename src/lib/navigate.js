@@ -1,5 +1,4 @@
 import { mode } from "./mode";
-import { render } from "./render";
 
 export const navigate = (pathname) => {
   if (mode() === "hash") {
@@ -7,6 +6,8 @@ export const navigate = (pathname) => {
     window.dispatchEvent(new Event("hashchange"));
     return;
   }
+  console.log("history navigate");
   history.pushState(null, "", pathname);
-  render();
+  window.dispatchEvent(new Event("hashchange"));
+  return;
 };
