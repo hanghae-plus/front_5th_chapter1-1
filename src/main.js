@@ -48,12 +48,16 @@ const render = () => {
   if (profileForm) {
     profileForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const email = document.getElementById("email");
-      const bio = document.getElementById("bio");
+      const username = document.getElementById("username").value;
+      const email = document.getElementById("email").value;
+      const bio = document.getElementById("bio").value;
       const user = JSON.parse(localStorage.getItem("user"));
+      user.username = username;
       user.email = email;
       user.bio = bio;
+      console.log(user);
       localStorage.setItem("user", JSON.stringify(user));
+      render();
     });
   }
 
@@ -75,8 +79,8 @@ const login = () => {
   const username = document.getElementById("username").value;
   const user = {
     username: username,
-    bio: "",
     email: "",
+    bio: "",
   };
   localStorage.setItem("user", JSON.stringify(user));
 
