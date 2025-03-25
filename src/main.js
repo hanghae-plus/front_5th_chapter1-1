@@ -3,7 +3,7 @@ import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
-const isLoggedIn = () => {
+export const isLoggedIn = () => {
   return !!localStorage.getItem("user");
 };
 
@@ -36,6 +36,10 @@ document.body.addEventListener("click", (e) => {
 
     if (anchor.text === "로그아웃") {
       localStorage.removeItem("user");
+      navigate("/login");
+      return;
+    } else if (anchor.text === "로그인") {
+      navigate("/login");
       return;
     }
 

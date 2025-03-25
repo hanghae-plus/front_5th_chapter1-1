@@ -1,3 +1,5 @@
+import { isLoggedIn } from "../main";
+
 class Header {
   template() {
     return /*HTML*/ `
@@ -9,7 +11,7 @@ class Header {
         <ul class="flex justify-around">
           <li><a href="/" class="text-blue-600">홈</a></li>
           <li><a href="/profile" class="text-gray-600">프로필</a></li>
-          <li><a href="#" id="logout" class="text-gray-600">로그아웃</a></li>
+          <li><a href="#" id="${isLoggedIn() ? "logout" : "logint"}" class="text-gray-600">${isLoggedIn() ? "로그아웃" : "로그인"}</a></li>
         </ul>
       </nav>
     `;
