@@ -1,19 +1,40 @@
-const MainPage = () => `
-  <div class="bg-gray-100 min-h-screen flex justify-center">
-    <div class="max-w-md w-full">
+const Header = () => `
       <header class="bg-blue-600 text-white p-4 sticky top-0">
         <h1 class="text-2xl font-bold">항해플러스</h1>
       </header>
+`;
 
+const Navigate = () => `
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
           <li><a href="/" class="text-blue-600">홈</a></li>
+          <li><a href="/login" class="text-gray-600">로그인</a></li>
           <li><a href="/profile" class="text-gray-600">프로필</a></li>
           <li><a href="#" class="text-gray-600">로그아웃</a></li>
         </ul>
       </nav>
+`;
 
+const Footer = () => `
+      <footer class="bg-gray-200 p-4 text-center">
+        <p>&copy; 2024 항해플러스. All rights reserved.</p>
+      </footer>
+`;
+
+const MainPage = (content) => `
+  <div class="bg-gray-100 min-h-screen flex justify-center">
+    <div class="max-w-md w-full">
+      ${Header()}
+      ${Navigate()}
       <main class="p-4">
+        ${content()}
+      </main>
+      ${Footer()}
+    </div>
+  </div>
+`;
+
+const Home = () => `
         <div class="mb-4 bg-white rounded-lg shadow p-4">
           <textarea class="w-full p-2 border rounded" placeholder="무슨 생각을 하고 계신가요?"></textarea>
           <button class="mt-2 bg-blue-600 text-white px-4 py-2 rounded">게시</button>
@@ -101,13 +122,6 @@ const MainPage = () => `
             </div>
           </div>
         </div>
-      </main>
-
-      <footer class="bg-gray-200 p-4 text-center">
-        <p>&copy; 2024 항해플러스. All rights reserved.</p>
-      </footer>
-    </div>
-  </div>
 `;
 
 const ErrorPage = () => `
@@ -147,26 +161,9 @@ const LoginPage = () => `
         <button class="bg-green-500 text-white px-4 py-2 rounded font-bold">새 계정 만들기</button>
       </div>
     </div>
-  </main>
 `;
 
-const ProfilePage = () => `
-  <div id="root">
-    <div class="bg-gray-100 min-h-screen flex justify-center">
-      <div class="max-w-md w-full">
-        <header class="bg-blue-600 text-white p-4 sticky top-0">
-          <h1 class="text-2xl font-bold">항해플러스</h1>
-        </header>
-
-        <nav class="bg-white shadow-md p-2 sticky top-14">
-          <ul class="flex justify-around">
-            <li><a href="/" class="text-gray-600">홈</a></li>
-            <li><a href="/profile" class="text-blue-600">프로필</a></li>
-            <li><a href="#" class="text-gray-600">로그아웃</a></li>
-          </ul>
-        </nav>
-
-        <main class="p-4">
+const Profile = () => `
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
@@ -223,26 +220,19 @@ const ProfilePage = () => `
               </button>
             </form>
           </div>
-        </main>
-
-        <footer class="bg-gray-200 p-4 text-center">
-          <p>&copy; 2024 항해플러스. All rights reserved.</p>
-        </footer>
-      </div>
-    </div>
-  </div>
 `;
 
 const render = (path) => {
-  document.body.innerHTML = getPageContent(path);
+  const rootElement = document.getElementById("root");
+  rootElement.innerHTML = getPageContent(path);
 };
 
 const getPageContent = (path) => {
   switch (path) {
     case "/":
-      return MainPage();
+      return MainPage(Home);
     case "/profile":
-      return ProfilePage();
+      return MainPage(Profile);
     case "/login":
       return LoginPage();
     default:
@@ -252,4 +242,26 @@ const getPageContent = (path) => {
 
 window.addEventListener("load", () => {
   render(window.location.pathname);
+});
+
+const navigate = (path) => {
+  window.history.pushState(null, "", path);
+  render(path);
+};
+
+document.body.addEventListener("click", (event) => {
+  // 링크 클릭
+  if (event.target.tagName === "A") {
+    event.preventDefault();
+    const href = event.target.getAttribute("href");
+    navigate(href);
+  }
+
+  // 버튼 클릭
+  if (event.target.tagName === "BUTTON") {
+    event.preventDefault();
+    if (window.location.pathname === "/login") {
+      navigate("/profile");
+    }
+  }
 });
