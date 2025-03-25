@@ -31,7 +31,7 @@ const Header = (loggedIn) => /* html */ {
         loggedIn
           ? `
             <li><a href="/profile" class="${matchedPath("/profile") ? "text-blue-600" : "text-gray-600"}">프로필</a></li>
-            <li><a href="#" id="logout" class="text-gray-600">로그아웃</a></li>
+            <li><a href="" id="logout" class="text-gray-600">로그아웃</a></li>
           `
           : `
             <li><a href="/login" class="${matchedPath("/login") ? "text-blue-600" : "text-gray-600"}">로그인</a></li>
