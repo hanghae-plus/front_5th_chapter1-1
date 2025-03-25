@@ -169,6 +169,8 @@ const LoginPage = () => {
 
 const ProfilePage = () => {
   const header = Header();
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log(`User Account : ${user.username}`);
   console.log("Profile Page Rendering");
 
   return /*html*/ `
@@ -181,7 +183,7 @@ const ProfilePage = () => {
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
             </h2>
-            <form>
+            <form id="profile-form">
               <div class="mb-4">
                 <label
                   for="username"
@@ -192,7 +194,7 @@ const ProfilePage = () => {
                   type="text"
                   id="username"
                   name="username"
-                  value="홍길동"
+                  value="${user.username}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -206,7 +208,7 @@ const ProfilePage = () => {
                   type="email"
                   id="email"
                   name="email"
-                  value="hong@example.com"
+                  value="${user.email}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -221,9 +223,7 @@ const ProfilePage = () => {
                   name="bio"
                   rows="4"
                   class="w-full p-2 border rounded"
-                >
-안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
-                >
+                >${user.bio}</textarea>
               </div>
               <button
                 type="submit"
@@ -331,12 +331,14 @@ render();
 document.body.addEventListener("click", (e) => {
   console.log("1. click start");
   console.log(e.target);
+  console.log(e.target.type);
 
   // submit 버튼인 경우 무시
   // submit 버튼 클릭 시 이벤트 버블링? 때문에 click이벤트가 먼저 실행되어버림
   if (e.target.type === "submit") {
     return;
   }
+  console.log("???");
   e.preventDefault();
   // nav태그 안
   if (e.target.closest("nav")) {
@@ -344,6 +346,8 @@ document.body.addEventListener("click", (e) => {
       const url = new URL(e.target.href);
       const path = url.pathname;
       console.log(`3. path: ${path}`);
+      console.log(`4. e.target: ${e.target}`);
+
       // alert("addEventListener click");
       if (e.target.id === "logout") {
         logout();
@@ -351,6 +355,17 @@ document.body.addEventListener("click", (e) => {
         // url = new URL(e.target.href);
         // path = url.pathname;
       }
+
+      if (e.target.tagName === "A") {
+        const listItems = document.querySelectorAll("nav ul li a");
+        console.log(listItems);
+        listItems.forEach((item) => {
+          item.classList.add("bg-blue");
+        });
+      }
+
+      console.log(`tagName : ${e.target.tagName}`);
+
       navigateTo(path);
     }
   }
@@ -374,9 +389,22 @@ document.body.addEventListener("submit", (e) => {
     console.log(`setItem: ${localStorage.getItem("user")}`);
 
     // 로그인 성공 시 바로 상태를 업데이트 해야 됨.
-    isLoggedIn();
-
+    // isLoggedIn();
     navigateTo("/profile");
+  } else if (e.target.id === "profile-form") {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const formData = new FormData(e.target); // 폼 데이터 가져오기
+
+    if (formData) {
+      user.email = formData.get("email");
+      user.bio = formData.get("bio");
+    }
+    // 유저 프로필 정보 localStorage에 저장
+    localStorage.setItem("user", JSON.stringify(user));
+    alert("프로필 정보가 수정되었습니다. ");
+    navigateTo("/profile");
+
+    console.log(`submit: profile-form: ${e.target}`);
   }
 });
 
