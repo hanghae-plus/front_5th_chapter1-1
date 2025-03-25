@@ -4,7 +4,7 @@ import LoginPage from "./pages/loginPage";
 import ErrorPage from "./pages/errorPage";
 import { MOCK_POSTS } from "./mockPosts";
 
-export let state = {
+export const state = {
   loginState: false,
   posts: MOCK_POSTS,
 };
@@ -14,8 +14,9 @@ const App = () => {
     return LoginPage();
   }
   if (location.pathname === "/profile") {
-    if (!localStorage.getItem("username")) return LoginPage();
-    return ProfilePage();
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) return LoginPage();
+    return ProfilePage({ ...user });
   }
   if (location.pathname === "/") {
     return MainPage({ ...state });
@@ -28,11 +29,11 @@ window.addEventListener("popstate", () => {
 });
 
 const render = () => {
-  const username = localStorage.getItem("username");
-  if (username) {
-    state.loggedIn = true;
-  }
+  const user = JSON.parse(localStorage.getItem("user") || "null");
+  state.loginState = !!user;
+
   document.body.innerHTML = App();
+
   document.querySelectorAll("a").forEach((el) => {
     el.addEventListener("click", (e) => {
       e.preventDefault();
@@ -41,52 +42,57 @@ const render = () => {
       render();
     });
   });
-};
 
-render();
+  const profileForm = document.getElementById("profile-form");
+
+  if (profileForm) {
+    profileForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email");
+      const bio = document.getElementById("bio");
+      const user = JSON.parse(localStorage.getItem("user"));
+      user.email = email;
+      user.bio = bio;
+      localStorage.setItem("user", JSON.stringify(user));
+    });
+  }
+
+  const loginForm = document.getElementById("login-form");
+  if (loginForm) {
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      login();
+    });
+  }
+
+  const logoutButton = document.getElementById("logout");
+  if (logoutButton) {
+    logoutButton.addEventListener("click", logout);
+  }
+};
 
 const login = () => {
   const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
-  if (!username | !password)
-    return alert("아이디 또는 비밀번호를 입력해주세요.");
-  localStorage.setItem("username", username);
-  localStorage.setItem("bio", "");
-  localStorage.setItem("email", "");
+  const user = {
+    username: username,
+    bio: "",
+    email: "",
+  };
+  localStorage.setItem("user", JSON.stringify(user));
+
   state.loginState = true;
+
   history.pushState(null, "", "/");
   render();
 };
 
-const loginForm = document.getElementById("login-form");
-if (loginForm) {
-  loginForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    login();
-  });
-}
-
 const logout = () => {
-  localStorage.removeItem("username");
+  localStorage.removeItem("user");
+
   state.loginState = false;
+
   history.pushState(null, "", "/login");
   render();
 };
 
-const logoutButton = document.getElementById("logout");
-
-if (logoutButton) {
-  logoutButton.addEventListener("click", logout);
-}
-
-const profileForm = document.getElementById("profile-form");
-
-if (profileForm) {
-  profileForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const email = document.getElementById("email");
-    const bio = document.getElementById("email");
-    localStorage.setItem("email", email);
-    localStorage.setItem("bio", bio);
-  });
-}
+render();

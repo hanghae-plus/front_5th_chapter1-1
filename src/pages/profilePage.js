@@ -1,6 +1,6 @@
 import { Footer, Header } from "../componentes/layout";
 
-export default function ProfilePage({ email, bio }) {
+export default function ProfilePage({ username, email, bio }) {
   return /* html */ `
 
     <div id="root">
@@ -23,7 +23,7 @@ export default function ProfilePage({ email, bio }) {
                     type="text"
                     id="username"
                     name="username"
-                    value="홍길동"
+                    value="${username}"
                     class="w-full p-2 border rounded"
                   />
                 </div>
@@ -50,6 +50,7 @@ export default function ProfilePage({ email, bio }) {
                   <textarea
                     id="bio"
                     name="bio"
+                    value="${bio}"
                     rows="4"
                     class="w-full p-2 border rounded"
                   >
@@ -66,8 +67,6 @@ export default function ProfilePage({ email, bio }) {
             </div>
           </main>
           ${Footer()}
-    
-         
         </div>
       </div>
     </div>
