@@ -1,16 +1,23 @@
 // -- router --
 
-// 상태 관리
+// 전역 상태 관리 객체
+// loggedIn: 사용자의 로그인 상태
+// currentPath: 현재 페이지 경로
+// username: 현재 로그인한 사용자의 이름
 const state = {
   loggedIn: false,
   currentPath: window.location.pathname,
   username: "",
 };
 
-// 이벤트 리스너 관리
+// 네비게이션 이벤트 리스너를 저장할 변수
 let navigationListener = null;
 
-// 라우터 설정
+// 라우터 함수: URL 경로에 따라 적절한 페이지 컴포넌트를 렌더링
+// - /: 메인 페이지
+// - /profile: 로그인 상태에 따라 프로필 페이지 또는 로그인 페이지
+// - /login: 로그인 페이지
+// - 그 외: 에러 페이지
 const router = () => {
   const path = window.location.pathname;
   state.currentPath = path;
@@ -27,13 +34,18 @@ const router = () => {
   }
 };
 
-// 상태 변경 함수
+// 상태 업데이트 함수
+// 새로운 상태를 기존 상태와 병합하고 화면을 다시 렌더링
 const setState = (newState) => {
   Object.assign(state, newState);
   render();
 };
 
-// 렌더링 함수
+// 화면 렌더링 함수
+// 1. 라우터를 통해 현재 경로에 맞는 페이지 컴포넌트를 가져옴
+// 2. root 엘리먼트가 없으면 생성
+// 3. 페이지 컴포넌트를 root에 렌더링
+// 4. 이벤트 리스너 등록 (네비게이션, 로그인 폼, 프로필 폼, 로그아웃)
 const render = () => {
   const content = router();
 
@@ -47,15 +59,17 @@ const render = () => {
 
   root.innerHTML = content;
 
-  // 이전 이벤트 리스너 제거
+  // 이전 이벤트 리스너 제거 후 새로운 이벤트 리스너 등록
   if (navigationListener) {
     document.removeEventListener("click", navigationListener);
   }
-  // 새로운 이벤트 리스너 등록
   navigationListener = handleNavigation;
   document.addEventListener("click", navigationListener);
 
-  // 로그인 폼 이벤트 리스너 추가
+  // 로그인 폼 이벤트 리스너
+  // - 폼 제출 시 사용자 정보를 localStorage에 저장
+  // - 로그인 상태 업데이트
+  // - 홈 페이지로 리다이렉트
   const loginForm = document.getElementById("login-form");
   if (loginForm) {
     loginForm.addEventListener("submit", (e) => {
@@ -64,7 +78,6 @@ const render = () => {
       const password = e.target.querySelector("#password").value;
 
       if (username) {
-        // localStorage에 사용자 정보 저장
         localStorage.setItem(
           "user",
           JSON.stringify({
@@ -75,14 +88,16 @@ const render = () => {
         );
         setState({ loggedIn: true, username });
         window.history.pushState({}, "", "/");
-        render(); // 상태 변경 후 즉시 렌더링
+        render();
       } else {
         alert("아이디를 입력해주세요.");
       }
     });
   }
 
-  // 프로필 폼 이벤트 리스너 추가
+  // 프로필 폼 이벤트 리스너
+  // - 폼 제출 시 사용자 정보를 localStorage에 업데이트
+  // - 로그인 상태 유지
   const profileForm = document.getElementById("profile-form");
   if (profileForm) {
     profileForm.addEventListener("submit", (e) => {
@@ -91,7 +106,6 @@ const render = () => {
       const email = e.target.querySelector("#email").value;
       const bio = e.target.querySelector("#bio").value;
 
-      // localStorage에 사용자 정보 업데이트
       localStorage.setItem(
         "user",
         JSON.stringify({
@@ -104,7 +118,10 @@ const render = () => {
     });
   }
 
-  // 로그아웃 버튼 이벤트 리스너 추가
+  // 로그아웃 버튼 이벤트 리스너
+  // - localStorage에서 사용자 정보 제거
+  // - 로그아웃 상태로 변경
+  // - 홈 페이지로 리다이렉트
   const logoutButton = document.getElementById("logout");
   if (logoutButton) {
     logoutButton.onclick = (e) => {
@@ -116,13 +133,15 @@ const render = () => {
   }
 };
 
-// 네비게이션 이벤트 처리
+// 네비게이션 이벤트 처리 함수
+// - 링크 클릭 시 기본 동작 방지
+// - 로그아웃 링크(#) 클릭 시 로그아웃 처리
+// - 다른 링크 클릭 시 해당 경로로 이동
 const handleNavigation = (e) => {
   if (e.target.matches("a")) {
     e.preventDefault();
     const href = e.target.getAttribute("href");
     if (href === "#") {
-      // 로그아웃 시 localStorage에서 사용자 정보 제거
       localStorage.removeItem("user");
       setState({ loggedIn: false, username: "" });
       window.history.pushState({}, "", "/");
@@ -133,14 +152,17 @@ const handleNavigation = (e) => {
   }
 };
 
-// 브라우저 뒤로가기/앞으로가기 처리
+// 브라우저 뒤로가기/앞으로가기 이벤트 처리
+// - popstate 이벤트 발생 시 화면 다시 렌더링
 window.addEventListener("popstate", () => {
   render();
 });
 
-// 초기 렌더링
+// 초기화: 페이지 로드 시 실행
+// - localStorage에서 사용자 정보 확인
+// - 로그인 상태 복원
+// - 초기 화면 렌더링
 document.addEventListener("DOMContentLoaded", () => {
-  // localStorage에서 사용자 정보 확인
   const user = localStorage.getItem("user");
   if (user) {
     const { username } = JSON.parse(user);
@@ -151,6 +173,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // --router--
 
+// 헤더 컴포넌트
+// - 로그인 상태에 따라 사용자 이름 표시
 const Header = ({
   loggedIn,
   username,
@@ -160,11 +184,16 @@ const Header = ({
   </header>
   `;
 
+// 푸터 컴포넌트
 const Footer = () => /*html*/ `<footer class="bg-gray-200 p-4 text-center">
     <p>&copy; 2024 항해플러스. All rights reserved.</p>
   </footer>
   `;
 
+// 메인 페이지 컴포넌트
+// - 로그인 상태에 따른 네비게이션 메뉴 표시
+// - 게시글 작성 폼
+// - 게시글 목록
 const MainPage = () => /*html*/ `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
@@ -303,6 +332,9 @@ const MainPage = () => /*html*/ `
   </div>
 `;
 
+// 에러 페이지 컴포넌트
+// - 404 에러 메시지
+// - 홈으로 돌아가기 버튼
 const ErrorPage = () => /*html*/ `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full text-center" style="max-width: 480px">
@@ -319,6 +351,10 @@ const ErrorPage = () => /*html*/ `
   </main>
 `;
 
+// 로그인 페이지 컴포넌트
+// - 로그인 폼
+// - 비밀번호 찾기 링크
+// - 새 계정 만들기 버튼
 const LoginPage = () => /*html*/ `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
@@ -343,8 +379,10 @@ const LoginPage = () => /*html*/ `
   </main>
 `;
 
+// 프로필 페이지 컴포넌트
+// - 사용자 정보 수정 폼
+// - localStorage에서 사용자 정보 불러오기
 const ProfilePage = () => {
-  // localStorage에서 사용자 정보 가져오기
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   return /*html*/ `
