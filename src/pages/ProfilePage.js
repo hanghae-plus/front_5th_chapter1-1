@@ -35,13 +35,13 @@ function ProfilePage() {
 									<label
 										for="email"
 										class="block text-gray-700 text-sm font-bold mb-2"
-										>${user.email}</label
+										>이메일</label
 									>
 									<input
 										type="email"
 										id="email"
 										name="email"
-										value="hong@example.com"
+										value="${user.email}"
 										class="w-full p-2 border rounded"
 									/>
 								</div>

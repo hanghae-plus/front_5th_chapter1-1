@@ -34,6 +34,7 @@ export function onClickLink(e) {
   if (e.target.matches("[data-link]")) {
     e.preventDefault();
   } else if (e.target.href.includes("#")) {
+    e.preventDefault();
     logout();
   }
   navigate(e.target.href);
@@ -66,10 +67,10 @@ export function setupEventListeners() {
   if (profileForm) {
     profileForm.addEventListener("submit", (event) => {
       event.preventDefault();
-      const { username, bio } = event.target.elements;
+      const { username, email, bio } = event.target.elements;
       updateProfile({
         username: username.value,
-        email: "",
+        email: email.value,
         bio: bio.value,
       });
     });

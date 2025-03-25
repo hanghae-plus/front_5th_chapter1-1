@@ -7,7 +7,7 @@ export function login(data) {
 
 export function logout() {
   localStorage.removeItem("user");
-  navigate("/");
+  navigate("/login");
 }
 
 export function getUser() {
