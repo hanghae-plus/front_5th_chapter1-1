@@ -1,3 +1,7 @@
+import Header from "./components/Header.js";
+import Footer from "./components/Footer.js";
+// import dummyPosts from "./model/dummyData.js"
+
 //전역객체
 const globalState = {
   //상태 가져오기
@@ -19,22 +23,23 @@ const globalState = {
 };
 
 //헤더 컴포넌트
-const Header = () => `
-    <header class="bg-blue-600 text-white p-4 sticky top-0">
-        <h1 class="text-2xl font-bold">항해플러스</h1>
-    </header>
-`;
+// const Header = () => `
+//     <header class="bg-blue-600 text-white p-4 sticky top-0">
+//         <h1 class="text-2xl font-bold">항해플러스</h1>
+//     </header>
+// `;
 
 const Nav = () => {
   // localStorage에서 user 값을 가져옵니다.
   const user = localStorage.getItem("user");
+  const currentPath = location.pathname;
 
   // user 값이 없으면 홈과 로그인 링크를 반환
   if (!user) {
     return `
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
-          <li><a href="/" class="text-blue-600">홈</a></li>
+          <li><a href="/" class=${currentPath === "/" ? "text-blue-600 font-bold" : "text-gray-600"}>홈</a></li>
           <li><a href="/login" class="text-gray-600">로그인</a></li>
         </ul>
       </nav>
@@ -45,19 +50,19 @@ const Nav = () => {
   return `
     <nav class="bg-white shadow-md p-2 sticky top-14">
       <ul class="flex justify-around">
-        <li><a href="/" class="text-blue-600">홈</a></li>
-        <li><a href="/profile" class="text-gray-600">프로필</a></li>
+        <li><a href="/" class=${currentPath === "/" ? "text-blue-600 font-bold" : "text-gray-600"}>홈</a></li>
+        <li><a href="/profile" class=${currentPath === "/profile" ? "text-blue-600 font-bold" : "text-gray-600"}>프로필</a></li>
         <li><a id="logout" href="/logout" class="text-gray-600">로그아웃</a></li>
       </ul>
     </nav>
   `;
 };
 
-const Footer = () => `
-  <footer class="bg-gray-200 p-4 text-center">
-        <p>&copy; 2024 항해플러스. All rights reserved.</p>
-      </footer>
-`;
+// const Footer = () => `
+//   <footer class="bg-gray-200 p-4 text-center">
+//         <p>&copy; 2024 항해플러스. All rights reserved.</p>
+//       </footer>
+// `;
 
 const MainPage = () => `
   <div class="bg-gray-100 min-h-screen flex justify-center">
@@ -287,11 +292,6 @@ const handleLinkClick = (event) => {
     navigateTo(href);
   }
 };
-//이메일 유효성 검사 (utils);
-// function validateEmail(email) {
-//   const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-//   return regex.test(email);
-// }
 
 //로그인 처리
 const handleLogin = (event) => {
@@ -303,11 +303,6 @@ const handleLogin = (event) => {
   console.log("email", username);
   console.log("password", password);
 
-  // if (!validateEmail(email)) {
-  //   alert("이메일 형식이 올바르지 않습니다.");
-  //   return;
-  // }
-
   if (username === "testuser") {
     const user = {
       username: username,
@@ -315,7 +310,6 @@ const handleLogin = (event) => {
       bio: "",
     };
     globalState.setUser("user", user);
-    // localStorage.setItem("user", JSON.stringify(user));
     navigateTo("/profile");
   } else if (!username || !password) {
     alert("이름 또는 비밀번호를 입력해주세요.");
@@ -330,8 +324,8 @@ const handleUpdateProfile = (event) => {
 
   const username = document.getElementById("username").value.trim();
   const email = document.getElementById("email").value.trim();
-  const bioText = document.getElementById("bio").value.trim();
-  const bio = bioText + (bioText ? ` ${bioText}` : "");
+  const bio = document.getElementById("bio").value.trim();
+  // const bio = bioText + (bioText ? ` ${bioText}` : "");
 
   if (username) {
     const user = {
@@ -353,18 +347,18 @@ const App = () => {
 
 //페이지 이동함수
 const navigateTo = (path) => {
-  console.log("navigate to path", path);
-  console.log("navigateTo 실행");
+  // 여기서 spa pushState 추가.
   history.pushState(null, "", path);
   //페이지 렌더링
   const rootElement = document.getElementById("root");
   rootElement.innerHTML = renderPage(path);
 
   // 로그인 페이지일 때 이벤트 리스너 등록
-  if (location.pathname === "/login") {
+  if (path === "/login") {
     const userData = globalState.getUser("user");
+    console.log("userData", userData);
     if (userData) {
-      navigateTo("/profile");
+      navigateTo("/");
       return;
     }
     const loginForm = document.getElementById("login-form");
@@ -373,7 +367,7 @@ const navigateTo = (path) => {
     }
   }
 
-  if (location.pathname === "/profile") {
+  if (path === "/profile") {
     const loginInfo = globalState.getUser("user");
     console.log("loginInfo", loginInfo);
     if (!loginInfo) {
@@ -386,7 +380,7 @@ const navigateTo = (path) => {
     }
   }
 
-  if (location.pathname !== "/login" && location.pathname !== "/logout") {
+  if (path !== "/login" && path !== "/logout") {
     console.log("login or logout");
     const navElement = document.querySelector("nav");
 
