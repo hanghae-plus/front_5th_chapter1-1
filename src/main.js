@@ -244,6 +244,10 @@ window.addEventListener("load", () => {
   render(window.location.pathname);
 });
 
+window.addEventListener("popstate", () => {
+  render(window.location.pathname);
+});
+
 const navigate = (path) => {
   window.history.pushState(null, "", path);
   render(path);
