@@ -1,23 +1,26 @@
-const Header = ({ isLoggedIn } /*html*/) =>
-  `
+const Header = (/*html*/) => {
+  console.log("HEader tag");
+  const loggedIn = isLoggedIn();
+  console.log(`Header loggedIn: ${loggedIn}`);
+
+  return `
   <div class="max-w-md w-full">
       <header class="bg-blue-600 text-white p-4 sticky top-0">
         <h1 class="text-2xl font-bold">항해플러스</h1>
       </header>
-
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
           <li><a href="/" class="text-blue-600">홈</a></li>
           <li>
-            ${isLoggedIn ? `<a href="/profile" class="text-gray-600">프로필</a>` : ``}
+            ${loggedIn ? `<a href="/profile" class="text-gray-600">프로필</a>` : ``}
           </li>
           <li>
-            ${isLoggedIn ? `<a href="/login" class="text-gray-600">로그아웃</a>` : `<a href="/login" class="text-gray-600">로그인</a>`}
+            ${loggedIn ? `<a href="/login" id='logout' class="text-gray-600">로그아웃</a>` : `<a href="/login" class="text-gray-600">로그인</a>`}
           </li>
         </ul>
       </nav>
 `;
-
+};
 const Footer = () => /*html*/ `
       <footer class="bg-gray-200 p-4 text-center">
         <p>&copy; 2024 항해플러스. All rights reserved.</p>
@@ -26,8 +29,7 @@ const Footer = () => /*html*/ `
 
 const MainPage = () => /*html*/ `
   <div class="bg-gray-100 min-h-screen flex justify-center">
-    
-      ${Header({ isLoggedIn: isLoggedIn() })}
+      ${Header()}
       <main class="p-4">
         <div class="mb-4 bg-white rounded-lg shadow p-4">
           <textarea class="w-full p-2 border rounded" placeholder="무슨 생각을 하고 계신가요?"></textarea>
@@ -139,7 +141,8 @@ const ErrorPage = () => `
   </main>
 `;
 
-const LoginPage = () => /*html*/ `
+const LoginPage = () => {
+  return /*html*/ `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
@@ -162,12 +165,17 @@ const LoginPage = () => /*html*/ `
     </div>
   </main>
 `;
+};
 
-const ProfilePage = () => /*html*/ `
+const ProfilePage = () => {
+  const header = Header();
+  console.log("Profile Page Rendering");
+
+  return /*html*/ `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
-        ${Header({ isLoggedIn: isLoggedIn() })}
+        ${header}
         <main class="p-4">
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
@@ -234,17 +242,27 @@ const ProfilePage = () => /*html*/ `
     </div>
   </div>
 `;
+};
 
 // 라우트앱 설정
+// 기존에 라우팅 설정된 것
+// const routes = {
+//   "/": MainPage(),
+//   "/login": LoginPage(),
+//   "/profile": ProfilePage(),
+// };
+
+// 바닐라 JavaScript SPA에서 동적 렌더링을 구현하는 표준적인 방법은 routes 객체에 컴포넌트 함수를 저장하는 것입니다. 이렇게 하면 경로가 일치할 때마다 컴포넌트의 렌더링 로직이 실행됩니다
 const routes = {
-  "/": MainPage(),
-  "/login": LoginPage(),
-  "/profile": ProfilePage(),
+  "/": () => MainPage(),
+  "/login": () => LoginPage(),
+  "/profile": () => ProfilePage(),
 };
+
 function navigateTo(url) {
   history.pushState("", null, url); // URL 변경(새로고침 없이). ㅇㅣ거만 단독 적용하면 url만 바뀌고 페이지 변경은 안됨
-  handleRoute();
-  // render();
+  // handleRoute();
+  render();
 }
 
 function handleRoute() {
@@ -252,7 +270,7 @@ function handleRoute() {
   console.log(`2. url path: ${path}`);
 
   let content = routes[path];
-  // console.log(`content: ${content}`);
+  console.log(`content: ${content}`);
 
   // routes값에 정의되어 있지 않은 url값이 들어올 때
   if (content === undefined) {
@@ -264,19 +282,31 @@ function handleRoute() {
     // 비로그인 상태에서 Profile경로 이동 시
     if (userData === null && path === "/profile") {
       content = routes["/login"];
-      document.getElementById("root").innerHTML = content;
+      document.getElementById("root").innerHTML = content();
     } else {
-      document.getElementById("root").innerHTML = content;
+      console.log("4444");
+      document.getElementById("root").innerHTML = content();
     }
   }
 }
 // 로그인 체크 함수
 function isLoggedIn() {
   // LocalStorage에서 데이터 가져오기
+  console.log("start isLoggedIn");
+
   const userData = JSON.parse(localStorage.getItem("user"));
   console.log(userData);
   console.log(typeof userData);
+  console.log(userData !== null);
+
   return userData !== null;
+}
+
+// 로그아웃 관련 함수
+function logout() {
+  // const userData = JSON.parse(localStorage.getItem("user"));
+  console.log("start loggout");
+  localStorage.clear();
 }
 
 const app = () => {
@@ -284,14 +314,14 @@ const app = () => {
 };
 
 window.addEventListener("popstate", () => {
-  app();
+  render();
 });
 
 // 화면에 어떻게 표시될지를 정의하는 함수
 const render = () => {
   // LocalStorage 모두 비우기
   // localStorage.clear();
-  console.log("1. rendering start");
+  console.log("rendering start");
   app();
 };
 
@@ -299,7 +329,8 @@ render();
 
 // 이벤트 위임을 해줘서 한번만 등록 시 사라지지 않음
 document.body.addEventListener("click", (e) => {
-  console.log("click start");
+  console.log("1. click start");
+  console.log(e.target);
 
   // submit 버튼인 경우 무시
   // submit 버튼 클릭 시 이벤트 버블링? 때문에 click이벤트가 먼저 실행되어버림
@@ -309,12 +340,18 @@ document.body.addEventListener("click", (e) => {
   e.preventDefault();
   // nav태그 안
   if (e.target.closest("nav")) {
-    console.log(`href: ${e.target.href}`);
     if (e.target.href !== undefined) {
-      const url = e.target.href.replace("http://localhost:5173", "");
-      console.log(`url: ${url}`);
+      const url = new URL(e.target.href);
+      const path = url.pathname;
+      console.log(`3. path: ${path}`);
       // alert("addEventListener click");
-      navigateTo(url);
+      if (e.target.id === "logout") {
+        logout();
+        console.log(`4. url: ${url}`);
+        // url = new URL(e.target.href);
+        // path = url.pathname;
+      }
+      navigateTo(path);
     }
   }
 });
@@ -322,27 +359,26 @@ document.body.addEventListener("click", (e) => {
 document.body.addEventListener("submit", (e) => {
   console.log("submit start");
   e.preventDefault(); // 폼 제출 기본 동작 막기
-  e.stopPropagation(); // 클릭 이벤트가 버블링되지 않도록 막기
   // 로그인 폼 submit
   if (e.target.id === "login-form") {
     // e.preventDefault();
     const formData = new FormData(e.target); // 폼 데이터 가져오기
 
     const user = {};
-    // form데이터 추출
-    formData.forEach((value, key) => {
-      console.log(`${key}: ${value}`);
-      user[key] = value;
-    });
+    user.username = formData.get("username");
+    user.email = "";
+    user.bio = "";
 
     // LocalStorage에 유저 데이터 저장
     localStorage.setItem("user", JSON.stringify(user));
+    console.log(`setItem: ${localStorage.getItem("user")}`);
+
+    // 로그인 성공 시 바로 상태를 업데이트 해야 됨.
+    isLoggedIn();
 
     navigateTo("/profile");
   }
 });
-
-document.body.add;
 
 /*
 document.body.innerHTML = `
