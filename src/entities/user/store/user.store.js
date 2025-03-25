@@ -27,7 +27,7 @@ class UserStore {
       const userData = JSON.parse(storedUser);
       this.user = User.build(userData);
     }
-    return this.user?.toEntity() ?? null;
+    return this.user ?? null;
   }
 
   removeUser() {

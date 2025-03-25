@@ -9,7 +9,7 @@ export class ProfilePage {
     this.header = new Header();
   }
   template() {
-    const user = userStore.getUser();
+    const user = userStore.getUser().toEntity();
     // * 이거 예외처리 해야할텐데...
     // if (!user) return;
     return `
@@ -85,7 +85,7 @@ export class ProfilePage {
       const username = document.getElementById("username").value;
       const email = document.getElementById("email").value;
       const bio = document.getElementById("bio").value;
-      UserService().updateProfile(username, email, bio);
+      UserService().updateProfile({ username, email, bio });
     });
   }
   render() {

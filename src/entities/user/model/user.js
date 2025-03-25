@@ -17,7 +17,7 @@ export class User {
     });
   }
 
-  updateUser(user) {
+  update(user) {
     this.#username = user.username ?? this.#username;
     this.#email = user.email ?? this.#email;
     this.#bio = user.bio ?? this.#bio;
