@@ -32,7 +32,7 @@ const render = () => {
   const user = JSON.parse(localStorage.getItem("user") || "null");
   state.loginState = !!user;
 
-  document.body.innerHTML = App();
+  document.getElementById("root").innerHTML = App();
 
   document.querySelectorAll("a").forEach((el) => {
     el.addEventListener("click", (e) => {
