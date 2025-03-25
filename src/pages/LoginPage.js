@@ -29,7 +29,6 @@ const LoginPage = () => {
   const action = () => {
     const loginForm = document.getElementById("login-form");
     if (loginForm) {
-      console.log("loginForm exist!");
       loginForm.addEventListener("submit", (e) => {
         e.preventDefault();
         const formData = new FormData(loginForm);
@@ -50,5 +49,4 @@ const LoginPage = () => {
 
   return { template, action };
 };
-
 export default LoginPage;

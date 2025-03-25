@@ -1,9 +1,9 @@
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import { render } from "../main";
+import user from "../store/user";
 
 const ProfilePage = () => {
-  console.log(`profilepage : ${window.location.pathname}`);
-
   const template = () => `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
@@ -75,7 +75,14 @@ const ProfilePage = () => {
   </div>
   `;
 
-  const action = () => Header().action();
+  const action = () => {
+    const userState = user.getIsLoggedIn();
+    if (!userState) {
+      render("/login");
+    } else {
+      Header().action();
+    }
+  };
 
   return { template, action };
 };

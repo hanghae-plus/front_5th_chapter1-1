@@ -11,10 +11,7 @@ const ROUTES = {
   "/profile": ProfilePage(),
 };
 
-// NOTE : 기본 렌더
-export const render = (page) => {
-  history.pushState({ page }, "", page);
-
+const detectPath = (page) => {
   if (ROUTES[page]) {
     app.innerHTML = ROUTES[page].template();
     ROUTES[page].action();
@@ -23,21 +20,28 @@ export const render = (page) => {
   }
 };
 
-export const router = () => {
-  window.addEventListener("DOMContentLoaded", () => {
-    // NOTE : 메인 페이지 히스토리 초기화
-    const { pathname } = window.location;
-    if (!history.state) {
-      history.replaceState({ page: pathname }, "", pathname);
-    }
-    render(pathname);
-
-    // NOTE : 뒤로가기
-    window.addEventListener("popstate", (e) => {
-      e.preventDefault();
-      render(e.state.page);
-    });
-  });
+// NOTE : 기본 렌더
+export const render = (page) => {
+  history.pushState({}, "", page);
+  detectPath(page);
 };
+
+export const router = () => {
+  // NOTE : 메인 페이지 히스토리 초기화
+  const { pathname } = window.location;
+  if (!history.state) {
+    history.replaceState({}, "", pathname);
+  }
+  render(pathname);
+  detectPath(pathname);
+};
+
+window.addEventListener("popstate", (e) => {
+  console.log("popstate detected");
+  e.preventDefault();
+
+  const { pathname } = location;
+  detectPath(pathname);
+});
 
 router();

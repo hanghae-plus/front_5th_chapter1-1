@@ -22,7 +22,7 @@ const Header = () => {
            <li><a id="btn-profile" href="/profile" class=${pathname === "/profile" ? "text-blue-600" : "text-gray-600"}>프로필</a></li>
            <li><a href="#" class="text-gray-600">로그아웃</a></li>`
           : `
-            <li><a href="/" class="text-blue-600">홈</a></li>
+            <li><a id="btn-home" href="/" class="text-blue-600">홈</a></li>
             <li><a id="btn-login" href="/login" class="text-gray-600">로그인</a></li>
             `
       }
@@ -43,6 +43,7 @@ const Header = () => {
     if (loginBtn) {
       loginBtn.addEventListener("click", (e) => {
         e.preventDefault();
+        console.log("clicked");
         render("/login");
       });
     }
