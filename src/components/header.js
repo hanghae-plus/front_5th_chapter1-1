@@ -15,7 +15,7 @@ export const header = () => {
   const loginHTML = isLogin
     ? `
         <li><a href="${BASE_PATH}/profile" data-route-link class="${currentPath === `${BASE_PATH}/profile` ? "text-blue-600  font-bold" : "text-gray-600"}">프로필</a></li>
-        <li><a href="javascript:void(0)" id="logout"  class="text-gray-600">로그아웃</a></li>
+        <li><a href="#" id="logout"  class="text-gray-600">로그아웃</a></li>
         `
     : `<li><a href="${BASE_PATH}/login" data-route-link class="${currentPath === `${BASE_PATH}/login` ? "text-blue-600  font-bold" : "text-gray-600"}">로그인</a></li>`;
 
