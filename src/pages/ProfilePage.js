@@ -1,3 +1,5 @@
+import { Nav, setupNavLogout } from "../components/Nav";
+
 const ProfilePage = (container) => {
   if (!container) return;
 
@@ -8,6 +10,11 @@ const ProfilePage = (container) => {
     return;
   }
 
+  const user = JSON.parse(userInfo);
+  const username = user.username || "";
+  const email = user.email || "";
+  const bio = user.bio || "";
+
   container.innerHTML = `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
@@ -15,20 +22,14 @@ const ProfilePage = (container) => {
         <h1 class="text-2xl font-bold">항해플러스</h1>
       </header>
 
-      <nav class="bg-white shadow-md p-2 sticky top-14">
-        <ul class="flex justify-around">
-          <li><a href="/" class="text-gray-600">홈</a></li>
-          <li><a href="/profile" class="text-blue-600">프로필</a></li>
-          <li><a href="#" class="text-gray-600">로그아웃</a></li>
-        </ul>
-      </nav>
+    ${Nav()}
 
       <main class="p-4">
         <div class="bg-white p-8 rounded-lg shadow-md">
           <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
             내 프로필
           </h2>
-          <form>
+          <form id="profile-form">
             <div class="mb-4">
               <label
                 for="username"
@@ -39,7 +40,7 @@ const ProfilePage = (container) => {
                 type="text"
                 id="username"
                 name="username"
-                value="홍길동"
+                value="${username}"
                 class="w-full p-2 border rounded"
               />
             </div>
@@ -53,7 +54,7 @@ const ProfilePage = (container) => {
                 type="email"
                 id="email"
                 name="email"
-                value="hong@example.com"
+                value="${email}"
                 class="w-full p-2 border rounded"
               />
             </div>
@@ -68,7 +69,7 @@ const ProfilePage = (container) => {
                 name="bio"
                 rows="4"
                 class="w-full p-2 border rounded"
-              >안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea>
+              >${bio}</textarea>
             </div>
             <button
               type="submit"
@@ -86,6 +87,27 @@ const ProfilePage = (container) => {
     </div>
   </div>
 `;
+  setupNavLogout();
+
+  const profileForm = document.getElementById("profile-form");
+
+  profileForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const updatedUsername = document.getElementById("username").value;
+    const updatedEmail = document.getElementById("email").value;
+    const updatedBio = document.getElementById("bio").value;
+
+    const updatedUserData = {
+      username: updatedUsername,
+      email: updatedEmail,
+      bio: updatedBio,
+    };
+
+    localStorage.setItem("user", JSON.stringify(updatedUserData));
+
+    alert("프로필이 업데이트되었습니다.");
+  });
 };
 
 export default ProfilePage;
