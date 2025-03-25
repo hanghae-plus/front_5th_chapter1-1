@@ -1,5 +1,5 @@
 import App from "./App.js";
-import routeConfig from "./config/routerConfig";
+import routeConfig from "./config/routerConfig.js";
 
 // 초기 렌더링
 document.body.innerHTML = `<div id="root"></div>`;
