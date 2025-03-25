@@ -1,7 +1,8 @@
 import Header from "./Header";
 import Footer from "./Footer";
 
-export default () => `
+export default () => {
+  const component = `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
       ${Header()}
@@ -99,3 +100,5 @@ export default () => `
     </div>
   </div>
 `;
+  document.getElementById("root").innerHTML = component;
+};

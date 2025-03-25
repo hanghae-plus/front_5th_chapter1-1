@@ -4,7 +4,7 @@ import auth from "../auth";
 
 export default () => {
   const { username, email, bio } = auth.getUser();
-  return `
+  const component = `
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
         ${Header()}
@@ -70,4 +70,6 @@ export default () => {
       </div>
     </div>
 `;
+
+  document.getElementById("root").innerHTML = component;
 };

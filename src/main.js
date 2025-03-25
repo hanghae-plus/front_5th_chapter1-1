@@ -7,32 +7,28 @@ import auth from "./auth";
 const Page = () => {
   switch (location.pathname) {
     case "/":
-      return MainPage();
+      return MainPage;
     case "/login":
       if (auth.loggedIn) {
         history.pushState({ path: "/" }, "", "/");
-        return MainPage();
+        return MainPage;
       } else {
-        return LoginPage();
+        return LoginPage;
       }
     case "/profile":
       if (auth.loggedIn) {
-        return ProfilePage();
+        return ProfilePage;
       } else {
         history.pushState({ path: "/login" }, "", "/login");
-        return LoginPage();
+        return LoginPage;
       }
     default:
-      return ErrorPage();
+      return ErrorPage;
   }
 };
 
-const render = () => {
-  document.querySelector("#root").innerHTML = Page();
-};
-
 const router = () => {
-  render();
+  Page()();
 
   // 프로필
   if (location.pathname === "/profile") {
