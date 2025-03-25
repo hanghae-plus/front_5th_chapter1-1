@@ -12,7 +12,7 @@ const Header = ({ isLoggedIn } /*html*/) =>
             ${isLoggedIn ? `<a href="/profile" class="text-gray-600">프로필</a>` : ``}
           </li>
           <li>
-            ${isLoggedIn ? `<a href="#" class="text-gray-600">로그아웃</a>` : `<a href="/login" class="text-gray-600">로그인</a>`}
+            ${isLoggedIn ? `<a href="/login" class="text-gray-600">로그아웃</a>` : `<a href="/login" class="text-gray-600">로그인</a>`}
           </li>
         </ul>
       </nav>
@@ -244,11 +244,12 @@ const routes = {
 function navigateTo(url) {
   history.pushState("", null, url); // URL 변경(새로고침 없이). ㅇㅣ거만 단독 적용하면 url만 바뀌고 페이지 변경은 안됨
   handleRoute();
+  // render();
 }
 
 function handleRoute() {
   const path = window.location.pathname;
-  // console.log(`path: ${path}`);
+  console.log(`2. url path: ${path}`);
 
   let content = routes[path];
   // console.log(`content: ${content}`);
@@ -283,7 +284,6 @@ const app = () => {
 };
 
 window.addEventListener("popstate", () => {
-  console.log("popstate");
   app();
 });
 
@@ -291,58 +291,59 @@ window.addEventListener("popstate", () => {
 const render = () => {
   // LocalStorage 모두 비우기
   // localStorage.clear();
+  console.log("1. rendering start");
   app();
-
-  // 기존소스
-  // nav카테고리 클릭 이벤트 생성
-  // TrubleShooting
-  document.querySelectorAll("nav").forEach((nav) => {
-    nav.addEventListener("click", (e) => {
-      // 지금 등롣된 리스너가 이벤트 위임상태 아닌가 ?
-
-      e.preventDefault(); // 기본 제출 동작 방지
-      console.log(`href: ${e.target.href}`);
-      if (e.target.href !== undefined) {
-        const url = e.target.href.replace("http://localhost:5173", "");
-        console.log(`url: ${url}`);
-        alert("addEventListener click");
-        navigateTo(url);
-      }
-    });
-  });
-
-  // form태그 selector submit클릭 이벤트
-  document.querySelectorAll("form").forEach((form) => {
-    form.addEventListener("submit", (e) => {
-      e.preventDefault(); // 기본 제출 동작 방지
-      console.log(e);
-
-      console.log(e.target);
-      if (e.target.id === "login-form") {
-        const formData = new FormData(e.target); // 폼 데이터 가져오기
-
-        const user = {};
-        // form데이터 추출
-        formData.forEach((value, key) => {
-          console.log(`${key}: ${value}`);
-          user[key] = value;
-        });
-
-        // LocalStorage에 데이터 저장
-        localStorage.setItem("user", JSON.stringify(user));
-
-        // const userData = JSON.parse(localStorage.getItem("user2"));
-        // console.log(userData);
-
-        navigateTo("/profile");
-      }
-
-      //console.log("Submitted Data:", Object.fromEntries(formData.entries())); // 데이터 출력
-    });
-  });
 };
 
 render();
+
+// 이벤트 위임을 해줘서 한번만 등록 시 사라지지 않음
+document.body.addEventListener("click", (e) => {
+  console.log("click start");
+
+  // submit 버튼인 경우 무시
+  // submit 버튼 클릭 시 이벤트 버블링? 때문에 click이벤트가 먼저 실행되어버림
+  if (e.target.type === "submit") {
+    return;
+  }
+  e.preventDefault();
+  // nav태그 안
+  if (e.target.closest("nav")) {
+    console.log(`href: ${e.target.href}`);
+    if (e.target.href !== undefined) {
+      const url = e.target.href.replace("http://localhost:5173", "");
+      console.log(`url: ${url}`);
+      // alert("addEventListener click");
+      navigateTo(url);
+    }
+  }
+});
+
+document.body.addEventListener("submit", (e) => {
+  console.log("submit start");
+  e.preventDefault(); // 폼 제출 기본 동작 막기
+  e.stopPropagation(); // 클릭 이벤트가 버블링되지 않도록 막기
+  // 로그인 폼 submit
+  if (e.target.id === "login-form") {
+    // e.preventDefault();
+    const formData = new FormData(e.target); // 폼 데이터 가져오기
+
+    const user = {};
+    // form데이터 추출
+    formData.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+      user[key] = value;
+    });
+
+    // LocalStorage에 유저 데이터 저장
+    localStorage.setItem("user", JSON.stringify(user));
+
+    navigateTo("/profile");
+  }
+});
+
+document.body.add;
+
 /*
 document.body.innerHTML = `
   ${MainPage()}
