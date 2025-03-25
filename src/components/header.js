@@ -12,9 +12,14 @@ const logout = () => {
   handleRoute();
 };
 
-window.logout = logout; // 로그아웃 함수 전역 등록
+document.body.addEventListener("click", function (e) {
+  if (e.target && e.target.id === "logout") {
+    logout();
+  }
+});
 
-const Header = (loggedIn) => /* html */ `
+const Header = (loggedIn) => /* html */ {
+  return `
   <header class="bg-blue-600 text-white p-4 sticky top-0">
     <h1 class="text-2xl font-bold">항해플러스</h1>
   </header>
@@ -26,7 +31,7 @@ const Header = (loggedIn) => /* html */ `
         loggedIn
           ? `
             <li><a href="/profile" class="${matchedPath("/profile") ? "text-blue-600" : "text-gray-600"}">프로필</a></li>
-            <li><button id="logout" class="text-gray-600" onclick="logout()">로그아웃</button></li>
+            <li><button id="logout" class="text-gray-600">로그아웃</button></li>
           `
           : `
             <li><a href="/login" class="${matchedPath("/login") ? "text-blue-600" : "text-gray-600"}">로그인</a></li>
@@ -35,5 +40,6 @@ const Header = (loggedIn) => /* html */ `
     </ul>
   </nav>
 `;
+};
 
 export default Header;
