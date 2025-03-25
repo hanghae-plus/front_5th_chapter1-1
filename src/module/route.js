@@ -9,7 +9,11 @@ const router = (function () {
       // 빈 해시나 '#'만 있는 경우 '/'를 반환
       return hash === "" || hash === "#" ? "/" : hash.slice(1);
     }
-    return window.location.pathname;
+
+    const BASE_PATH = "/front_5th_chapter1-1";
+    const cleanPath = window.location.pathname.replace(BASE_PATH, "") || "/";
+
+    return cleanPath;
   };
 
   const authRoutes = ["/profile"];

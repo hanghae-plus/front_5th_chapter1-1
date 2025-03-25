@@ -8,10 +8,7 @@ import NotFoundPage from "./error/404.js";
 
 // 페이지 컨텐츠 가져오기
 const getPageContent = (path) => {
-  const BASE_PATH = "/front_5th_chapter1-1";
-  const cleanPath = path.replace(BASE_PATH, "") || "/";
-
-  switch (cleanPath) {
+  switch (path) {
     case "/":
       return HomePage();
     case "/profile":
