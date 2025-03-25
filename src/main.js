@@ -15,7 +15,6 @@ class Router {
     this.handleRoute(window.location.pathname);
   }
   handleRoute(path) {
-    console.log(`Navigation : ${path}`);
     const handler = this.routes[path];
     if (!handler) {
       throw new NotFoundError(path);
@@ -26,7 +25,6 @@ class Router {
     if (path === "/login" && localStorage.getItem("user")) {
       this.navigationTo("/");
     }
-    console.log(`Navigation : ${handler}`);
     if (path === "/login") {
       document.getElementById("root").innerHTML = handler();
     } else {
