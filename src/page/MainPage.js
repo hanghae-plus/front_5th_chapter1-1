@@ -1,14 +1,10 @@
 import { Header } from "../component/Header";
 import { Footer } from "../component/Footer";
-import User from "../store/user";
-
-const user = new User();
-const username = user.get()?.username;
 
 export const MainPage = () => /* HTML */ `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
-      ${Header(username)}
+      ${Header()}
       <main class="p-4">
         <div class="mb-4 bg-white rounded-lg shadow p-4">
           <textarea
