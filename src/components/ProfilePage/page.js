@@ -61,7 +61,7 @@ export const ProfilePage = () => {
                   class="block text-gray-700 text-sm font-bold mb-2"
                   >자기소개</label
                 >
-                <input
+                <textarea
                   id="bio"
                   name="bio"
                   rows="4"

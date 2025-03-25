@@ -6,14 +6,8 @@ const LoginForm = () => {
   <div>
    <form id=${ID.LOGIN_FORM}>
         <div class="mb-4">
-          <input type="text" id="username"  name="username" placeholder="이름" class="w-full p-2 border rounded">
-        </div>
-          <div class="mb-4">
-          <input type="text" name="email" placeholder="이메일" class="w-full p-2 border rounded">
-        </div>
-          <div class="mb-4">
-          <input type="text" name="bio" placeholder="자기소개" class="w-full p-2 border rounded">
-        </div>
+          <input type="text" id="username"  name="username" placeholder="사용자 이름" class="w-full p-2 border rounded">
+      
         <div class="mb-6">
           <input type="password" id="password" name="password" placeholder="비밀번호" class="w-full p-2 border rounded">
         </div>
