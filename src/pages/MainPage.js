@@ -1,19 +1,19 @@
 import { navigate } from "../router/router";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 export const MainPage = () => {
   const mainPageWrapper = document.createElement("div");
-
   mainPageWrapper.innerHTML = /*html*/ `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
-      <header class="bg-blue-600 text-white p-4 sticky top-0">
-        <h1 class="text-2xl font-bold">항해플러스</h1>
-      </header>
+      ${Header()}
+
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
-          <li><a href="/" class="text-blue-600" data-path="/">홈</a></li>
+          <li><a href="/" class="text-blue-600 font-bold" data-path="/">홈</a></li>
           <li><a href="/profile" class="text-gray-600" data-path="/profile">프로필</a></li>
-          <li><a href="/login" class="text-gray-600" data-path="/login" id="logout-button">로그아웃</a></li>
+          <li><a href="/login" class="text-gray-600" data-path="/login" id="logout">로그아웃</a></li>
         </ul>
       </nav>
 
@@ -107,9 +107,8 @@ export const MainPage = () => {
         </div>
       </main>
 
-      <footer class="bg-gray-200 p-4 text-center">
-        <p>&copy; 2024 항해플러스. All rights reserved.</p>
-      </footer>
+      ${Footer()}
+
     </div>
   </div>
 `;
@@ -122,12 +121,13 @@ export const MainPage = () => {
     }
   });
 
-  const logoutButton = mainPageWrapper.querySelector("#logout-button");
+  const logoutButton = mainPageWrapper.querySelector("#logout");
 
-  logoutButton.addEventListener("click", (e) => {
+  const handleLogout = (e) => {
     e.preventDefault();
     localStorage.removeItem("user");
-  });
+  };
+  logoutButton.addEventListener("click", handleLogout);
 
   return mainPageWrapper;
 };

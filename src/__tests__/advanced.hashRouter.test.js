@@ -29,9 +29,7 @@ describe("심화과제 > 해시 라우터 테스트", () => {
 
     it('"/login" 경로로 접근하면 로그인 페이지가 렌더링된다', () => {
       goTo("/login");
-      const submitButtons = [
-        ...document.querySelectorAll("form button[type='submit']"),
-      ];
+      const submitButtons = [...document.querySelectorAll("form button[type='submit']")];
       expect([...document.querySelectorAll("header")].length).toBe(0);
       expect(submitButtons.length).toBe(1);
       expect(submitButtons[0].innerHTML.includes("로그인")).toBe(true);
@@ -41,9 +39,7 @@ describe("심화과제 > 해시 라우터 테스트", () => {
       // 로그인 상태 시뮬레이션
       goTo("/profile");
 
-      const submitButtons = [
-        ...document.querySelectorAll("form button[type='submit']"),
-      ];
+      const submitButtons = [...document.querySelectorAll("form button[type='submit']")];
       expect([...document.querySelectorAll("header")].length).toBe(0);
       expect(submitButtons.length).toBe(1);
       expect(submitButtons[0].innerHTML.includes("로그인")).toBe(true);
