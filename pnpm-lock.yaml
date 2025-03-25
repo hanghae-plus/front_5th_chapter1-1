@@ -44,6 +44,9 @@ importers:
       lint-staged:
         specifier: ^15.2.11
         version: 15.5.0
+      playwright:
+        specifier: ^1.51.1
+        version: 1.51.1
       prettier:
         specifier: ^3.4.2
         version: 3.5.3
