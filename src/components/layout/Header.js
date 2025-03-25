@@ -19,7 +19,7 @@ const Header = () => {
       }
       return `
         <li>
-          <a href="${route.path}" class="${location.pathname === route.path ? "text-blue-600" : "text-gray-600"}">${route.content}</a>
+          <a href="${route.path}" class="${location.pathname === route.path ? "text-blue-600 font-bold" : "text-gray-600"}">${route.content}</a>
         </li>`;
     })
     .join("");
