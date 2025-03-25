@@ -1,5 +1,5 @@
-import user from "../module/user";
-import router from "../module/route";
+import user from "../module/user.js";
+import router from "../module/route.js";
 // 프로필 페이지
 const ProfilePage = () => {
   const { getUser, isLoggedIn } = user();

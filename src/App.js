@@ -1,10 +1,10 @@
-import { HomePage } from "./home/page";
-import ProfilePage from "./profile/page";
-import router from "./module/route";
-import layout from "./layout/layout";
-import LoginPage from "./login/page";
-import nav from "./layout/nav";
-import NotFoundPage from "./error/404";
+import { HomePage } from "./home/page.js";
+import ProfilePage from "./profile/page.js";
+import router from "./module/route.js";
+import layout from "./layout/layout.js";
+import LoginPage from "./login/page.js";
+import nav from "./layout/nav.js";
+import NotFoundPage from "./error/404.js";
 
 // 페이지 컨텐츠 가져오기
 const getPageContent = (path) => {

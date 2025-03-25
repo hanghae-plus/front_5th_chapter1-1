@@ -1,6 +1,6 @@
-import footer from "./footer";
-import header from "./Header";
-import nav from "./nav";
+import footer from "./footer.js";
+import header from "./header.js";
+import nav from "./nav.js";
 
 const layout = (content) => {
   return /* HTML */ `

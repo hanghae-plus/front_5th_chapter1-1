@@ -1,6 +1,6 @@
-import routeConfig from "./config/routerConfig";
-import router from "./module/route";
-import render from "./App";
+import routeConfig from "./config/routerConfig.js";
+import router from "./module/route.js";
+import render from "./App.js";
 
 // DOM 초기화
 document.body.innerHTML = `<div id="root"></div>`;

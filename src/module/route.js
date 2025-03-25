@@ -1,5 +1,5 @@
-import user from "./user";
-import routeConfig from "../config/routerConfig";
+import user from "./user.js";
+import routeConfig from "../config/routerConfig.js";
 
 // 라우트 관리
 const router = (function () {

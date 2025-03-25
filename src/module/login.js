@@ -1,6 +1,6 @@
-import user from "./user";
-import router from "./route";
-import routeConfig from "../config/routerConfig";
+import user from "./user.js";
+import router from "./route.js";
+import routeConfig from "../config/routerConfig.js";
 
 // 로그인, 유저 정보 관리
 const login = (function () {

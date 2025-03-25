@@ -1,4 +1,4 @@
-import contents from "./content";
+import contents from "./content.js";
 
 export const HomePage = () => /* HTML */ `
   <!-- 메인 컨텐츠 -->

@@ -1,7 +1,7 @@
-import login from "../module/login";
-import router from "../module/route";
-import user from "../module/user";
-import routeConfig from "../config/routerConfig";
+import login from "../module/login.js";
+import router from "../module/route.js";
+import user from "../module/user.js";
+import routeConfig from "../config/routerConfig.js";
 
 const nav = () => {
   const navList = [
