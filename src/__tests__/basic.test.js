@@ -9,7 +9,6 @@ import {
   it,
   vi,
 } from "vitest";
-import { Store } from "../store.js";
 
 beforeAll(async () => {
   // DOM 초기화
@@ -90,7 +89,7 @@ describe("기본과제 테스트", () => {
 
       const logoutButton = document.getElementById("logout");
       logoutButton.click();
-      Store.logout();
+
       expect(localStorage.getItem("user")).toEqual(null);
     });
   });
