@@ -12,9 +12,7 @@ const onLinkClick = (event) => {
   if (link && link.origin === location.origin) {
     event.preventDefault();
 
-    history.pushState({}, "", link.pathname);
-
-    render(link.pathname);
+    push(link.pathname);
   }
 };
 
