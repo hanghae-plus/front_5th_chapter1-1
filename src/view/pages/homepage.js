@@ -1,7 +1,7 @@
 import { MainLayout } from "../layouts/mainLayout";
 import { PostInput } from "../components/postInput";
 import { PostCard } from "../components/postCard";
-import { POSTS } from "../data/posts";
+import { POSTS } from "../../data/posts";
 
 export const MainPage = () => {
   const content = `
