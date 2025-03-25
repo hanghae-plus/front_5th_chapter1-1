@@ -4,7 +4,6 @@ const Header = ({ isLoggedIn } /*html*/) =>
       <header class="bg-blue-600 text-white p-4 sticky top-0">
         <h1 class="text-2xl font-bold">항해플러스</h1>
       </header>
-      <span> ${isLoggedIn}</span>
 
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
@@ -243,7 +242,7 @@ const routes = {
   "/profile": ProfilePage(),
 };
 function navigateTo(url) {
-  history.pushState("", null, url); // URL 변경(새로고침 없이)
+  history.pushState("", null, url); // URL 변경(새로고침 없이). ㅇㅣ거만 단독 적용하면 url만 바뀌고 페이지 변경은 안됨
   handleRoute();
 }
 
@@ -268,16 +267,9 @@ function handleRoute() {
     } else {
       document.getElementById("root").innerHTML = content;
     }
-
-    // if (userData === null) {
-    //   content = "/login";
-    //   document.getElementById("root").innerHTML = content;
-    // } else {
-    //   document.getElementById("root").innerHTML = content;
-    // }
   }
 }
-
+// 로그인 체크 함수
 function isLoggedIn() {
   // LocalStorage에서 데이터 가져오기
   const userData = JSON.parse(localStorage.getItem("user"));
@@ -295,26 +287,31 @@ window.addEventListener("popstate", () => {
   app();
 });
 
+// 화면에 어떻게 표시될지를 정의하는 함수
 const render = () => {
   // LocalStorage 모두 비우기
   // localStorage.clear();
   app();
+
+  // 기존소스
+  // nav카테고리 클릭 이벤트 생성
+  // TrubleShooting
   document.querySelectorAll("nav").forEach((nav) => {
-    console.log(nav);
     nav.addEventListener("click", (e) => {
+      // 지금 등롣된 리스너가 이벤트 위임상태 아닌가 ?
+
       e.preventDefault(); // 기본 제출 동작 방지
       console.log(`href: ${e.target.href}`);
       if (e.target.href !== undefined) {
         const url = e.target.href.replace("http://localhost:5173", "");
+        console.log(`url: ${url}`);
+        alert("addEventListener click");
         navigateTo(url);
       }
     });
   });
 
-  const form = document.getElementById("login-form");
-  console.log(form);
-
-  // form태그 selector
+  // form태그 selector submit클릭 이벤트
   document.querySelectorAll("form").forEach((form) => {
     form.addEventListener("submit", (e) => {
       e.preventDefault(); // 기본 제출 동작 방지
