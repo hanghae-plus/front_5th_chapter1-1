@@ -1,10 +1,7 @@
 import { push, render } from "./router/util";
-import {
-  getFormValue,
-  getLocalItem,
-  removeLocalItem,
-  setLocalItem,
-} from "./utils";
+import Store from "./store";
+import { ACTION_TYPES, createAction } from "./store/actions";
+import { getFormValue } from "./utils";
 
 const onLinkClick = (event) => {
   const link = event.target.closest("a");
@@ -22,11 +19,13 @@ const onLoginSubmit = (event) => {
   const form = event.target;
   const username = getFormValue(form, "input[type='text']");
 
-  setLocalItem("user", {
-    username,
-    email: "",
-    bio: "",
-  });
+  Store.dispatch(
+    createAction(ACTION_TYPES.SET_USER, {
+      username,
+      email: "",
+      bio: "",
+    }),
+  );
 
   push("/profile");
 };
@@ -39,14 +38,16 @@ const onProfileSubmit = (event) => {
   const email = getFormValue(form, "input[name='email']");
   const bio = getFormValue(form, "textarea[name='bio']");
 
-  const user = getLocalItem("user");
+  const { user } = Store.getState();
 
-  setLocalItem("user", {
-    ...user,
-    username,
-    email,
-    bio,
-  });
+  Store.dispatch(
+    createAction(ACTION_TYPES.SET_USER, {
+      ...user,
+      username,
+      email,
+      bio,
+    }),
+  );
 
   alert("프로필 업데이트가 완료되었습니다.");
 
@@ -84,7 +85,8 @@ const onClickLogout = (event) => {
   if (logoutLink) {
     event.preventDefault();
 
-    removeLocalItem("user");
+    Store.dispatch(createAction(ACTION_TYPES.SET_USER, null));
+
     push("/login");
   }
 };
@@ -95,6 +97,8 @@ const init = () => {
   document.addEventListener("click", onLinkClick);
   document.addEventListener("click", onClickLogout);
   document.addEventListener("submit", onSubmit);
+
+  Store.dispatch(createAction(ACTION_TYPES.SYNC_USER));
 
   render(location.pathname);
 };

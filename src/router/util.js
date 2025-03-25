@@ -1,19 +1,18 @@
 import routes from ".";
-import { getLocalItem } from "../utils";
+import Store from "../store";
 
 export const render = (path) => {
-  const user = getLocalItem("user");
-  const isLoggedIn = !!user;
+  const { user } = Store.getState();
 
   const route = routes[path] || routes[404];
 
-  if (route.needAuth && !isLoggedIn) {
+  if (route.needAuth && !user) {
     push("/login");
 
     return;
   }
 
-  if (path === "/login" && isLoggedIn) {
+  if (path === "/login" && !!user) {
     push("/");
 
     return;

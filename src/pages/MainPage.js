@@ -1,14 +1,13 @@
+import Store from "../store";
 import { Footer, Header } from "../ui";
-import { getLocalItem } from "../utils";
 
 const MainPage = () => {
-  const user = getLocalItem("user");
-  const isLoggedIn = !!user;
+  const { user } = Store.getState();
 
   return `
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
-        ${Header({ path: "/", isLoggedIn })}
+        ${Header({ path: "/", isLoggedIn: !!user })}
 
         <main class="p-4">
           <div class="mb-4 bg-white rounded-lg shadow p-4">

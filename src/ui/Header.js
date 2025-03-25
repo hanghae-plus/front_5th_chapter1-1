@@ -1,5 +1,5 @@
 const getLinkClass = (current, target) =>
-  current === target ? "text-blue-600" : "text-gray-600";
+  current === target ? "text-blue-600 font-bold" : "text-gray-600";
 
 const Header = ({ path, isLoggedIn }) => {
   const logoutNav = `

@@ -1,14 +1,13 @@
+import Store from "../store";
 import { Footer, Header } from "../ui";
-import { getLocalItem } from "../utils";
 
 const ProfilePage = () => {
-  const user = getLocalItem("user");
-  const isLoggedIn = !!user;
+  const { user } = Store.getState();
 
   return `
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
-        ${Header({ path: "/profile", isLoggedIn })}
+        ${Header({ path: "/profile", isLoggedIn: !!user })}
 
         <main class="p-4">
           <div class="bg-white p-8 rounded-lg shadow-md">
@@ -26,7 +25,7 @@ const ProfilePage = () => {
                   type="text"
                   id="username"
                   name="username"
-                  value="${user.username}"
+                  value="${user?.username || ""}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -40,7 +39,7 @@ const ProfilePage = () => {
                   type="email"
                   id="email"
                   name="email"
-                  value="${user.email || ""}"
+                  value="${user?.email || ""}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -55,7 +54,7 @@ const ProfilePage = () => {
                   name="bio"
                   rows="4"
                   class="w-full p-2 border rounded"
-                >${user.bio || ""}</textarea>
+                >${user?.bio || ""}</textarea>
               </div>
               <button
                 type="submit"
