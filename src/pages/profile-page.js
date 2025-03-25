@@ -51,8 +51,7 @@ export const ProfilePage = (user) => `
                 name="bio"
                 rows="4"
                 class="w-full p-2 border rounded"
-              >
-${user.bio}</textarea
+              >${user.bio}</textarea
               >
             </div>
             <button
