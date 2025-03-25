@@ -34,7 +34,7 @@ const URL_MAP = {
 };
 
 const navigate = () => {
-  let url = location.pathname || ROUTES.MAIN;
+  let url = location.pathname;
   const username = store.isLogon();
   if (!username && url === ROUTES.PROFILE) url = ROUTES.LOGIN;
   if (!!username && url === ROUTES.LOGIN) url = ROUTES.MAIN;
