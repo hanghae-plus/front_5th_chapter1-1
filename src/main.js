@@ -9,8 +9,13 @@ import { goTo } from "@/shared/logic/router.js";
 import { ID } from "@/constant.js";
 
 function getHtmlByPathName() {
-  const location = window.location.pathname;
+  let location = window.location.pathname;
+  const hash = window.location.hash;
   const isLoggedIn = getUserInfoFromStorage();
+  if (hash.includes("#")) {
+    const hashLocation = hash.slice(1);
+    location = hashLocation;
+  }
 
   switch (location) {
     case "/":
@@ -65,4 +70,5 @@ function render() {
 
 //goTo 함수에서는 pushState로 히스토리를 추가
 window.addEventListener("popstate", () => renderPage(window.location.pathname));
+window.addEventListener("hashchange", () => renderPage(window.location.hash));
 render();
