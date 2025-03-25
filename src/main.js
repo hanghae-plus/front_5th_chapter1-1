@@ -15,15 +15,23 @@ const MainPage = () => `
 
       <main class="p-4">
         <div class="mb-4 bg-white rounded-lg shadow p-4">
-          <textarea class="w-full p-2 border rounded" placeholder="무슨 생각을 하고 계신가요?"></textarea>
-          <button class="mt-2 bg-blue-600 text-white px-4 py-2 rounded">게시</button>
+          <textarea
+            class="w-full p-2 border rounded"
+            placeholder="무슨 생각을 하고 계신가요?"
+          ></textarea>
+          <button class="mt-2 bg-blue-600 text-white px-4 py-2 rounded">
+            게시
+          </button>
         </div>
 
         <div class="space-y-4">
-
           <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
+              <img
+                src="https://placehold.co/40"
+                alt="프로필"
+                class="rounded-full mr-2"
+              />
               <div>
                 <p class="font-bold">홍길동</p>
                 <p class="text-sm text-gray-500">5분 전</p>
@@ -39,7 +47,11 @@ const MainPage = () => `
 
           <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
+              <img
+                src="https://placehold.co/40"
+                alt="프로필"
+                class="rounded-full mr-2"
+              />
               <div>
                 <p class="font-bold">김철수</p>
                 <p class="text-sm text-gray-500">15분 전</p>
@@ -55,7 +67,11 @@ const MainPage = () => `
 
           <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
+              <img
+                src="https://placehold.co/40"
+                alt="프로필"
+                class="rounded-full mr-2"
+              />
               <div>
                 <p class="font-bold">이영희</p>
                 <p class="text-sm text-gray-500">30분 전</p>
@@ -71,7 +87,11 @@ const MainPage = () => `
 
           <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
+              <img
+                src="https://placehold.co/40"
+                alt="프로필"
+                class="rounded-full mr-2"
+              />
               <div>
                 <p class="font-bold">박민수</p>
                 <p class="text-sm text-gray-500">1시간 전</p>
@@ -87,7 +107,11 @@ const MainPage = () => `
 
           <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
+              <img
+                src="https://placehold.co/40"
+                alt="프로필"
+                class="rounded-full mr-2"
+              />
               <div>
                 <p class="font-bold">정수연</p>
                 <p class="text-sm text-gray-500">2시간 전</p>
@@ -112,7 +136,10 @@ const MainPage = () => `
 
 const ErrorPage = () => `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="bg-white p-8 rounded-lg shadow-md w-full text-center" style="max-width: 480px">
+    <div
+      class="bg-white p-8 rounded-lg shadow-md w-full text-center"
+      style="max-width: 480px"
+    >
       <h1 class="text-2xl font-bold text-blue-600 mb-4">항해플러스</h1>
       <p class="text-4xl font-bold text-gray-800 mb-4">404</p>
       <p class="text-xl text-gray-600 mb-8">페이지를 찾을 수 없습니다</p>
@@ -129,22 +156,39 @@ const ErrorPage = () => `
 const LoginPage = () => `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-      <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
+      <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">
+        항해플러스
+      </h1>
       <form>
         <div class="mb-4">
-          <input type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
+          <input
+            type="text"
+            placeholder="이메일 또는 전화번호"
+            class="w-full p-2 border rounded"
+          />
         </div>
         <div class="mb-6">
-          <input type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
+          <input
+            type="password"
+            placeholder="비밀번호"
+            class="w-full p-2 border rounded"
+          />
         </div>
-        <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
+        <button
+          type="submit"
+          class="w-full bg-blue-600 text-white p-2 rounded font-bold"
+        >
+          로그인
+        </button>
       </form>
       <div class="mt-4 text-center">
         <a href="#" class="text-blue-600 text-sm">비밀번호를 잊으셨나요?</a>
       </div>
-      <hr class="my-6">
+      <hr class="my-6" />
       <div class="text-center">
-        <button class="bg-green-500 text-white px-4 py-2 rounded font-bold">새 계정 만들기</button>
+        <button class="bg-green-500 text-white px-4 py-2 rounded font-bold">
+          새 계정 만들기
+        </button>
       </div>
     </div>
   </main>
@@ -233,9 +277,15 @@ const ProfilePage = () => `
   </div>
 `;
 
-document.body.innerHTML = `
+const App = () => `
   ${MainPage()}
   ${ProfilePage()}
   ${LoginPage()}
   ${ErrorPage()}
 `;
+
+const render = () => {
+  document.body.innerHTML = App();
+};
+
+render();
