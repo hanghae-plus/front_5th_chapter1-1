@@ -52,7 +52,7 @@ export const setUpLoginForm = () => {
       email: "",
       bio: "",
     });
-    alert("로그인되었습니다.");
+
     const isHash = location.hash;
     if (isHash) {
       location.hash = `${BASE_PATH}/profile`;
