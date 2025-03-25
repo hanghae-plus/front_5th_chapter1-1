@@ -1,13 +1,23 @@
 import { userStore } from "../../../entities/user";
 import { User } from "../../../entities/user";
 import { router } from "../../../shared/libs";
+import { validateLoginForm } from "../libs/validator";
+import { InvalidError, LoginError } from "../errors";
 
 // ? 이거는 서비스로직이지만 의존성을 주입하지 않을 경우 그냥 싱글톤 패턴으로 내보내는 것이 더 좋을까요?
 export const AuthenticationService = () => ({
-  login: (username) => {
-    const user = User.build({ username });
-    userStore.setUser(user);
-    router.navigateTo("/profile");
+  login: ({ username, password }) => {
+    try {
+      validateLoginForm({ username, password });
+      const user = User.build({ username });
+      userStore.setUser(user);
+      router.navigateTo("/profile");
+    } catch (error) {
+      if (error instanceof InvalidError) {
+        throw new LoginError(`로그인 중 오류가 발생했습니다: ${error.message}`);
+      }
+      throw new LoginError(`로그인 중 오류가 발생했습니다: ${error.message}`);
+    }
   },
 
   logout: () => {

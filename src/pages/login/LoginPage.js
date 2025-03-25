@@ -51,7 +51,14 @@ export class LoginPage {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
       const formData = new FormData(form);
-      AuthenticationService().login(formData.get("username"));
+      try {
+        AuthenticationService().login({
+          username: formData.get("username"),
+          password: formData.get("password"),
+        });
+      } catch (error) {
+        alert(error.message);
+      }
     });
   }
 
