@@ -33,13 +33,13 @@ const URL_MAP = {
   [ROUTES.ERROR]: ErrorPage,
 };
 
-const navigate = (e) => {
-  let url = e.detail?.url || location.pathname || ROUTES.MAIN;
+const navigate = () => {
+  let url = location.pathname || ROUTES.MAIN;
   const username = store.isLogon();
   if (!username && url === ROUTES.PROFILE) url = ROUTES.LOGIN;
   if (!!username && url === ROUTES.LOGIN) url = ROUTES.MAIN;
   if (!url.includes(PREFIX)) url = PREFIX + url;
-  history.pushState({}, "", url);
+  history.replaceState({}, "", url);
   render(url);
 };
 
@@ -52,7 +52,11 @@ const render = (url) => {
 };
 
 // 로그인에서도 커스텀 이벤트로 페이지 이동
-document.addEventListener(CUSTOM_EVENT.PAGE_PUSH, navigate);
+document.addEventListener(CUSTOM_EVENT.PAGE_PUSH, (e) => {
+  if (!e.detail.url) return;
+  history.pushState({}, "", e.detail.url);
+  navigate();
+});
 
 document.addEventListener("submit", (e) => {
   e.preventDefault();

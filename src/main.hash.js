@@ -5,7 +5,7 @@ import MainPage from "./routes/main-page.js";
 import ProfilePage from "./routes/profile-page.js";
 import store from "./store/index.js";
 
-const PREFIX = "/front_5th_chapter1-1";
+// const PREFIX = "/front_5th_chapter1-1";
 const HASH_TEXT = "#";
 
 const handleLink = (e) => {
@@ -36,19 +36,18 @@ const URL_MAP = {
 
 const navigate = (e) => {
   e.preventDefault();
-  let url = e.detail?.url || location.hash || ROUTES.MAIN;
+  let hash = e.detail?.url || location.hash || ROUTES.MAIN;
   const isLogin = store.isLogon();
-  url = url.replace(HASH_TEXT, "");
-  if (!isLogin && url === ROUTES.PROFILE) url = ROUTES.LOGIN;
-  if (!!isLogin && url === ROUTES.LOGIN) url = ROUTES.MAIN;
-  if (!url.includes(HASH_TEXT)) url = HASH_TEXT + url;
-  if (url.includes(PREFIX)) url = url.replace(PREFIX, "");
-  location.hash = url;
-  render(url);
+  hash = hash.replace(HASH_TEXT, "");
+  if (!isLogin && hash === ROUTES.PROFILE) hash = ROUTES.LOGIN;
+  if (!!isLogin && hash === ROUTES.LOGIN) hash = ROUTES.MAIN;
+  if (!hash.includes(HASH_TEXT)) hash = HASH_TEXT + hash;
+  location.hash = hash;
+  render(hash);
 };
 
-const render = (url) => {
-  const key = url.replace(PREFIX, "").replace(HASH_TEXT, "");
+const render = (hash) => {
+  const key = hash.replace(HASH_TEXT, "");
   const page = (URL_MAP[key] || ErrorPage)();
   const root = document.querySelector("#root");
   root.innerHTML = page.template;
@@ -87,5 +86,4 @@ document.addEventListener("submit", (e) => {
 // 기본 페이지 이동, DOM 로드 이벤트 변경..
 window.addEventListener("storage", store.sync());
 window.addEventListener("hashchange", navigate);
-window.addEventListener("popstate", navigate);
 window.addEventListener("DOMContentLoaded", navigate);
