@@ -31,13 +31,19 @@ const Nav = () => {
   // localStorage에서 user 값을 가져옵니다.
   const user = localStorage.getItem("user");
   const currentPath = location.pathname;
+  const isHomeActive = currentPath === "/";
+  const isProfileActive = currentPath === "/profile";
+  const homeClass = isHomeActive ? "text-blue-600 font-bold" : "text-gray-600";
+  const profileClass = isProfileActive
+    ? "text-blue-600 font-bold"
+    : "text-gray-600";
 
   // user 값이 없으면 홈과 로그인 링크를 반환
   if (!user) {
     return `
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
-          <li><a href="#" class=${currentPath === "/" ? "text-blue-600 font-bold" : "text-gray-600"}>홈</a></li>
+          <li><a href="#" class=${homeClass}>홈</a></li>
           <li><a href="#/login" class="text-gray-600">로그인</a></li>
         </ul>
       </nav>
@@ -48,8 +54,8 @@ const Nav = () => {
   return `
     <nav class="bg-white shadow-md p-2 sticky top-14">
       <ul class="flex justify-around">
-        <li><a href="#" class=${currentPath === "/" ? "text-blue-600 font-bold" : "text-gray-600"}>홈</a></li>
-        <li><a href="#/profile" class=${currentPath === "/profile" ? "text-blue-600 font-bold" : "text-gray-600"}>프로필</a></li>
+        <li><a href="#" class=${homeClass}>홈</a></li>
+        <li><a href="#/profile" class=${profileClass}>프로필</a></li>
         <li><a id="logout" href="#/logout" class="text-gray-600">로그아웃</a></li>
       </ul>
     </nav>
@@ -246,17 +252,19 @@ const ProfilePage = () => {
 
 //routing 연결
 const routePath = {
-  "/login": LoginPage,
-  "/profile": ProfilePage,
-  "/": MainPage,
-  "/error": ErrorPage,
+  "#/": MainPage,
+  "#/login": LoginPage,
+  "#/profile": ProfilePage,
+  "#/logout": () => {
+    logoutUser();
+    return LoginPage();
+  },
 };
 
 //페이지 렌더링
 const renderPage = (path) => {
   // 경로가 routePath에 존재하는지 확인
-
-  console.log("hash", path);
+  console.log("hash path", path);
 
   const routeHandler = routePath[path];
 
@@ -309,7 +317,7 @@ const handleLogin = (event) => {
     };
     globalState.setUser("user", user);
     // localStorage.setItem("user", JSON.stringify(user));
-    navigateTo("/profile");
+    navigateTo("#/profile");
   } else if (!username || !password) {
     alert("이름 또는 비밀번호를 입력해주세요.");
   } else {
@@ -340,7 +348,8 @@ const handleUpdateProfile = (event) => {
 //최초 앱 실행 함수
 const App = () => {
   //아 클릭할 때 App()이 새롭게 실행되면서 초기화가 이루어지는구나.
-  navigateTo(location.hash.replace("#", ""));
+  const hash = window.location.hash || "#/";
+  navigateTo(hash);
 };
 
 //페이지 이동함수
@@ -349,13 +358,12 @@ const navigateTo = (path) => {
   //페이지 렌더링
   const rootElement = document.getElementById("root");
   rootElement.innerHTML = renderPage(path);
+  const userData = globalState.getUser("user");
 
   // 로그인 페이지일 때 이벤트 리스너 등록
-  if (path === "/login") {
-    const userData = globalState.getUser("user");
-    console.log("userData", userData);
+  if (path === "#/login") {
     if (userData) {
-      navigateTo("/");
+      navigateTo("#/");
       return;
     }
     const loginForm = document.getElementById("login-form");
@@ -364,11 +372,9 @@ const navigateTo = (path) => {
     }
   }
 
-  if (path === "/profile") {
-    const loginInfo = globalState.getUser("user");
-    console.log("loginInfo", loginInfo);
-    if (!loginInfo) {
-      navigateTo("/login");
+  if (path === "#/profile") {
+    if (!userData) {
+      navigateTo("#/login");
       return;
     }
     const profileForm = document.getElementById("profile-form");
@@ -377,7 +383,7 @@ const navigateTo = (path) => {
     }
   }
 
-  if (path !== "/login" && path !== "/logout") {
+  if (path !== "#/login" && path !== "#/logout") {
     console.log("login or logout");
     const navElement = document.querySelector("nav");
 
@@ -398,7 +404,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // popstate 이벤트 처리 popstate는 언제 발생하는건가?
 window.addEventListener("hashchange", () => {
-  const path = location.hash.replace("#", "");
-  console.log("path", path);
-  navigateTo(path);
+  const hash = window.location.hash || "#/";
+  navigateTo(hash);
 });

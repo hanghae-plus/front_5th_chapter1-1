@@ -58,6 +58,7 @@ describe("심화과제 테스트", () => {
       );
 
       goTo("/login");
+      console.log(document.querySelector("nav .text-blue-600.font-bold"));
       expect(
         document.querySelector("nav .text-blue-600.font-bold").innerHTML,
       ).toContain("홈");

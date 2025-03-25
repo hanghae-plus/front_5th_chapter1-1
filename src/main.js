@@ -22,24 +22,23 @@ const globalState = {
   },
 };
 
-//헤더 컴포넌트
-// const Header = () => `
-//     <header class="bg-blue-600 text-white p-4 sticky top-0">
-//         <h1 class="text-2xl font-bold">항해플러스</h1>
-//     </header>
-// `;
-
 const Nav = () => {
   // localStorage에서 user 값을 가져옵니다.
   const user = localStorage.getItem("user");
   const currentPath = location.pathname;
+  const isHomeActive = currentPath === "/";
+  const isProfileActive = currentPath === "/profile";
+  const homeClass = isHomeActive ? "text-blue-600 font-bold" : "text-gray-600";
+  const profileClass = isProfileActive
+    ? "text-blue-600 font-bold"
+    : "text-gray-600";
 
   // user 값이 없으면 홈과 로그인 링크를 반환
   if (!user) {
     return `
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
-          <li><a href="/" class=${currentPath === "/" ? "text-blue-600 font-bold" : "text-gray-600"}>홈</a></li>
+          <li><a href="/" class="${homeClass}">홈</a></li>
           <li><a href="/login" class="text-gray-600">로그인</a></li>
         </ul>
       </nav>
@@ -50,19 +49,13 @@ const Nav = () => {
   return `
     <nav class="bg-white shadow-md p-2 sticky top-14">
       <ul class="flex justify-around">
-        <li><a href="/" class=${currentPath === "/" ? "text-blue-600 font-bold" : "text-gray-600"}>홈</a></li>
-        <li><a href="/profile" class=${currentPath === "/profile" ? "text-blue-600 font-bold" : "text-gray-600"}>프로필</a></li>
+        <li><a href="/" class="${homeClass}">홈</a></li>
+        <li><a href="/profile" class="${profileClass}">프로필</a></li>
         <li><a id="logout" href="/logout" class="text-gray-600">로그아웃</a></li>
       </ul>
     </nav>
   `;
 };
-
-// const Footer = () => `
-//   <footer class="bg-gray-200 p-4 text-center">
-//         <p>&copy; 2024 항해플러스. All rights reserved.</p>
-//       </footer>
-// `;
 
 const MainPage = () => `
   <div class="bg-gray-100 min-h-screen flex justify-center">
@@ -355,8 +348,8 @@ const navigateTo = (path) => {
 
   // 로그인 페이지일 때 이벤트 리스너 등록
   if (path === "/login") {
+    console.log("/login 진입");
     const userData = globalState.getUser("user");
-    console.log("userData", userData);
     if (userData) {
       navigateTo("/");
       return;
