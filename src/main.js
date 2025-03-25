@@ -233,9 +233,23 @@ const ProfilePage = () => `
   </div>
 `;
 
-document.body.innerHTML = `
-  ${MainPage()}
-  ${ProfilePage()}
-  ${LoginPage()}
-  ${ErrorPage()}
-`;
+const render = (path) => {
+  document.body.innerHTML = getPageContent(path);
+};
+
+const getPageContent = (path) => {
+  switch (path) {
+    case "/":
+      return MainPage();
+    case "/profile":
+      return ProfilePage();
+    case "/login":
+      return LoginPage();
+    default:
+      return ErrorPage();
+  }
+};
+
+window.addEventListener("load", () => {
+  render(window.location.pathname);
+});
