@@ -81,9 +81,6 @@ const navigateTo = (path) => {
 };
 
 const initRouter = () => {
-  // popstate 이벤트 리스너 - 뒤로가기, 앞으로가기 버튼 처리
-  window.addEventListener("popstate", router);
-
   // 초기 라우팅
   router();
 };
@@ -107,11 +104,13 @@ const handleLogin = () => {
       e.preventDefault();
 
       // FormData에서 사용자 이름과 비밀번호 추출
-      const username = document.getElementById("name").value;
+      const username = document.getElementById("username").value;
 
       // 사용자 이름을 로컬스토리지에 저장
       const userData = {
         username: username,
+        email: "",
+        bio: "",
       };
 
       store.setState("isLoggedIn", true);
@@ -123,10 +122,11 @@ const handleLogin = () => {
 };
 
 const handleLogout = () => {
-  const logoutButton = document.getElementById("logout-btn");
+  const logoutButton = document.getElementById("logout");
   if (logoutButton) {
     logoutButton.addEventListener("click", (e) => {
       e.preventDefault();
+
       store.setState("isLoggedIn", false);
       store.setState("user", null);
       navigateTo("/login");
@@ -143,7 +143,8 @@ const handleUpdateProfile = () => {
       const email = document.getElementById("email").value;
       const bio = document.getElementById("bio").value;
 
-      store.setState("user", { username, email, bio });
+      const userData = { username, email, bio };
+      store.setState("user", userData);
 
       alert("프로필이 업데이트되었습니다.");
     });
@@ -151,5 +152,8 @@ const handleUpdateProfile = () => {
 };
 
 store.subscribe("isLoggedIn", router);
+
+// popstate 이벤트 리스너 - 뒤로가기, 앞으로가기 버튼 처리
+window.addEventListener("popstate", router);
 
 export { initRouter, navigateTo, router };

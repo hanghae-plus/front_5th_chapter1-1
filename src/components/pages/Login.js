@@ -6,7 +6,7 @@ const Login = () => {
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
       <form id="login-form">
         <div class="mb-4">
-          <input type="text" placeholder="사용자 이름" id="name" class="w-full p-2 border rounded" />
+          <input type="text" placeholder="사용자 이름" id="username" class="w-full p-2 border rounded" />
         </div>
         <div class="mb-6">
           <input type="password" placeholder="비밀번호" id="password" class="w-full p-2 border rounded" />

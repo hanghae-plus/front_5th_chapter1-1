@@ -6,6 +6,4 @@ window.goTo = function (path) {
 };
 
 // 초기 렌더링
-document.addEventListener("DOMContentLoaded", () => {
-  initRouter();
-});
+initRouter();

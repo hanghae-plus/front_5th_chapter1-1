@@ -18,6 +18,10 @@ function createStore() {
 
     // 상태 변경 시, 로컬스토리지에도 반영
     if (key === "user") {
+      if (!newState) {
+        localStorage.removeItem("user");
+        return;
+      }
       localStorage.setItem("user", JSON.stringify(newState));
     }
     if (key === "isLoggedIn") {
@@ -37,7 +41,6 @@ function createStore() {
 
   // 특정 상태 키에 등록된 모든 리스너 함수를 실행
   function notify(key) {
-    console.log("listeners:", listeners);
     if (listeners[key]) {
       listeners[key].forEach((listener) => listener());
     }
