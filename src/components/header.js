@@ -1,14 +1,16 @@
 import store from "../store/store";
 import handleRoute from "../router";
+import { BASE_PATH } from "../config.js";
 
 const matchedPath = (path) => {
-  return location.pathname === path;
+  const currentPath = location.pathname.replace(BASE_PATH, "") || "/";
+  return currentPath === path;
 };
 
 const logout = () => {
   localStorage.removeItem("user");
   store.setLoggedIn(false);
-  window.history.pushState({}, "", "/login");
+  window.history.pushState({}, "", BASE_PATH + "/login");
   handleRoute();
 };
 

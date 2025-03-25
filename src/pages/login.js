@@ -1,5 +1,6 @@
 import store from "../store/store";
 import handleRoute from "../router";
+import { BASE_PATH } from "../config.js";
 
 const LoginPage = () => /* html */ `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
@@ -36,7 +37,7 @@ document.body.addEventListener("submit", function (e) {
         JSON.stringify({ username, email: "", bio: "" }),
       );
       store.setLoggedIn(true);
-      window.history.pushState({}, "", "/");
+      window.history.pushState({}, "", BASE_PATH + "/");
       handleRoute();
     }
   }

@@ -1,4 +1,5 @@
 import handleRoute from "./router.js";
+import { BASE_PATH } from "./config.js";
 
 window.addEventListener("popstate", handleRoute);
 
@@ -9,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target.matches('a[href^="/"]')) {
       e.preventDefault();
       const path = e.target.getAttribute("href");
-      window.history.pushState({}, "", path);
+      window.history.pushState({}, "", BASE_PATH + path);
       handleRoute();
     }
   });
