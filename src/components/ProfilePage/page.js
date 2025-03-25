@@ -67,9 +67,7 @@ export const ProfilePage = () => {
                   rows="4"
                   class="w-full p-2 border rounded"
                   value="${bio}"
-                >
-                
-                </textarea>
+                >${bio}</textarea>
               </div>
               <button
                 type="submit"
