@@ -1,7 +1,7 @@
 import { goTo } from "./goTo";
 
 /** `<a>` 기본 동작을 막고, 클릭 시 페이지 이동하는 함수 */
-const initLinkNavigation = () => {
+const interceptAnchors = () => {
   const $anchors = document.querySelectorAll("a");
 
   $anchors.forEach((anchor) => {
@@ -19,4 +19,4 @@ const initLinkNavigation = () => {
   });
 };
 
-export default initLinkNavigation;
+export default interceptAnchors;

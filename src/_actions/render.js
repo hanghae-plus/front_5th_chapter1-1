@@ -1,4 +1,4 @@
-import initLinkNavigation from "./anchors";
+import interceptAnchors from "./interceptAnchors";
 import Layout from "../_components/layouts/Layout";
 import route from "../_constants/route";
 
@@ -9,10 +9,10 @@ import { profileAction } from "../_components/pages/ProfilePage";
 const render = () => {
   const $root = document.getElementById("root");
   $root.innerHTML = Layout();
-  initLinkNavigation();
+
+  interceptAnchors();
 
   const pathname = location.pathname;
-
   if (pathname === route.login.path) {
     loginAction();
   }
