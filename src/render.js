@@ -1,7 +1,8 @@
 import App from "./main.js";
 
 import store from "./store/store";
-
+const BASE_URL =
+  process.env.NODE_ENV === "production" ? "/front_5th_chapter1-1" : "";
 const updateRoot = () => {
   document.getElementById("root").innerHTML = App();
 };
@@ -14,8 +15,8 @@ const handleFormSubmit = (e) => {
     const username = e.target.querySelector("#username").value;
     store.setUserInfo({ username, email: "", bio: "" });
     isHash
-      ? (location.hash = "#/profile")
-      : history.pushState(null, "", "/profile");
+      ? (location.hash = `${BASE_URL}#/profile`)
+      : history.pushState(null, "", `${BASE_URL}/profile`);
 
     updateRoot();
   }
@@ -36,7 +37,7 @@ const handleLogout = (e) => {
     store.removeUserInfo();
     isHash
       ? (location.hash = "#/login")
-      : history.pushState(null, "", "/login");
+      : history.pushState(null, "", `${BASE_URL}/login`);
 
     updateRoot();
   }

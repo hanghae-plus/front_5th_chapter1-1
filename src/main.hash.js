@@ -3,21 +3,22 @@ import LoginPage from "./page/LoginPage";
 import ProfilePage from "./page/ProfilePage";
 import NotFoundPage from "./page/NotFoundPage";
 import store from "./store/store";
-
+const BASE_URL =
+  process.env.NODE_ENV === "production" ? "/front_5th_chapter1-1" : "";
 const App = () => {
   const loggedIn = store.getState().loggedIn;
-  if (location.hash === "#/profile" && !loggedIn) {
-    location.hash = "#/login";
+  if (location.hash === `${BASE_URL}#/profile` && !loggedIn) {
+    location.hash = `${BASE_URL}#/login`;
   }
-  if (location.hash === "#/login" && loggedIn) {
-    location.hash = "#/";
+  if (location.hash === `${BASE_URL}#/login` && loggedIn) {
+    location.hash = `${BASE_URL}#/`;
   }
   switch (location.hash) {
-    case "#/login":
+    case `${BASE_URL}#/login`:
       return `${LoginPage()}`;
-    case "#/profile":
+    case `${BASE_URL}#/profile`:
       return `${ProfilePage()}`;
-    case "#/":
+    case `${BASE_URL}#/`:
       return `${MainPage()}`;
     default:
       return `${NotFoundPage()}`;
@@ -36,7 +37,7 @@ const handleFormSubmit = (e) => {
   if (e.target && e.target.id === "login-form") {
     const username = e.target.querySelector("#username").value;
     store.setUserInfo({ username, email: "", bio: "" });
-    location.hash = "#/profile";
+    location.hash = `${BASE_URL}#/profile`;
 
     updateRoot();
   }
@@ -55,7 +56,7 @@ const handleLogout = (e) => {
   if (e.target && e.target.id === "logout") {
     e.preventDefault();
     store.removeUserInfo();
-    location.hash = "#/login";
+    location.hash = `${BASE_URL}#/login`;
 
     updateRoot();
   }

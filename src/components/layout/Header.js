@@ -1,6 +1,9 @@
 import store from "../../store/store";
 import { HEADER_CONTENT } from "../../util/data";
 
+const BASE_URL =
+  process.env.NODE_ENV === "production" ? "/front_5th_chapter1-1" : "";
+
 const Header = () => {
   const loggedIn = store.getState().loggedIn;
 
@@ -14,12 +17,12 @@ const Header = () => {
       if (route.id === "logout") {
         return `
           <li>
-            <a href="/login" id="logout" class="text-gray-600">로그아웃</a>
+            <a href="${BASE_URL}/login" id="logout" class="text-gray-600">로그아웃</a>
           </li>`;
       }
       return `
         <li>
-          <a href="${route.path}" class="${location.pathname === route.path ? "text-blue-600 font-bold" : "text-gray-600"}">${route.content}</a>
+          <a href="${BASE_URL}${route.path}" class="${location.pathname === `${BASE_URL}${route.path}` ? "text-blue-600 font-bold" : "text-gray-600"}">${route.content}</a>
         </li>`;
     })
     .join("");

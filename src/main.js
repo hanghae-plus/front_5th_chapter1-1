@@ -4,21 +4,22 @@ import MainPage from "./page/MainPage";
 import ProfilePage from "./page/ProfilePage";
 import { render } from "./render";
 import store from "./store/store";
-
+const BASE_URL =
+  process.env.NODE_ENV === "production" ? "/front_5th_chapter1-1" : "";
 const App = () => {
   const loggedIn = store.getState().loggedIn;
-  if (location.pathname === "/profile" && !loggedIn) {
-    history.pushState({}, "", "/login");
+  if (location.pathname === `${BASE_URL}/profile` && !loggedIn) {
+    history.pushState({}, "", `${BASE_URL}/login`);
   }
-  if (location.pathname === "/login" && loggedIn) {
-    history.pushState({}, "", "/");
+  if (location.pathname === `${BASE_URL}/login` && loggedIn) {
+    history.pushState({}, "", `${BASE_URL}/`);
   }
   switch (location.pathname) {
-    case "/login":
+    case `${BASE_URL}/login`:
       return `${LoginPage()}`;
-    case "/profile":
+    case `${BASE_URL}/profile`:
       return `${ProfilePage()}`;
-    case "/":
+    case `${BASE_URL}/`:
       return `${MainPage()}`;
     default:
       return `${ErrorPage()}`;
