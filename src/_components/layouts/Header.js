@@ -5,7 +5,7 @@ import {
 import states from "../../_states";
 
 const Header = () => {
-  const pathname = location.pathname;
+  const pathname = states.pathname;
 
   const isLoggedIn = states.isLoggedIn;
 
@@ -14,7 +14,7 @@ const Header = () => {
       return loggedInAccessRoutes
         .map(
           (route) =>
-            `<li><a id="${route.id}" href="${route.path}" class="${pathname === route.path ? "text-blue-600" : "text-gray-600"}">${route.title}</a></li>`,
+            `<li><a id="${route.id}" href="${route.path}" class="${pathname === route.path ? "text-blue-600 font-bold" : "text-gray-600"}">${route.title}</a></li>`,
         )
         .join("");
     }

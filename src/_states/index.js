@@ -23,6 +23,13 @@ const states = {
   get isLoggedIn() {
     return this.user !== null;
   },
+
+  // =========== 페이지 정보 ===========
+  get pathname() {
+    if (this.routeType === "history") return location.pathname;
+
+    return location.hash.slice(1);
+  },
 };
 
 export default states;

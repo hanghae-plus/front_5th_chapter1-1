@@ -9,9 +9,11 @@ import MainPage from "../pages/MainPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import ProfilePage from "../pages/ProfilePage";
 
-/** 페이지별 접근 권한 체크 */
-const checkRouteAuthorization = () => {
-  const pathname = location.pathname;
+/**
+ * 페이지별 접근 권한 체크
+ * @param {string} pathname
+ */
+const checkRouteAuthorization = (pathname) => {
   const isLoggedIn = states.isLoggedIn;
 
   // 비로그인 상태에서 로그인 상태에서 접근 가능한 경로로 접근한 경우
@@ -24,12 +26,15 @@ const checkRouteAuthorization = () => {
     goTo(routes.home.path);
     return MainPage;
   }
+
+  return null;
 };
 
-/** 경로에 따른 페이지 반환 */
-const getPage = () => {
-  const pathname = location.pathname;
-
+/**
+ * 경로에 따른 페이지 반환
+ * @param {string} pathname
+ */
+const getPage = (pathname) => {
   switch (pathname) {
     case routes.home.path:
       return MainPage();
@@ -44,19 +49,21 @@ const getPage = () => {
 
 const Layout = () => {
   // TODO: 예외적으로 처리 아니 왜 로그아웃이 버튼이 아니라 anchor인가요 선생님
-  if (location.href.includes("#")) {
+  if (states.routeType === "history" && location.href.includes("#")) {
     states.user = null;
     goTo(routes.login.path);
     return LoginPage();
   }
 
-  const page = checkRouteAuthorization();
+  const pathname = states.pathname;
 
-  if (page) {
-    return page;
+  const Page = checkRouteAuthorization(pathname);
+
+  if (Page) {
+    return Page();
   }
 
-  return getPage();
+  return getPage(pathname);
 };
 
 export default Layout;

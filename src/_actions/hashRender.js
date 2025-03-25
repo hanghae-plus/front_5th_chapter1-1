@@ -1,17 +1,12 @@
-import interceptAnchors from "./interceptAnchors";
 import Layout from "../_components/layouts/Layout";
+import { loginAction } from "../_components/pages/LoginPage";
+import { profileAction } from "../_components/pages/ProfilePage";
 import route from "../_constants/route";
 import states from "../_states";
 
-// FIXME:
-import { loginAction } from "../_components/pages/LoginPage";
-import { profileAction } from "../_components/pages/ProfilePage";
-
-const render = () => {
+const hashRender = () => {
   const $root = document.getElementById("root");
   $root.innerHTML = Layout();
-
-  interceptAnchors();
 
   const pathname = states.pathname;
   if (pathname === route.login.path) {
@@ -22,4 +17,4 @@ const render = () => {
   }
 };
 
-export default render;
+export default hashRender;
