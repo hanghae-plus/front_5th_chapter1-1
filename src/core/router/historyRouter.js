@@ -2,7 +2,7 @@ import { BaseRouter } from "./baseRouter.js";
 
 export class HistoryRouter extends BaseRouter {
   formatPath(path) {
-    return path;
+    return path.replace(this.basePath, "/");
   }
 
   start() {

@@ -11,7 +11,8 @@ export class BaseRouter {
 
   getCurrentPath() {
     const path = window.location.pathname;
-    return this.formatPath(path);
+    const pathWithoutBase = path.replace(this.basePath, "/");
+    return this.formatPath(pathWithoutBase);
   }
 
   getRoute(path) {
@@ -39,8 +40,7 @@ export class BaseRouter {
 
   renderRoute(toPath) {
     const proceed = (path = toPath) => {
-      const pathWithoutBase = path.replace(this.basePath, "/");
-      const nextPath = this.formatPath(pathWithoutBase);
+      const nextPath = this.formatPath(path);
       const route = this.getRoute(nextPath);
       this.renderComponent(route, nextPath);
     };
