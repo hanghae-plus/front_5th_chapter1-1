@@ -24,6 +24,9 @@ export function hashRenderRoute() {
     return;
   }
 
+  //  정상적인 라우트 페이지를 가져온다. (없으면 NotFoundPage)
+  root.innerHTML = Page();
+
   //로그인 안된 상태에서 프로필 페이지 접근 시 -> 로그인페이지로 리다이렉트
   if (path === `${BASE_PATH}/profile` && !isLogin) {
     location.hash = `${BASE_PATH}/login`;
@@ -35,9 +38,6 @@ export function hashRenderRoute() {
     location.hash = `${BASE_PATH}/`;
     return;
   }
-
-  //  정상적인 라우트 페이지를 가져온다. (없으면 NotFoundPage)
-  root.innerHTML = Page();
 
   // 로그인 폼 제출관련
   if (path === `${BASE_PATH}/login`) {
