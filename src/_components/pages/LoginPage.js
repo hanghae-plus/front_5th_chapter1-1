@@ -1,6 +1,6 @@
 import { goTo } from "../../_actions/goTo";
 import route from "../../_constants/route";
-import { setUserInfo } from "../../_utils/user";
+import states from "../../_states";
 
 /**
  * 진짜 안되면 클래스형으로 바꾸기
@@ -63,7 +63,7 @@ export const loginAction = () => {
 
     const userInfo = { username, email, bio };
 
-    setUserInfo(userInfo);
+    states.user = userInfo;
 
     goTo(route.home.path);
   };

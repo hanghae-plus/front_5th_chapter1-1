@@ -3,7 +3,7 @@ import routes, {
   loggedInRoutes,
   loggedOutRoutes,
 } from "../../_constants/route";
-import { getUserInfo, removeUserInfo } from "../../_utils/user";
+import states from "../../_states";
 import LoginPage from "../pages/LoginPage";
 import MainPage from "../pages/MainPage";
 import NotFoundPage from "../pages/NotFoundPage";
@@ -12,8 +12,7 @@ import ProfilePage from "../pages/ProfilePage";
 /** 페이지별 접근 권한 체크 */
 const checkRouteAuthorization = () => {
   const pathname = location.pathname;
-  const userInfo = getUserInfo();
-  const isLoggedIn = !!userInfo;
+  const isLoggedIn = states.isLoggedIn;
 
   // 비로그인 상태에서 로그인 상태에서 접근 가능한 경로로 접근한 경우
   if (loggedInRoutes.some((route) => route.path === pathname) && !isLoggedIn) {
@@ -46,7 +45,7 @@ const getPage = () => {
 const Layout = () => {
   // TODO: 예외적으로 처리 아니 왜 로그아웃이 버튼이 아니라 anchor인가요 선생님
   if (location.href.includes("#")) {
-    removeUserInfo();
+    states.user = null;
     goTo(routes.login.path);
     return LoginPage();
   }

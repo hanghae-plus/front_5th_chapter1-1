@@ -1,9 +1,9 @@
 import Header from "../layouts/Header";
 import Footer from "../layouts/Footer";
-import { getUserInfo, setUserInfo } from "../../_utils/user";
+import states from "../../_states";
 
 const ProfilePage = () => {
-  const userInfo = getUserInfo();
+  const userInfo = states.user;
 
   return `
   <div id="root">
@@ -95,7 +95,7 @@ export const profileAction = () => {
 
     const userInfo = { username, email, bio };
 
-    setUserInfo(userInfo);
+    states.user = userInfo;
   };
 
   const $form = document.querySelector("#profile-form");

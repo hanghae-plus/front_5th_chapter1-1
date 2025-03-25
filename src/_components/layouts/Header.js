@@ -2,12 +2,12 @@ import {
   loggedInAccessRoutes,
   loggedOutAccessRoutes,
 } from "../../_constants/route";
-import { getUserInfo } from "../../_utils/user";
+import states from "../../_states";
 
 const Header = () => {
   const pathname = location.pathname;
 
-  const isLoggedIn = !!getUserInfo();
+  const isLoggedIn = states.isLoggedIn;
 
   const getNavItems = () => {
     if (isLoggedIn) {
