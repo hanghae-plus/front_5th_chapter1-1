@@ -1,6 +1,6 @@
-import { Header } from "../../shared/components/Header/page.js";
-import { Footer } from "../../shared/components/Footer/page.js";
-import { ID } from "../../constant.js";
+import { Header } from "@/shared/components/header/page.js";
+import { Footer } from "@/shared/components/footer/page.js";
+import { ID } from "@/constant.js";
 
 export const HomePage = () => `
   <div class="bg-gray-100 min-h-screen flex justify-center">

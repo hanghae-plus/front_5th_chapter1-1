@@ -1,4 +1,4 @@
-import { setUserInfoToStorage } from "../../shared/logic/localStorage.js";
+import { setUserInfoToStorage } from "@/shared/logic/localStorage.js";
 
 export function handleSubmitProfile(event) {
   event.preventDefault();

@@ -1,5 +1,5 @@
-import { ID } from "../../constant.js";
-import { getUserInfoFromStorage } from "../../shared/logic/localStorage.js";
+import { ID } from "@/constant.js";
+import { getUserInfoFromStorage } from "@/shared/logic/localStorage.js";
 
 const LoginForm = () => {
   return `

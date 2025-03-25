@@ -1,12 +1,12 @@
-import { getUserInfoFromStorage } from "./shared/logic/localStorage.js";
-import { goTo } from "./shared/logic/router.js";
-import { ID } from "./constant.js";
-import { HomePage } from "./components/HomePage/page.js";
-import { LoginPage } from "./components/LoginPage/page.js";
-import { NotFoundPage } from "./components/NotFoundPage/page.js";
-import { ProfilePage } from "./components/ProfilePage/page.js";
-import { handleSubmitLogin } from "./components/LoginPage/logic.js";
-import { handleSubmitProfile } from "./components/ProfilePage/logic.js";
+import { HomePage } from "@/components/HomePage/page.js";
+import { handleSubmitLogin } from "@/components/LoginPage/logic.js";
+import { LoginPage } from "@/components/LoginPage/page.js";
+import { NotFoundPage } from "@/components/NotFoundPage/page.js";
+import { handleSubmitProfile } from "@/components/ProfilePage/logic.js";
+import { ProfilePage } from "@/components/ProfilePage/page.js";
+import { getUserInfoFromStorage } from "@/shared/logic/localStorage.js";
+import { goTo } from "@/shared/logic/router.js";
+import { ID } from "@/constant.js";
 
 function getHtmlByPathName() {
   const location = window.location.pathname;
