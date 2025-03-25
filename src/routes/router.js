@@ -50,7 +50,7 @@ const router = () => {
 const render = (path) => {
   const route = routes.find((route) => route.path === path);
   if (route) {
-    root.innerHTML = route.component;
+    root.innerHTML = route.component();
     setupEventHandlers();
   }
 };
