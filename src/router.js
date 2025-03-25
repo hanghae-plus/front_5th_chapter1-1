@@ -30,6 +30,25 @@ export function render() {
   setupEventListeners();
 }
 
+export function hashRender() {
+  const path = window.location.hash.slice(1) || "/";
+  let component;
+
+  const user = getUser();
+
+  if (user && path === "/login") {
+    component = routes["/"];
+  } else if (!user && path === "/profile") {
+    component = routes["/login"];
+  } else {
+    component = routes[path] || routes["*"];
+  }
+  const $app = document.querySelector("#root");
+  $app.innerHTML = component();
+
+  setupEventListeners();
+}
+
 export function onClickLink(e) {
   if (e.target.matches("[data-link]")) {
     e.preventDefault();
@@ -47,6 +66,7 @@ export function navigate(path) {
 
 export function initRouter() {
   window.addEventListener("popstate", render);
+  window.addEventListener("hashchange", hashRender);
   document.body.addEventListener("click", onClickLink);
 
   render();
