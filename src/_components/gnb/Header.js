@@ -1,5 +1,7 @@
+import { Router } from "../../router";
+
 export const Header = () => {
-  const isLoggedIn = localStorage.getItem("user") !== null;
+  const isLoggedIn = localStorage.getItem("userInfo") !== null;
 
   return `
     <header class="bg-blue-600 text-white p-4 sticky top-0">
@@ -30,3 +32,15 @@ export const Header = () => {
     </nav>
   `;
 };
+document.addEventListener("click", (event) => {
+  if (event.target.matches('a[href="/logout"]')) {
+    event.preventDefault(); // 기본 동작 방지
+
+    // localStorage에서 사용자 정보 삭제!!!!!!!!!!
+    localStorage.removeItem("userInfo");
+
+    // 메인 페이지로 리다이렉트!!!!!!!!!!!!
+    window.history.pushState({}, "", "/");
+    Router.Render(); //
+  }
+});

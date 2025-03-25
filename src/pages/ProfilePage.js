@@ -1,3 +1,7 @@
+// import { Router } from "../router";
+
+export const user = JSON.parse(localStorage.getItem("userInfo") || "{}");
+
 export const ProfilePage = () => /* html */ `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
@@ -19,7 +23,7 @@ export const ProfilePage = () => /* html */ `
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
             </h2>
-            <form>
+            <form id="profile-form">
               <div class="mb-4">
                 <label
                   for="username"
@@ -31,7 +35,7 @@ export const ProfilePage = () => /* html */ `
                   type="text"
                   id="username"
                   name="username"
-                  value="홍길동"
+                  value="${user.username || ""}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -45,7 +49,7 @@ export const ProfilePage = () => /* html */ `
                   type="email"
                   id="email"
                   name="email"
-                  value="hong@example.com"
+                  value="${user.email || ""}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -60,9 +64,7 @@ export const ProfilePage = () => /* html */ `
                   name="bio"
                   rows="4"
                   class="w-full p-2 border rounded"
-                >
-안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
-                >
+                >${user.bio || ""}</textarea>
               </div>
               <button
                 type="submit"
@@ -81,3 +83,31 @@ export const ProfilePage = () => /* html */ `
     </div>
   </div>
 `;
+
+document.addEventListener("DOMContentLoaded", () => {
+  const loginForm = document.getElementById("profile-form");
+  const usernameInput = document.getElementById("username");
+  const emailInput = document.getElementById("email");
+  const bioInput = document.getElementById("bio");
+
+  loginForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const username = usernameInput.value.trim();
+    const email = emailInput.value.trim();
+    const bio = bioInput.value.trim();
+
+    const userInfo = {
+      username,
+      email,
+      bio,
+    };
+
+    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    alert("프로필 업데이트 성공");
+
+    // 라우팅 처리
+    // window.history.pushState({}, "", "/");
+    // Router.Render(); // MainPage로 이동
+  });
+});
