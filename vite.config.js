@@ -1,11 +1,17 @@
-import { defineConfig } from "vitest/config";
+import { defineConfig } from "vite";
+import { resolve } from "path";
 
 export default defineConfig({
   base: "/front-5th-chapter1-1/",
-  test: {
-    globals: true,
-    environment: "jsdom",
-    setupFiles: "./src/setupTests.js",
-    exclude: ["**/e2e/**", "**/*.e2e.spec.js", "**/node_modules/**"],
+
+  build: {
+    outDir: "dist",
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, "index.html"),
+        hash: resolve(__dirname, "index.hash.html"),
+        notFound: resolve(__dirname, "404.html"),
+      },
+    },
   },
 });
