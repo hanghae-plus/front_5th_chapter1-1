@@ -1,14 +1,8 @@
 import Header from "../components/Header.js";
 import { Nav, handleLogout } from "../components/Nav.js";
 import Footer from "../components/Footer.js";
-import { isAuthenticated } from "../utils/auth.js";
-import { navigateTo } from "../utils/router.js";
 
-const Profile = () => {
-  if (!isAuthenticated()) {
-    navigateTo("/login");
-    return "";
-  }
+const ProfilePage = () => {
   return `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
@@ -79,6 +73,6 @@ const Profile = () => {
 `;
 };
 const handleProfile = () => {
-  handleLogout(); // ✅ 로그아웃 버튼 이벤트 연결
+  handleLogout();
 };
-export { Profile, handleProfile };
+export { ProfilePage, handleProfile };

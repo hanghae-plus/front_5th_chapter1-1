@@ -1,18 +1,14 @@
-import { isAuthenticated, setLogin } from "../utils/auth.js";
+import { setLogin } from "../utils/auth.js";
 import { navigateTo } from "../utils/router.js";
 
-export const Login = () => {
-  if (isAuthenticated()) {
-    navigateTo("/profile");
-    return "";
-  }
+export const LoginPage = () => {
   return `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-      <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
-      <form id="loginForm">
+      <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">로고</h1>
+      <form id="login-form">
         <div class="mb-4">
-          <input id="userId" type="text" placeholder="사용자이름" class="w-full p-2 border rounded">
+          <input id="username" type="text" placeholder="사용자 이름" class="w-full p-2 border rounded">
         </div>
         <div class="mb-6">
           <input id="userPassword" type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
@@ -32,13 +28,15 @@ export const Login = () => {
 };
 
 export const handleLogin = () => {
-  const loginForm = document.querySelector("#loginForm");
+  const loginForm = document.querySelector("#login-form");
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const userId = document.querySelector("#userId").value.trim();
+    const userName = document.querySelector("#username").value.trim();
     const userPw = document.querySelector("#userPassword").value.trim();
-    if (userId && userPw) {
-      setLogin(userId, userPw);
+    const userEmail = "";
+    const userBio = "";
+    if (userName && userPw) {
+      setLogin(userName, userPw, userEmail, userBio);
       navigateTo("/profile");
     }
   });

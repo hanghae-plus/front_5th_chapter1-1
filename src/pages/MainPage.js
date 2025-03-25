@@ -31,7 +31,7 @@ const posts = [
   },
 ];
 
-const Main = () => `
+const MainPage = () => `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
       ${Header}
@@ -52,4 +52,4 @@ const Main = () => `
 const handleMain = () => {
   handleLogout();
 };
-export { Main, handleMain };
+export { MainPage, handleMain };
