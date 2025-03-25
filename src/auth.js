@@ -10,16 +10,16 @@ export const UserStorage = {
     this.save();
   },
   save() {
-    localStorage.clear();
+    localStorage.removeItem("user");
     localStorage.setItem("user", JSON.stringify(this.preferences));
   },
   clear() {
-    localStorage.clear();
+    localStorage.removeItem("user");
   },
 };
 
 export default {
-  loggedIn: false,
+  loggedIn: localStorage.getItem("user") ? true : false,
   username: "",
   login(username) {
     UserStorage.set({
@@ -31,7 +31,7 @@ export default {
   logout() {
     this.loggedIn = false;
     UserStorage.clear();
-    history.pushState({ path: "/" }, "", "/");
+    history.pushState({ path: "/login" }, "", "/login");
   },
   getUser() {
     return UserStorage.get();

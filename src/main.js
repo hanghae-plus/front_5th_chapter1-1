@@ -9,7 +9,12 @@ const Page = () => {
     case "/":
       return MainPage();
     case "/login":
-      return LoginPage();
+      if (auth.loggedIn) {
+        history.pushState({ path: "/" }, "", "/");
+        return MainPage();
+      } else {
+        return LoginPage();
+      }
     case "/profile":
       if (auth.loggedIn) {
         return ProfilePage();

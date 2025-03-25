@@ -11,13 +11,14 @@ export default () => {
           ${
             auth.loggedIn
               ? `
-              <li><a href="/" class="${location.pathname === "/" ? "text-blue-600" : "text-gray-600"}">홈</a></li>
-              <li><a href="/profile" class="${location.pathname === "/profile" ? "text-blue-600" : "text-gray-600"}">프로필</a></li>
+              <li><a href="/" class="${location.pathname === "/" ? "text-blue-600 font-bold" : "text-gray-600"}">홈</a></li>
+              <li><a href="/profile" class="${location.pathname === "/profile" ? "text-blue-600 font-bold" : "text-gray-600"}">프로필</a></li>
               <li><a href="#" id="logout" class="text-gray-600">로그아웃</a></li>
-          `
+              `
               : `
-              <li><a href="/" class="${location.pathname === "/" ? "text-blue-600" : "text-gray-600"}">홈</a></li>
-              <li><a href="/profile" class="${location.pathname === "/profile" ? "text-blue-600" : "text-gray-600"}">프로필</a></li>
+              <li><a href="/" class="${location.pathname === "/" ? "text-blue-600 font-bold" : "text-gray-600"}">홈</a></li>
+              <li><a href="/profile" class="${location.pathname === "/profile" ? "text-blue-600 font-bold" : "text-gray-600"}">프로필</a></li>
+              <li><a href="/login" class="text-gray-600">로그인</a></li>
           `
           }
         </ul>
