@@ -15,3 +15,14 @@ window.addEventListener("click", (e) => {
     state.notify();
   }
 });
+
+window.addEventListener("submit", (e) => {
+  if (e.target.id === "profile-form") {
+    state.setUserInfo({
+      username: document.querySelector("#username")?.value,
+      email: document.querySelector("#email")?.value,
+      bio: document.querySelector("#bio")?.value,
+    });
+    state.notify();
+  }
+});

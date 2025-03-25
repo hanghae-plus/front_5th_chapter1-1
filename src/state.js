@@ -1,6 +1,6 @@
 export const state = {
-  isLoggedIn: localStorage.getItem("user")?.username,
-  user: { username: "", email: "", bio: "" },
+  isLoggedIn: localStorage.getItem("isLoggedIn"),
+  user: JSON.parse(localStorage.getItem("user")),
   subscribers: [],
 
   subscribe(callback) {
