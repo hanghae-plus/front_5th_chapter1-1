@@ -1,11 +1,12 @@
 import "./main.js";
 
-// -- router --
+// -- 라우터 시스템 구현 --
 
 // 전역 상태 관리 객체
-// loggedIn: 사용자의 로그인 상태 (true/false)
-// currentPath: 현재 페이지 경로 (예: "/", "/login", "/profile")
-// username: 현재 로그인한 사용자의 이름
+// 애플리케이션의 전반적인 상태를 관리하는 객체입니다.
+// - loggedIn: 사용자의 로그인 상태를 boolean 값으로 저장
+// - currentPath: 현재 페이지의 경로를 저장 (해시 기반 라우팅)
+// - username: 현재 로그인한 사용자의 이름을 저장
 const state = {
   loggedIn: false,
   currentPath: window.location.hash.slice(1) || "/",
@@ -13,17 +14,19 @@ const state = {
 };
 
 // 네비게이션 이벤트 리스너를 저장할 변수
-// 이벤트 리스너를 제거하기 위해 참조를 저장합니다.
+// 이벤트 리스너의 참조를 저장하여 나중에 제거할 수 있도록 합니다.
 let navigationListener = null;
 
 // 라우팅 가드 함수들
 // isLoggedIn: localStorage에서 사용자 정보를 확인하여 로그인 상태를 반환
+// localStorage에 'user' 항목이 있으면 로그인된 것으로 간주
 const isLoggedIn = () => {
   return !!localStorage.getItem("user");
 };
 
-// requireAuth: 로그인이 필요한 페이지를 위한 가드
-// 로그인하지 않은 사용자가 접근하면 로그인 페이지로 리다이렉트
+// requireAuth: 로그인이 필요한 페이지를 위한 가드 함수
+// - 로그인하지 않은 사용자가 접근하면 로그인 페이지로 리다이렉트
+// - 로그인한 사용자는 원래 접근하려던 컴포넌트를 볼 수 있음
 const requireAuth = (component) => {
   return () => {
     if (!isLoggedIn()) {
@@ -35,10 +38,10 @@ const requireAuth = (component) => {
 };
 
 // 라우터 함수: URL 해시에 따라 적절한 페이지 컴포넌트를 렌더링
-// - /: 메인 페이지
-// - /profile: 로그인 상태에 따라 프로필 페이지 또는 로그인 페이지
-// - /login: 로그인 상태에 따라 메인 페이지 또는 로그인 페이지
-// - 그 외: 에러 페이지
+// - /: 메인 페이지 (모든 사용자 접근 가능)
+// - /profile: 로그인한 사용자만 접근 가능 (requireAuth로 보호)
+// - /login: 로그인하지 않은 사용자만 접근 가능 (로그인한 사용자는 메인으로 리다이렉트)
+// - 그 외: 404 에러 페이지
 const router = () => {
   const path = window.location.hash.slice(1) || "/";
   state.currentPath = path;
@@ -50,6 +53,7 @@ const router = () => {
       return requireAuth(ProfilePage)();
     case "/login":
       if (isLoggedIn()) {
+        window.location.hash = "/";
         return MainPage();
       }
       return LoginPage();
@@ -60,6 +64,7 @@ const router = () => {
 
 // 상태 업데이트 함수
 // 새로운 상태를 기존 상태와 병합하고 화면을 다시 렌더링
+// Object.assign을 사용하여 상태를 불변성 있게 업데이트
 const setState = (newState) => {
   Object.assign(state, newState);
   render();
@@ -87,9 +92,11 @@ const render = () => {
     return;
   }
 
+  // 새로운 컨텐츠로 root 엘리먼트 업데이트
   root.innerHTML = content;
 
   // 이벤트 리스너 등록
+  // 이전 리스너가 있다면 제거하고 새로운 리스너 등록
   if (navigationListener) {
     document.removeEventListener("click", navigationListener);
   }
@@ -97,6 +104,9 @@ const render = () => {
   document.addEventListener("click", navigationListener);
 
   // 로그인 폼 이벤트 리스너
+  // - 폼 제출 시 기본 동작 방지
+  // - 사용자 이름이 입력되면 localStorage에 저장
+  // - 로그인 상태 업데이트 및 메인 페이지로 리다이렉트
   const loginForm = document.getElementById("login-form");
   if (loginForm) {
     loginForm.addEventListener("submit", (e) => {
@@ -122,6 +132,9 @@ const render = () => {
   }
 
   // 프로필 폼 이벤트 리스너
+  // - 폼 제출 시 기본 동작 방지
+  // - 입력된 정보를 localStorage에 저장
+  // - 상태 업데이트
   const profileForm = document.getElementById("profile-form");
   if (profileForm) {
     profileForm.addEventListener("submit", (e) => {
@@ -143,6 +156,9 @@ const render = () => {
   }
 
   // 로그아웃 버튼 이벤트 리스너
+  // - 클릭 시 localStorage에서 사용자 정보 제거
+  // - 로그인 상태 초기화
+  // - 메인 페이지로 리다이렉트
   const logoutButton = document.getElementById("logout");
   if (logoutButton) {
     logoutButton.onclick = (e) => {
@@ -192,10 +208,11 @@ document.addEventListener("DOMContentLoaded", () => {
   render();
 });
 
-// --router--
+// -- 컴포넌트 정의 --
 
 // 헤더 컴포넌트
 // - 로그인 상태에 따라 사용자 이름 표시
+// - 로그인한 경우에만 환영 메시지 표시
 const Header = ({
   loggedIn,
   username,
@@ -206,6 +223,7 @@ const Header = ({
   `;
 
 // 푸터 컴포넌트
+// - 저작권 정보 표시
 const Footer = () => /*html*/ `<footer class="bg-gray-200 p-4 text-center">
     <p>&copy; 2024 항해플러스. All rights reserved.</p>
   </footer>
@@ -353,8 +371,8 @@ const MainPage = () => /*html*/ `
 `;
 
 // 에러 페이지 컴포넌트
-// - 404 에러 메시지
-// - 홈으로 돌아가기 버튼
+// - 404 에러 메시지 표시
+// - 홈으로 돌아가기 버튼 제공
 const ErrorPage = () => /*html*/ `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full text-center" style="max-width: 480px">
@@ -372,7 +390,7 @@ const ErrorPage = () => /*html*/ `
 `;
 
 // 로그인 페이지 컴포넌트
-// - 로그인 폼
+// - 로그인 폼 제공
 // - 비밀번호 찾기 링크
 // - 새 계정 만들기 버튼
 const LoginPage = () => /*html*/ `
@@ -400,8 +418,9 @@ const LoginPage = () => /*html*/ `
 `;
 
 // 프로필 페이지 컴포넌트
-// - 사용자 정보 수정 폼
+// - 사용자 정보 수정 폼 제공
 // - localStorage에서 사용자 정보 불러오기
+// - 프로필 업데이트 기능
 const ProfilePage = () => {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
