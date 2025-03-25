@@ -2,7 +2,7 @@
 export const mode = () => {
   let mode = "history";
 
-  if (location.pathname.includes("hash")) {
+  if (window.location.hash.includes("#")) {
     mode = "hash";
   }
 

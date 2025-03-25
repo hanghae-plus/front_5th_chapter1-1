@@ -31,4 +31,3 @@ export function handleClick(e, user) {
     navigate("login");
   }
 }
-//TODO:해시기반의 라우트할 수 있도록 세팅

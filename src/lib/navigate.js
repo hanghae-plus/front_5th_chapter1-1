@@ -4,7 +4,7 @@ import { render } from "./render";
 export const navigate = (pathname) => {
   if (mode() === "hash") {
     history.pushState(null, "", `#/` + pathname.replace(/^\/+/, ""));
-    render();
+    window.dispatchEvent(new Event("hashchange"));
     return;
   }
   history.pushState(null, "", pathname);

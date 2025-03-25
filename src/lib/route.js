@@ -1,8 +1,11 @@
 import { MainPage, ProfilePage, LoginPage, ErrorPage } from "../page";
+import User from "../store/user";
 import { mode } from "./mode";
 
 export const route = () => {
   let currentMode = mode();
+  let user = new User();
+  let username = user.get().username;
 
   if (currentMode === "hash") {
     switch (location.hash) {
@@ -11,6 +14,7 @@ export const route = () => {
       case "#/profile":
         return ProfilePage();
       case "#/login":
+        if (username) return MainPage();
         return LoginPage();
       default:
         return ErrorPage();
@@ -23,6 +27,7 @@ export const route = () => {
       case "/profile":
         return ProfilePage();
       case "/login":
+        if (username) return MainPage();
         return LoginPage();
       default:
         return ErrorPage();

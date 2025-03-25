@@ -9,6 +9,10 @@ const user = new User();
 render();
 
 window.addEventListener("popstate", () => render());
-
+window.addEventListener("hashchange", () => {
+  render();
+  console.log(window.location.hash);
+  console.log(root.querySelectorAll("header").length);
+});
 root.addEventListener("submit", (e) => handleSubit(e, user));
 root.addEventListener("click", (e) => handleClick(e, user));

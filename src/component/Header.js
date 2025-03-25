@@ -1,24 +1,25 @@
 import User from "../store/user";
 
 //design
-const BLUETEXT = "text-blue-600";
+const BLUETEXT = "text-blue-600 font-bold";
 const GRAYTEXT = "text-gray-600";
 
 export const Header = () => /* HTML */ {
   const user = new User();
   let username = user.get().username;
+
   const nav = username
     ? `<nav class="bg-white shadow-md p-2 sticky top-14">
 	  <ul class="flex justify-around">
 		<li>
-		  <a href="/" class=${location.pathname === "/" || location.hash === "#/" ? BLUETEXT : GRAYTEXT}
+		  <a href="/" class="${location.pathname === "/" || location.hash === "#/" ? BLUETEXT : GRAYTEXT}"
 			>홈</a
 		  >
 		</li>
 		<li>
 		  <a
 			href="/profile"
-			class=${location.pathname === "/profile" || location.hash === "#/profile" ? BLUETEXT : GRAYTEXT}
+			class="${location.pathname === "/profile" || location.hash === "#/profile" ? BLUETEXT : GRAYTEXT}"
 			>프로필</a
 		  >
 		</li>
@@ -30,7 +31,7 @@ export const Header = () => /* HTML */ {
     : `<nav class="bg-white shadow-md p-2 sticky top-14">
 	  <ul class="flex justify-around">
 		<li>
-		  <a href="/" class=${location.pathname === "/" ? BLUETEXT : GRAYTEXT}
+		  <a href="/" class="${location.pathname === "/" || location.hash === "#/" ? BLUETEXT : GRAYTEXT}"
 			>홈</a
 		  >
 		</li>
