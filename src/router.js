@@ -31,9 +31,7 @@ export const Router = () => {
         break;
     }
 
-    document.body.innerHTML = `
-      ${layout}
-    `;
+    document.body.innerHTML = layout;
   };
 
   rederPage();

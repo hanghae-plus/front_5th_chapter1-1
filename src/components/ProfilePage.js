@@ -7,7 +7,7 @@ export const ProfilePage = () => `
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
             </h2>
-            <form>
+            <form id='submit-form'>
               <div class="mb-4">
                 <label
                   for="username"
@@ -18,7 +18,7 @@ export const ProfilePage = () => `
                   type="text"
                   id="username"
                   name="username"
-                  value="홍길동"
+                  value="이름"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -32,7 +32,7 @@ export const ProfilePage = () => `
                   type="email"
                   id="email"
                   name="email"
-                  value="hong@example.com"
+                  value="이메일주소"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -48,10 +48,10 @@ export const ProfilePage = () => `
                   rows="4"
                   class="w-full p-2 border rounded"
                 >
-안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
+안녕하세요!</textarea
                 >
               </div>
-              <button
+              <button id='submit-btn'
                 type="submit"
                 class="w-full bg-blue-600 text-white p-2 rounded font-bold"
               >
@@ -63,4 +63,48 @@ export const ProfilePage = () => `
       </div>
     </div>
   </div>
+
+  <script>
+    const form = document.querySelector('#submit-form');
+    const btn = document.querySelector('#submit-btn');
+    const name = document.querySelector('#username');
+    const email = document.querySelector('#email');
+    const bio = document.querySelector('#bio');
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+
+      const username = name.value;
+      const useremail = email.value;
+      const userbio = bio.value;
+
+      localStorage.setItem('이름', username);
+      localStorage.setItem('이메일', useremail);
+      localStorage.setItem('자기소개', userbio);
+
+      console.log('이름:', localStorage.getItem('이름'));
+      console.log('이메일:', localStorage.getItem('이메일'));
+      console.log('자기소개:', localStorage.getItem('자기소개'));
+
+      alert('프로필이 업데이트되었습니다.');
+    };
+
+    btn.addEventListener('click', handleSubmit);
+
+
+
+
+  </script>
 `;
+
+// // 페이지 로드 시 저장된 프로필 정보 불러오기
+// window.addEventListener('load', () => {
+//   const savedUsername = localStorage.getItem('이름');
+//   const savedEmail = localStorage.getItem('이메일');
+//   const savedBio = localStorage.getItem('자기소개');
+
+//   if (savedUsername) username.value = savedUsername;
+//   if (savedEmail) useremail.value = savedEmail;
+//   if (savedBio) userbio.value = savedBio;
+// });
+// </script>

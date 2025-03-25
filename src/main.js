@@ -2,7 +2,9 @@ import { Router } from "./router";
 
 Router();
 
-window.addEventListener("popstate", Router);
+window.addEventListener("popstate", () => {
+  Router();
+});
 
 document.body.addEventListener("click", (event) => {
   if (event.target.tagName === "A") {
