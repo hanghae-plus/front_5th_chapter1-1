@@ -50,7 +50,6 @@ const router = () => {
       return requireAuth(ProfilePage)();
     case "/login":
       if (isLoggedIn()) {
-        window.location.hash = "/";
         return MainPage();
       }
       return LoginPage();
