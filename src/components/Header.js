@@ -30,16 +30,6 @@ export const Header = () => {
           </ul>
       </nav>
   `;
-
-    const $logoutBtn = headerElem.querySelector("#logout");
-    if ($logoutBtn) {
-      $logoutBtn.addEventListener("click", () => {
-        state.setIsLoggedIn(false);
-        state.setUserInfo({ username: "", email: "", bio: "" });
-        window.history.pushState({}, "", "/");
-        state.notify();
-      });
-    }
   };
 
   render();

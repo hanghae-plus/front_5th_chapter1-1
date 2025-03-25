@@ -9,7 +9,11 @@ export const state = {
 
   setUserInfo(info) {
     this.user = info;
-    localStorage.setItem("user", JSON.stringify(info));
+    if (info) {
+      localStorage.setItem("user", JSON.stringify(info));
+    } else {
+      localStorage.removeItem("user");
+    }
     this.notify();
   },
 
