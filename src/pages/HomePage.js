@@ -2,9 +2,11 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import posts from "../constants/posts";
 import Card from "../components/Card";
+import user from "../store/user";
 
 const HomePage = () => {
-  const isLoggedIn = false;
+  const isLoggedIn = user.getIsLoggedIn();
+  console.log(isLoggedIn);
 
   return `
 <div class="bg-gray-100 min-h-screen flex justify-center">

@@ -15,10 +15,11 @@ const loginAction = () => {
     user.setIsLoggedIn(true);
   };
 
-  loginForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    loginSubmitAction();
-  });
+  if (loginForm)
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      loginSubmitAction();
+    });
 };
 
 export default loginAction;

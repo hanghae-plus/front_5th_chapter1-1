@@ -1,12 +1,13 @@
+let isLoggedIn = false;
 const user = {
-  isLoggedIn: false,
   setIsLoggedIn(state) {
-    if (state !== undefined) {
-      this.isLoggedIn(state);
-    } else {
-      this.isLoggedIn = !this.isLoggedIn;
-    }
+    isLoggedIn = typeof state === "boolean" ? state : !isLoggedIn;
+  },
+  getIsLoggedIn() {
+    return isLoggedIn;
   },
 };
+
+console.log(`isLoggedIn : ${isLoggedIn}`);
 
 export default user;
