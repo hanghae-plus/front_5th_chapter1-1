@@ -47,7 +47,7 @@ export const setUpLoginForm = () => {
       return;
     }
 
-    Store.setState({
+    Store.setUser({
       username,
       email: "",
       bio: "",

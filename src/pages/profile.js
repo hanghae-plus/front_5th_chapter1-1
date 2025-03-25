@@ -3,7 +3,7 @@ import { header } from "../components/header";
 import { Store } from "../store";
 
 export const ProfilePage = () => {
-  const state = Store.getState();
+  const state = Store.getUser();
 
   return `
     <div id="root">
@@ -82,7 +82,7 @@ export const updateProfile = () => {
     // <form> 요소로부터 사용자가 입력한 데이터를 한 번에 가져오기
     const formData = new FormData(profileForm);
 
-    Store.setState({
+    Store.setUser({
       username: formData.get("username") || "",
       email: formData.get("email") || "",
       bio: formData.get("bio") || "",
