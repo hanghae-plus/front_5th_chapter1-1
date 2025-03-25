@@ -10,7 +10,7 @@ const Navigate = () => `
           <li><a href="/" class="text-blue-600">홈</a></li>
           <li><a href="/login" class="text-gray-600">로그인</a></li>
           <li><a href="/profile" class="text-gray-600">프로필</a></li>
-          <li><a href="#" class="text-gray-600">로그아웃</a></li>
+          <li><button id="logout-button" href="#" class="text-gray-600">로그아웃</button></li>
         </ul>
       </nav>
 `;
@@ -273,6 +273,11 @@ document.body.addEventListener("click", (event) => {
     event.preventDefault();
     const href = event.target.getAttribute("href");
     navigate(href);
+  }
+
+  if (event.target.id === "logout-button") {
+    localStorage.removeItem("username");
+    navigate("/login");
   }
 });
 
