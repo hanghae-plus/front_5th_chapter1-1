@@ -144,12 +144,12 @@ const LoginPage = () => `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
-      <form>
+      <form id="login-form">
         <div class="mb-4">
-          <input type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
+          <input id="id-input" type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
         </div>
         <div class="mb-6">
-          <input type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
+          <input id="pw-input" type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
         </div>
         <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
       </form>
@@ -163,7 +163,7 @@ const LoginPage = () => `
     </div>
 `;
 
-const Profile = () => `
+const Profile = (username) => `
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
@@ -179,7 +179,7 @@ const Profile = () => `
                   type="text"
                   id="username"
                   name="username"
-                  value="홍길동"
+                  value="${username}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -193,7 +193,7 @@ const Profile = () => `
                   type="email"
                   id="email"
                   name="email"
-                  value="hong@example.com"
+                  value="${username}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -232,7 +232,7 @@ const getPageContent = (path) => {
     case "/":
       return MainPage(Home);
     case "/profile":
-      return MainPage(Profile);
+      return MainPage(() => Profile(localStorage.getItem("username")));
     case "/login":
       return LoginPage();
     default:
@@ -254,18 +254,43 @@ const navigate = (path) => {
 };
 
 document.body.addEventListener("click", (event) => {
-  // 링크 클릭
   if (event.target.tagName === "A") {
     event.preventDefault();
     const href = event.target.getAttribute("href");
     navigate(href);
   }
+});
 
-  // 버튼 클릭
-  if (event.target.tagName === "BUTTON") {
+let userInfo = {
+  username: "test",
+  password: "test",
+};
+
+let userInput = {
+  username: "",
+  password: "",
+};
+
+document.body.addEventListener("input", (event) => {
+  if (event.target.id === "id-input") {
+    userInput.username = event.target.value;
+  }
+  if (event.target.id === "pw-input") {
+    userInput.password = event.target.value;
+  }
+});
+
+document.body.addEventListener("submit", (event) => {
+  if (event.target.id === "login-form") {
     event.preventDefault();
-    if (window.location.pathname === "/login") {
+    if (
+      userInfo.username === userInput.username &&
+      userInfo.password === userInput.password
+    ) {
+      localStorage.setItem("username", userInput.username);
       navigate("/profile");
+    } else {
+      alert("로그인 실패!");
     }
   }
 });
