@@ -2,16 +2,12 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import posts from "../constants/posts";
 import Card from "../components/Card";
-import user from "../store/user";
 
 const HomePage = () => {
-  const isLoggedIn = user.getIsLoggedIn();
-  console.log(isLoggedIn);
-
-  return `
+  const template = () => `
 <div class="bg-gray-100 min-h-screen flex justify-center">
   <div class="max-w-md w-full">
-    ${Header({ isLoggedIn })}
+    ${Header().template()}
     <main class="p-4">
       <div class="mb-4 bg-white rounded-lg shadow p-4">
         <textarea class="w-full p-2 border rounded" placeholder="무슨 생각을 하고 계신가요?"></textarea>
@@ -34,5 +30,10 @@ const HomePage = () => {
   </div>
 </div>
 `;
+
+  const action = () => Header().action();
+
+  return { template, action };
 };
+
 export default HomePage;

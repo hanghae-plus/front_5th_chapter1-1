@@ -1,4 +1,4 @@
-let isLoggedIn = false;
+let isLoggedIn = !!localStorage.getItem("user");
 const user = {
   setIsLoggedIn(state) {
     isLoggedIn = typeof state === "boolean" ? state : !isLoggedIn;
@@ -7,7 +7,5 @@ const user = {
     return isLoggedIn;
   },
 };
-
-console.log(`isLoggedIn : ${isLoggedIn}`);
 
 export default user;

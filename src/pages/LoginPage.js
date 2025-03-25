@@ -1,5 +1,8 @@
+import { render } from "../main";
+import user from "../store/user";
+
 const LoginPage = () => {
-  return `
+  const template = () => `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
@@ -22,6 +25,30 @@ const LoginPage = () => {
     </div>
   </main>
 `;
+
+  const action = () => {
+    const loginForm = document.getElementById("login-form");
+    if (loginForm) {
+      console.log("loginForm exist!");
+      loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const formData = new FormData(loginForm);
+
+        const username = formData.get("username");
+        const defaultProfile = { username, email: "", bio: "" };
+
+        const existedProfile = localStorage.getItem("user");
+        if (!existedProfile)
+          localStorage.setItem("user", JSON.stringify(defaultProfile));
+
+        user.setIsLoggedIn(true);
+
+        render("/profile");
+      });
+    }
+  };
+
+  return { template, action };
 };
 
 export default LoginPage;
