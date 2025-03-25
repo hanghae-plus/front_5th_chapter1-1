@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import { resolve } from "path";
 
 export default defineConfig({
-  base: "/front-5th-chapter1-1/",
+  base: process.env.NODE_ENV === "production" ? "/front_5th_chapter1-1/" : "/",
 
   build: {
     outDir: "dist",
