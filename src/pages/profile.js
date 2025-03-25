@@ -1,10 +1,17 @@
-const ProfilePage = () => /* html */ `
+const ProfilePage = () => {
+  const user = JSON.parse(localStorage.getItem("user")) || {
+    username: "",
+    email: "",
+    bio: "",
+  };
+
+  return /* html */ `
         <main class="p-4">
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
             </h2>
-            <form>
+            <form id="profile-form">
               <div class="mb-4">
                 <label
                   for="username"
@@ -15,7 +22,7 @@ const ProfilePage = () => /* html */ `
                   type="text"
                   id="username"
                   name="username"
-                  value="홍길동"
+                  value="${user.username}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -29,7 +36,7 @@ const ProfilePage = () => /* html */ `
                   type="email"
                   id="email"
                   name="email"
-                  value="hong@example.com"
+                  value="${user.email}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -44,8 +51,7 @@ const ProfilePage = () => /* html */ `
                   name="bio"
                   rows="4"
                   class="w-full p-2 border rounded"
-                >
-안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
+                >${user.bio}</textarea
                 >
               </div>
               <button
@@ -57,6 +63,18 @@ const ProfilePage = () => /* html */ `
             </form>
           </div>
         </main>
-`;
+  `;
+};
+
+document.body.addEventListener("submit", function (e) {
+  if (e.target && e.target.id === "profile-form") {
+    e.preventDefault();
+    const username = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
+    const bio = document.getElementById("bio").value;
+
+    localStorage.setItem("user", JSON.stringify({ username, email, bio }));
+  }
+});
 
 export default ProfilePage;
