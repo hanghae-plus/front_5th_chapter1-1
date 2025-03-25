@@ -12,8 +12,6 @@ export const header = () => {
     ? location.hash.replace(/^#/, "")
     : window.location.pathname;
 
-  console.log(currentPath);
-
   const loginHTML = isLogin
     ? `
         <li><a href="${BASE_PATH}/profile" data-route-link class="${currentPath === `${BASE_PATH}/profile` ? "text-blue-600  font-bold" : "text-gray-600"}">프로필</a></li>

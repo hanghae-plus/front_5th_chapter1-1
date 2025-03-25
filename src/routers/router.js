@@ -28,17 +28,16 @@ export function renderRoute() {
   //비로그인 상태에서 프로필 페이지 접근 시 -> 로그인페이지로 리다이렉트
   if (path === `${BASE_PATH}/profile` && !isLogin) {
     history.replaceState(null, "", `${BASE_PATH}/login`);
-    renderRoute();
-    //root.innerHTML = routes[`${BASE_PATH}/login`]();
+    //renderRoute();
+    root.innerHTML = routes[`${BASE_PATH}/login`]();
     return;
   }
 
   // 로그인 사용자가 로그인 페이지 접근 시 -> 메인 페이지로 리다이렉트
   if (path === `${BASE_PATH}/login` && isLogin) {
-    console.log("isLogin", isLogin);
     history.replaceState(null, "", `${BASE_PATH}/`);
-    renderRoute();
-    //root.innerHTML = routes[`${BASE_PATH}/`]();
+    //renderRoute();
+    root.innerHTML = routes[`${BASE_PATH}/`]();
     return;
   }
 
@@ -70,14 +69,15 @@ export function navigateTo(path) {
 
 export function clickLogoutBtn() {
   const logoutBtn = document.getElementById("logout");
-
+  const root = document.getElementById("root");
   if (logoutBtn) {
     logoutBtn.addEventListener("click", (e) => {
       e.preventDefault();
       Store.logout();
 
       history.replaceState(null, "", `${BASE_PATH}/login`);
-      renderRoute(); // 페이지 다시 렌더링
+      root.innerHTML = routes[`${BASE_PATH}/login`]();
+      //renderRoute(); // 페이지 다시 렌더링
     });
   }
 }
