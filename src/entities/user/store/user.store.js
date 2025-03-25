@@ -1,32 +1,33 @@
+import { User } from "../model/user";
+
 class UserStore {
+  user;
   constructor() {
     // ? 1-4 SPA를 만들기 위한 지식 뭉치에서 나오는 코드 패턴
     // if (UserStore.instance) return UserStore.instance;
     // UserStore.instance = this;
 
     this.user = null;
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      this.user = JSON.parse(storedUser);
-    }
   }
 
   setUser(user) {
     this.user = user;
-    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("user", JSON.stringify(this.user.toEntity()));
   }
 
-  updateUser(user) {
-    this.user = { ...this.user, ...user };
-    localStorage.setItem("user", JSON.stringify(user));
+  updateUser(userData) {
+    const user = User.build({ ...this.user.toEntity(), ...userData });
+    this.user = user;
+    localStorage.setItem("user", JSON.stringify(this.user.toEntity()));
   }
 
   getUser() {
     const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      this.user = JSON.parse(storedUser);
+    if (storedUser && !this.user) {
+      const userData = JSON.parse(storedUser);
+      this.user = User.build(userData);
     }
-    return this.user ?? null;
+    return this.user?.toEntity() ?? null;
   }
 
   removeUser() {
@@ -35,7 +36,7 @@ class UserStore {
   }
 
   getIsLogin() {
-    return this.user !== null;
+    return this.getUser() !== null;
   }
 }
 

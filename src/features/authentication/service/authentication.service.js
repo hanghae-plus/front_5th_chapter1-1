@@ -1,14 +1,12 @@
 import { userStore } from "../../../entities/user";
+import { User } from "../../../entities/user/model/user";
 import { router } from "../../../shared/libs";
 
 // ? 이거는 서비스로직이지만 의존성을 주입하지 않을 경우 그냥 싱글톤 패턴으로 내보내는 것이 더 좋을까요?
 export const AuthenticationService = () => ({
   login: (username) => {
-    userStore.setUser({
-      username: username,
-      email: "",
-      bio: "",
-    });
+    const user = User.build({ username });
+    userStore.setUser(user);
     router.navigateTo("/profile");
   },
 

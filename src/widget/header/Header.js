@@ -5,7 +5,7 @@ import { NavigationBar } from "./NavigationBar";
 
 export class Header {
   constructor() {
-    this.isLogin = userStore.getUser();
+    this.isLogin = userStore.getIsLogin();
     this.pathname = window.location.pathname;
   }
 

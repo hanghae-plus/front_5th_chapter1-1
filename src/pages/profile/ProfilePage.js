@@ -10,6 +10,8 @@ export class ProfilePage {
   }
   template() {
     const user = userStore.getUser();
+    // * 이거 예외처리 해야할텐데...
+    // if (!user) return;
     return `
     <div id="root">
       <div class="bg-gray-100 min-h-screen flex justify-center">
