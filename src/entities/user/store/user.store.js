@@ -3,10 +3,6 @@ import { User } from "../model/user";
 class UserStore {
   user;
   constructor() {
-    // ? 1-4 SPA를 만들기 위한 지식 뭉치에서 나오는 코드 패턴
-    // if (UserStore.instance) return UserStore.instance;
-    // UserStore.instance = this;
-
     this.user = null;
   }
 
@@ -40,5 +36,4 @@ class UserStore {
   }
 }
 
-// ? singleton pattern을 위해 사용
 export const userStore = new UserStore();

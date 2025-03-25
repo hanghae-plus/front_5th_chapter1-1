@@ -1,7 +1,7 @@
 import { ensureRootElement } from "../../shared/utils";
-import { Feed, mockData } from "../../widget/feed";
-import { Footer } from "../../widget/footer";
-import { Header } from "../../widget/header";
+import { Feed, mockData } from "../../widgets/feed";
+import { Footer } from "../../widgets/footer";
+import { Header } from "../../widgets/header";
 
 export class MainPage {
   constructor() {

@@ -1,6 +1,6 @@
-import { errorRoutes } from "./error.routes";
 import { loginRoutes } from "./login.routes";
 import { mainRoutes } from "./main.routes";
+import { notFoundRoutes } from "./not-found.routes";
 import { profileRoutes } from "./profile.routes";
 
 export const routes = () => {
@@ -8,6 +8,6 @@ export const routes = () => {
     main: mainRoutes,
     login: loginRoutes,
     profile: profileRoutes,
-    error: errorRoutes,
+    notFound: notFoundRoutes,
   }).forEach((handler) => handler());
 };

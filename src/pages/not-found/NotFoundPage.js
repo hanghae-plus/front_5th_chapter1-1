@@ -1,6 +1,6 @@
 import { ensureRootElement } from "../../shared/utils";
 
-export class ErrorPage {
+export class NotFoundPage {
   constructor() {
     this.template = this.template();
     // ? 이런 긴 String을 관리한 적이 없어서 이렇게 작성을 했는데, 그냥 아래와 같이 constructor에서 관리하는 것이 더 나을까요 ?
