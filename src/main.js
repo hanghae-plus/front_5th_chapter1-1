@@ -21,6 +21,8 @@ export const navigate = (path) => {
   // 로그인 체크
   if (validatedPath === "/profile" && !isLoggedIn()) {
     validatedPath = "/login";
+  } else if (validatedPath === "/login" && isLoggedIn()) {
+    validatedPath = "/";
   }
 
   history.pushState(null, null, validatedPath);

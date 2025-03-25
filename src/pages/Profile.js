@@ -56,8 +56,8 @@ class Profile extends Component {
                       rows="4"
                       class="w-full p-2 border rounded"
                     >
-        안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.
-                  </textarea>
+        안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
+                    >
                   </div>
                   <button
                     type="submit"
