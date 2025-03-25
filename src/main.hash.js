@@ -19,12 +19,10 @@ document.addEventListener("click", (event) => {
   }
 
   if (logoutBtn) {
-    logoutBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      Store.logout();
+    event.preventDefault();
+    Store.logout();
 
-      location.hash = `${BASE_PATH}/login`;
-      hashRenderRoute();
-    });
+    location.hash = `${BASE_PATH}/login`;
+    hashRenderRoute();
   }
 });
