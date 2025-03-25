@@ -1,6 +1,8 @@
 import { Router } from "./router";
 
-Router();
+document.addEventListener("DOMContentLoaded", () => {
+  Router();
+});
 
 window.addEventListener("popstate", () => {
   Router();

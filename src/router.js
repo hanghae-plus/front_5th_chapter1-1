@@ -7,32 +7,39 @@ import { NotFoundPage } from "./components/NotFoundPage";
 
 export const Router = () => {
   const path = window.location.pathname;
+  const isLogIn =
+    localStorage.getItem("username") && localStorage.getItem("password");
 
-  const rederPage = () => {
-    let whatPage = "";
-    let layout = "";
+  let layout = "";
 
-    switch (path) {
-      case "/":
-        whatPage = HomePage();
-        layout = `${Header()}${whatPage}${Footer()}`;
-        break;
-      case "/login":
-        whatPage = LoginPage();
-        layout = `${whatPage}`;
-        break;
-      case "/profile":
-        whatPage = ProfilePage();
-        layout = `${Header()}${whatPage}${Footer()}`;
-        break;
-      default:
-        whatPage = NotFoundPage();
-        layout = `${whatPage}`;
-        break;
-    }
+  switch (path) {
+    case "/":
+      layout = `${Header()}${HomePage()}${Footer()}`;
+      break;
+    case "/login":
+      layout = `${LoginPage()}`;
+      break;
+    case "/profile":
+      if (isLogIn) {
+        layout = `${Header()}${ProfilePage()}${Footer()}`;
+      } else {
+        goTo("/login");
+        return;
+      }
+      break;
+    default:
+      layout = `${NotFoundPage()}`;
+      break;
+  }
 
-    document.body.innerHTML = layout;
-  };
-
-  rederPage();
+  document.body.innerHTML = layout;
 };
+
+const goTo = (url) => {
+  window.history.pushState({}, "", url);
+  Router();
+};
+
+// window.addEventListener('popstate', () => {
+//   renderPage();
+// });

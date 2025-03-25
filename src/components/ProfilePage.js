@@ -7,7 +7,7 @@ export const ProfilePage = () => `
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
             </h2>
-            <form id='submit-form'>
+            <form id='profile-form'>
               <div class="mb-4">
                 <label
                   for="username"
@@ -18,7 +18,7 @@ export const ProfilePage = () => `
                   type="text"
                   id="username"
                   name="username"
-                  value="이름"
+                  value=""
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -32,7 +32,7 @@ export const ProfilePage = () => `
                   type="email"
                   id="email"
                   name="email"
-                  value="이메일주소"
+                  value=""
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -47,7 +47,7 @@ export const ProfilePage = () => `
                   name="bio"
                   rows="4"
                   class="w-full p-2 border rounded"
-                >안녕하세요!</textarea>
+                ></textarea>
               </div>
               <button id='submit-btn'
                 type="submit"
@@ -66,10 +66,16 @@ export const ProfilePage = () => `
 const renderProfile = () => {
   // document.body.innerHTML = ProfilePage();
 
-  const form = document.querySelector("#submit-form");
+  const form = document.querySelector("#profile-form");
   const name = document.querySelector("#username");
   const email = document.querySelector("#email");
   const bio = document.querySelector("#bio");
+
+  const loginName = localStorage.getItem("사용자 이름");
+
+  if (loginName) {
+    name.value = loginName;
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -78,9 +84,9 @@ const renderProfile = () => {
     const useremail = email.value;
     const userbio = bio.value;
 
-    localStorage.setItem("이름", username);
-    localStorage.setItem("이메일", useremail);
-    localStorage.setItem("자기소개", userbio);
+    localStorage.setItem("username", username);
+    localStorage.setItem("email", useremail);
+    localStorage.setItem("bio", userbio);
 
     alert("프로필이 업데이트되었습니다.");
   };
