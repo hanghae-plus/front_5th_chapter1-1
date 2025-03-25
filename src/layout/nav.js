@@ -1,6 +1,7 @@
 import login from "../module/login";
 import router from "../module/route";
 import user from "../module/user";
+import routeConfig from "../config/routerConfig";
 
 const nav = () => {
   const navList = [
@@ -11,6 +12,11 @@ const nav = () => {
   const path = router.getCurrentPath();
   const activeNav = navList.find((item) => item.href === path);
   const { isLoggedIn } = user();
+
+  // href 속성 생성 함수
+  const getHref = (path) => {
+    return routeConfig.getMode() === "hash" ? `#${path}` : path;
+  };
 
   return /* HTML */ `
     <nav class="bg-white shadow-md p-2 sticky top-14">
@@ -27,9 +33,9 @@ const nav = () => {
                 : /* HTML */ `
                     <li>
                       <a
-                        href="${item.href}"
+                        href="${getHref(item.href)}"
                         class="${activeNav?.id === item.id
-                          ? "text-blue-500"
+                          ? "text-blue-600 font-bold"
                           : "text-gray-600"}"
                         id="nav-link"
                         >${item.name}</a
@@ -42,9 +48,9 @@ const nav = () => {
             return /* HTML */ `
               <li>
                 <a
-                  href="${item.href}"
+                  href="${getHref(item.href)}"
                   class="${activeNav?.id === item.id
-                    ? "text-blue-500"
+                    ? "text-blue-600 font-bold"
                     : "text-gray-600"}"
                   id="nav-link"
                   >${item.name}</a

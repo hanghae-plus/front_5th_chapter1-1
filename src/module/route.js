@@ -1,11 +1,19 @@
 import user from "./user";
+import routeConfig from "../config/routerConfig";
 
 // 라우트 관리
-const route = (function () {
-  const getCurrentPath = () => window.location.pathname; // 현재 라우터 확인
+const router = (function () {
+  const getCurrentPath = () => {
+    if (routeConfig.getMode() === "hash") {
+      const hash = window.location.hash;
+      // 빈 해시나 '#'만 있는 경우 '/'를 반환
+      return hash === "" || hash === "#" ? "/" : hash.slice(1);
+    }
+    return window.location.pathname;
+  };
 
-  // 보호할 라우터
   const authRoutes = ["/profile"];
+  const guestRoutes = ["/login"];
 
   // 라우트 변경 이벤트
   const handleRoute = () => {
@@ -14,14 +22,26 @@ const route = (function () {
 
   // 인증 체크 함수
   const checkAuth = (path) => {
-    // 보호할 라우터가 아니면 통과
-    if (!authRoutes.includes(path)) {
-      return true;
+    const { isLoggedIn } = user();
+
+    // 로그인한 사용자가 /login 같은 페이지 접근 시도할 때
+    if (guestRoutes.includes(path) && isLoggedIn) {
+      if (routeConfig.getMode() === "hash") {
+        window.location.hash = "/";
+      } else {
+        window.history.pushState(null, "", "/");
+      }
+      handleRoute();
+      return false;
     }
 
-    const { isLoggedIn } = user();
-    if (!isLoggedIn) {
-      window.history.pushState(null, "", "/login");
+    // 비로그인 사용자가 /profile 같은 보호된 페이지 접근 시도할 때
+    if (authRoutes.includes(path) && !isLoggedIn) {
+      if (routeConfig.getMode() === "hash") {
+        window.location.hash = "/login";
+      } else {
+        window.history.pushState(null, "", "/login");
+      }
       handleRoute();
       return false;
     }
@@ -32,15 +52,13 @@ const route = (function () {
   // 라우트 이동
   const navigateTo = (path) => {
     if (checkAuth(path)) {
-      window.history.pushState(null, "", path);
+      if (routeConfig.getMode() === "hash") {
+        window.location.hash = path;
+      } else {
+        window.history.pushState(null, "", path);
+      }
       handleRoute();
     }
-  };
-
-  // 라우트 리플레이스 - 대체
-  const replaceTo = (path) => {
-    window.history.replaceState(null, "", path);
-    handleRoute();
   };
 
   // 클릭 이벤트 처리
@@ -53,12 +71,16 @@ const route = (function () {
     }
   });
 
-  // 브라우저 뒤로가기/앞으로가기 처리
-  window.addEventListener("popstate", () => {
+  // 라우트 변경 처리 함수
+  const handleRouteChange = () => {
     const currentPath = getCurrentPath();
     checkAuth(currentPath);
     handleRoute();
-  });
+  };
+
+  // 항상 두 이벤트 모두 리스닝
+  window.addEventListener("hashchange", handleRouteChange);
+  window.addEventListener("popstate", handleRouteChange);
 
   const init = () => {
     const currentPath = getCurrentPath();
@@ -69,9 +91,8 @@ const route = (function () {
   return {
     getCurrentPath,
     navigateTo,
-    replaceTo,
     init,
   };
 })();
 
-export default route;
+export default router;
