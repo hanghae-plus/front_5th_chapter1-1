@@ -163,7 +163,9 @@ const LoginPage = () => `
     </div>
 `;
 
-const Profile = (username) => `
+const Profile = () => {
+  const username = localStorage.getItem("username");
+  return `
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
@@ -221,20 +223,38 @@ const Profile = (username) => `
             </form>
           </div>
 `;
+};
 
 const render = (path) => {
   const rootElement = document.getElementById("root");
   rootElement.innerHTML = getPageContent(path);
 };
 
+const navigate = (path) => {
+  window.history.pushState(null, "", path);
+  render(path);
+};
+
 const getPageContent = (path) => {
+  const username = localStorage.getItem("username");
+
   switch (path) {
     case "/":
       return MainPage(Home);
-    case "/profile":
-      return MainPage(() => Profile(localStorage.getItem("username")));
-    case "/login":
+    case "/profile": {
+      if (!username) {
+        navigate("/login");
+        return LoginPage();
+      }
+      return MainPage(Profile);
+    }
+    case "/login": {
+      if (username) {
+        navigate("/");
+        return MainPage(Home);
+      }
       return LoginPage();
+    }
     default:
       return ErrorPage();
   }
@@ -247,11 +267,6 @@ window.addEventListener("load", () => {
 window.addEventListener("popstate", () => {
   render(window.location.pathname);
 });
-
-const navigate = (path) => {
-  window.history.pushState(null, "", path);
-  render(path);
-};
 
 document.body.addEventListener("click", (event) => {
   if (event.target.tagName === "A") {
