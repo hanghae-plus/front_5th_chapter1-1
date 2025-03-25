@@ -32,5 +32,3 @@ export const setupNavLogout = () => {
     }
   }
 };
-
-export default Nav;
