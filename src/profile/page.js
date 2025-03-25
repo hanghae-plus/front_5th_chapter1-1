@@ -1,11 +1,11 @@
 import user from "../module/user";
-
+import router from "../module/route";
 // 프로필 페이지
 const ProfilePage = () => {
   const { getUser, isLoggedIn } = user();
 
   if (!isLoggedIn) {
-    window.history.pushState(null, "", "/login");
+    router.navigateTo("/login");
     return;
   }
 
