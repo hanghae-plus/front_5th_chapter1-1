@@ -1,12 +1,6 @@
 import { router } from "./controller/route";
 
 {
-  /* <li><a href="/" class="text-blue-600">홈</a></li>
-          <li><a href="/profile" class="text-gray-600">프로필</a></li>
-          <li><a href="#" class="text-gray-600">로그아웃</a></li> */
-}
-
-{
   /* <li><div id="profile" class="text-gray-600">프로필</div></li> */
 }
 
@@ -15,7 +9,13 @@ const NavComponent = () => `
           <li><div id="login" class="text-gray-600">로그인</div></li>
 `;
 
-const MainPage = () => `
+const NavComponentWithLoggedIn = () => `
+          <li><div id="home" class="text-blue-600">홈</div></li>
+          <li><div id="profile" class="text-gray-600">프로필</div></li>
+          <li><div id="logout" class="text-gray-600">로그아웃</div></li>
+`;
+
+const MainPage = (userInfo) => `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
       <header class="bg-blue-600 text-white p-4 sticky top-0">
@@ -24,7 +24,7 @@ const MainPage = () => `
 
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
-          ${NavComponent()}
+          ${userInfo ? NavComponentWithLoggedIn() : NavComponent()}
         </ul>
       </nav>
 
@@ -147,10 +147,10 @@ const LoginPage = () => `
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
       <form>
         <div class="mb-4">
-          <input id="email" type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
+          <input id="login-email" type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
         </div>
         <div class="mb-6">
-          <input id="password" type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
+          <input id="login-password" type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
         </div>
         <button id="submit-login" type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
       </form>
@@ -165,7 +165,8 @@ const LoginPage = () => `
   </main>
 `;
 
-const ProfilePage = () => `
+// {name, email, profileContent}
+const ProfilePage = (userInfo) => `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
@@ -175,7 +176,7 @@ const ProfilePage = () => `
 
         <nav class="bg-white shadow-md p-2 sticky top-14">
           <ul class="flex justify-around">
-          ${NavComponent()}  
+          ${userInfo ? NavComponentWithLoggedIn() : NavComponent()}  
           </ul>
         </nav>
 
@@ -195,7 +196,7 @@ const ProfilePage = () => `
                   type="text"
                   id="username"
                   name="username"
-                  value="홍길동"
+                  value=${userInfo?.name}
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -209,7 +210,7 @@ const ProfilePage = () => `
                   type="email"
                   id="email"
                   name="email"
-                  value="hong@example.com"
+                  value=${userInfo?.email}
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -225,10 +226,12 @@ const ProfilePage = () => `
                   rows="4"
                   class="w-full p-2 border rounded"
                 >
-안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
+                  ${userInfo?.bio ? userInfo?.bio : ""}
+                </textarea
                 >
               </div>
               <button
+                id="submit-profile-update"
                 type="submit"
                 class="w-full bg-blue-600 text-white p-2 rounded font-bold"
               >
@@ -260,21 +263,29 @@ function route(path, callback) {
   }
 }
 
-function loadContent(content) {
+function loadContent(content, addevent) {
   document.body.innerHTML = content;
+  if (addevent) {
+    addevent();
+  }
 }
+
+const userInfo = window.localStorage.getItem("userInfo");
+const parsedUserInfo = userInfo ? JSON.parse(userInfo) : "";
 
 // 페이지 로드 시 라우팅 실행
 window.addEventListener("load", () => {
-  route("/", () => loadContent(MainPage()));
-  route("/profile", () => loadContent(ProfilePage()));
-  route("/login", () => loadContent(LoginPage()));
+  route("/", () => loadContent(MainPage(parsedUserInfo)));
+  route("/profile", () =>
+    loadContent(ProfilePage(parsedUserInfo), addEventProfile),
+  );
+  route("/login", () => loadContent(LoginPage(), addEventLogin));
   route("/temp", () => loadContent(ErrorPage()));
 });
 
 // router 사용
-router.addRoute("/", () => loadContent(MainPage()));
-router.addRoute("/profile", () => loadContent(ProfilePage()));
+router.addRoute("/", () => loadContent(MainPage(parsedUserInfo)));
+router.addRoute("/profile", () => loadContent(ProfilePage(parsedUserInfo)));
 router.addRoute("/login", () => loadContent(LoginPage()));
 
 window.addEventListener("click", (e) => {
@@ -285,5 +296,49 @@ window.addEventListener("click", (e) => {
     router.navigateTo("/profile");
   } else if (targetId === "login") {
     router.navigateTo("/login");
+  } else if (targetId === "logout") {
+    router.navigateTo("/login");
   }
 });
+
+function addEventLogin() {
+  const $loginBtn = document.getElementById("submit-login");
+  $loginBtn.addEventListener("click", () => {
+    // if (targetId === "submit-login") {
+    const $email = document.getElementById("login-email");
+    const emailvalue = $email.value;
+
+    // const $password = document.getElementById("login-password");
+    // const passwordvalue = $password.value;
+
+    // const item = { email: emailvalue, password: passwordvalue };
+    const userInfo = window.localStorage.getItem("userInfo");
+
+    if (userInfo) {
+      const parsedUserInfo = JSON.parse(userInfo);
+      const newItem = { ...parsedUserInfo, name: emailvalue };
+      window.localStorage.setItem("userInfo", JSON.stringify(newItem));
+    } else {
+      const item = { name: emailvalue, username: "", bio: "" };
+      window.localStorage.setItem("userInfo", JSON.stringify(item));
+    }
+
+    router.navigateTo("/profile");
+  });
+}
+
+function addEventProfile() {
+  const $updateProfileBtn = document.getElementById("submit-profile-update");
+  $updateProfileBtn.addEventListener("click", () => {
+    const $nameInput = document.getElementById("username");
+    const $emailInput = document.getElementById("email");
+    const $bioTextArea = document.getElementById("bio");
+
+    const item = {
+      name: $nameInput.value,
+      email: $emailInput.value,
+      bio: $bioTextArea.value,
+    };
+    window.localStorage.setItem("userInfo", JSON.stringify(item));
+  });
+}
