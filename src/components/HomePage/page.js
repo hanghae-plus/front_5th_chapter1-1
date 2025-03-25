@@ -1,19 +1,12 @@
-import { Header } from "@/shared/components/header/page.js";
-import { Footer } from "@/shared/components/footer/page.js";
-import { ID } from "@/constant.js";
+import { Header } from "@/shared/components/Header/Header.js";
+import { Footer } from "@/shared/components/Footer/Footer.js";
+import { Navigation } from "@/shared/components/Navigation/Navigation.js";
 
 export const HomePage = () => `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
       ${Header()}
-
-      <nav class="bg-white shadow-md p-2 sticky top-14">
-        <ul class="flex justify-around">
-          <li><a href="/" class="text-blue-600">홈</a></li>
-          <li><a href="/profile" class="text-gray-600">프로필</a></li>
-          <li><a href="#" id=${ID.LOGOUT_BUTTON} class="text-gray-600">로그아웃</a></li>
-        </ul>
-      </nav>
+      ${Navigation()}
 
       <main class="p-4">
         <div class="mb-4 bg-white rounded-lg shadow p-4">

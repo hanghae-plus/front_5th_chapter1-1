@@ -16,7 +16,7 @@ function getHtmlByPathName() {
     case "/":
       return HomePage();
     case "/login":
-      return LoginPage();
+      return isLoggedIn ? HomePage() : LoginPage();
     case "/profile":
       return isLoggedIn ? ProfilePage() : LoginPage();
     default:

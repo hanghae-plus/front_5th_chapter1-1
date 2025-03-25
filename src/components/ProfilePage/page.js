@@ -1,8 +1,9 @@
-import { Header } from "@/shared/components/header/page.js";
-import { Footer } from "@/shared/components/footer/page.js";
+import { Header } from "@/shared/components/Header/Header.js";
+import { Footer } from "@/shared/components/Footer/Footer.js";
 import { getUserInfoFromStorage } from "@/shared/logic/localStorage.js";
 import { goTo } from "@/shared/logic/router.js";
 import { ID } from "@/constant.js";
+import { Navigation } from "@/shared/components/Navigation/Navigation.js";
 
 export const ProfilePage = () => {
   const user = getUserInfoFromStorage();
@@ -17,15 +18,8 @@ export const ProfilePage = () => {
   <div>
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
-        ${Header()}w
-
-        <nav class="bg-white shadow-md p-2 sticky top-14">
-          <ul class="flex justify-around">
-            <li><a href="/" class="text-gray-600">홈</a></li>
-            <li><a href="/profile" class="text-blue-600">프로필</a></li>
-            <li><a href="#" id=${ID.LOGOUT_BUTTON} class="text-gray-600">로그아웃</a></li>
-          </ul>
-        </nav>
+        ${Header()}
+        ${Navigation()}
 
         <main class="p-4">
           <div class="bg-white p-8 rounded-lg shadow-md">
