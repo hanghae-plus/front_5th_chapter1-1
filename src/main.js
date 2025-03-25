@@ -93,6 +93,7 @@ const onClickLogout = (event) => {
 
 const init = () => {
   window.addEventListener("popstate", () => render(location.pathname));
+  window.addEventListener("hashchange", () => render(location.hash.slice(1)));
 
   document.addEventListener("click", onLinkClick);
   document.addEventListener("click", onClickLogout);

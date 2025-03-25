@@ -1,10 +1,14 @@
 import routes from ".";
 import Store from "../store";
 
+const isHashRouter = location.hash !== "";
+
 export const render = (path) => {
   const { user } = Store.getState();
 
-  const route = routes[path] || routes[404];
+  const currentPath = isHashRouter ? location.hash.slice(1) || "/" : path;
+
+  const route = routes[currentPath] || routes[404];
 
   if (route.needAuth && !user) {
     push("/login");
@@ -12,7 +16,7 @@ export const render = (path) => {
     return;
   }
 
-  if (path === "/login" && !!user) {
+  if (currentPath === "/login" && !!user) {
     push("/");
 
     return;
@@ -28,7 +32,11 @@ export const render = (path) => {
 };
 
 export const push = (path) => {
-  history.pushState({}, "", path);
+  if (isHashRouter) {
+    window.location.hash = path;
+  } else {
+    history.pushState({}, "", path);
+  }
 
   render(path);
 };
