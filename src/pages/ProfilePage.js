@@ -1,4 +1,9 @@
-export const ProfilePage = () => /*html*/ `
+export const ProfilePage = () => {
+  //TODO 프로필 수정 기능
+  //수정된 정보 로컬스토리지 저장
+  //사용자 소개 텍스트 수정 가능
+
+  return /*html*/ `
 <div id="root">
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
@@ -80,3 +85,4 @@ export const ProfilePage = () => /*html*/ `
   </div>
 </div>
 `;
+};
