@@ -53,7 +53,12 @@ export const setUpLoginForm = () => {
       bio: "",
     });
 
-    history.pushState({}, "", `${BASE_PATH}/profile`);
+    const isHash = location.hash;
+    if (isHash) {
+      location.hash = `${BASE_PATH}/profile`;
+    } else {
+      history.pushState({}, "", `${BASE_PATH}/profile`);
+    }
     renderProfilePage();
   });
 };
