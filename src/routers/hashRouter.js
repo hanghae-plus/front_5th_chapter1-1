@@ -30,12 +30,14 @@ export function hashRenderRoute() {
   //로그인 안된 상태에서 프로필 페이지 접근 시 -> 로그인페이지로 리다이렉트
   if (path === `${BASE_PATH}/profile` && !isLogin) {
     location.hash = `${BASE_PATH}/login`;
+    root.innerHTML = hashRoutes[`${BASE_PATH}/login`]();
     return;
   }
 
   // 로그인 사용자가 로그인 페이지 접근 시 -> 메인 페이지로 리다이렉트
   if (path === `${BASE_PATH}/login` && isLogin) {
     location.hash = `${BASE_PATH}/`;
+    root.innerHTML = hashRoutes[`${BASE_PATH}/`]();
     return;
   }
 
@@ -47,18 +49,6 @@ export function hashRenderRoute() {
   //  프로필 업데이트 관련
   if (path === `${BASE_PATH}/profile` && isLogin) {
     updateProfile();
-  }
-
-  // 로그아웃 버튼 이벤트 연결
-  const logoutBtn = document.getElementById("logout");
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      Store.logout();
-
-      location.hash = `${BASE_PATH}/login`;
-      root.innerHTML = hashRoutes[`${BASE_PATH}/login`]();
-    });
   }
 }
 

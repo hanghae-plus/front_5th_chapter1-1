@@ -1,9 +1,8 @@
 import { Store } from "../store";
 
-const isProd = location.hostname.includes("github.io");
-const BASE_PATH = isProd ? "/front_5th_chapter1-1" : "";
-
 export const header = () => {
+  const isProd = location.hostname.includes("github.io");
+  const BASE_PATH = isProd ? "/front_5th_chapter1-1" : "";
   const isLogin = Store.logIn();
 
   const isLocationHash = location.hash;
