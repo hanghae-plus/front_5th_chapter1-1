@@ -1,5 +1,11 @@
-export const LoginPage = () => `
-  <main class="bg-gray-100 flex items-center justify-center min-h-screen">
+import { Component } from "../core/Component";
+import { Router } from "../route";
+import { setUser } from "../utils/storage";
+
+export class LoginPage extends Component {
+  template() {
+    return `
+        <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
       <form id="login-form">
@@ -20,4 +26,23 @@ export const LoginPage = () => `
       </div>
     </div>
   </main>
-`;
+    `;
+  }
+
+  setEvent() {
+    const loginForm = this.$target.querySelector("#login-form");
+    if (loginForm) {
+      loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const username = loginForm.querySelector("#username").value.trim();
+        if (username.length) {
+          setUser({ username, email: "", bio: "" });
+          history.pushState({}, "", "/");
+          Router();
+        } else {
+          alert("아이디를 입력해주세요.");
+        }
+      });
+    }
+  }
+}

@@ -1,7 +1,14 @@
+import { Component } from "../core/Component";
 import { Footer, Header } from "../layout";
+import { Router } from "../route";
+import { setUser } from "../utils/storage";
 
-export const ProfilePage = (user) => `
-<div>
+export class ProfilePage extends Component {
+  template() {
+    const { user } = this.props;
+
+    return `
+    <div>
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
     ${Header(user)}
@@ -68,4 +75,27 @@ export const ProfilePage = (user) => `
     </div>
   </div>
 </div>
-`;
+    `;
+  }
+
+  setEvent() {
+    const updateProfile = () => {
+      const profileForm = document.getElementById("profile-form");
+      if (profileForm) {
+        profileForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const username = profileForm.querySelector("#username").value.trim();
+          const email = profileForm.querySelector("#email").value.trim();
+          const bio = profileForm.querySelector("#bio").value.trim();
+          const user = JSON.parse(localStorage.getItem("user"));
+          const updateUser = { ...user, username, email, bio };
+
+          setUser(updateUser);
+          alert("프로필이 수정되었습니다");
+          Router();
+        });
+      }
+    };
+    updateProfile();
+  }
+}

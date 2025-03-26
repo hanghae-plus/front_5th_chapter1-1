@@ -1,3 +1,3 @@
-import { App } from "./route";
+import { ClassApp } from "./route";
 
-App.init();
+ClassApp.init();

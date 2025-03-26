@@ -34,7 +34,6 @@ export const MainPage = (user) => `
     )
     .join("")}
       </main>
-
      ${Footer()}
     </div>
   </div>
