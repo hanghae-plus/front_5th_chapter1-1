@@ -27,9 +27,8 @@ class Router {
     }
     const handler = this.routes[nowPath];
     if (!handler) {
-      throw new NotFoundError(nowPath);
-    }
-    if (nowPath === "/login") {
+      document.getElementById("root").innerHTML = ErrorPage();
+    } else if (nowPath === "/login") {
       document.getElementById("root").innerHTML = handler();
     } else {
       document.getElementById("root").innerHTML = Layout(handler());
@@ -75,14 +74,14 @@ class Router {
   }
 }
 
-class NotFoundError extends Error {
-  constructor(path) {
-    super(`Not Found: ${path}`);
-    this.path = path;
-    this.name = "HTTP ERROR 404";
-    document.getElementById("root").innerHTML = ErrorPage();
-  }
-}
+// class NotFoundError extends Error {
+//   constructor(path) {
+//     super(`Not Found: ${path}`);
+//     this.path = path;
+//     this.name = "HTTP ERROR 404";
+//     document.getElementById("root").innerHTML = ErrorPage();
+//   }
+// }
 
 // Header는 로그인상태와 비로그인상태 그리고 현재 라우터에 대한 상태표시 가 주된 기능이다.
 const Header = () => {
@@ -334,6 +333,7 @@ const routes = {
   "/": () => MainPage(),
   "/profile": () => ProfilePage(),
   "/login": () => LoginPage(),
+  "/error": () => ErrorPage(),
 };
 
 const router = new Router(routes);
