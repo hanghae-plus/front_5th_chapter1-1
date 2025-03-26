@@ -111,7 +111,7 @@ test.describe('SPA 심화 기능', () => {
 
     await expect(page.locator('#root')).toMatchAriaSnapshot(`
     - heading "항해플러스" [level=1]
-    - textbox "사용자 이름"
+    - textbox "이메일 또는 전화번호"
     - textbox "비밀번호"
     - button "로그인"
     - link "비밀번호를 잊으셨나요?"
@@ -137,7 +137,7 @@ test.describe('SPA 심화 기능', () => {
     // 로그인 페이지로 리다이렉트 됨
     await expect(page.locator('#root')).toMatchAriaSnapshot(`
     - heading "항해플러스" [level=1]
-    - textbox "사용자 이름"
+    - textbox "이메일 또는 전화번호"
     - textbox "비밀번호"
     - button "로그인"
     - link "비밀번호를 잊으셨나요?"
@@ -185,7 +185,7 @@ test.describe('SPA 심화 기능', () => {
     await page.click('#login-link');
     await expect(page.locator('#root')).toMatchAriaSnapshot(`
     - heading "항해플러스" [level=1]
-    - textbox "사용자 이름"
+    - textbox "이메일 또는 전화번호"
     - textbox "비밀번호"
     - button "로그인"
     - link "비밀번호를 잊으셨나요?"
