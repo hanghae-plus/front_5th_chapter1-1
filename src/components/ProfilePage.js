@@ -5,9 +5,6 @@ export const ProfilePage = () => {
     <div id="root">
      <div class="bg-gray-100 min-h-screen flex justify-center">
        <div class="max-w-md w-full">
-        <header class="bg-blue-600 text-white p-4 sticky top-0">
-            <h1 class="text-2xl font-bold">항해플러스</h1>
-          </header>
          <main class="p-4">
            <div class="bg-white p-8 rounded-lg shadow-md">
              <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
@@ -81,7 +78,7 @@ export const ProfilePage = () => {
         user.email = email;
         user.bio = bioInput;
         localStorage.setItem("user", JSON.stringify(user));
-        alert("프로필이 저장되었습니다.");
+        alert("프로필이 업데이트되었습니다.");
       });
     }
   }, 0);
