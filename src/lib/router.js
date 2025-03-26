@@ -1,7 +1,7 @@
-let routType = "history";
+let routeType = "history";
 
 export default ({ routes, type = "history" }) => {
-  routType = type;
+  routeType = type;
   let notFound = routes.find((route) => route.fragment === "*").component;
 
   const router = {};
@@ -28,11 +28,12 @@ export default ({ routes, type = "history" }) => {
       history.pushState({}, "", fragment);
       checkRoutes();
     } else {
-      window.location.hash = fragment;
+      window.location.hash = "#" + fragment;
     }
   };
 
   router.start = () => {
+    console.log(routeType);
     if (type === "history") {
       window.addEventListener("popstate", checkRoutes);
     } else {
@@ -48,7 +49,7 @@ export default ({ routes, type = "history" }) => {
 };
 
 export const navigateTo = ({ path, replace }) => {
-  if (routType === "history") {
+  if (routeType === "history") {
     if (replace) {
       history.replaceState({}, "", path);
     } else {

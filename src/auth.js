@@ -1,3 +1,5 @@
+import { navigateTo } from "./lib/router";
+
 const UserStorage = {
   loggedIn: localStorage.getItem("user") ? true : false,
   preferences: JSON.parse(localStorage.getItem("user")) || {},
@@ -27,12 +29,12 @@ export default {
       username,
     });
     this.loggedIn = true;
-    history.pushState({ path: "/" }, "", "/");
+    navigateTo({ path: "/", replace: true });
   },
   logout() {
     this.loggedIn = false;
     UserStorage.clear();
-    history.pushState({ path: "/login" }, "", "/login");
+    navigateTo({ path: "/login", replace: true });
   },
   getUser() {
     return UserStorage.get();
