@@ -1,34 +1,16 @@
-class Router {
-  constructor() {
-    this.routes = {};
-    window.addEventListener("popstate", this.handlePopState.bind(this));
-  }
+import BrowserRouter from "./BrowserRouter";
+import HashRouter from "./HashRouter";
 
-  //route 추가
-  addRoute(path, handler) {
-    this.routes[path] = handler;
-  }
-
-  // path로 이동한다.
-  navigateTo(path) {
-    history.pushState(null, "", path);
-    this.handleRoute(path);
-  }
-
-  // 브라우저가 뒤로가기 이벤트 한다.
-  handlePopState() {
-    this.handleRoute(window.location.pathname);
-  }
-
-  // path에 해당하는 핸들러를 실행.
-  handleRoute(path) {
-    const handler = this.routes[path];
-    if (handler) {
-      handler();
-    } else {
-      console.log("404 Not Found");
-    }
+//type추가해서 해결한다.
+function createRouter(type = "browser", options = {}) {
+  switch (type.toLowerCase()) {
+    case "hash":
+      return new HashRouter(options);
+    case "browser":
+      return new BrowserRouter(options);
+    default:
+      throw new Error(`Invalid router type: ${type}`);
   }
 }
 
-export default Router;
+export default createRouter;

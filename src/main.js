@@ -3,7 +3,6 @@ import ErrorPage from "./pages/ErrorPage.js";
 import LoginPage from "./pages/LoginPage.js";
 import globalState from "./lib/globalState.js";
 import ProfilePage from "./pages/ProfilePage.js";
-import Router from "./routes";
 
 //routing 연결
 const routePath = {
@@ -98,11 +97,11 @@ const handleUpdateProfile = (event) => {
   }
 };
 
-//최초 앱 실행 함수
-const App = () => {
-  //아 클릭할 때 App()이 새롭게 실행되면서 초기화가 이루어지는구나.
-  navigateTo(location.pathname);
-};
+// //최초 앱 실행 함수
+// const App = () => {
+//   //아 클릭할 때 App()이 새롭게 실행되면서 초기화가 이루어지는구나.
+//   navigateTo(location.pathname);
+// };
 
 //페이지 이동함수
 const navigateTo = (path) => {
@@ -151,16 +150,9 @@ const navigateTo = (path) => {
     }
   }
 };
-
-const router = new Router();
-router.addRoute("/", () => renderPage("/"));
-router.addRoute("/login", LoginPage);
-router.addRoute("/profile", ProfilePage);
-router.addRoute("/error", ErrorPage);
-
 //첫 Dom이 로드되었을 때.
 document.addEventListener("DOMContentLoaded", () => {
-  App();
+  navigateTo(location.pathname);
 });
 
 // popstate 이벤트 처리 popstate는 언제 발생하는건가?
