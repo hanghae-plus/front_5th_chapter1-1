@@ -3,6 +3,7 @@ class Router {
     this.routes = routes;
     this.hydrateEventHandle();
     window.addEventListener("popstate", this.handlePopState.bind(this));
+    window.addEventListener("hashchange", this.handleHashChange.bind(this));
   }
   addRoute(path, handler) {
     this.routes[path] = handler;
@@ -14,9 +15,13 @@ class Router {
   handlePopState() {
     this.handleRoute(window.location.pathname);
   }
+  handleHashChange() {
+    this.handleRoute(window.location.hash.replace("#", ""));
+  }
   handleRoute(path) {
     const isLogin = !!localStorage.getItem("user");
-    let nowPath = path;
+    let nowPath = path.replace("/index.hash.html", "/");
+    console.log(nowPath);
     if (path === "/login" && isLogin) {
       history.pushState(null, "", "/");
       nowPath = "/";
@@ -339,5 +344,8 @@ const routes = {
 const router = new Router(routes);
 
 window.addEventListener("load", () => {
-  router.handleRoute(window.location.pathname);
+  const path = window.location.hash
+    ? window.location.hash.replace("#", "")
+    : window.location.pathname;
+  router.handleRoute(path);
 });
