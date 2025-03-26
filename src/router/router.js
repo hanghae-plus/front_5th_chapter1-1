@@ -21,31 +21,24 @@ export class BaseRouter {
     return this.routes[pathname] || this.routes["default"];
   }
 
+  start() {
+    this.addEventListener();
+    this.checkSafetyAndRender();
+  }
+
   // 렌더링만 담당하도록 분할
   render(pathname) {
     const route = this.getRouteFromPathname(pathname);
     route.render(this.container);
   }
 
-  handleRouteChange() {
+  checkSafetyAndRender() {
     const currentPathname = this.getCurrentPath();
     const safePathname = this.getGuardCheckedPath(currentPathname);
+
     if (safePathname !== currentPathname) {
       this.replaceState(safePathname);
     }
-    this.render(safePathname);
-  }
-
-  start() {
-    this.addEventListener();
-
-    const currentPath = this.getCurrentPath();
-    const safePathname = this.getGuardCheckedPath(currentPath);
-
-    if (currentPath !== safePathname) {
-      this.replaceState(safePathname);
-    }
-
     this.render(safePathname);
   }
 

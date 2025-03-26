@@ -6,7 +6,7 @@ export class HashRouter extends BaseRouter {
   }
 
   addEventListener() {
-    window.addEventListener("hashchange", () => this.handleRouteChange());
+    window.addEventListener("hashchange", () => this.checkSafetyAndRender());
   }
 
   getCurrentPath() {

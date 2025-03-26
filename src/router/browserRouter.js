@@ -6,7 +6,7 @@ export class BrowserRouter extends BaseRouter {
   }
 
   addEventListener() {
-    window.addEventListener("popstate", () => this.handleRouteChange());
+    window.addEventListener("popstate", () => this.checkSafetyAndRender());
   }
 
   getCurrentPath() {
