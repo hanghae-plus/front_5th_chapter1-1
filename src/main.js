@@ -5,12 +5,12 @@ const state = {
 const Header = () => {
   const navList = state.loggedIn
     ? `
-    <li><a href="/" class="${location.pathname === "/" ? "text-blue-600" : "text-gray-600"}">홈</a></li>
-    <li><a href="/profile" class="${location.pathname === "/profile" ? "text-blue-600" : "text-gray-600"}">프로필</a></li>
+    <li><a href="/" class="${location.pathname === "/" ? "text-blue-600 font-bold" : "text-gray-600"}">홈</a></li>
+    <li><a href="/profile" class="${location.pathname === "/profile" ? "text-blue-600 font-bold" : "text-gray-600"}">프로필</a></li>
     <li><a href="#" id="logout" class="text-gray-600">로그아웃</a></li>
     `
     : `
-    <li><a href="/" class="${location.pathname === "/" ? "text-blue-600" : "text-gray-600"}">홈</a></li>
+    <li><a href="/" class="${location.pathname === "/" ? "text-blue-600 font-bold" : "text-gray-600"}">홈</a></li>
     <li><a href="/login" class="text-gray-600">로그인</a></li>
     `;
 
@@ -246,6 +246,10 @@ const App = () => {
     return MainPage();
   }
   if (location.pathname === "/login") {
+    if (state.loggedIn) {
+      window.history.pushState(null, "", "/");
+      return MainPage();
+    }
     return LoginPage();
   }
   if (location.pathname === "/profile") {
@@ -298,18 +302,18 @@ const render = () => {
     profileForm.addEventListener("submit", handleProfileUpdate);
   }
 
-  document.querySelectorAll("a").forEach((el) => {
-    el.addEventListener("click", (e) => {
+  document.body.addEventListener("click", (e) => {
+    const target = e.target.closest("a");
+    if (target) {
+      e.preventDefault();
       if (e.target.id === "logout") {
-        e.preventDefault();
         handleLogout();
       } else {
-        e.preventDefault();
         const newPathName = e.target.href.replace(location.origin, "");
         history.pushState(null, "", newPathName);
         render();
       }
-    });
+    }
   });
 };
 
