@@ -14,7 +14,8 @@ export class BaseRouter {
   }
 
   render(pathname) {
-    const route = this.getRouteFromPathname(pathname);
+    const defaultPathname = pathname || this.getCurrentPath();
+    const route = this.getRouteFromPathname(defaultPathname);
     route.render(this.container);
   }
 
