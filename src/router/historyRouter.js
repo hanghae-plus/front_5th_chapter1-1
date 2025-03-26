@@ -1,14 +1,17 @@
 import { Router } from ".";
+import { addBasePath, removeBasePath } from "../utils/routePath";
 import { checkRedirect } from "./routeGuard";
 import { ROUTE, ROUTES } from "./routes";
 
 export class HistoryRouter extends Router {
   constructor() {
     super();
+    window.addEventListener("popstate", () => super.render());
   }
 
   getMatched() {
-    const current = ROUTES.find((route) => route.path === location.pathname);
+    const path = removeBasePath(location.pathname);
+    const current = ROUTES.find((route) => route.path === path);
 
     if (!current) {
       this.navigate(ROUTE.PAGE_NOT_FOUND.path, true);
@@ -25,9 +28,10 @@ export class HistoryRouter extends Router {
   }
 
   navigate(path, useReplace = false) {
+    const to = addBasePath(path);
     useReplace
-      ? history.replaceState({}, "", path)
-      : history.pushState({}, "", path);
+      ? history.replaceState({}, "", to)
+      : history.pushState({}, "", to);
     window.dispatchEvent(new Event("popstate"));
   }
 }

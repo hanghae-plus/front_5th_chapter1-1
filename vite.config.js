@@ -5,8 +5,8 @@ export default defineConfig(({ mode }) => ({
   build: {
     rollupOptions: {
       input: {
-        main: "./index.html",
-        // hash: "./index.hash.html",
+        // main: "./index.html",
+        hash: "./index.hash.html",
       },
     },
   },

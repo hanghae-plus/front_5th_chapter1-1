@@ -5,10 +5,13 @@ import { ROUTE, ROUTES } from "./routes";
 export class HashRouter extends Router {
   constructor() {
     super();
+    window.addEventListener("hashchange", () => super.render());
   }
 
   getMatched() {
-    const current = ROUTES.find((route) => route.hash === location.hash);
+    const current = location.hash
+      ? ROUTES.find((route) => route.hash === location.hash)
+      : ROUTE.HOME;
 
     if (!current) {
       this.navigate(ROUTE.PAGE_NOT_FOUND.hash, true);

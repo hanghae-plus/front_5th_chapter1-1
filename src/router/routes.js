@@ -3,6 +3,9 @@ import LoginPage from "../pages/LoginPage";
 import MainPage from "../pages/MainPage";
 import ProfilePage from "../pages/ProfilePage";
 
+export const BASE_PATH =
+  import.meta.env.MODE === "production" ? "/front_5th_chapter1-1" : "";
+
 export const ROUTE = {
   HOME: { name: "홈", path: "/", hash: "#/", component: MainPage },
   LOGIN: {

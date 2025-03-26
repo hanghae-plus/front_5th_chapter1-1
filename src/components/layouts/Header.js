@@ -1,5 +1,6 @@
 import { PRIVATE_MENU_ITEMS, PUBLIC_MENU_ITEMS } from "../../constants/menu";
 import { isLoggedIn, onLogout } from "../../stores/auth";
+import { removeBasePath } from "../../utils/routePath";
 
 const Header = () => {
   const init = () => {
@@ -18,7 +19,13 @@ const Header = () => {
   };
 
   const getClass = (href) => {
-    return location.pathname === href
+    if (location.hash) {
+      return location.hash === `#${href}`
+        ? "text-blue-600 font-bold"
+        : "text-gray-600";
+    }
+
+    return removeBasePath(location.pathname) === href
       ? "text-blue-600 font-bold"
       : "text-gray-600";
   };
