@@ -3,6 +3,7 @@ import Login from "../components/pages/Login.js";
 import Profile from "../components/pages/Profile.js";
 import NotFound from "../components/pages/NotFound.js";
 import store from "../store/store.js";
+import { getCurrentPath } from "../utils/path.js";
 
 // 라우트 정의
 const routes = [
@@ -14,9 +15,8 @@ const routes = [
 const root = document.getElementById("root");
 
 const router = () => {
-  console.log("window.location:", window.location.hash);
   // 현재 경로 가져오기
-  const path = window.location.pathname;
+  const path = getCurrentPath();
 
   const isLoggedIn = store.getState("isLoggedIn");
 
@@ -84,6 +84,8 @@ const navigateTo = (path) => {
 const initRouter = () => {
   // 링크 클릭 이벤트 처리를 한 번만 설정
   setupLinks();
+  // 해시 변경 이벤트 리스너 추가
+  window.addEventListener("hashchange", router);
   // 초기 라우팅
   router();
 };
