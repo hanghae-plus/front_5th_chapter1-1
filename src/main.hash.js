@@ -1,5 +1,5 @@
-import { HashRouter, routes } from "./router";
+import { HashRouter } from "./router";
 
-export const router = new HashRouter(routes);
+export const router = new HashRouter();
 window.router = router;
 router.start();

@@ -5,10 +5,6 @@ import { state } from "../data/state";
 export const ProfilePage = (container) => {
   if (!container) return;
 
-  if (!state.loggedInUser) {
-    return window.router.navigate(CONST.pathname.login);
-  }
-
   container.innerHTML = `
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
