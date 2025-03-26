@@ -1,4 +1,5 @@
 import { navigate } from "../router/router";
+import { authStore } from "../stores/authStore";
 
 export const LoginPage = () => {
   const loginPageWrapper = document.createElement("div");
@@ -32,7 +33,7 @@ export const LoginPage = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     const username = loginPageWrapper.querySelector("#username").value;
-    localStorage.setItem("user", JSON.stringify({ username, email: "", bio: "" }));
+    authStore.user = { username, email: "", bio: "" };
     navigate("/");
   };
   loginForm.addEventListener("submit", handleLogin);

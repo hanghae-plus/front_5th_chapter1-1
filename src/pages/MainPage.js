@@ -1,6 +1,7 @@
 import { navigate } from "../router/router";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { authStore } from "../stores/authStore";
 
 export const MainPage = () => {
   const mainPageWrapper = document.createElement("div");
@@ -125,7 +126,7 @@ export const MainPage = () => {
 
   const handleLogout = (e) => {
     e.preventDefault();
-    localStorage.removeItem("user");
+    authStore.clear();
   };
   logoutButton.addEventListener("click", handleLogout);
 

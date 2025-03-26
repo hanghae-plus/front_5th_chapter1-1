@@ -1,5 +1,6 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { authStore } from "../stores/authStore";
 
 export const ProfilePage = () => {
   const profilePageWrapper = document.createElement("div");
@@ -44,9 +45,11 @@ export const ProfilePage = () => {
     </div>
   `;
 
-  const user = JSON.parse(localStorage.getItem("user") || "null");
-
-  // ✅ user가 있을 때만 값 채우기
+  const user = authStore.user || {
+    username: "",
+    email: "",
+    bio: "",
+  };
   if (user) {
     profilePageWrapper.querySelector("#username").value = user.username;
     profilePageWrapper.querySelector("#email").value = user.email;
@@ -60,7 +63,7 @@ export const ProfilePage = () => {
     const username = editForm.querySelector("#username").value;
     const email = editForm.querySelector("#email").value;
     const bio = editForm.querySelector("#bio").value;
-    localStorage.setItem("user", JSON.stringify({ username, email, bio }));
+    authStore.user = { username, email, bio };
   };
 
   editForm.addEventListener("submit", handleEdit);

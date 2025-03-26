@@ -1,4 +1,8 @@
 import { render } from "./router/router";
 
-window.addEventListener("popstate", render);
-render();
+const app = () => {
+  window.addEventListener("popstate", render);
+  render();
+};
+
+app();
