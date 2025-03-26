@@ -19,7 +19,11 @@ beforeAll(async () => {
 
 afterAll(() => {
   // 각 테스트 전에 root 엘리먼트 초기화
-  document.getElementById("root").innerHTML = "";
+  const rootElement = document.getElementById("root");
+  if (rootElement) {
+    rootElement.innerHTML = "";
+  }
+  // document.getElementById("root").innerHTML = "";
   localStorage.removeItem("user");
 });
 
