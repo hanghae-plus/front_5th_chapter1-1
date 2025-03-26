@@ -12,29 +12,22 @@ class Router {
     return Router.instance;
   }
 
-  constructor(routes, options = { mode: "history" }) {
-    if (Router.instance) {
-      return Router.instance;
-    }
+  constructor(routes, options = { mode: "history", base: "/" }) {
+    if (Router.instance) return Router.instance;
 
     this.routes = routes;
     this.mode = options.mode;
+    this.base = options.base;
+    this.currentPath = this.getCurrentPath();
 
-    this.currentPath =
-      this.mode === "hash"
-        ? window.location.hash.slice(1) || "/"
-        : window.location.pathname;
+    const handleRender = () => {
+      this.render();
+    };
 
     if (this.mode === "hash") {
-      window.addEventListener("hashchange", () => {
-        this.currentPath = window.location.hash.slice(1) || "/";
-        this.render();
-      });
+      window.addEventListener("hashchange", handleRender);
     } else {
-      window.addEventListener("popstate", () => {
-        this.currentPath = window.location.pathname;
-        this.render();
-      });
+      window.addEventListener("popstate", handleRender);
     }
 
     Router.instance = this;
@@ -72,17 +65,41 @@ class Router {
     });
   }
 
+  getCurrentPath() {
+    if (this.mode === "hash") {
+      // hash 모드 처리
+      console.log("hash", window.location.hash);
+      return window.location.hash.slice(1) || "/";
+    }
+
+    // GitHub Pages용: 404 redirect 우회 (ex: /?p=/login)
+    const params = new URLSearchParams(window.location.search);
+    const redirectPath = params.get("p");
+    if (redirectPath?.startsWith("/")) {
+      console.log("redirectPath", redirectPath);
+      return redirectPath;
+    }
+
+    // 로컬 개발환경 등 일반 history 모드
+    console.log("pathname", window.location.pathname);
+    return window.location.pathname;
+  }
+
   getLinkHref(path) {
-    return this.mode === "hash" ? `#${path}` : path;
+    const fullPath = this.base + path.replace(/^\//, "");
+    return this.mode === "hash" ? `#${path}` : fullPath;
   }
 
   navigate(to) {
+    const fullPath = this.base + to.replace(/^\//, "");
+
     if (this.mode === "hash") {
       window.location.hash = to;
     } else {
-      window.history.pushState({}, "", to);
+      window.history.pushState({}, "", fullPath);
     }
-    this.currentPath = to;
+
+    this.currentPath = this.getCurrentPath();
     this.render();
   }
 

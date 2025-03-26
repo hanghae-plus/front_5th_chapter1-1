@@ -1,8 +1,9 @@
 import { defineConfig } from "vite";
 import { resolve } from "path";
+import { BASE_PATH } from "./src/consts/path";
 
 export default defineConfig({
-  base: process.env.NODE_ENV === "production" ? "/front_5th_chapter1-1/" : "/",
+  base: BASE_PATH,
 
   build: {
     outDir: "dist",
