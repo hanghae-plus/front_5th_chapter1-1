@@ -1,7 +1,8 @@
-export class HashRouter {
+import { BaseRouter } from "./router";
+
+export class HashRouter extends BaseRouter {
   constructor(routes) {
-    this.routes = routes;
-    this.container = document.body.querySelector("#root");
+    super(routes);
   }
 
   getHashPath() {
@@ -10,12 +11,11 @@ export class HashRouter {
   }
 
   render(pathname = this.getHashPath()) {
-    const route = this.routes[pathname] || this.routes["default"];
-    route.render(this.container);
+    super.render(pathname);
   }
 
   start() {
-    this.render();
+    super.render();
     window.addEventListener("hashchange", () => this.render());
   }
 

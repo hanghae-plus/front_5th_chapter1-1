@@ -1,16 +1,16 @@
-export class Router {
+import { BaseRouter } from "./router";
+
+export class BrowserRouter extends BaseRouter {
   constructor(routes) {
-    this.routes = routes;
-    this.container = document.body.querySelector("#root");
+    super(routes);
   }
 
   render(pathname = window.location.pathname) {
-    const route = this.routes[pathname] || this.routes["default"];
-    route.render(this.container);
+    super.render(pathname);
   }
 
   start() {
-    this.render();
+    super.start();
     window.addEventListener("popstate", () => this.render());
   }
 
