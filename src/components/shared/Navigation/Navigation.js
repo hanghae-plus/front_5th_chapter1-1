@@ -9,7 +9,6 @@ const logoutLink = () => {
   return `<li><a href="#" id=${ID.LOGOUT_BUTTON} class="text-gray-600">로그아웃</a></li>`;
 };
 
-//todo: 홈, 프로필, 로그아웃은 window.location에 따라 font-bold 붙도록 수정
 export const Navigation = () => {
   const loggedInUserInfo = getUserInfoFromStorage();
 
