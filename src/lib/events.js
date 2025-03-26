@@ -16,6 +16,7 @@ export function handleSubit(e, user) {
     let email = document.getElementById("email")?.value;
     user.set({ username, bio, email });
     user.save();
+    alert("프로필이 업데이트되었습니다.");
   }
 }
 

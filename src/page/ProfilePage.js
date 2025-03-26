@@ -1,16 +1,12 @@
 import { Footer } from "../component/Footer";
 import { Header } from "../component/Header";
 import User from "../store/user";
-import { LoginPage } from "./LoginPage";
 
 export const ProfilePage = () => {
   const user = new User();
   let username = user.get()?.username;
   let email = user.get()?.email;
   let bio = user.get()?.bio;
-  if (!username) {
-    return LoginPage();
-  }
 
   return /* HTML */ `
     <div class="bg-gray-100 min-h-screen flex justify-center">

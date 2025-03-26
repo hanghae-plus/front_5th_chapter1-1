@@ -11,6 +11,9 @@ export const route = () => {
       case "#/":
         return MainPage();
       case "#/profile":
+        if (!username) {
+          return LoginPage();
+        }
         return ProfilePage();
       case "#/login":
         if (username) {
@@ -26,6 +29,9 @@ export const route = () => {
       case "/":
         return MainPage();
       case "/profile":
+        if (!username) {
+          return LoginPage();
+        }
         return ProfilePage();
       case "/login":
         if (username) {

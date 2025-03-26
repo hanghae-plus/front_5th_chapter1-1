@@ -8,11 +8,12 @@ export const Header = () => /* HTML */ {
   const user = new User();
   let username = user.get().username;
   console.log("header에서 username", username);
+
   const nav = username
     ? `<nav class="bg-white shadow-md p-2 sticky top-14">
 	  <ul class="flex justify-around">
 		<li>
-		  <a href="/" class="${location.pathname === "/" || location.hash === "#/" || location.pathname === "/login" ? "text-blue-600 font-bold" : GRAYTEXT}"
+		  <a href="/" class="${location.pathname === "/" || location.hash === "#/" || location.pathname === "/login" ? BLUETEXT : GRAYTEXT}"
 			>홈</a
 		  >
 		</li>
@@ -38,7 +39,7 @@ export const Header = () => /* HTML */ {
 	  
 		</li>
 		<li>
-		  <a href="login" class=${GRAYTEXT}>로그인</a>
+		  <a href="/login" class=${GRAYTEXT}>로그인</a>
 		</li>
 	  </ul>
 	</nav>`;

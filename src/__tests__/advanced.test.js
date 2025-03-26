@@ -23,7 +23,6 @@ afterAll(() => {
 });
 
 const goTo = (path) => {
-  console.log("goto"); //삭제해야함!!!!!!!!!!!!!!!
   window.history.pushState({}, "", path);
   window.dispatchEvent(new Event("popstate"));
 };
