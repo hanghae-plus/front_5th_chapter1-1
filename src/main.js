@@ -26,3 +26,8 @@ window.addEventListener("submit", (e) => {
     state.notify();
   }
 });
+
+window.addEventListener("hashchange", () => {
+  const hashPath = window.location.hash?.toString();
+  render(hashPath);
+});

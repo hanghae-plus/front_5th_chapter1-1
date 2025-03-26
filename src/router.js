@@ -10,8 +10,10 @@ const routes = {
   "/profile": ProfilePage,
 };
 
-export const render = () => {
-  const currentPath = window.location.pathname;
+export const render = (hash) => {
+  const currentPath = hash
+    ? hash?.toString().slice(1)
+    : window.location.pathname;
 
   const root = document.body.querySelector("#root");
   if (!root) {
