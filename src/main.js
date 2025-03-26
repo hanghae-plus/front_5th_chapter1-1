@@ -7,6 +7,7 @@ import { ProfilePage } from "@/components/ProfilePage/ProfilePage.js";
 import { ID } from "@/constant.js";
 import { getUserInfoFromStorage } from "@/logic/localStorage.js";
 import { goTo } from "@/logic/router.js";
+import { setBoldFontToNavigationItem } from "@/components/shared/Navigation/logic.js";
 
 export function getPath() {
   let locationPath = window.location.pathname;
@@ -22,15 +23,26 @@ export function getPath() {
 
 function getHtmlByPathName() {
   const path = getPath();
-  const isLoggedIn = getUserInfoFromStorage();
 
+  const isLoggedIn = getUserInfoFromStorage();
   switch (path) {
     case "/":
       return HomePage();
+
     case "/login":
-      return isLoggedIn ? HomePage() : LoginPage();
+      if (isLoggedIn) {
+        window.history.pushState({}, "", "/");
+        return HomePage();
+      }
+      return LoginPage();
+
     case "/profile":
+      if (isLoggedIn) {
+        window.history.pushState({}, "", "/profile");
+        return ProfilePage();
+      }
       return isLoggedIn ? ProfilePage() : LoginPage();
+
     default:
       return NotFoundPage();
   }
@@ -65,17 +77,15 @@ function setEventListeners() {
     handleSubmitProfile(event);
     renderPage();
   });
+
+  setBoldFontToNavigationItem();
 }
+
 export function renderPage() {
   setHtml(getHtmlByPathName());
   setEventListeners();
 }
 
-function render() {
-  renderPage();
-}
-
-//goTo 함수에서는 pushState로 히스토리를 추가
-window.addEventListener("popstate", () => renderPage(window.location.pathname));
-window.addEventListener("hashchange", () => renderPage(window.location.hash));
-render();
+window.addEventListener("popstate", renderPage);
+window.addEventListener("hashchange", renderPage);
+renderPage();
