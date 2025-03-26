@@ -33,6 +33,8 @@ render();
 
 // 이벤트 위임을 해줘서 한번만 등록 시 사라지지 않음
 document.body.addEventListener("click", (e) => {
+  console.log("addEventListener click");
+
   // submit 버튼인 경우 무시
   // submit 버튼 클릭 시 이벤트 버블링? 때문에 click이벤트가 먼저 실행되어버림
   if (e.target.type === "submit") {
@@ -40,7 +42,7 @@ document.body.addEventListener("click", (e) => {
   }
   e.preventDefault();
   // nav태그 안
-  if (e.target.closest("nav")) {
+  if (e.target.closest("nav") || e.target.closest("a")) {
     if (e.target.href !== undefined) {
       const url = new URL(e.target.href);
       const path = url.pathname;
