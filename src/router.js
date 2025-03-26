@@ -23,9 +23,16 @@ const getPage = () => {
   }
   return ErrorPage();
 };
-
 export const render = () => {
-  document.body.innerHTML = getPage();
+  let root = document.getElementById('root');
+
+  if (!root) {
+    root = document.createElement('div');
+    root.id = 'root';
+    document.body.appendChild(root);
+  }
+
+  root.innerHTML = getPage();
 
   const logoutButton = document.getElementById('logout');
   if (logoutButton) {
@@ -36,7 +43,7 @@ export const render = () => {
     });
   }
 
-  document.querySelectorAll('a').forEach((el) => {
+  root.querySelectorAll('a').forEach((el) => {
     el.addEventListener('click', (e) => {
       e.preventDefault();
       const newPathname = e.target.href.replace(location.origin, '');
