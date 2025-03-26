@@ -1,5 +1,5 @@
 const styles = {
-  active: 'text-blue-600',
+  active: 'text-blue-600 font-bold',
   inactive: 'text-gray-600',
 };
 
@@ -203,13 +203,36 @@ const routes = {
   '/profile': page.profilePage,
 };
 
+function isHashUrl() {
+  return location.hash ? true : false;
+}
+
+function getPath() {
+  // 최초 index.hash.html 로드시
+  if (!location.hash && location.pathname === '/index.hash.html') {
+    history.pushState({}, '', '/index.hash.html#/');
+  }
+  return isHashUrl() ? changeToBaseRoute(location.hash) : location.pathname;
+}
+// 해시라우터를 일반 라우터로 변경
+function changeToBaseRoute(route) {
+  return route.substr(1, route.length);
+}
+//  일반 라우터를 해시라우터로 변경
+function changeToHashRoute(route) {
+  return '#' + route;
+}
 /*
  *   url path를 확인하여 path guard 및 html 렌더링 및 이벤트 바인딩
  */
 function renderPage() {
-  const path = location.pathname;
+  // 내부적으로 hash route를 일반 route 형태로 변경
+  let path = getPath();
   if (path === '/profile' && !localStorage.getItem('user')) {
-    return navigate('/login');
+    return navigate(isHashUrl() ? 'hash' : 'basic', '/login');
+  }
+  if (path === '/login' && localStorage.getItem('user')) {
+    return navigate(isHashUrl() ? 'hash' : 'basic', '/');
   }
   const html = routes[path] ? routes[path]() : page.notFoundPage();
   // innerHTML은 매번 기존 내용을 모두 지우고 새로 파싱해서 DOM을 구성함.
@@ -221,9 +244,17 @@ function renderPage() {
  *  화면 전환
  *  url이 기본적으로 바뀌지 않기 때문에 url을 바꾸어지고 렌더링 함수 실행
  */
-function navigate(path) {
-  history.pushState({}, '', path);
-  renderPage();
+function navigate(type, path) {
+  if (type === 'hash') {
+    // 해시 라우터 형테에서는 라우터를 바꿔도 #부터는 브라우저가 인식하지 못하기때문에 새로고침되지않음
+    // hashchange 이벤트로 변경사항 확인 가능
+    location.hash = changeToHashRoute(path);
+  } else {
+    // 일반 라우터 형태에서 location.pathname = route ==> 시도시 브라우저가 페이지 이동, 즉 새로고침을 시도..
+    // 따라서 직접 수정하지 않고 history.pushState 활용
+    history.pushState({}, '', path);
+    renderPage();
+  }
 }
 
 /*
@@ -238,7 +269,7 @@ function bindEvents() {
 
       pageState.updateState({ username, email: '', bio: '' });
       localStorage.setItem('user', JSON.stringify({ username, email: '', bio: '' }));
-      navigate('/profile');
+      navigate(isHashUrl() ? 'hash' : 'basic', '/profile');
     });
   }
 
@@ -248,7 +279,7 @@ function bindEvents() {
       e.preventDefault();
       pageState.updateState({ username: '', email: '', bio: '' });
       localStorage.removeItem('user');
-      navigate('/login');
+      navigate(isHashUrl() ? 'hash' : 'basic', '/login');
     });
   }
 
@@ -264,7 +295,7 @@ function bindEvents() {
       localStorage.setItem('user', JSON.stringify({ username, email, bio }));
       alert('프로필이 업데이트되었습니다.');
       // 상태 변경에 따른 re render
-      navigate('/profile');
+      navigate(isHashUrl() ? 'hash' : 'basic', '/profile');
     });
   }
 
@@ -276,12 +307,20 @@ function bindEvents() {
       if (e.target && e.target.nodeName === 'A') {
         // closest() 가장 가까운 요소를 반환
         const a = e.target.closest('a');
-        navigate(a.getAttribute('href'));
+        navigate(isHashUrl() ? 'hash' : 'basic', a.getAttribute('href'));
       }
     });
   }
 }
 
 // DOMContentLoaded, popstate의 경우 (popstate가 발생하는 시점에서는 이미 브라우저가 이전상태로 바뀌어있음).  url path가 이미 변경됨.. 따로 pushstate 할 필요없음.
-window.addEventListener('popstate', renderPage);
-window.addEventListener('DOMContentLoaded', renderPage);
+window.addEventListener('popstate', () => {
+  renderPage();
+});
+// hashchange는 hash route가 변경됨을 감지, 브라우저의 뒤로가기, 앞으로가기도 여기서 감지됨.
+window.addEventListener('hashchange', () => {
+  renderPage();
+});
+window.addEventListener('DOMContentLoaded', () => {
+  renderPage();
+});
