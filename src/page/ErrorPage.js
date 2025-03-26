@@ -1,6 +1,5 @@
-import { render } from "../main";
 import { createNodeElement, renderByNodeElement } from "./utils";
-
+import { router } from "../main";
 export default () => {
   const component = `
     <main class="bg-gray-100 flex items-center justify-center min-h-screen">
@@ -21,8 +20,7 @@ export default () => {
   element.addEventListener("click", (e) => {
     e.preventDefault();
     if (e.target.nodeName === "A") {
-      history.pushState({ path: "/" }, "", "/");
-      render();
+      router.navigate("/");
     }
   });
   renderByNodeElement(element);

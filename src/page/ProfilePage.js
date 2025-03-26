@@ -1,11 +1,11 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import auth from "../auth";
-import { render } from "../main";
 import { createNodeElement, renderByNodeElement } from "./utils";
+import { router } from "../main";
 
 export default () => {
-  const { username, email, bio } = auth.getUser();
+  const { username = "", email = "", bio = "" } = auth.getUser();
   const component = `
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
@@ -78,7 +78,7 @@ export default () => {
     if (e.target.nodeName === "A") {
       const newPathname = e.target.href.replace(location.origin, "");
       history.pushState({ path: newPathname }, "", newPathname);
-      render();
+      router.navigate(newPathname);
     }
   });
 

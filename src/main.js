@@ -1,14 +1,40 @@
-import page from "./pages";
+import MainPage from "./page/MainPage";
+import ErrorPage from "./page/ErrorPage";
+import LoginPage from "./page/LoginPage";
+import ProfilePage from "./page/ProfilePage";
+import createRouter, { navigateTo } from "./lib/router";
+import auth from "./auth";
 
-export const render = () => {
-  const renderPage = page();
-
-  renderPage();
+const guard = {
+  main: (component) => {
+    return () => {
+      if (auth.loggedIn) {
+        navigateTo({ path: "/", replace: true });
+        return MainPage();
+      }
+      return component();
+    };
+  },
+  auth: (component) => {
+    return () => {
+      if (!auth.loggedIn) {
+        navigateTo({ path: "/login", replace: true });
+        return LoginPage();
+      }
+      return component();
+    };
+  },
 };
 
-// 앞으로 가기, 뒤로 가기 이벤트에 실행됨
-window.addEventListener("popstate", () => {
-  render();
-});
+const routes = [
+  { fragment: "/", component: MainPage },
+  { fragment: "/login", component: guard.main(LoginPage) },
+  { fragment: "/profile", component: guard.auth(ProfilePage) },
+  { fragment: "*", component: ErrorPage },
+];
 
-render();
+export const router = createRouter({ routes, type: "history" });
+
+router.start();
+
+router.navigate(location.pathname);
