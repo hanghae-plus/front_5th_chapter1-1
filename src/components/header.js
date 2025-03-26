@@ -1,5 +1,4 @@
 import store from "../store/store";
-import handleRoute from "../router";
 import { BASE_PATH } from "../config.js";
 
 const matchedPath = (path) => {
@@ -7,17 +6,10 @@ const matchedPath = (path) => {
   return currentPath === path;
 };
 
-const logout = () => {
-  localStorage.removeItem("user");
-  store.setLoggedIn(false);
-  window.history.pushState({}, "", BASE_PATH + "/login");
-  handleRoute();
-};
-
 document.body.addEventListener("click", function (e) {
   if (e.target && e.target.id === "logout") {
     e.preventDefault();
-    logout();
+    store.actions.logout();
   }
 });
 

@@ -13,18 +13,18 @@ const routes = {
   "*": ErrorPage,
 };
 
-export const handleRoute = () => {
-  const path = window.location.pathname.replace(BASE_PATH, "") || "/";
+export const hashHandleRoute = () => {
+  const path = location.hash.replace(/^#/, "") || "/";
   const app = document.querySelector("#root");
 
   if (path === "/login" && store.state.loggedIn) {
-    window.history.pushState({}, "", BASE_PATH + "/");
+    location.hash = BASE_PATH + "/";
     app.innerHTML = Layout(HomePage());
     return;
   }
 
   if (path === "/profile" && !store.state.loggedIn) {
-    window.history.pushState({}, "", BASE_PATH + "/login");
+    location.hash = BASE_PATH + "/login";
     app.innerHTML = LoginPage();
     return;
   }
@@ -34,7 +34,7 @@ export const handleRoute = () => {
 };
 
 // 페이지 이동을 위한 유틸리티 함수
-export const navigateTo = (path) => {
-  window.history.pushState({}, "", `${BASE_PATH}${path}`);
-  handleRoute();
+export const hashNavigateTo = (path) => {
+  location.hash = path;
+  hashHandleRoute();
 };

@@ -5,6 +5,23 @@ export const store = {
   setLoggedIn(value) {
     this.state.loggedIn = value;
   },
+  actions: {
+    login(username) {
+      if (!this.isHash) {
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ username, email: "", bio: "" }),
+        );
+        store.setLoggedIn(true);
+      }
+    },
+    logout() {
+      if (!this.isHash) {
+        localStorage.removeItem("user");
+        store.setLoggedIn(false);
+      }
+    },
+  },
 };
 
 export default store;
