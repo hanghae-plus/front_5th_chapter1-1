@@ -1,5 +1,5 @@
 import { Component } from "../core/Component";
-import { Router } from "../route";
+import { router } from "../route";
 import { setUser } from "../utils/storage";
 
 export class LoginPage extends Component {
@@ -37,8 +37,7 @@ export class LoginPage extends Component {
         const username = loginForm.querySelector("#username").value.trim();
         if (username.length) {
           setUser({ username, email: "", bio: "" });
-          history.pushState({}, "", "/");
-          Router();
+          router.navigateTo("/");
         } else {
           alert("아이디를 입력해주세요.");
         }

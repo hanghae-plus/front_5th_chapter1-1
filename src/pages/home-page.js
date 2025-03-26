@@ -1,10 +1,15 @@
+import { Component } from "../core/Component";
 import { Footer, Header } from "../layout";
 import { mockFeed } from "../mock/feed.mock";
 
-export const MainPage = (user) => `
-  <div class="bg-gray-100 min-h-screen flex justify-center">
+export class MainPage extends Component {
+  template() {
+    const { user } = this.props;
+
+    return `
+    <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
-    ${Header(user)}
+    ${new Header({ user }).template()}
       <main class="p-4">
         <div class="mb-4 bg-white rounded-lg shadow p-4">
           <textarea class="w-full p-2 border rounded" placeholder="무슨 생각을 하고 계신가요?"></textarea>
@@ -37,4 +42,6 @@ export const MainPage = (user) => `
      ${Footer()}
     </div>
   </div>
-`;
+    `;
+  }
+}

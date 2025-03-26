@@ -38,16 +38,21 @@ class Router {
     if (handler) {
       handler(user);
     } else {
-      if (root) root.innerHTML = ErrorPage();
+      if (root) {
+        const root = document.getElementById("root");
+        new ErrorPage(root);
+      }
     }
   }
 }
 
+export const router = new Router();
+
 export const ClassApp = {
   init: () => {
-    const router = new Router();
     router.addRoute("/", (user) => {
-      document.getElementById("root").innerHTML = MainPage(user);
+      const root = document.getElementById("root");
+      new MainPage(root, { user });
     });
 
     router.addRoute("/login", () => {
