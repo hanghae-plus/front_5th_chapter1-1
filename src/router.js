@@ -12,10 +12,16 @@ const routes = {
 
 export const render = () => {
   const currentPath = window.location.pathname;
-  const route = routes[currentPath];
 
+  const root = document.body.querySelector("#root");
+  if (!root) {
+    console.error("Root not found");
+    return;
+  }
+
+  const route = routes[currentPath];
   if (!route) {
-    document.body.innerHTML = ErrorPage();
+    root.innerHTML = ErrorPage();
     return;
   }
 
@@ -25,8 +31,8 @@ export const render = () => {
     return;
   }
 
-  document.body.innerHTML = "";
-  document.body.appendChild(routes[currentPath]?.() || ErrorPage());
+  root.innerHTML = "";
+  root.appendChild(routes[currentPath]?.() || ErrorPage());
 };
 
 window.addEventListener("popstate", render);
