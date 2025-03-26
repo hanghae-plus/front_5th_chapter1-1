@@ -1,9 +1,7 @@
-import { defineComponent } from "../helpers/component";
+export default function PostCard(props) {
+  const { post } = props;
 
-const PostCard = {
-  name: "PostCard",
-  template: ({ post } = {}) => {
-    return `
+  return `
     <div class="bg-white rounded-lg shadow p-4">
       <div class="flex items-center mb-2">
         <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
@@ -20,7 +18,4 @@ const PostCard = {
       </div>
     </div>
     `;
-  },
-};
-
-export default defineComponent(PostCard);
+}

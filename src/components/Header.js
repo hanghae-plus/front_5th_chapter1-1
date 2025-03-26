@@ -1,21 +1,28 @@
 import { useUserStore } from "../stores/user.js";
-import { defineComponent } from "../helpers/component";
+import { onMounted } from "../core/render/component.js";
 import { inject } from "../core/context";
 
-const HeaderContent = {
-  name: "Header",
-  template: () => {
-    const userStore = useUserStore();
-    const router = inject("router");
+export default function Header() {
+  const userStore = useUserStore();
+  const router = inject("router");
 
-    function isActive(path) {
-      const isSamePath = router.getCurrentPath() === path;
+  function isActive(path) {
+    const isSamePath = router.getCurrentPath() === path;
 
-      if (isSamePath) return "text-blue-600 font-bold";
-      else return "text-gray-600";
-    }
+    if (isSamePath) return "text-blue-600 font-bold";
+    else return "text-gray-600";
+  }
 
-    return `
+  onMounted(() => {
+    const logoutButton = document.getElementById("logout");
+
+    logoutButton?.addEventListener("click", (event) => {
+      event.preventDefault();
+      userStore.removeUserInfo();
+    });
+  });
+
+  return `
       <header class="bg-blue-600 text-white p-4 sticky top-0">
         <h1 class="text-2xl font-bold">항해플러스</h1>
       </header>
@@ -32,16 +39,4 @@ const HeaderContent = {
         </ul>
       </nav>
     `;
-  },
-  domEvent: () => {
-    const userStore = useUserStore();
-    const logoutButton = document.querySelector("#logout");
-
-    logoutButton?.addEventListener("click", (event) => {
-      event.preventDefault();
-      userStore.removeUserInfo();
-    });
-  },
-};
-
-export default defineComponent(HeaderContent);
+}

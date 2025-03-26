@@ -1,10 +1,24 @@
 import { useUserStore } from "../stores/user";
 import { inject } from "../core/context";
-import { defineComponent } from "../helpers/component";
+import { onMounted } from "../core/render/component.js";
 
-const LoginContent = {
-  name: "Login",
-  template: () => `
+export default function Login() {
+  const router = inject("router");
+  const userStore = useUserStore();
+
+  onMounted(() => {
+    const form = document.getElementById("login-form");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const username = form.querySelector("#username").value;
+      userStore.setUserInfo({ username, email: "", bio: "" });
+      router.navigate("/main");
+    });
+  });
+
+  return `
       <main class="bg-gray-100 flex items-center justify-center min-h-screen">
         <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
           <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
@@ -26,20 +40,5 @@ const LoginContent = {
           </div>
         </div>
       </main>
-    `,
-
-  domEvent: () => {
-    const router = inject("router");
-    const userStore = useUserStore();
-    const form = document.querySelector("#login-form");
-
-    form?.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const username = form.querySelector("#username").value;
-      userStore.setUserInfo({ username, email: "", bio: "" });
-      router.navigate("/main");
-    });
-  },
-};
-
-export default defineComponent(LoginContent);
+    `;
+}

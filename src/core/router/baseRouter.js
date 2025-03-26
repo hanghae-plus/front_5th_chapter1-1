@@ -1,3 +1,5 @@
+import { defineComponent } from "../render/component.js";
+
 export class BaseRouter {
   constructor(root, routes, options) {
     this.root = root;
@@ -23,14 +25,13 @@ export class BaseRouter {
   renderComponent(route, path) {
     const fullPath = this.basePath + path.replace(/^\/+/, "");
     const { component } = route;
-    if (typeof component !== "object") {
+
+    if (typeof component !== "function") {
       throw new Error(`"${path}" 컴포넌트가 없습니다.`);
     }
     window.history.pushState(null, "", fullPath);
-    this.content.innerHTML = component.template();
-    if (typeof component.domEvent === "function") {
-      component.domEvent({ contentElement: this.content });
-    }
+    const componentInstance = defineComponent(component);
+    componentInstance.render(this.root);
   }
 
   // eslint-disable-next-line no-unused-vars

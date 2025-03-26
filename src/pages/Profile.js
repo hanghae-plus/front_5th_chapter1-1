@@ -1,19 +1,30 @@
 import Header from "../components/Header.js";
 import Footer from "../components/Footer.js";
 import { useUserStore } from "../stores/user.js";
-import { defineComponent } from "../helpers/component";
+import { onMounted } from "../core/render/component.js";
 
-const ProfileContent = {
-  name: "Profile",
-  components: [Header, Footer],
-  template: ({ children }) => {
-    const userStore = useUserStore();
-    const userInfo = userStore.userInfo;
-    return `
+export default function Profile() {
+  const userStore = useUserStore();
+  const userInfo = userStore.userInfo;
+
+  onMounted(() => {
+    const profileForm = document.getElementById("profile-form");
+
+    profileForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const username = profileForm.querySelector("#username").value;
+      const email = profileForm.querySelector("#email").value;
+      const bio = profileForm.querySelector("#bio").value;
+
+      userStore.setUserInfo({ username, email, bio });
+    });
+  });
+
+  return `
     <div id="root">
       <div class="bg-gray-100 min-h-screen flex justify-center">
         <div class="max-w-md w-full">
-          ${children.Header()}
+          ${Header()}
           <main class="p-4">
             <div class="bg-white p-8 rounded-lg shadow-md">
               <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
@@ -46,25 +57,9 @@ const ProfileContent = {
               </form>
             </div>
           </main>
-          ${children.Footer()}
+          ${Footer()}
         </div>
       </div>
     </div>
   `;
-  },
-  domEvent: () => {
-    const userStore = useUserStore();
-    const profileForm = document.querySelector("#profile-form");
-
-    profileForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const username = profileForm.querySelector("#username").value;
-      const email = profileForm.querySelector("#email").value;
-      const bio = profileForm.querySelector("#bio").value;
-
-      userStore.setUserInfo({ username, email, bio });
-    });
-  },
-};
-
-export default defineComponent(ProfileContent);
+}
