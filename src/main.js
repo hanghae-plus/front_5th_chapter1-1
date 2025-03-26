@@ -180,13 +180,14 @@ const Profile = () => {
   let userInfo = {};
   if (user) {
     userInfo = JSON.parse(user);
+    profileInput = { bio: userInfo.bio };
   }
   return `
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
             </h2>
-            <form>
+            <form id="profile-form">
               <div class="mb-4">
                 <label
                   for="username"
@@ -226,7 +227,7 @@ const Profile = () => {
                   name="bio"
                   rows="4"
                   class="w-full p-2 border rounded"
-                >${userInfo.introduce}</textarea
+                >${userInfo.bio}</textarea
                 >
               </div>
               <button
@@ -296,10 +297,14 @@ document.body.addEventListener("click", (event) => {
   }
 });
 
+let profileInput = {
+  bio: "",
+};
+
 const userInfo = {
   username: "test",
   email: "test@example.com",
-  introduce: "hi",
+  bio: "hi",
   password: "test",
 };
 
@@ -315,6 +320,15 @@ document.body.addEventListener("input", (event) => {
   if (event.target.id === "pw-input") {
     userInput.password = event.target.value;
   }
+  // if (event.target.id === "username") {
+  //   profileInput.username = event.target.value;
+  // }
+  // if (event.target.id === "email") {
+  //   profileInput.email = event.target.value;
+  // }
+  if (event.target.id === "bio") {
+    profileInput.bio = event.target.value;
+  }
 });
 
 document.body.addEventListener("submit", (event) => {
@@ -329,5 +343,11 @@ document.body.addEventListener("submit", (event) => {
     } else {
       alert("로그인 실패!");
     }
+  }
+
+  if (event.target.id === "profile-form") {
+    event.preventDefault();
+    const newInfo = { ...userInfo, ...profileInput };
+    localStorage.setItem("user", JSON.stringify(newInfo));
   }
 });
