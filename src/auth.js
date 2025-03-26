@@ -1,4 +1,5 @@
-export const UserStorage = {
+const UserStorage = {
+  loggedIn: localStorage.getItem("user") ? true : false,
   preferences: JSON.parse(localStorage.getItem("user")) || {},
   get() {
     return this.preferences;
@@ -19,7 +20,7 @@ export const UserStorage = {
 };
 
 export default {
-  loggedIn: localStorage.getItem("user") ? true : false,
+  loggedIn: UserStorage.loggedIn,
   username: "",
   login(username) {
     UserStorage.set({
