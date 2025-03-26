@@ -6,7 +6,6 @@ export const HomePage = () => `
         </div>
 
         <div class="space-y-4">
-
           <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center mb-2">
               <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">

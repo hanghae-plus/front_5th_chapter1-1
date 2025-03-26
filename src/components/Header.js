@@ -1,7 +1,7 @@
 import { goTo } from "../router";
 
 export const Header = () => {
-  const isLogIn = localStorage.getItem("user") !== null;
+  const isLogIn = localStorage.getItem("user");
 
   const template = `
     <header class="bg-blue-600 text-white p-4 sticky top-0">
@@ -15,7 +15,7 @@ export const Header = () => {
           isLogIn
             ? `
             <li><a href="/profile" class="text-gray-600">프로필</a></li>
-            <li id="logout"><a href="#" class="text-gray-600">로그아웃</a></li>`
+            <li id="logout"><a href="/" class="text-gray-600">로그아웃</a></li>`
             : `<li><a href="/login" class="text-gray-600">로그인</a></li>`
         }
       </ul>

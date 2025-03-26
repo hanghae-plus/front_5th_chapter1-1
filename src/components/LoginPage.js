@@ -27,7 +27,7 @@ export const LoginPage = () => {
 
   setTimeout(() => {
     const renderLogin = () => {
-      const form = document.getElementById("login-form");
+      const loginForm = document.getElementById("login-form");
       const name = document.getElementById("username");
 
       const handleSubmit = (e) => {
@@ -42,7 +42,7 @@ export const LoginPage = () => {
         goTo("/profile");
       };
 
-      form.addEventListener("submit", handleSubmit);
+      loginForm.addEventListener("submit", handleSubmit);
     };
 
     renderLogin();

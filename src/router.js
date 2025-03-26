@@ -6,7 +6,7 @@ import { ProfilePage } from "./components/ProfilePage";
 import { NotFoundPage } from "./components/NotFoundPage";
 
 const isLogIn = () => {
-  return localStorage.getItem("user") !== null;
+  return localStorage.getItem("user");
 };
 
 export const Router = () => {
