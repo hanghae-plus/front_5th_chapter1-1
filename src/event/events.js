@@ -1,7 +1,7 @@
 import User from "../store/user";
 import { navigate } from "../core/navigate";
 const user = new User();
-
+//git reset
 export function handleSubmit(e) {
   e.preventDefault();
   if (e.target && e.target.id === "login-form") {
