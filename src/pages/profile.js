@@ -57,7 +57,7 @@ export const ProfilePage = (container) => {
 
   fieldIdList.forEach((fieldId) => {
     const field = profileForm.querySelector(`#${fieldId}`);
-    field.value = state.loggedInUser[fieldId] ?? "";
+    field.value = state.loggedInUser?.[fieldId] ?? "";
   });
 
   // 제출 이벤트 처리

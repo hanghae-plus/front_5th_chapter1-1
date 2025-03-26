@@ -9,22 +9,31 @@ export class BaseRouter {
     this.container = document.body.querySelector("#root");
   }
 
-  getRouteFromPathname(pathname) {
-    return this.routes[pathname] || this.routes["default"];
-  }
-
-  render(pathname) {
-    const defaultPathname = pathname || this.getCurrentPath();
-    const route = this.getRouteFromPathname(defaultPathname);
-    route.render(this.container);
-  }
-
   getGuardCheckedPath(pathname) {
     const route = this.getRouteFromPathname(pathname);
     if (route.guard && !route.guard()) {
       return route.redirect;
     }
     return pathname;
+  }
+
+  getRouteFromPathname(pathname) {
+    return this.routes[pathname] || this.routes["default"];
+  }
+
+  // 렌더링만 담당하도록 분할
+  render(pathname) {
+    const route = this.getRouteFromPathname(pathname);
+    route.render(this.container);
+  }
+
+  handleRouteChange() {
+    const currentPathname = this.getCurrentPath();
+    const safePathname = this.getGuardCheckedPath(currentPathname);
+    if (safePathname !== currentPathname) {
+      this.replaceState(safePathname);
+    }
+    this.render(safePathname);
   }
 
   start() {
