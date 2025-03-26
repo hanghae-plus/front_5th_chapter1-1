@@ -1,8 +1,6 @@
-import { navigate } from "../router/router";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Nav from "../components/Nav";
-import { authStore } from "../stores/authStore";
 
 export const MainPage = () => {
   const mainPageWrapper = document.createElement("div");
@@ -10,7 +8,7 @@ export const MainPage = () => {
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
       ${Header()}
-        ${Nav()}
+       <div id="nav"></div>
           <main class="p-4">
             <div class="mb-4 bg-white rounded-lg shadow p-4">
               <textarea class="w-full p-2 border rounded" placeholder="무슨 생각을 하고 계신가요?"></textarea>
@@ -104,23 +102,7 @@ export const MainPage = () => {
     </div>
   </div>
 `;
-  mainPageWrapper.addEventListener("click", (e) => {
-    const anchor = e.target.closest("a[data-path]");
-    if (anchor) {
-      e.preventDefault();
-      const path = anchor.getAttribute("data-path");
-      navigate(path);
-    }
-  });
-
-  const logoutButton = mainPageWrapper.querySelector("#logout");
-
-  const handleLogout = (e) => {
-    e.preventDefault();
-    authStore.clear();
-    navigate("/login");
-  };
-  logoutButton?.addEventListener("click", handleLogout);
+  mainPageWrapper.querySelector("#nav").replaceWith(Nav());
 
   return mainPageWrapper;
 };
