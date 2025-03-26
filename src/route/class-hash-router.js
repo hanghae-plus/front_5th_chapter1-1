@@ -37,7 +37,6 @@ class HashRouter {
     const root = document.getElementById("root");
 
     if (!root) return;
-    // 권한 관련 리다이렉트 처리
     if (user && hash === "#/login") {
       this.navigateTo("/");
       return;
@@ -82,7 +81,6 @@ export const HashClassApp = {
       const target = e.target.closest("a");
       if (!target) return;
 
-      // 로그아웃 클릭 시
       if (target.id === "logout") {
         e.preventDefault();
         removeUser();
@@ -90,7 +88,6 @@ export const HashClassApp = {
         return;
       }
 
-      // 해시 라우터 내부 링크 클릭 시
       const href = target.getAttribute("href");
       if (href && href.startsWith("#")) {
         e.preventDefault();
