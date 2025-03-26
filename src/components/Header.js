@@ -20,7 +20,7 @@ const Header = () => {
           ? `
            <li><a id="btn-home" href="/" class=${pathname === "/" ? "text-blue-600" : "text-gray-600"}>홈</a></li>
            <li><a id="btn-profile" href="/profile" class=${pathname === "/profile" ? "text-blue-600" : "text-gray-600"}>프로필</a></li>
-           <li><a href="#" class="text-gray-600">로그아웃</a></li>`
+           <li><a id="logout" href="/" class="text-gray-600">로그아웃</a></li>`
           : `
             <li><a id="btn-home" href="/" class="text-blue-600">홈</a></li>
             <li><a id="btn-login" href="/login" class="text-gray-600">로그인</a></li>
@@ -57,6 +57,17 @@ const Header = () => {
       });
     }
   };
+
+  // NOTE : 로그아웃 버튼 클릭 시 로그아웃 후 리다이렉션
+  const logoutBtn = document.getElementById("logout");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      user.setIsLoggedIn(false);
+      localStorage.removeItem("user");
+      render("/");
+    });
+  }
 
   return { template, action };
 };
