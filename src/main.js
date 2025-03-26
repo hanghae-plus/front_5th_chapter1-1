@@ -241,9 +241,21 @@ const ProfilePage = () => `
   </div>
 `;
 
-document.body.innerHTML = `
-  ${MainPage()}
-  ${ProfilePage()}
-  ${LoginPage()}
-  ${ErrorPage()}
-`;
+const App = () => {
+  if (location.pathname === "/") {
+    return MainPage();
+  }
+  if (location.pathname === "/login") {
+    return LoginPage();
+  }
+  if (location.pathname === "/profile") {
+    return ProfilePage();
+  }
+  return ErrorPage();
+};
+
+const render = () => {
+  document.body.innerHTML = App();
+};
+
+render();
