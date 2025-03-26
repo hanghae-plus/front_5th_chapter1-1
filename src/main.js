@@ -282,8 +282,7 @@ const handleLogin = (e) => {
   render();
 };
 
-const handleLogout = (e) => {
-  e.preventDefault();
+const handleLogout = () => {
   state.loggedIn = false;
   state.user = null;
   localStorage.removeItem("user");
