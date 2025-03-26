@@ -1,3 +1,5 @@
+import { getElement } from "./mount.js";
+
 const mountCallbacks = [];
 
 export function defineComponent(component) {
@@ -6,13 +8,12 @@ export function defineComponent(component) {
       mountCallbacks.length = 0;
 
       const html = component();
-      const root =
-        typeof rootSelector === "string"
-          ? document.querySelector(rootSelector)
-          : rootSelector;
+      const root = getElement(rootSelector);
       root.innerHTML = html;
 
-      mountCallbacks.forEach((fn) => fn());
+      if (mountCallbacks.length > 0) {
+        mountCallbacks.forEach((fn) => fn());
+      }
     },
   };
 }

@@ -1,4 +1,4 @@
-import { mount } from "./core/render";
+import { mount } from "./core/render/mount.js";
 import { createRouter } from "./core/router";
 import { routes, onBeforeEach } from "./router.js";
 import { provide } from "./core/context";
