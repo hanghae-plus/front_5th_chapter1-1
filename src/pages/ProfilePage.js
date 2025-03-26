@@ -1,6 +1,7 @@
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { Nav, setupNavLogout } from "../components/Nav";
+import Store from "../store/store";
 
 const ProfilePage = (container) => {
   if (!container) return;
@@ -118,7 +119,7 @@ ${Header()}
       bio: finalBio,
     };
 
-    localStorage.setItem("user", JSON.stringify(updatedUserData));
+    Store.actions.updateProfile(updatedUserData);
 
     alert("프로필이 업데이트되었습니다.");
   });

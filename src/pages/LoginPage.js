@@ -1,3 +1,5 @@
+import Store from "../store/store"; // 경로가 맞는지 확인하세요
+
 const LoginPage = (container) => {
   if (!container) return;
 
@@ -37,13 +39,8 @@ const LoginPage = (container) => {
     if (username.length === 0)
       return alert("아이디 혹은 비밀번호를 입력해주세요!");
 
-    const userData = {
-      username: username,
-      email: "",
-      bio: "",
-    };
-
-    localStorage.setItem("user", JSON.stringify(userData));
+    Store.actions.login(username, "");
+    console.log(Store.getState().isLoggedIn, "login 상태확인");
 
     window.router.navigate("/");
   });

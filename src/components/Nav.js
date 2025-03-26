@@ -1,5 +1,8 @@
+import Store from "../store/store";
+
 export const Nav = () => {
-  const isLoggedIn = localStorage.getItem("user") !== null;
+  const state = Store.getState();
+  const isLoggedIn = state.isLoggedIn;
   const currentPath = window.location.pathname;
 
   return `
@@ -19,14 +22,15 @@ export const Nav = () => {
 };
 
 export const setupNavLogout = () => {
-  const isLoggedIn = localStorage.getItem("user") !== null;
+  const isLoggedIn = Store.getState().isLoggedIn;
 
   if (isLoggedIn) {
     const logoutButton = document.getElementById("logout");
     if (logoutButton) {
       logoutButton.addEventListener("click", (e) => {
         e.preventDefault();
-        localStorage.removeItem("user");
+        console.log("로그아웃완료");
+        Store.actions.logout();
         window.router.navigate("/login");
       });
     }
