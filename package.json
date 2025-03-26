@@ -8,7 +8,6 @@
     "dev": "vite",
     "dev:hash": "vite --open ./index.hash.html",
     "build": "NODE_ENV=production vite build",
-    "build:hash": "NODE_ENV=production vite build --config vite.config.hash.js",
     "lint:fix": "eslint --fix",
     "prettier:write": "prettier --write ./src",
     "preview": "vite preview",

@@ -18,7 +18,7 @@ const navigate = (pathname, replace = false) => {
   history[!replace ? "pushState" : "replaceState"](
     null,
     null,
-    // PREFIX + pathname,
+    PREFIX + pathname,
     pathname,
   );
   render();
