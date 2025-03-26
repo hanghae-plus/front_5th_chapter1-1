@@ -19,7 +19,7 @@ const router = {
       : window.location.pathname;
   },
   navigate: (path) => {
-    // console.log("router - navigate");
+    console.log("router - navigate");
     const isHashMode =
       window.location.pathname.includes("index.hash.html") ||
       window.location.hash !== "";
