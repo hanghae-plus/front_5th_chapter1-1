@@ -1,4 +1,4 @@
-import { goTo } from "./goTo";
+import router from "../_libs/router";
 
 /** `<a>` 기본 동작을 막고, 클릭 시 페이지 이동하는 함수 */
 const interceptAnchors = () => {
@@ -9,7 +9,7 @@ const interceptAnchors = () => {
       const href = e.target.href;
       const targetPathname = href.replace(window.location.origin, "");
 
-      goTo(targetPathname);
+      router.push(targetPathname);
     }
   });
 };

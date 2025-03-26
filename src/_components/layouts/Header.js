@@ -2,12 +2,12 @@ import {
   loggedInAccessRoutes,
   loggedOutAccessRoutes,
 } from "../../_constants/route";
-import states from "../../_states";
+import state from "../../_libs/state";
 
 const Header = () => {
-  const pathname = states.pathname;
+  const pathname = state.pathname;
 
-  const isLoggedIn = states.isLoggedIn;
+  const isLoggedIn = state.isLoggedIn;
 
   const getNavItems = () => {
     if (isLoggedIn) {

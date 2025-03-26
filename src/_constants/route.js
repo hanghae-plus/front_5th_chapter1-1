@@ -48,7 +48,7 @@ const route = {
   },
   logout: {
     id: "logout",
-    path: "#",
+    path: "?",
     title: "로그아웃",
     accessLevel: "loggedIn",
   },

@@ -1,9 +1,9 @@
 import Header from "../layouts/Header";
 import Footer from "../layouts/Footer";
-import states from "../../_states";
+import state from "../../_libs/state";
 
 const ProfilePage = () => {
-  const userInfo = states.user;
+  const userInfo = state.user;
 
   return `
   <div id="root">
@@ -78,10 +78,10 @@ const ProfilePage = () => {
 export default ProfilePage;
 
 export const profileAction = () => {
-  /**
-   * @param {SubmitEvent} e
-   */
-  const handleSubmit = (e) => {
+  const $form = document.querySelector("#profile-form");
+  if (!$form) return;
+
+  $form.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const $form = e.target;
@@ -95,9 +95,6 @@ export const profileAction = () => {
 
     const userInfo = { username, email, bio };
 
-    states.user = userInfo;
-  };
-
-  const $form = document.querySelector("#profile-form");
-  $form.addEventListener("submit", handleSubmit);
+    state.user = userInfo;
+  });
 };

@@ -1,6 +1,6 @@
-import { goTo } from "../../_actions/goTo";
 import route from "../../_constants/route";
-import states from "../../_states";
+import router from "../../_libs/router";
+import state from "../../_libs/state";
 
 /**
  * 진짜 안되면 클래스형으로 바꾸기
@@ -46,10 +46,10 @@ const LoginPage = () => {
 export default LoginPage;
 
 export const loginAction = () => {
-  /**
-   * @param {SubmitEvent} e
-   */
-  const handleSubmit = (e) => {
+  const $form = document.querySelector("#login-form");
+  if (!$form) return;
+
+  $form.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const $form = e.target;
@@ -63,11 +63,19 @@ export const loginAction = () => {
 
     const userInfo = { username, email, bio };
 
-    states.user = userInfo;
+    state.user = userInfo;
 
-    goTo(route.home.path);
-  };
+    router.push(route.home.path);
+  });
+};
 
-  const $form = document.querySelector("#login-form");
-  $form.addEventListener("submit", handleSubmit);
+export const logoutAction = () => {
+  const $logoutButton = document.getElementById("logout");
+  if (!$logoutButton) return;
+
+  $logoutButton.addEventListener("click", () => {
+    state.user = null;
+    router.push(route.login.path);
+    return LoginPage();
+  });
 };

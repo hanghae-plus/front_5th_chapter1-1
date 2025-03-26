@@ -1,25 +1,20 @@
 import interceptAnchors from "./interceptAnchors";
 import Layout from "../_components/layouts/Layout";
-import route from "../_constants/route";
-import states from "../_states";
+import authMiddleware from "../_libs/middlewares/authMiddleware";
 
-// FIXME:
-import { loginAction } from "../_components/pages/LoginPage";
+import { loginAction, logoutAction } from "../_components/pages/LoginPage";
 import { profileAction } from "../_components/pages/ProfilePage";
 
 const render = () => {
   const $root = document.getElementById("root");
-  $root.innerHTML = Layout();
+  $root.innerHTML = authMiddleware(Layout);
 
   interceptAnchors();
 
-  const pathname = states.pathname;
-  if (pathname === route.login.path) {
-    loginAction();
-  }
-  if (pathname === route.profile.path) {
-    profileAction();
-  }
+  // TODO: 해당 페이지와 묶어서 처리하고 싶은데 방법을 모르겠음
+  loginAction();
+  profileAction();
+  logoutAction();
 };
 
 export default render;
