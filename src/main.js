@@ -1,7 +1,7 @@
 class Router {
   constructor(routes) {
     this.routes = routes;
-    this.attachEventHandle();
+    this.hydrateEventHandle();
     window.addEventListener("popstate", this.handlePopState.bind(this));
   }
   addRoute(path, handler) {
@@ -15,23 +15,27 @@ class Router {
     this.handleRoute(window.location.pathname);
   }
   handleRoute(path) {
-    const handler = this.routes[path];
+    const isLogin = !!localStorage.getItem("user");
+    let nowPath = path;
+    if (path === "/login" && isLogin) {
+      history.pushState(null, "", "/");
+      nowPath = "/";
+    }
+    if (path === "/profile" && !isLogin) {
+      history.pushState(null, "", "/login");
+      nowPath = "/login";
+    }
+    const handler = this.routes[nowPath];
     if (!handler) {
-      throw new NotFoundError(path);
+      throw new NotFoundError(nowPath);
     }
-    if (path === "/profile" && !localStorage.getItem("user")) {
-      this.navigationTo("/login");
-    }
-    if (path === "/login" && localStorage.getItem("user")) {
-      this.navigationTo("/");
-    }
-    if (path === "/login") {
+    if (nowPath === "/login") {
       document.getElementById("root").innerHTML = handler();
     } else {
       document.getElementById("root").innerHTML = Layout(handler());
     }
   }
-  attachEventHandle() {
+  hydrateEventHandle() {
     const root = document.getElementById("root");
 
     root.addEventListener("submit", (e) => {
