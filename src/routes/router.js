@@ -14,6 +14,7 @@ const routes = [
 const root = document.getElementById("root");
 
 const router = () => {
+  console.log("window.location:", window.location.hash);
   // 현재 경로 가져오기
   const path = window.location.pathname;
 
@@ -81,14 +82,14 @@ const navigateTo = (path) => {
 };
 
 const initRouter = () => {
+  // 링크 클릭 이벤트 처리를 한 번만 설정
+  setupLinks();
   // 초기 라우팅
   router();
 };
 
 // 모든 이벤트 핸들러 설정
 const setupEventHandlers = () => {
-  // 링크 클릭 처리
-  setupLinks();
   // 로그인 이벤트 처리
   handleLogin();
   // 로그아웃 이벤트 처리
