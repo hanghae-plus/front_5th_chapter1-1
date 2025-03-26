@@ -40,6 +40,10 @@ export const render = () => {
       e.preventDefault();
       state.loggedIn = false;
       localStorage.removeItem('user');
+      document.getElementById('root').innerHTML = LoginPage({
+        state,
+        navigate,
+      });
     });
   }
 
