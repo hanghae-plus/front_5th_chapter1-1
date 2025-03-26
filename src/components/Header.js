@@ -43,7 +43,6 @@ const Header = () => {
     if (loginBtn) {
       loginBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        console.log("clicked");
         render("/login");
       });
     }

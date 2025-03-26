@@ -37,7 +37,6 @@ export const router = () => {
 };
 
 window.addEventListener("popstate", (e) => {
-  console.log("popstate detected");
   e.preventDefault();
 
   const { pathname } = location;
