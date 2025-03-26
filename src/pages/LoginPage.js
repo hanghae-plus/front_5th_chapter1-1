@@ -1,7 +1,13 @@
-import Store from "../store/store"; // 경로가 맞는지 확인하세요
+import Store from "../store/store";
 
 const LoginPage = (container) => {
   if (!container) return;
+
+  if (Store.getState().isLoggedIn) {
+    console.log("로그인 되어있음.");
+    window.router.navigate("/");
+    return;
+  }
 
   container.innerHTML = `
     <main class="bg-gray-100 flex items-center justify-center min-h-screen">
