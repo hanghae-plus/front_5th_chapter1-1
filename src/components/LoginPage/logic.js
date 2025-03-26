@@ -1,4 +1,4 @@
-import { setUserInfoToStorage } from "@/shared/logic/localStorage.js";
+import { setUserInfoToStorage } from "@/logic/localStorage.js";
 
 export function handleSubmitLogin(event) {
   event.preventDefault();

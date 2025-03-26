@@ -1,12 +1,12 @@
-import { HomePage } from "@/components/HomePage/page.js";
+import { HomePage } from "@/components/HomePage/HomePage.js";
 import { handleSubmitLogin } from "@/components/LoginPage/logic.js";
-import { LoginPage } from "@/components/LoginPage/page.js";
-import { NotFoundPage } from "@/components/NotFoundPage/page.js";
+import { LoginPage } from "@/components/LoginPage/LoginPage.js";
+import { NotFoundPage } from "@/components/NotFoundPage/NotFoundPage.js";
 import { handleSubmitProfile } from "@/components/ProfilePage/logic.js";
-import { ProfilePage } from "@/components/ProfilePage/page.js";
-import { getUserInfoFromStorage } from "@/shared/logic/localStorage.js";
-import { goTo } from "@/shared/logic/router.js";
+import { ProfilePage } from "@/components/ProfilePage/ProfilePage.js";
 import { ID } from "@/constant.js";
+import { getUserInfoFromStorage } from "@/logic/localStorage.js";
+import { goTo } from "@/logic/router.js";
 
 function getHtmlByPathName() {
   let location = window.location.pathname;

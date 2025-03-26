@@ -1,5 +1,5 @@
 import { ID } from "@/constant.js";
-import { getUserInfoFromStorage } from "@/shared/logic/localStorage.js";
+import { getUserInfoFromStorage } from "@/logic/localStorage.js";
 
 const loginLink = () => {
   return `<li><a href="/login" class="text-gray-600">로그인</a></li>`;

@@ -1,9 +1,9 @@
-import { Header } from "@/shared/components/Header/Header.js";
-import { Footer } from "@/shared/components/Footer/Footer.js";
-import { getUserInfoFromStorage } from "@/shared/logic/localStorage.js";
-import { goTo } from "@/shared/logic/router.js";
+import { getUserInfoFromStorage } from "@/logic/localStorage.js";
+import { goTo } from "@/logic/router.js";
+import { Header } from "@/components/shared/Header/Header.js";
+import { Navigation } from "@/components/shared/Navigation/Navigation.js";
+import { Footer } from "@/components/shared/Footer/Footer.js";
 import { ID } from "@/constant.js";
-import { Navigation } from "@/shared/components/Navigation/Navigation.js";
 
 export const ProfilePage = () => {
   const user = getUserInfoFromStorage();
