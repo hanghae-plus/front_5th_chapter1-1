@@ -15,7 +15,7 @@ const ProfilePage = () => {
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
             </h2>
-            <form>
+            <form id="profile-form">
               <div class="mb-4">
                 <label
                   for="username"
@@ -81,6 +81,30 @@ const ProfilePage = () => {
       render("/login");
     } else {
       Header().action();
+    }
+
+    // NOTE : 프로필 수정 로직
+    if (user.getIsLoggedIn()) {
+      let userData = JSON.parse(localStorage.getItem("user"));
+
+      document.getElementById("username").value = userData.username;
+      document.getElementById("bio").value = userData.bio;
+      document.getElementById("email").value = userData.email;
+
+      const profileForm = document.getElementById("profile-form");
+      profileForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const profileData = new FormData(profileForm);
+
+        const username = profileData.get("username") + "";
+        const email = profileData.get("email") + "";
+        const bio = profileData.get("bio") + "";
+
+        userData = { username, email, bio };
+
+        localStorage.setItem("user", JSON.stringify(userData));
+      });
     }
   };
 
