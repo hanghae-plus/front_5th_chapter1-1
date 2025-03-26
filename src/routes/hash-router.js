@@ -12,9 +12,9 @@ const URL_MAP = {
   ["#" + ROUTES.ERROR]: ErrorPage,
 };
 
-const navigateTo = (page) => {
-  if (!page.includes("#")) page = "#" + page;
-  location.hash = page;
+const navigate = (hash) => {
+  if (!hash.includes("#")) hash = "#" + hash;
+  location.hash = hash;
   render();
 };
 
@@ -22,8 +22,8 @@ export const render = () => {
   const root = document.querySelector("#root");
   const { hash } = location;
   const isLogon = store.isLogon();
-  if (hash === ROUTES.PROFILE && !isLogon) return navigateTo(ROUTES.LOGIN);
-  else if (hash === ROUTES.LOGIN && isLogon) return navigateTo(ROUTES.MAIN);
+  if (hash === "#" + ROUTES.PROFILE && !isLogon) return navigate(ROUTES.LOGIN);
+  else if (hash === "#" + ROUTES.LOGIN && isLogon) return navigate(ROUTES.MAIN);
   const page = URL_MAP[hash] || ErrorPage;
   root.innerHTML = page();
   setEventListener();
@@ -37,7 +37,7 @@ const setEventListener = () => {
       const formData = new FormData(e.target);
       const username = formData.get("username") || "";
       store.login(username);
-      navigateTo(ROUTES.MAIN);
+      navigate(ROUTES.MAIN);
     } else if (e.target.id === ELEMENT_ID.PROFILE_FORM) {
       const formData = new FormData(e.target);
       const username = formData.get("username") || "";
@@ -51,14 +51,14 @@ const setEventListener = () => {
     e.preventDefault();
     if (e.target.pathname === ROUTES.LOGOUT) {
       store.logout();
-      navigateTo(ROUTES.MAIN);
+      navigate(ROUTES.LOGIN);
       return;
     }
-    navigateTo(e.target.pathname);
+    navigate(e.target.pathname);
   });
   root.addEventListener(CUSTOM_EVENT.PAGE_PUSH, (e) => {
     if (!e.detail.url) return;
-    navigateTo(e.detail.url);
+    navigate(e.detail.url);
   });
 };
 

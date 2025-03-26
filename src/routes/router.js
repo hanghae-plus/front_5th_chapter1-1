@@ -12,8 +12,8 @@ const URL_MAP = {
   [ROUTES.ERROR]: ErrorPage,
 };
 
-const navigateTo = (page, replace = false) => {
-  history[!replace ? "pushState" : "replaceState"](null, null, page);
+const navigate = (pathname, replace = false) => {
+  history[!replace ? "pushState" : "replaceState"](null, null, pathname);
   render();
 };
 
@@ -22,9 +22,9 @@ export const render = () => {
   const { pathname } = location;
   const isLogon = store.isLogon();
   if (pathname === ROUTES.PROFILE && !isLogon)
-    return navigateTo(ROUTES.LOGIN, true);
+    return navigate(ROUTES.LOGIN, true);
   else if (pathname === ROUTES.LOGIN && isLogon)
-    return navigateTo(ROUTES.MAIN, true);
+    return navigate(ROUTES.MAIN, true);
   const page = URL_MAP[pathname] || ErrorPage;
   root.innerHTML = page();
   setEventListener();
@@ -38,7 +38,7 @@ const setEventListener = () => {
       const formData = new FormData(e.target);
       const username = formData.get("username") || "";
       store.login(username);
-      navigateTo(ROUTES.MAIN);
+      navigate(ROUTES.MAIN);
     } else if (e.target.id === ELEMENT_ID.PROFILE_FORM) {
       const formData = new FormData(e.target);
       const username = formData.get("username") || "";
@@ -52,14 +52,14 @@ const setEventListener = () => {
     e.preventDefault();
     if (e.target.pathname === ROUTES.LOGOUT) {
       store.logout();
-      navigateTo(ROUTES.LOGIN);
+      navigate(ROUTES.LOGIN);
       return;
     }
-    navigateTo(e.target.pathname);
+    navigate(e.target.pathname);
   });
   root.addEventListener(CUSTOM_EVENT.PAGE_PUSH, (e) => {
     if (!e.detail.url) return;
-    navigateTo(e.detail.url);
+    navigate(e.detail.url);
   });
 };
 
