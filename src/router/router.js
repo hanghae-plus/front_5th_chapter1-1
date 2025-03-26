@@ -25,4 +25,46 @@ export class BaseRouter {
     }
     return pathname;
   }
+
+  start() {
+    this.addEventListener();
+
+    const currentPath = this.getCurrentPath();
+    const safePathname = this.getGuardCheckedPath(currentPath);
+
+    if (currentPath !== safePathname) {
+      this.replaceState(safePathname);
+    }
+
+    this.render(safePathname);
+  }
+
+  navigate(pathname) {
+    const currentPath = this.getCurrentPath();
+    if (pathname === currentPath) return;
+
+    const safePathname = this.getGuardCheckedPath(pathname);
+    if (safePathname === currentPath) return;
+
+    this.pushState(safePathname);
+    this.render(safePathname);
+  }
+
+  // 아래는 자식 class에서 구현해야 함
+
+  addEventListener() {
+    throw new Error("addEventListener를 subclass에서 구현해야 합니다.");
+  }
+
+  getCurrentPath() {
+    throw new Error("getCurrentPath를 subclass에서 구현해야 합니다.");
+  }
+
+  replaceState() {
+    throw new Error("replaceState를 subclass에서 구현해야 합니다.");
+  }
+
+  pushState() {
+    throw new Error("pushState를 subclass에서 구현해야 합니다.");
+  }
 }
