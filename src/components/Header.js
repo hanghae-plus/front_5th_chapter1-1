@@ -64,7 +64,7 @@ const Header = () => {
       e.preventDefault();
       user.setIsLoggedIn(false);
       localStorage.removeItem("user");
-      render("/");
+      render("/login");
     });
   }
 
