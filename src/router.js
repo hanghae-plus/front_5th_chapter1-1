@@ -5,10 +5,12 @@ import { LoginPage } from "./components/LoginPage";
 import { ProfilePage } from "./components/ProfilePage";
 import { NotFoundPage } from "./components/NotFoundPage";
 
+const isLogIn = () => {
+  return localStorage.getItem("user") !== null;
+};
+
 export const Router = () => {
   const path = window.location.pathname;
-  const isLogIn =
-    localStorage.getItem("username") && localStorage.getItem("password");
 
   let layout = "";
 
@@ -20,11 +22,11 @@ export const Router = () => {
       layout = `${LoginPage()}`;
       break;
     case "/profile":
-      if (isLogIn) {
+      if (isLogIn()) {
         layout = `${Header()}${ProfilePage()}${Footer()}`;
       } else {
-        goTo("/login");
-        return;
+        window.history.pushState({}, "", "/login");
+        layout = `${LoginPage()}`;
       }
       break;
     default:
@@ -32,14 +34,10 @@ export const Router = () => {
       break;
   }
 
-  document.body.innerHTML = layout;
+  document.getElementById("root").innerHTML = layout;
 };
 
-const goTo = (url) => {
+export const goTo = (url) => {
   window.history.pushState({}, "", url);
   Router();
 };
-
-// window.addEventListener('popstate', () => {
-//   renderPage();
-// });
