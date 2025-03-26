@@ -57,15 +57,12 @@ export const ProfilePage = (container) => {
   if (!profileForm) return;
 
   // 초기 값 세팅
-  const fieldIdList = [
-    CONST.profileForm.field.username,
-    CONST.profileForm.field.bio,
-    CONST.profileForm.field.email,
-  ];
-  for (const fieldId of fieldIdList) {
+  const fieldIdList = Object.values(CONST.profileForm.field);
+
+  fieldIdList.forEach((fieldId) => {
     const field = profileForm.querySelector(`#${fieldId}`);
     field.value = state.loggedInUser[fieldId] ?? "";
-  }
+  });
 
   // 제출 이벤트 처리
   profileForm.addEventListener("submit", (e) => {
