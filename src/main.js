@@ -1,12 +1,42 @@
 // TODO: 로그인 라우터별 이벤트 리스너 맞게 변경하기
-// TODO: nav바 하이라이트 변경
+
+//TODO: localstorage에서 받아오는 user정보도 기본state로 만들 수 있도록 state.isLoggedIn은 로컬스토리지의 값으로 판별할 수 있을 것 같음
+// 스토어 컴포넌트 함수 라우트
+
+export const setLocalStorage = (key, userInfo) => {
+  try {
+    localStorage.setItem(key, JSON.stringify(userInfo));
+  } catch (error) {
+    alert("error", error);
+  }
+};
+
+export const getLocalStorage = (key) => {
+  try {
+    const item = localStorage.getItem(key);
+    return JSON.parse(item);
+  } catch (error) {
+    alert("error", error);
+  }
+};
+
+export const removeLocalStorage = (key) => {
+  try {
+    localStorage.removeItem(key);
+  } catch (error) {
+    alert("error", error);
+  }
+};
+
+const USER_KEY = "user";
 
 const state = {
   isLoggedIn: false,
+  userInfo: getLocalStorage(USER_KEY),
 };
 
 const textHighlighter = (href) => {
-  if (location.pathname === href) return "text-blue-600";
+  if (location.pathname === href) return "text-blue-600 font-bold";
   return "text-gray-600";
 };
 
@@ -14,7 +44,7 @@ const Header = ({ isLoggedIn }) => {
   const nav = isLoggedIn
     ? `
         <li><a href="/profile" class="${textHighlighter("/profile")}">프로필</a></li>
-        <li><a href="#" class="text-gray-600" id="logout">로그아웃</a></li>
+        <li><a href="/login" class="text-gray-600" id="logout">로그아웃</a></li>
       `
     : `
       <li><a href="/login" class="text-gray-600">로그인</a></li>
@@ -40,7 +70,7 @@ const Footer = /* HTML */ `
   </footer>
 `;
 
-const MainPage = () => /* HTML */ `
+export const MainPage = () => /* HTML */ `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
       ${Header({ isLoggedIn: state.isLoggedIn })}
@@ -164,7 +194,7 @@ const MainPage = () => /* HTML */ `
   </div>
 `;
 
-const ErrorPage = () => /* HTML */ `
+export const ErrorPage = () => /* HTML */ `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div
       class="bg-white p-8 rounded-lg shadow-md w-full text-center"
@@ -183,7 +213,7 @@ const ErrorPage = () => /* HTML */ `
   </main>
 `;
 
-const LoginPage = () => /* HTML */ `
+export const LoginPage = () => /* HTML */ `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">
@@ -193,7 +223,7 @@ const LoginPage = () => /* HTML */ `
         <div class="mb-4">
           <input
             type="text"
-            placeholder="이메일 또는 전화번호"
+            placeholder="사용자 이름"
             class="w-full p-2 border rounded"
             id="username"
           />
@@ -225,7 +255,7 @@ const LoginPage = () => /* HTML */ `
   </main>
 `;
 
-const ProfilePage = () => `
+export const ProfilePage = () => `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
@@ -296,7 +326,15 @@ const App = () => {
     return MainPage();
   }
   if (location.pathname === "/login") {
-    return LoginPage();
+    if (!state.userInfo) {
+      return LoginPage();
+    }
+    if (state.userInfo.username !== "") {
+      state.isLoggedIn = true;
+      history.pushState(null, "", "/");
+      window.dispatchEvent(new Event("popstate"));
+      return MainPage();
+    }
   }
 
   if (location.pathname === "/profile") {
@@ -304,35 +342,11 @@ const App = () => {
       return ProfilePage();
     } else {
       history.pushState(null, "", "/login");
+      window.dispatchEvent(new Event("popstate"));
       return LoginPage();
     }
   }
   return ErrorPage();
-};
-
-const setLocalStorage = (key, userInfo) => {
-  try {
-    localStorage.setItem(key, JSON.stringify(userInfo));
-  } catch (error) {
-    alert("error", error);
-  }
-};
-
-const getLocalStorage = (key) => {
-  try {
-    const item = localStorage.getItem(key);
-    return JSON.parse(item);
-  } catch (error) {
-    alert("error", error);
-  }
-};
-
-const removeLocalStorage = (key) => {
-  try {
-    localStorage.removeItem(key);
-  } catch (error) {
-    alert("error", error);
-  }
 };
 
 const render = () => {
@@ -352,7 +366,7 @@ const render = () => {
           const href = e.target.getAttribute("href");
 
           history.pushState(null, "", href);
-          render();
+          window.dispatchEvent(new Event("popstate"));
         }
       },
       false,
@@ -368,9 +382,9 @@ const render = () => {
           email: "",
           bio: "",
         });
-        history.pushState(null, "", "/profile");
         state.isLoggedIn = true;
-        render();
+        history.pushState(null, "", "/profile");
+        window.dispatchEvent(new Event("popstate"));
       } else {
         alert("아이디 필수");
       }
@@ -379,10 +393,10 @@ const render = () => {
 
   if ($logoutButton) {
     $logoutButton.addEventListener("click", () => {
-      history.pushState(null, "", "/login");
       state.isLoggedIn = false;
       removeLocalStorage("user");
-      render();
+      history.pushState(null, "", "/login");
+      window.dispatchEvent(new Event("popstate"));
     });
   }
 
