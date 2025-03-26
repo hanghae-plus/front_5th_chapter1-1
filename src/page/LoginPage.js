@@ -1,6 +1,6 @@
 import auth from "../auth";
 import { render } from "../main";
-import { createNodeElement, renderByNodeElement } from "../utils";
+import { createNodeElement, renderByNodeElement } from "./utils";
 
 export default () => {
   const component = `

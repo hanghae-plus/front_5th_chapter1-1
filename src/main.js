@@ -2,6 +2,7 @@ import page from "./pages";
 
 export const render = () => {
   const renderPage = page();
+
   renderPage();
 };
 

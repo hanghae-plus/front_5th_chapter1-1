@@ -1,7 +1,7 @@
-import MainPage from "./components/MainPage";
-import ErrorPage from "./components/ErrorPage";
-import LoginPage from "./components/LoginPage";
-import ProfilePage from "./components/ProfilePage";
+import MainPage from "./page/MainPage";
+import ErrorPage from "./page/ErrorPage";
+import LoginPage from "./page/LoginPage";
+import ProfilePage from "./page/ProfilePage";
 import auth from "./auth";
 
 export default () => {
