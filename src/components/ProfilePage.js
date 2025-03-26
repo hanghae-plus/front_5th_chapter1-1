@@ -1,6 +1,8 @@
 import Header from "./Header";
 import Footer from "./Footer";
 import auth from "../auth";
+import { render } from "../main";
+import { createNodeElement, renderByNodeElement } from "../utils";
 
 export default () => {
   const { username, email, bio } = auth.getUser();
@@ -69,7 +71,34 @@ export default () => {
         ${Footer()}
       </div>
     </div>
-`;
+  `;
+  const element = createNodeElement(component);
+  element.querySelector("nav").addEventListener("click", (e) => {
+    e.preventDefault();
+    if (e.target.nodeName === "A") {
+      const newPathname = e.target.href.replace(location.origin, "");
+      history.pushState({ path: newPathname }, "", newPathname);
+      render();
+    }
+  });
 
-  document.getElementById("root").innerHTML = component;
+  element.querySelector("#profile-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const user = {
+      username: document.getElementById("username").value,
+      email: document.getElementById("email").value,
+      bio: document.getElementById("bio").value,
+    };
+    auth.setUser(user);
+    alert("프로필이 업데이트 되었습니다.");
+  });
+
+  const logoutForm = element.querySelector("#logout");
+  if (logoutForm) {
+    logoutForm.addEventListener("click", () => {
+      auth.logout();
+    });
+  }
+
+  renderByNodeElement(element);
 };
