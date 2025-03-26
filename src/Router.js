@@ -4,6 +4,7 @@ export function Router($container) {
   this.$container = $container;
 
   const findPage = () => {
+    console.log("location.hash", location.hash);
     const TargetPage =
       location.hash === ""
         ? browserRoutes.find((route) => route.path === location.pathname)
@@ -18,7 +19,7 @@ export function Router($container) {
   const browserRouter = () => {
     window.addEventListener("historychanged", ({ detail }) => {
       const { to, isReplace } = detail;
-
+      console.log("historychanged");
       if (isReplace || to === location.pathname)
         history.replaceState(null, "", to);
       else history.pushState(null, "", to);
@@ -33,6 +34,7 @@ export function Router($container) {
 
   const hashRouter = () => {
     window.addEventListener("hashchange", () => {
+      console.log("hashchange");
       // history.replaceState(null, "", e.target.hash);
 
       findPage();

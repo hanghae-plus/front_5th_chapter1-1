@@ -49,6 +49,7 @@ function MainPage($container) {
       const targetPath = target.href.replace(location.origin, "");
       console.log(targetPath, "targetPath");
 
+      console.log(isHash, "isHash");
       isHash ? (location.hash = targetPath) : browserNavigate(targetPath, true);
     });
 }
