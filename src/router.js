@@ -11,9 +11,11 @@ const routes = {
 };
 
 export const render = (hash) => {
-  const currentPath = hash
-    ? hash?.toString().slice(1)
-    : window.location.pathname;
+  const isHistoryRouter =
+    typeof hash === "undefined" || typeof hash === "object";
+  const currentPath = isHistoryRouter
+    ? window.location.pathname
+    : hash?.toString().slice(1);
 
   const root = document.body.querySelector("#root");
   if (!root) {
@@ -40,7 +42,7 @@ export const render = (hash) => {
   }
 
   root.innerHTML = "";
-  root.appendChild(routes[currentPath]?.() || ErrorPage());
+  root.appendChild(route?.() || ErrorPage());
 };
 
 window.addEventListener("popstate", render);

@@ -11,8 +11,8 @@ window.addEventListener("click", (e) => {
   if (e.target.id === "logout") {
     state.setIsLoggedIn(false);
     state.setUserInfo(null);
-    window.history.pushState({}, "", "/");
     state.notify();
+    render();
   }
 });
 

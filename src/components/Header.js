@@ -25,7 +25,7 @@ export const Header = () => {
               ? `
               <li><a href="/" class="${makeLiClass(`/`)}">홈</a></li>
               <li><a href="/profile" class="${makeLiClass(`/profile`)}">프로필</a></li>
-              <li><a href="#" id="logout" class="text-gray-600">로그아웃</a></li>
+              <li><a href="/login" id="logout" class="text-gray-600">로그아웃</a></li>
               `
               : `
               <li><a href="/" class="${makeLiClass(`/`)}">홈</a></li>

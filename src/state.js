@@ -1,5 +1,5 @@
 export const state = {
-  isLoggedIn: localStorage.getItem("isLoggedIn"),
+  isLoggedIn: localStorage.getItem("isLoggedIn") === "true",
   user: JSON.parse(localStorage.getItem("user")),
   subscribers: [],
 
