@@ -1,15 +1,12 @@
-import { handleClick, handleSubit } from "./lib/events";
-import { render } from "./lib/render";
-import User from "./store/user";
+import { handleClick, handleSubmit } from "./event/events";
+import { render } from "./core/render";
 
 const root = document.getElementById("root");
-
-const user = new User();
 
 render();
 
 window.addEventListener("popstate", () => render());
 window.addEventListener("hashchange", () => render());
 
-root.addEventListener("submit", (e) => handleSubit(e, user));
-root.addEventListener("click", (e) => handleClick(e, user));
+root.addEventListener("submit", (e) => handleSubmit(e));
+root.addEventListener("click", (e) => handleClick(e));

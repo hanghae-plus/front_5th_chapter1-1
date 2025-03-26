@@ -2,6 +2,9 @@ export default class User {
   constructor() {
     this.user = JSON.parse(localStorage.getItem("user")) || {};
   }
+  get() {
+    return this.user;
+  }
   set({ username = "", email = "", bio = "" }) {
     this.user = {
       username,
@@ -9,9 +12,6 @@ export default class User {
       bio,
     };
     localStorage.setItem("user", JSON.stringify(this.user));
-  }
-  get() {
-    return this.user;
   }
   clear() {
     localStorage.removeItem("user");

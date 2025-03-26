@@ -1,8 +1,9 @@
-import { navigate } from "./navigate";
+import User from "../store/user";
+import { navigate } from "../core/navigate";
+const user = new User();
 
-export function handleSubit(e, user) {
+export function handleSubmit(e) {
   e.preventDefault();
-
   if (e.target && e.target.id === "login-form") {
     let username = document.getElementById("username")?.value;
     user.set({ username });
@@ -19,13 +20,12 @@ export function handleSubit(e, user) {
   }
 }
 
-export function handleClick(e, user) {
+export function handleClick(e) {
   if (e.target && e.target.nodeName == "A") {
     e.preventDefault();
     const nextPathName = e.target.href.replace(location.origin, "");
     navigate(nextPathName);
   }
-
   if (e.target && e.target.id === "logout") {
     user.clear();
     navigate("login");

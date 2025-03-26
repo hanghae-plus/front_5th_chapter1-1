@@ -1,23 +1,7 @@
-import { Header } from "../component/Header";
-import { Footer } from "../component/Footer";
-import User from "../store/user";
+import { Header } from "../components/Header";
+import { Footer } from "../components/Footer";
 
 export const MainPage = () => /* HTML */ {
-  let user = new User();
-  let name = user.get().username;
-  if (name) {
-    console.log("로그인 0");
-  } else {
-    console.log("로그인 x");
-  }
-  setTimeout(() => {
-    const firstTarget = document.querySelector('nav a[href="/login"]');
-    if (firstTarget) {
-      console.log("로그인 링크가 존재합니다.");
-    } else {
-      console.log("로그인 링크가 존재하지 않습니다.");
-    }
-  }, 900); // DOM이 렌더링된 후 실행되도록 0ms 후에 실행
   return `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">

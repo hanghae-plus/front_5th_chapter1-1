@@ -6,8 +6,8 @@ export const route = () => {
   let isLogin = user.isLogin();
 
   let isHashMode = mode() === "hash";
-
   let path = isHashMode ? window.location.hash.slice(1) : location.pathname;
+
   if (path === "/") return MainPage();
   if (path === "/profile") {
     return isLogin ? ProfilePage() : LoginPage();
