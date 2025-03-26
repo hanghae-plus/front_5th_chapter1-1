@@ -23,7 +23,11 @@ class Router {
       handler();
     } else {
       console.log("404 Not Found");
+      history.pushState(null, "", "/error");
     }
+  }
+  checkRoute(path) {
+    return Object.keys(this.routes).includes(path);
   }
 }
 

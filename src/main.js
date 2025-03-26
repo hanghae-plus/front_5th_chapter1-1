@@ -1,9 +1,5 @@
 import { router } from "./controller/route";
 
-{
-  /* <li><div id="profile" class="text-gray-600">프로필</div></li> */
-}
-
 const NavComponent = () => `
           <li><div id="home" class="text-blue-600">홈</div></li>
           <li><div id="login" class="text-gray-600">로그인</div></li>
@@ -15,10 +11,8 @@ const NavComponentWithLoggedIn = () => `
           <li><div id="logout" class="text-gray-600">로그아웃</div></li>
 `;
 
-const MainPage = (userInfo) => `
-  <div class="bg-gray-100 min-h-screen flex justify-center">
-    <div class="max-w-md w-full">
-      <header class="bg-blue-600 text-white p-4 sticky top-0">
+const HeaderComponent = (userInfo) => `
+<header class="bg-blue-600 text-white p-4 sticky top-0">
         <h1 class="text-2xl font-bold">항해플러스</h1>
       </header>
 
@@ -27,6 +21,18 @@ const MainPage = (userInfo) => `
           ${userInfo ? NavComponentWithLoggedIn() : NavComponent()}
         </ul>
       </nav>
+`;
+
+const FooterComponent = () => `
+<footer class="bg-gray-200 p-4 text-center">
+        <p>&copy; 2024 항해플러스. All rights reserved.</p>
+      </footer>
+`;
+
+const MainPage = (userInfo) => `
+  <div class="bg-gray-100 min-h-screen flex justify-center">
+    <div class="max-w-md w-full">
+      ${HeaderComponent(userInfo)}
 
       <main class="p-4">
         <div class="mb-4 bg-white rounded-lg shadow p-4">
@@ -118,9 +124,7 @@ const MainPage = (userInfo) => `
         </div>
       </main>
 
-      <footer class="bg-gray-200 p-4 text-center">
-        <p>&copy; 2024 항해플러스. All rights reserved.</p>
-      </footer>
+      ${FooterComponent()}
     </div>
   </div>
 `;
@@ -134,9 +138,9 @@ const ErrorPage = () => `
       <p class="text-gray-600 mb-8">
         요청하신 페이지가 존재하지 않거나 이동되었을 수 있습니다.
       </p>
-      <a href="/" class="bg-blue-600 text-white px-4 py-2 rounded font-bold">
+      <div id="home" class="bg-blue-600 text-white px-4 py-2 rounded font-bold">
         홈으로 돌아가기
-      </a>
+      </div>
     </div>
   </main>
 `;
@@ -170,15 +174,7 @@ const ProfilePage = (userInfo) => `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
-        <header class="bg-blue-600 text-white p-4 sticky top-0">
-          <h1 class="text-2xl font-bold">항해플러스</h1>
-        </header>
-
-        <nav class="bg-white shadow-md p-2 sticky top-14">
-          <ul class="flex justify-around">
-          ${userInfo ? NavComponentWithLoggedIn() : NavComponent()}  
-          </ul>
-        </nav>
+        ${HeaderComponent(userInfo)}
 
         <main class="p-4">
           <div class="bg-white p-8 rounded-lg shadow-md">
@@ -241,9 +237,7 @@ const ProfilePage = (userInfo) => `
           </div>
         </main>
 
-        <footer class="bg-gray-200 p-4 text-center">
-          <p>&copy; 2024 항해플러스. All rights reserved.</p>
-        </footer>
+        ${FooterComponent()}
       </div>
     </div>
   </div>
@@ -252,10 +246,6 @@ const ProfilePage = (userInfo) => `
 document.body.innerHTML = `
   ${MainPage()}
 `;
-
-// ${ProfilePage()}
-// ${LoginPage()}
-// ${ErrorPage()}
 
 function route(path, callback) {
   if (window.location.pathname === path) {
@@ -280,13 +270,17 @@ window.addEventListener("load", () => {
     loadContent(ProfilePage(parsedUserInfo), addEventProfile),
   );
   route("/login", () => loadContent(LoginPage(), addEventLogin));
-  route("/temp", () => loadContent(ErrorPage()));
+  // route("/error", () => loadContent(ErrorPage()));
+  if (!router.checkRoute(window.location.pathname)) {
+    loadContent(ErrorPage());
+  }
 });
 
 // router 사용
 router.addRoute("/", () => loadContent(MainPage(parsedUserInfo)));
 router.addRoute("/profile", () => loadContent(ProfilePage(parsedUserInfo)));
 router.addRoute("/login", () => loadContent(LoginPage()));
+router.addRoute("/error", () => loadContent(ErrorPage()));
 
 window.addEventListener("click", (e) => {
   const targetId = e.target.id;
@@ -304,14 +298,8 @@ window.addEventListener("click", (e) => {
 function addEventLogin() {
   const $loginBtn = document.getElementById("submit-login");
   $loginBtn.addEventListener("click", () => {
-    // if (targetId === "submit-login") {
     const $email = document.getElementById("login-email");
     const emailvalue = $email.value;
-
-    // const $password = document.getElementById("login-password");
-    // const passwordvalue = $password.value;
-
-    // const item = { email: emailvalue, password: passwordvalue };
     const userInfo = window.localStorage.getItem("userInfo");
 
     if (userInfo) {
