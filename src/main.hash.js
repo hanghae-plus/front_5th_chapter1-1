@@ -30,9 +30,12 @@ const Header = () => `
 const Nav = () => {
   // localStorage에서 user 값을 가져옵니다.
   const user = localStorage.getItem("user");
-  const currentPath = location.pathname;
-  const isHomeActive = currentPath === "/";
-  const isProfileActive = currentPath === "/profile";
+  const currentPath = window.location.hash;
+
+  console.log("hashcurrentpath", currentPath);
+  const isHomeActive = currentPath === "#/";
+  console.log("isHomeActive", isHomeActive);
+  const isProfileActive = currentPath === "#/profile";
   const homeClass = isHomeActive ? "text-blue-600 font-bold" : "text-gray-600";
   const profileClass = isProfileActive
     ? "text-blue-600 font-bold"
@@ -43,7 +46,7 @@ const Nav = () => {
     return `
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
-          <li><a href="#" class=${homeClass}>홈</a></li>
+          <li><a href="#/" class=${homeClass}>홈</a></li>
           <li><a href="#/login" class="text-gray-600">로그인</a></li>
         </ul>
       </nav>
@@ -54,7 +57,7 @@ const Nav = () => {
   return `
     <nav class="bg-white shadow-md p-2 sticky top-14">
       <ul class="flex justify-around">
-        <li><a href="#" class=${homeClass}>홈</a></li>
+        <li><a href="#/" class=${homeClass}>홈</a></li>
         <li><a href="#/profile" class=${profileClass}>프로필</a></li>
         <li><a id="logout" href="#/logout" class="text-gray-600">로그아웃</a></li>
       </ul>
@@ -176,7 +179,7 @@ const ErrorPage = () => `
       <p class="text-gray-600 mb-8">
         요청하신 페이지가 존재하지 않거나 이동되었을 수 있습니다.
       </p>
-      <a href="/" class="bg-blue-600 text-white px-4 py-2 rounded font-bold">
+      <a href="#/" class="bg-blue-600 text-white px-4 py-2 rounded font-bold">
         홈으로 돌아가기
       </a>
     </div>
@@ -198,7 +201,7 @@ const LoginPage = () => {
         <button id="loginBtn" type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
       </form>
       <div class="mt-4 text-center">
-        <a href="#" class="text-blue-600 text-sm">비밀번호를 잊으셨나요?</a>
+        <a href="#/" class="text-blue-600 text-sm">비밀번호를 잊으셨나요?</a>
       </div>
       <hr class="my-6">
       <div class="text-center">
@@ -255,10 +258,7 @@ const routePath = {
   "#/": MainPage,
   "#/login": LoginPage,
   "#/profile": ProfilePage,
-  "#/logout": () => {
-    logoutUser();
-    return LoginPage();
-  },
+  "#/error": ErrorPage,
 };
 
 //페이지 렌더링
@@ -289,13 +289,15 @@ const logoutUser = () => {
 //헤더 링크 클릭
 const handleLinkClick = (event) => {
   if (event.target.tagName === "A") {
-    event.preventDefault();
+    // event.preventDefault();
     const href = event.target.getAttribute("href");
-    if (href === "/logout") {
+    console.log("hash href", href);
+    if (href === "#/logout") {
+      event.preventDefault();
       console.log("logout 실행");
       // 로그아웃 처리 로직
       logoutUser(); // 로그아웃 함수 호출
-      navigateTo("/login");
+      navigateTo("#/login");
       return;
     }
     navigateTo(href);
@@ -349,12 +351,16 @@ const handleUpdateProfile = (event) => {
 const App = () => {
   //아 클릭할 때 App()이 새롭게 실행되면서 초기화가 이루어지는구나.
   const hash = window.location.hash || "#/";
+  console.log("hash", window.location.hash);
   navigateTo(hash);
 };
 
 //페이지 이동함수
 const navigateTo = (path) => {
   //hash 이벤트 정의
+  if (window.location.hash !== path) {
+    window.location.hash = path; // URL 해시 실제로 변경
+  }
   //페이지 렌더링
   const rootElement = document.getElementById("root");
   rootElement.innerHTML = renderPage(path);
@@ -384,7 +390,6 @@ const navigateTo = (path) => {
   }
 
   if (path !== "#/login" && path !== "#/logout") {
-    console.log("login or logout");
     const navElement = document.querySelector("nav");
 
     if (navElement) {
@@ -404,6 +409,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // popstate 이벤트 처리 popstate는 언제 발생하는건가?
 window.addEventListener("hashchange", () => {
+  console.log("addEventListner", window.location.hash);
   const hash = window.location.hash || "#/";
   navigateTo(hash);
 });
