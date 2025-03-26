@@ -6,11 +6,12 @@ export class HistoryRouter extends BaseRouter {
   }
 
   start() {
+    this.renderRoute(window.location.pathname);
+
     window.addEventListener("popstate", () => {
       this.renderRoute(window.location.pathname);
     });
     window.addEventListener("DOMContentLoaded", () => {
-      this.renderRoute(window.location.pathname);
       document.body.addEventListener("click", this.onLinkClick.bind(this));
     });
   }
