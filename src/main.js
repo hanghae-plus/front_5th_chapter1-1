@@ -1,13 +1,27 @@
+const state = {
+  loggedIn: false,
+  user: null,
+};
 const Header = () => {
+  const nav = () => {
+    state.loggedIn
+      ? `
+    <li><a href="/" class="${location.pathname === "/" ? "text-blue-600" : "text-gray-600"}">홈</a></li>
+    <li><a href="/profile" class="${location.pathname === "/profile" ? "text-blue-600" : "text-gray-600"}">프로필</a></li>
+    <li><a href="#" id="logout" class="text-gray-600">로그아웃</a></li>
+    `
+      : `
+    <li><a href="/" class="${location.pathname === "/" ? "text-blue-600" : "text-gray-600"}">홈</a></li>
+    <li><a href="/login" class="text-gray-600">로그인</a></li>
+    `;
+  };
   return `<header class="bg-blue-600 text-white p-4 sticky top-0">
         <h1 class="text-2xl font-bold">항해플러스</h1>
       </header>
 
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
-          <li><a href="/" class="${location.pathname === "/" ? "text-blue-600" : "text-gray-600"}">홈</a></li>
-          <li><a href="/profile" class="${location.pathname === "/profile" ? "text-blue-600" : "text-gray-600"}">프로필</a></li>
-          <li><a href="#" class="${location.pathname === "/#" ? "text-blue-600" : "text-gray-600"}">로그아웃</a></li>
+          ${nav}
         </ul>
       </nav>`;
 };
@@ -134,16 +148,16 @@ const ErrorPage = () => `
   </main>
 `;
 
-const LoginPage = () => `
+const LoginPage = () => /*html */ `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
-      <form>
+      <form id="login-form">
         <div class="mb-4">
-          <input type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
+          <input type="text" id="username" placeholder="사용자 이름" class="w-full p-2 border rounded">
         </div>
         <div class="mb-6">
-          <input type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
+          <input type="password" id="password" placeholder="비밀번호" class="w-full p-2 border rounded">
         </div>
         <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
       </form>
@@ -249,26 +263,73 @@ const App = () => {
     return LoginPage();
   }
   if (location.pathname === "/profile") {
+    if (!state.loggedIn) {
+      // document.getElementById("root").innerHTML = LoginPage();
+      return LoginPage();
+    }
     return ProfilePage();
   }
   return ErrorPage();
+};
+
+const handleLogin = (e) => {
+  e.preventDefault();
+  const username = document.getElementById("username").value;
+  state.loggedIn = true;
+  state.user = { username, email: "", bio: "" };
+  localStorage.setItem("user", JSON.stringify(state.user));
+  window.history.pushState({}, "", "/");
+  render();
+};
+
+const handleLogout = (e) => {
+  e.preventDefault();
+  state.loggedIn = false;
+  state.user = null;
+  localStorage.removeItem("user");
+  window.history.pushState({}, "", "/");
+  render();
+};
+
+const render = () => {
+  document.body.innerHTML = App();
+
+  const loginForm = document.getElementById("login-form");
+  if (loginForm) {
+    loginForm.addEventListener("submit", handleLogin);
+  }
+
+  // const logoutButton = document.getElementById("logout");
+  // if (logoutButton) {
+  //   logoutButton.addEventListener("click", handleLogout);
+  // }
+
+  document.querySelectorAll("a").forEach((el) => {
+    el.addEventListener("click", (e) => {
+      if (e.target.id === "logout") {
+        e.preventDefault();
+        handleLogout();
+      } else {
+        e.preventDefault();
+        const newPathName = e.target.href.replace(location.origin, "");
+        history.pushState(null, "", newPathName);
+        render();
+      }
+    });
+  });
 };
 
 window.addEventListener("popstate", () => {
   render();
 });
 
-const render = () => {
-  document.body.innerHTML = App();
-
-  document.querySelectorAll("a").forEach((el) => {
-    el.addEventListener("click", (e) => {
-      e.preventDefault();
-      const newPathName = e.target.href.replace(location.origin, "");
-      history.pushState(null, "", newPathName);
-      render();
-    });
-  });
+const init = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (user) {
+    state.loggedIn = true;
+    state.user = user;
+  }
+  render();
 };
 
-render();
+init();
