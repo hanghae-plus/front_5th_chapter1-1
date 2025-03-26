@@ -8,16 +8,23 @@ import { ID } from "@/constant.js";
 import { getUserInfoFromStorage } from "@/logic/localStorage.js";
 import { goTo } from "@/logic/router.js";
 
-function getHtmlByPathName() {
-  let location = window.location.pathname;
+export function getPath() {
+  let locationPath = window.location.pathname;
   const hash = window.location.hash;
-  const isLoggedIn = getUserInfoFromStorage();
+
   if (hash.includes("#")) {
-    const hashLocation = hash.slice(1);
-    location = hashLocation;
+    const hashPath = hash.slice(1);
+    locationPath = hashPath;
   }
 
-  switch (location) {
+  return locationPath;
+}
+
+function getHtmlByPathName() {
+  const path = getPath();
+  const isLoggedIn = getUserInfoFromStorage();
+
+  switch (path) {
     case "/":
       return HomePage();
     case "/login":
