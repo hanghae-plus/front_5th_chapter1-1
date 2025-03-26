@@ -11,7 +11,7 @@ export const UserService = () => ({
       if (!user) {
         throw new UserNotFoundError();
       }
-      user.update({ ...user.toEntity(), ...userData });
+      user.update({ ...user.getProfile(), ...userData });
       userStore.setUser(user);
     } catch (error) {
       throw new UserUpdateError(

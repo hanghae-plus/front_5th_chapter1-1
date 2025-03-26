@@ -8,13 +8,13 @@ class UserStore {
 
   setUser(user) {
     this.user = user;
-    localStorage.setItem("user", JSON.stringify(this.user.toEntity()));
+    localStorage.setItem("user", JSON.stringify(this.user.getProfile()));
   }
 
   updateUser(userData) {
-    const user = User.build({ ...this.user.toEntity(), ...userData });
+    const user = User.build({ ...this.user.getProfile(), ...userData });
     this.user = user;
-    localStorage.setItem("user", JSON.stringify(this.user.toEntity()));
+    localStorage.setItem("user", JSON.stringify(this.user.getProfile()));
   }
 
   getUser() {

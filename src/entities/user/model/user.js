@@ -23,7 +23,7 @@ export class User {
     this.#bio = user.bio ?? this.#bio;
   }
 
-  toEntity() {
+  getProfile() {
     return {
       username: this.#username,
       email: this.#email,

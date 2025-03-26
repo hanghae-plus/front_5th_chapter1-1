@@ -9,8 +9,8 @@ export class ProfilePage {
     this.header = new Header();
   }
   template() {
-    const user = userStore.getUser().toEntity();
-    // * 이거 예외처리 해야할텐데...
+    const user = userStore.getUser().getProfile();
+
     // if (!user) return;
     return `
     <div id="root">
