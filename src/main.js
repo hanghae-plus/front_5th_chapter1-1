@@ -1,8 +1,8 @@
 import { CUSTOM_EVENT, ELEMENT_ID, ROUTES } from "./config/index.js";
-import ErrorPage from "./routes/error-page.js";
-import LoginPage from "./routes/login-page.js";
-import MainPage from "./routes/main-page.js";
-import ProfilePage from "./routes/profile-page.js";
+import ErrorPage from "./pages/error-page.js";
+import LoginPage from "./pages/login-page.js";
+import MainPage from "./pages/main-page.js";
+import ProfilePage from "./pages/profile-page.js";
 import store from "./store/index.js";
 
 const PREFIX = "/front_5th_chapter1-1";
