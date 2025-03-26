@@ -12,7 +12,7 @@ const ProfileForm = (user) => {
           type="text"
           id="username"
           name="username"
-          value=${user.username}
+          value="${user.username}"
           class="w-full p-2 border rounded"
         />
       </div>
