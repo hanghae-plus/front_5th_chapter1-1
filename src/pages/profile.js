@@ -15,7 +15,7 @@ export const ProfilePage = () => {
               <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
                 내 프로필
               </h2>
-              <form id="profile-form">
+              <form id="profile-form" >
                 <div class="mb-4">
                   <label
                     for="username"
@@ -81,7 +81,7 @@ export const updateProfile = () => {
 
     // <form> 요소로부터 사용자가 입력한 데이터를 한 번에 가져오기
     const formData = new FormData(profileForm);
-
+    console.log("formData.get", formData.get("email"));
     Store.setUser({
       username: formData.get("username") || "",
       email: formData.get("email") || "",

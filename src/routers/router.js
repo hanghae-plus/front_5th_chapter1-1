@@ -45,12 +45,12 @@ export function renderRoute() {
   // 로그인 폼 제출관련
   if (path === `${BASE_PATH}/login` && !isLogin) {
     setUpLoginForm();
-
     return;
   }
   // 프로필 업데이트 관련
   if (path === `${BASE_PATH}/profile` && isLogin) {
     updateProfile();
+    return;
   }
 }
 

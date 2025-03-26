@@ -15,7 +15,6 @@ document.addEventListener("click", (event) => {
   const link = event.target.closest("a[data-route-link]");
   const logoutBtn = event.target.closest("#logout");
 
-  // TODO:이슈사항 정리
   if (logoutBtn) {
     event.preventDefault();
     Store.logout();
