@@ -1,44 +1,12 @@
-const createStore = () => {
-  const getStorage = () => {
-    try {
-      return JSON.parse(localStorage.getItem("user")) || {};
-    } catch (e) {
-      e;
-      return {};
-    }
-  };
-
-  const state = {};
-
-  const isLogon = () => {
-    const tmp = getStorage();
-    return !!tmp.username;
-  };
-
-  const get = (key) => {
-    if (!key) return state;
-    else return state?.[key] || undefined;
-  };
-
-  const set = (obj) => {
-    Object.entries(obj).forEach(([key, value]) => (state[key] = value));
-    return state;
-  };
-
-  const sync = () => {
-    ["user", "users"].forEach((key) => {
-      try {
-        const local = JSON.stringify(localStorage.getItem(key));
-        state[key] = local || null;
-      } catch (e) {
-        e;
-        state[key] = undefined;
-      }
-    });
-  };
-
-  return { isLogon, get, set, sync };
+const store = {
+  get: (key) => JSON.parse(localStorage.getItem(key)),
+  set: (key, value) => localStorage.setItem(key, JSON.stringify(value)),
+  remove: (key) => localStorage.removeItem(key),
+  isLogon: () => !!store.get("user"),
+  setUser: (value) => store.set("user", value),
+  login: (value) => store.set("user", { username: value, email: "", bio: "" }),
+  logout: () => store.remove("user"),
+  sync: () => {},
 };
-const store = globalThis.store || createStore();
-globalThis.store = store;
+
 export default store;

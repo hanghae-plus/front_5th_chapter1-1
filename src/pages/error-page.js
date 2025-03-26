@@ -14,7 +14,7 @@ const ErrorPage = () => {
       </div>
     </main>
   `;
-  return { template };
+  return template;
 };
 
 export default ErrorPage;

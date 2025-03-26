@@ -6,8 +6,8 @@ import { ROUTES } from "../config/index.js";
 import store from "../store/index.js";
 
 const ProfilePage = () => {
-  const isLogon = !!store.get("username");
-  const profileData = store.get();
+  const isLogon = store.isLogon();
+  const profileData = store.get("user");
 
   const profile = `
     <main class="p-4">
@@ -75,6 +75,6 @@ const ProfilePage = () => {
       Footer(),
     ].join(""),
   });
-  return { template };
+  return template;
 };
 export default ProfilePage;

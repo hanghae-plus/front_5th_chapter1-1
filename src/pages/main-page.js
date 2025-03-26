@@ -6,7 +6,7 @@ import { ROUTES } from "../config/index.js";
 import store from "../store/index.js";
 
 const MainPage = () => {
-  const isLogon = !!store.get("username");
+  const isLogon = store.isLogon();
   const template = Container({
     children: [
       Header(),
@@ -15,7 +15,7 @@ const MainPage = () => {
       Footer(),
     ].join(""),
   });
-  return { template };
+  return template;
 };
 export default MainPage;
 

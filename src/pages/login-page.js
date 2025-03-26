@@ -23,6 +23,6 @@ const LoginPage = () => {
     </main>
   `;
 
-  return { template };
+  return template;
 };
 export default LoginPage;
