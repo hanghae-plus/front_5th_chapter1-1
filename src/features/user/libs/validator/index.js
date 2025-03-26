@@ -1,4 +1,4 @@
-import { InvalidError } from "../../errors/invalid.errors";
+import { InvalidError } from "../../errors";
 
 export const validateUserUpdateForm = ({ username, bio }) => {
   if (!username) {

@@ -1,4 +1,4 @@
-import { ensureRootElement } from "../../shared/utils";
+import { ensureRootElement } from "@/shared/utils";
 
 export class NotFoundPage {
   constructor() {

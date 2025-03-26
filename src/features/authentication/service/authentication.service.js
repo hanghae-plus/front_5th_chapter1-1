@@ -1,5 +1,5 @@
-import { User, userStore } from "../../../entities/user";
-import { router } from "../../../shared/libs";
+import { User, userStore } from "@/entities/user";
+import { router } from "@/shared/libs";
 import { InvalidError, LoginError } from "../errors";
 import { validateLoginForm } from "../libs/validator";
 

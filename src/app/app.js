@@ -5,7 +5,7 @@ import { routes } from "./route";
 
 export const render = () => {
   // * 각 Routes 초기화
-  routes();
+  routes().start();
   delegateNavigationEvents(router);
 
   // * Hash Router 처리 로직

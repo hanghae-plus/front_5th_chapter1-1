@@ -1,5 +1,5 @@
+import { User, userStore } from "@/entities/user";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { User, userStore } from "../../../entities/user";
 import { UserService } from "../service/user.service";
 
 describe("UserService", () => {

@@ -1,7 +1,7 @@
-import { ensureRootElement } from "../../shared/utils";
-import { Feed, mockData } from "../../widgets/feed";
-import { Footer } from "../../widgets/footer";
-import { Header } from "../../widgets/header";
+import { ensureRootElement } from "@/shared/utils";
+import { Feed, FEED_MOCK_DATA } from "@/widgets/feed";
+import { Footer } from "@/widgets/footer";
+import { Header } from "@/widgets/header";
 
 export class MainPage {
   constructor() {
@@ -22,7 +22,7 @@ export class MainPage {
 
           <div class="space-y-4">
 
-            ${mockData.map((feed) => new Feed(feed.username, feed.createdAt, feed.content).render()).join("")}
+            ${FEED_MOCK_DATA.map((feed) => new Feed(feed.username, feed.createdAt, feed.content).render()).join("")}
 
           </div>
         </main>

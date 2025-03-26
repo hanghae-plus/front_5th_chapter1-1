@@ -1,5 +1,5 @@
-import { ProfilePage } from "../../pages/profile";
-import { router } from "../../shared/libs";
+import { ProfilePage } from "@/pages/profile";
+import { router } from "@/shared/libs";
 
 export const profileRoutes = () => {
   router.addRoute("/profile", () => {

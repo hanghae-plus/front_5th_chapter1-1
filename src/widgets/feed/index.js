@@ -1,2 +1,2 @@
-export { mockData } from "./constants/mock.constants";
+export { FEED_MOCK_DATA } from "./constants/mock.constants";
 export { Feed } from "./feed";

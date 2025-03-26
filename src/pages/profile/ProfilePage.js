@@ -1,8 +1,8 @@
-import { userStore } from "../../entities/user";
-import { UserService } from "../../features/user";
-import { ensureRootElement } from "../../shared/utils";
-import { Footer } from "../../widgets/footer";
-import { Header } from "../../widgets/header";
+import { userStore } from "@/entities/user";
+import { UserService } from "@/features/user";
+import { ensureRootElement } from "@/shared/utils";
+import { Footer } from "@/widgets/footer";
+import { Header } from "@/widgets/header";
 
 export class ProfilePage {
   constructor() {

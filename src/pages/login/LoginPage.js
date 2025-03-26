@@ -1,5 +1,5 @@
-import { AuthenticationService } from "../../features/authentication";
-import { ensureRootElement } from "../../shared/utils";
+import { AuthenticationService } from "@/features/authentication";
+import { ensureRootElement } from "@/shared/utils";
 
 export class LoginPage {
   constructor() {

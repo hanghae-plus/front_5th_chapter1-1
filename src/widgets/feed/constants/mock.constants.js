@@ -1,4 +1,4 @@
-export const mockData = [
+export const FEED_MOCK_DATA = [
   {
     id: 1,
     username: "홍길동",

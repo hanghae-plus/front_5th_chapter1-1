@@ -1,4 +1,4 @@
-import { userStore } from "../../../entities/user";
+import { userStore } from "@/entities/user";
 
 import { UserNotFoundError, UserUpdateError } from "../errors";
 import { validateUserUpdateForm } from "../libs/validator";
