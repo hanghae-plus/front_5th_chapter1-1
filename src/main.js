@@ -254,6 +254,10 @@ const App = () => {
   return ErrorPage();
 };
 
+window.addEventListener("popstate", () => {
+  render();
+});
+
 const render = () => {
   document.body.innerHTML = App();
 
