@@ -6,11 +6,11 @@ export default function PostCard(props) {
       <div class="flex items-center mb-2">
         <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
         <div>
-          <p class="font-bold">${post.name}</p>
-          <p class="text-sm text-gray-500">${post.postTime}</p>
+          <p class="font-bold">${post?.name || ""}</p>
+          <p class="text-sm text-gray-500">${post?.postTime || ""}</p>
         </div>
       </div>
-      <p>${post.content}</p>
+      <p>${post?.content || ""}</p>
       <div class="mt-2 flex justify-between text-gray-500">
         <button>좋아요</button>
         <button>댓글</button>
