@@ -1,17 +1,12 @@
-class Context {
-  static #store = {};
+const store = new Map();
 
-  static provide(key, value) {
-    Context.#store[key] = value;
-  }
-
-  static inject(key) {
-    if (!(key in Context.#store)) {
-      throw new Error(`"${key}"에 대한 provider가 없습니다.`);
-    }
-    return Context.#store[key];
-  }
+export function provide(key, value) {
+  store.set(key, value);
 }
 
-export const provide = Context.provide;
-export const inject = Context.inject;
+export function inject(key) {
+  if (!store.has(key)) {
+    throw new Error(`"${key}"에 대한 provider가 없습니다.`);
+  }
+  return store.get(key);
+}
