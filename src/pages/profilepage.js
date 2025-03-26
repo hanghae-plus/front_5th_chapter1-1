@@ -1,5 +1,4 @@
 import { Footer, Header } from '../components/index.js';
-import { afterRender } from '../utils/afterRender.js';
 
 export const ProfilePage = ({ loggedIn }) => {
   const user = JSON.parse(localStorage.getItem('user')) || {
@@ -8,7 +7,7 @@ export const ProfilePage = ({ loggedIn }) => {
     bio: '',
   };
 
-  afterRender(() => {
+  setTimeout(() => {
     const form = document.getElementById('profile-form');
     if (!form) return;
 
@@ -16,13 +15,15 @@ export const ProfilePage = ({ loggedIn }) => {
       e.preventDefault();
 
       const updatedUser = {
-        username: document.getElementById('username').value.trim(),
-        email: document.getElementById('email').value.trim(),
-        bio: document.getElementById('bio').value.trim(),
+        username: document.getElementById('username').value,
+        email: document.getElementById('email').value,
+        bio: document.getElementById('bio').value,
       };
+
       localStorage.setItem('user', JSON.stringify(updatedUser));
     });
-  });
+  }, 0);
+
   return `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">

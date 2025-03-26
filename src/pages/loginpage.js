@@ -8,7 +8,11 @@ export const LoginPage = ({ state, navigate }) => {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const inputUsername = document.getElementById('username').value;
+      const usernameInput = document.getElementById('username');
+      if (!usernameInput) return;
+
+      const inputUsername = usernameInput.value;
+
       const savedUser = {
         username: inputUsername,
         email: '',
