@@ -16,6 +16,7 @@ const logout = () => {
 
 document.body.addEventListener("click", function (e) {
   if (e.target && e.target.id === "logout") {
+    e.preventDefault();
     logout();
   }
 });
