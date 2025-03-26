@@ -1,7 +1,6 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { authStore } from "../stores/authStore";
-import Nav from "../components/Nav";
 import { navigate } from "../router/router";
 
 export const ProfilePage = () => {
@@ -10,8 +9,8 @@ export const ProfilePage = () => {
   profilePageWrapper.innerHTML = /*html*/ `
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
-      ${Header()}
-      <div id="nav"></div>
+        <div id="header"></div>
+      <div id="nav-placeholder"></div>
         <main class="p-4">
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">내 프로필</h2>
@@ -62,7 +61,7 @@ export const ProfilePage = () => {
   };
 
   editForm.addEventListener("submit", handleEdit);
-  profilePageWrapper.querySelector("#nav").replaceWith(Nav());
+  profilePageWrapper.querySelector("#header").replaceWith(Header());
 
   return profilePageWrapper;
 };
