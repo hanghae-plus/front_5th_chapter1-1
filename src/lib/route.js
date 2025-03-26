@@ -1,46 +1,19 @@
 import { MainPage, ProfilePage, LoginPage, ErrorPage } from "../page";
 import User from "../store/user";
 import { mode } from "./mode";
-
 export const route = () => {
-  let routeMode = mode();
   let user = new User();
-  let username = user.get().username;
-  if (routeMode === "hash") {
-    switch (window.location.hash) {
-      case "#/":
-        return MainPage();
-      case "#/profile":
-        if (!username) {
-          return LoginPage();
-        }
-        return ProfilePage();
-      case "#/login":
-        if (username) {
-          return MainPage();
-        }
-        return LoginPage();
-      default:
-        return ErrorPage();
-    }
+  let isLogin = user.isLogin();
+
+  let isHashMode = mode() === "hash";
+
+  let path = isHashMode ? window.location.hash.slice(1) : location.pathname;
+  if (path === "/") return MainPage();
+  if (path === "/profile") {
+    return isLogin ? ProfilePage() : LoginPage();
   }
-  if (routeMode === "history") {
-    switch (location.pathname) {
-      case "/":
-        return MainPage();
-      case "/profile":
-        if (!username) {
-          return LoginPage();
-        }
-        return ProfilePage();
-      case "/login":
-        if (username) {
-          history.pushState(null, "", "/");
-          return MainPage();
-        }
-        return LoginPage();
-      default:
-        return ErrorPage();
-    }
+  if (path === "/login") {
+    return isLogin ? MainPage() : LoginPage();
   }
+  return ErrorPage();
 };

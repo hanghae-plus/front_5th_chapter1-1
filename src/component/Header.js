@@ -6,10 +6,8 @@ const GRAYTEXT = "text-gray-600";
 
 export const Header = () => /* HTML */ {
   const user = new User();
-  let username = user.get().username;
-  console.log("header에서 username", username);
-
-  const nav = username
+  let isLogin = user.isLogin();
+  const nav = isLogin
     ? `<nav class="bg-white shadow-md p-2 sticky top-14">
 	  <ul class="flex justify-around">
 		<li>

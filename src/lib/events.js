@@ -6,7 +6,6 @@ export function handleSubit(e, user) {
   if (e.target && e.target.id === "login-form") {
     let username = document.getElementById("username")?.value;
     user.set({ username });
-    user.save();
     navigate("profile");
   }
 
@@ -14,8 +13,8 @@ export function handleSubit(e, user) {
     let username = document.getElementById("username")?.value;
     let bio = document.getElementById("bio")?.value;
     let email = document.getElementById("email")?.value;
+
     user.set({ username, bio, email });
-    user.save();
     alert("프로필이 업데이트되었습니다.");
   }
 }

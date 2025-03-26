@@ -7,6 +7,7 @@ const root = document.getElementById("root");
 const user = new User();
 
 render();
+
 window.addEventListener("popstate", () => render());
 window.addEventListener("hashchange", () => render());
 
