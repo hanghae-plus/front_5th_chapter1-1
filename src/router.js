@@ -5,11 +5,14 @@ import { LoginPage } from "./components/LoginPage";
 import { ProfilePage } from "./components/ProfilePage";
 import { NotFoundPage } from "./components/NotFoundPage";
 
+// 로그인 여부 확인
 const isLogIn = () => {
   return localStorage.getItem("user");
 };
 
 export const Router = () => {
+  // 현재 페이지 URL 가져오기
+  // pathname 이란, https://naver.com/login 에서 /login 부분.
   const path = window.location.pathname;
 
   let layout = "";
