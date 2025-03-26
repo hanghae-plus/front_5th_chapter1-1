@@ -15,7 +15,7 @@ export const LoginPage = () => {
           <div class="mb-6">
             <input id="password" type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
           </div>
-          <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold" id="login">로그인</button>
+        <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
         </form>
         <div class="mt-4 text-center">
           <a href="#" class="text-blue-600 text-sm">비밀번호를 잊으셨나요?</a>

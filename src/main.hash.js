@@ -1,4 +1,9 @@
-import { render } from "./router/router.hash";
+import { render } from "./router/router.hash.js";
 
-window.addEventListener("DOMContentLoaded", render);
-window.addEventListener("hashchange", render);
+window.addEventListener("DOMContentLoaded", () => {
+  render();
+});
+
+window.addEventListener("hashchange", () => {
+  render();
+});

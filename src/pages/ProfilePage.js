@@ -1,6 +1,8 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { authStore } from "../stores/authStore";
+import Nav from "../components/Nav";
+import { navigate } from "../router/router";
 
 export const ProfilePage = () => {
   const profilePageWrapper = document.createElement("div");
@@ -9,15 +11,7 @@ export const ProfilePage = () => {
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
       ${Header()}
-
-        <nav class="bg-white shadow-md p-2 sticky top-14">
-          <ul class="flex justify-around">
-            <li><a href="/" class="text-gray-600" data-path="/">홈</a></li>
-            <li><a href="/profile" class="text-blue-600" data-path="/profile">프로필</a></li>
-            <li><a href="/login" class="text-gray-600" data-path="/login" id="logout">로그아웃</a></li>
-          </ul>
-        </nav>
-
+        ${Nav()}
         <main class="p-4">
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">내 프로필</h2>
@@ -64,6 +58,7 @@ export const ProfilePage = () => {
     const email = editForm.querySelector("#email").value;
     const bio = editForm.querySelector("#bio").value;
     authStore.user = { username, email, bio };
+    navigate("/profile");
   };
 
   editForm.addEventListener("submit", handleEdit);

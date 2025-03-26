@@ -1,5 +1,3 @@
-// router/router.js
-
 import { ROUTES } from "./routes.js";
 import { ErrorPage } from "../pages/ErrorPage.js";
 
