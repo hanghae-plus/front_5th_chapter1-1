@@ -4,16 +4,28 @@ const Header = () => `
       </header>
 `;
 
-const Navigate = () => `
+const Navigate = () => {
+  const user = localStorage.getItem("user");
+  if (user) {
+    return `
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
           <li><a href="/" class="text-blue-600">홈</a></li>
-          <li><a href="/login" class="text-gray-600">로그인</a></li>
           <li><a href="/profile" class="text-gray-600">프로필</a></li>
           <li><button id="logout-button" href="#" class="text-gray-600">로그아웃</button></li>
         </ul>
       </nav>
 `;
+  }
+  return `
+      <nav class="bg-white shadow-md p-2 sticky top-14">
+        <ul class="flex justify-around">
+          <li><a href="/" class="text-blue-600">홈</a></li>
+          <li><a href="/login" class="text-gray-600">로그인</a></li>
+        </ul>
+      </nav>
+`;
+};
 
 const Footer = () => `
       <footer class="bg-gray-200 p-4 text-center">
@@ -164,7 +176,11 @@ const LoginPage = () => `
 `;
 
 const Profile = () => {
-  const username = localStorage.getItem("username");
+  const user = localStorage.getItem("user");
+  let userInfo = {};
+  if (user) {
+    userInfo = JSON.parse(user);
+  }
   return `
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
@@ -181,7 +197,7 @@ const Profile = () => {
                   type="text"
                   id="username"
                   name="username"
-                  value="${username}"
+                  value="${userInfo.username}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -195,7 +211,7 @@ const Profile = () => {
                   type="email"
                   id="email"
                   name="email"
-                  value="${username}"
+                  value="${userInfo.email}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -210,8 +226,7 @@ const Profile = () => {
                   name="bio"
                   rows="4"
                   class="w-full p-2 border rounded"
-                >
-안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
+                >${userInfo.introduce}</textarea
                 >
               </div>
               <button
@@ -236,20 +251,20 @@ const navigate = (path) => {
 };
 
 const getPageContent = (path) => {
-  const username = localStorage.getItem("username");
+  const user = localStorage.getItem("user");
 
   switch (path) {
     case "/":
       return MainPage(Home);
     case "/profile": {
-      if (!username) {
+      if (!user) {
         navigate("/login");
         return LoginPage();
       }
       return MainPage(Profile);
     }
     case "/login": {
-      if (username) {
+      if (user) {
         navigate("/");
         return MainPage(Home);
       }
@@ -276,13 +291,15 @@ document.body.addEventListener("click", (event) => {
   }
 
   if (event.target.id === "logout-button") {
-    localStorage.removeItem("username");
+    localStorage.removeItem("user");
     navigate("/login");
   }
 });
 
-let userInfo = {
+const userInfo = {
   username: "test",
+  email: "test@example.com",
+  introduce: "hi",
   password: "test",
 };
 
@@ -307,7 +324,7 @@ document.body.addEventListener("submit", (event) => {
       userInfo.username === userInput.username &&
       userInfo.password === userInput.password
     ) {
-      localStorage.setItem("username", userInput.username);
+      localStorage.setItem("user", JSON.stringify(userInfo));
       navigate("/profile");
     } else {
       alert("로그인 실패!");
