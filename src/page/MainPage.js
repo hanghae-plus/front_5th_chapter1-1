@@ -1,8 +1,15 @@
 import { Header } from "../component/Header";
 import { Footer } from "../component/Footer";
+import User from "../store/user";
 
 export const MainPage = () => /* HTML */ {
-  console.log("main 진입 2");
+  let user = new User();
+  let name = user.get().username;
+  if (name) {
+    console.log("로그인 0");
+  } else {
+    console.log("로그인 x");
+  }
   return `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">

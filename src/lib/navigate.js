@@ -6,8 +6,7 @@ export const navigate = (pathname) => {
     window.dispatchEvent(new Event("hashchange"));
     return;
   }
-  console.log("history navigate");
   history.pushState(null, "", pathname);
-  window.dispatchEvent(new Event("hashchange"));
+  window.dispatchEvent(new Event("popstate"));
   return;
 };

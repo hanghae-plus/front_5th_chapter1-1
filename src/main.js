@@ -7,7 +7,10 @@ const root = document.getElementById("root");
 const user = new User();
 
 render();
-window.addEventListener("popstate", () => render());
+window.addEventListener("popstate", () => {
+  console.log("popstate발동");
+  render();
+});
 window.addEventListener("hashchange", () => render());
 
 root.addEventListener("submit", (e) => handleSubit(e, user));

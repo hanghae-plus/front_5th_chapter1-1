@@ -7,7 +7,6 @@ export const route = () => {
   let user = new User();
   let username = user.get().username;
   if (routeMode === "hash") {
-    console.log("hash");
     switch (window.location.hash) {
       case "#/":
         return MainPage();
@@ -23,7 +22,6 @@ export const route = () => {
     }
   }
   if (routeMode === "history") {
-    console.log("test hisroty?");
     switch (location.pathname) {
       case "/":
         return MainPage();
@@ -31,8 +29,8 @@ export const route = () => {
         return ProfilePage();
       case "/login":
         if (username) {
-          // location.pathname = "/";
-          // return MainPage();
+          history.pushState(null, "", "/");
+          return MainPage();
         }
         return LoginPage();
       default:
