@@ -25,6 +25,12 @@ export const render = () => {
     return;
   }
 
+  if (currentPath === "/login" && state.isLoggedIn) {
+    window.history.pushState({}, "", "/");
+    render();
+    return;
+  }
+
   if (currentPath === "/profile" && !state.isLoggedIn) {
     window.history.pushState({}, "", "/login");
     render();
