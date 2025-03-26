@@ -2,15 +2,9 @@ import { Header, Nav } from "./Header";
 import { isLoggedIn } from "../utils/login.js";
 import LoginPage from "./LoginPage.jsx";
 import { store } from "../utils/store.js";
-import { Router } from "../utils/router.js";
 
 const ProfilePage = () => {
   if (!isLoggedIn()) {
-    if (Router.RouterType === "hash") {
-      window.history.replaceState({}, "", "#/login");
-    } else {
-      window.history.replaceState({}, "", "/login");
-    }
     return LoginPage();
   }
 

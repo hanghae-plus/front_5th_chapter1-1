@@ -1,9 +1,9 @@
-import { Router } from "./utils/router.js";
+import { App } from "./utils/router.js";
 import "./utils/event.js";
 
 window.addEventListener("hashchange", () => {
-  Router.Render();
+  App.Render();
 });
 
-Router.RouterType = "hash";
-Router.Render();
+App.RouterType = "hash";
+App.Render();

@@ -2,28 +2,59 @@ import MainPage from "../components/MainPage.jsx";
 import ProfilePage from "../components/ProfilePage.jsx";
 import LoginPage from "../components/LoginPage.jsx";
 import NotFoundPage from "../components/NotFoundPage.jsx";
+import { isLoggedIn } from "./login.js";
 
 const routes = {
-  "/": MainPage,
-  "/profile": ProfilePage,
-  "/login": LoginPage,
-  "*": NotFoundPage,
+  "/": {
+    component: MainPage,
+  },
+  "/profile": {
+    component: ProfilePage,
+    guard: isLoggedIn,
+    redirect: "/login",
+  },
+  "/login": {
+    component: LoginPage,
+    guard: !isLoggedIn,
+    redirect: "/",
+  },
+  "*": {
+    component: NotFoundPage,
+  },
 };
 
-export const Router = {
+const replace = (path) => {
+  if (App.RouterType === "basic") {
+    window.history.replaceState({}, "", path);
+  } else if (App.RouterType === "hash") {
+    window.location.hash = path;
+  }
+  window.dispatchEvent(new Event("popstate"));
+};
+
+export const App = {
   RouterType: "basic",
-  Render: () => {
-    const root = document.getElementById("root");
-    let path;
-    if (Router.RouterType === "basic") {
-      path = window.location.pathname;
-    } else if (Router.RouterType === "hash") {
-      path = window.location.hash.slice(1);
-      if (path === "") {
-        path = "/";
-      }
+  Render() {
+    const path = window.location.pathname;
+    const route = routes[path] || routes["*"];
+
+    let rendered = route.component();
+
+    console.log(route, route.component.name);
+    if (route.guard && !route.guard()) {
+      rendered = routes[route.redirect].component();
     }
-    const Component = routes[path] || routes["*"];
-    root.innerHTML = Component();
+
+    document.getElementById("root").innerHTML = rendered;
   },
+  push: (path) => {
+    if (App.RouterType === "basic") {
+      window.history.pushState({}, "", path);
+    } else if (App.RouterType === "hash") {
+      window.location.hash = path;
+    }
+    window.dispatchEvent(new Event("popstate"));
+  },
+  replace,
+  routes: routes,
 };

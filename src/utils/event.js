@@ -1,33 +1,27 @@
-import { Router } from "./router.js";
+import { App } from "./router.js";
 import { store } from "./store.js";
 
 // 라우터 이벤트 리스너
 window.addEventListener("popstate", () => {
-  Router.Render();
+  App.Render();
 });
 
 // 클릭 이벤트 리스너
 document.addEventListener("click", (e) => {
   if (e.target.tagName === "A") {
     e.preventDefault();
+    console.log(e.target.textContent);
     if (e.target.textContent === "로그아웃") {
-      localStorage.removeItem("user");
-      if (Router.RouterType === "hash") {
-        window.location.hash = "/login";
-      } else {
-        window.history.replaceState({}, "", "/login");
-      }
-      Router.Render();
+      console.log("로그아웃");
+      store.removeData("user");
+      App.push("/login");
+      App.Render();
       return;
     }
 
     const path = e.target.href.split("/").pop();
-    if (Router.RouterType === "hash") {
-      window.location.hash = path ? "/" + path : "/";
-    } else {
-      window.history.pushState({}, "", path ? path : "/");
-    }
-    Router.Render();
+    App.push(path);
+    App.Render();
   }
 });
 
@@ -36,11 +30,14 @@ document.addEventListener("submit", (e) => {
   if (e.target.id === "login-form") {
     e.preventDefault();
     const username = document.getElementById("username").value;
-    if (username) {
-      store.setData("user", { username, email: "", bio: "" });
-    } else {
+
+    if (!username) {
       alert("이메일 또는 전화번호를 입력해주세요.");
+      return;
     }
+    store.setData("user", { username, email: "", bio: "" });
+    App.push("/");
+    App.Render();
   } else if (e.target.id === "profile-form") {
     e.preventDefault();
     const username = document.getElementById("username").value;

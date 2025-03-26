@@ -1,5 +1,5 @@
-import { Router } from "./utils/router.js";
+import { App } from "./utils/router.js";
 import "./utils/event.js";
 
-Router.RouterType = "basic";
-Router.Render();
+App.RouterType = "basic";
+App.Render();
