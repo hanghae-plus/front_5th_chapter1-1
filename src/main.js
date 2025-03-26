@@ -12,7 +12,7 @@ const handleLink = (e) => {
   let url = e.target.getAttribute("href");
   if (url === ROUTES.LOGOUT) {
     localStorage.removeItem("user");
-    url = ROUTES.MAIN;
+    url = ROUTES.LOGIN;
   } else if (url === ROUTES.LOGIN) {
     if (store.get("username")) url = ROUTES.MAIN;
   }
