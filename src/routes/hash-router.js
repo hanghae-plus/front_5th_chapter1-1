@@ -20,8 +20,9 @@ const navigate = (hash) => {
 
 export const render = () => {
   const root = document.querySelector("#root");
-  const { hash } = location;
+  let { hash } = location;
   const isLogon = store.isLogon();
+  if (!hash) hash = "#" + ROUTES.MAIN;
   if (hash === "#" + ROUTES.PROFILE && !isLogon) return navigate(ROUTES.LOGIN);
   else if (hash === "#" + ROUTES.LOGIN && isLogon) return navigate(ROUTES.MAIN);
   const page = URL_MAP[hash] || ErrorPage;

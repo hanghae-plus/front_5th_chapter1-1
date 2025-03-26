@@ -5,6 +5,8 @@ import MainPage from "../pages/main-page.js";
 import ProfilePage from "../pages/profile-page.js";
 import store from "../store";
 
+const PREFIX = "/front_5th_chapter1-1";
+
 const URL_MAP = {
   [ROUTES.MAIN]: MainPage,
   [ROUTES.LOGIN]: LoginPage,
@@ -13,13 +15,18 @@ const URL_MAP = {
 };
 
 const navigate = (pathname, replace = false) => {
-  history[!replace ? "pushState" : "replaceState"](null, null, pathname);
+  history[!replace ? "pushState" : "replaceState"](
+    null,
+    null,
+    PREFIX + pathname,
+  );
   render();
 };
 
 export const render = () => {
   const root = document.querySelector("#root");
-  const { pathname } = location;
+  let { pathname } = location;
+  if (pathname.includes(PREFIX)) pathname = pathname.replace(PREFIX, "");
   const isLogon = store.isLogon();
   if (pathname === ROUTES.PROFILE && !isLogon)
     return navigate(ROUTES.LOGIN, true);
