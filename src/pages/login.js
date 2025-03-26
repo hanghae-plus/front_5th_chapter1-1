@@ -32,11 +32,6 @@ export function LoginPage(container) {
     </main>
   `;
 
-  // 로그인 상태면 메인 페이지로 이동
-  if (state.loggedInUser) {
-    return window.router.navigate(CONST.pathname.main);
-  }
-
   const loginForm = document.getElementById(CONST.loginForm.formId);
   if (!loginForm) return;
 
