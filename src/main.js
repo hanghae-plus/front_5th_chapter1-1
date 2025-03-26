@@ -1,8 +1,12 @@
 import ErrorPage from "./pages/ErrorPage";
 import handleRouting from "./router/routes";
+import router from "./router/router.js";
+
+console.log(router.getCurrentPath());
 
 function navigateTo(url) {
-  history.pushState("", null, url); // URL 변경(새로고침 없이). ㅇㅣ거만 단독 적용하면 url만 바뀌고 페이지 변경은 안됨
+  router.navigate(url);
+  // history.pushState("", null, url); // URL 변경(새로고침 없이). ㅇㅣ거만 단독 적용하면 url만 바뀌고 페이지 변경은 안됨
   render();
 }
 
@@ -17,9 +21,13 @@ window.addEventListener("popstate", () => {
 
 // 화면에 어떻게 표시될지를 정의하는 함수
 const render = () => {
-  const path = window.location.pathname;
+  // const path = window.location.pathname;
+  const path = router.getCurrentPath();
   // render함수 안에 routes모듈 불러옴
   const content = handleRouting(path);
+
+  // router.js 에서 path부분을 받을꺼기 떄문에 나중에 위에 선언된것들은 삭제요망!
+  // const path = router.getCurrentPath() // 여기서 path값을 받아와야 됨. 공통된 rotues라서
 
   // routes값에 정의되어 있지 않은 url값이 들어올 때
   if (content === undefined) {
