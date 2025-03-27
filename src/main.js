@@ -1,3 +1,21 @@
+import ghpages from "gh-pages";
+
+const userInfo = {
+  username: "test",
+  email: "test@example.com",
+  bio: "hi",
+  password: "test",
+};
+
+let userInput = {
+  username: "",
+  password: "",
+};
+
+let profileInput = {
+  bio: "",
+};
+
 const Header = () => `
       <header class="bg-blue-600 text-white p-4 sticky top-0">
         <h1 class="text-2xl font-bold">항해플러스</h1>
@@ -269,22 +287,6 @@ document.body.addEventListener("click", (event) => {
   }
 });
 
-let profileInput = {
-  bio: "",
-};
-
-const userInfo = {
-  username: "test",
-  email: "test@example.com",
-  bio: "hi",
-  password: "test",
-};
-
-let userInput = {
-  username: "",
-  password: "",
-};
-
 document.body.addEventListener("input", (event) => {
   if (event.target.id === "id-input") {
     userInput.username = event.target.value;
@@ -323,3 +325,5 @@ document.body.addEventListener("submit", (event) => {
     localStorage.setItem("user", JSON.stringify(newInfo));
   }
 });
+
+ghpages.publish("dist", (err) => console.log(err));
