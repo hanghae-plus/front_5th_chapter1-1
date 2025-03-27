@@ -24,9 +24,9 @@ const Header = (/*html*/) => {
             ${
               loggedIn
                 ? `<li><a href="/profile" class="${currentPath === "/profile" || currentHash == "#/profile" ? "text-blue-600 font-bold" : "text-gray-600"}">프로필</a></li>
-                <li><a href="/login" class="${currentPath === "/login" || currentHash == "#/login" ? "text-blue-600 font-bold" : "text-gray-600"}">로그아웃</a></li>
+                <li><a href="/login" id='logout' class="${currentPath === "/login" || currentHash == "#/login" ? "text-blue-600 font-bold" : "text-gray-600"}">로그아웃</a></li>
               `
-                : `<li><a href="/login" id='logout' class="${currentPath === "/login" || currentHash == "#/login" ? "text-blue-600 font-bold" : "text-gray-600"}">로그인</a></li>`
+                : `<li><a href="/login" class="${currentPath === "/login" || currentHash == "#/login" ? "text-blue-600 font-bold" : "text-gray-600"}">로그인</a></li>`
             }
             
          
