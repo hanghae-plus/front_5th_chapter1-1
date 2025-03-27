@@ -92,8 +92,8 @@ const onClickLogout = (event) => {
 };
 
 const init = () => {
-  window.addEventListener("popstate", () => render(location.pathname));
-  window.addEventListener("hashchange", () => render(location.hash.slice(1)));
+  window.addEventListener("popstate", render);
+  window.addEventListener("hashchange", render);
 
   document.addEventListener("click", onLinkClick);
   document.addEventListener("click", onClickLogout);
@@ -104,6 +104,4 @@ const init = () => {
   render(location.pathname);
 };
 
-document.readyState === "loading"
-  ? document.addEventListener("DOMContentLoaded", init)
-  : init();
+init();

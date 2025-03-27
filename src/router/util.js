@@ -1,14 +1,33 @@
 import routes from ".";
 import Store from "../store";
 
-const isHashRouter = location.hash !== "";
+const isHashRouter = () => location.hash.includes("#");
+const BASE_PATH = "/front_5th_chapter1-1";
 
-export const render = (path) => {
+const getCurrentPath = () => {
+  if (isHashRouter()) return location.hash.slice(1) || "/";
+
+  const pathname = location.pathname;
+
+  if (!pathname.startsWith(BASE_PATH)) {
+    return pathname;
+  }
+
+  return pathname.replace(BASE_PATH, "") || "/";
+};
+
+export const render = () => {
+  const path = getCurrentPath();
+
   const { user } = Store.getState();
 
-  const currentPath = isHashRouter ? location.hash.slice(1) || "/" : path;
+  const currentPath = isHashRouter() ? location.hash.slice(1) || "/" : path;
 
-  const route = routes[currentPath] || routes[404];
+  const normalizedPath = !currentPath.startsWith("/")
+    ? "/" + currentPath
+    : currentPath;
+
+  const route = routes[normalizedPath] || routes[404];
 
   if (route.needAuth && !user) {
     push("/login");
@@ -16,7 +35,7 @@ export const render = (path) => {
     return;
   }
 
-  if (currentPath === "/login" && !!user) {
+  if (normalizedPath === "/login" && !!user) {
     push("/");
 
     return;
@@ -32,11 +51,11 @@ export const render = (path) => {
 };
 
 export const push = (path) => {
-  if (isHashRouter) {
-    window.location.hash = path;
+  if (isHashRouter()) {
+    location.hash = path;
   } else {
-    history.pushState({}, "", path);
+    history.pushState({}, "", BASE_PATH + path);
   }
 
-  render(path);
+  render();
 };
