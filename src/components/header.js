@@ -25,7 +25,7 @@ export const header = () => {
 
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
-          <li><a href="${BASE_PATH}/" data-route-link class=${currentPath === `${BASE_PATH}/` ? "text-blue-600  font-bold" : "text-gray-600"}">홈</a></li>
+          <li><a href="${BASE_PATH}/" data-route-link class="${currentPath === `${BASE_PATH}/` ? "text-blue-600 font-bold" : "text-gray-600"}">홈</a></li>
       ${loginHTML}
         </ul>
       </nav>`;
