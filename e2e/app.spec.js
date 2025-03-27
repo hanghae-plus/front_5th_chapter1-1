@@ -96,7 +96,7 @@ test.describe("SPA 기본 기능", () => {
     - text: 이메일
     - textbox "이메일": a@a.aa
     - text: 자기소개
-    - textbox "자기소개": 자기소개입니다. 자기소개입니다.
+    - textbox "자기소개": 자기소개입니다.
     - button "프로필 업데이트"
     `);
   });
@@ -137,7 +137,7 @@ test.describe("SPA 심화 기능", () => {
   });
 
   test("비로그인 상태에서 프로필 페이지 접근이 제한된다", async ({ page }) => {
-    await page.goto("/profile");
+    await page.goto("/index.hash.html#/profile");
     // 로그인 페이지로 리다이렉트 됨
     await expect(page.locator("#root")).toMatchAriaSnapshot(`
     - heading "항해플러스" [level=1]
@@ -165,7 +165,7 @@ test.describe("SPA 심화 기능", () => {
           - link "로그아웃"
     `);
 
-    await page.goto("/login");
+    await page.goto("/index.hash.html#/login");
     await expect(page.getByRole("navigation")).toMatchAriaSnapshot(`
     - navigation:
       - list:
