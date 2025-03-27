@@ -1,8 +1,8 @@
-import { MainPage } from "./pages/MainPage";
-import { LoginPage } from "./pages/LoginPage";
-import { ProfilePage } from "./pages/ProfilePage";
-import { ErrorPage } from "./pages/ErrorPage";
-import { state } from "./state";
+import { MainPage } from "./pages/MainPage.js";
+import { LoginPage } from "./pages/LoginPage.js";
+import { ProfilePage } from "./pages/ProfilePage.js";
+import { ErrorPage } from "./pages/ErrorPage.js";
+import { state } from "./state.js";
 
 const isProduction = import.meta.env.MODE === "production";
 const BASE = isProduction ? "/front_5th_chapter1-1" : "";

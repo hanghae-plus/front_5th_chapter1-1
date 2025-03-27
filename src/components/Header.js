@@ -1,4 +1,4 @@
-import { state } from "../state";
+import { state } from "../state.js";
 
 export const Header = () => {
   const headerElem = document.createElement("header");

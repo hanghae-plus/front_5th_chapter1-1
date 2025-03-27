@@ -1,5 +1,5 @@
-import { render } from "./router";
-import { state } from "./state";
+import { render } from "./router.js";
+import { state } from "./state.js";
 
 const main = () => {
   render();

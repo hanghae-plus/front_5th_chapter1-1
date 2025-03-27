@@ -1,6 +1,6 @@
-import { state } from "../state";
-import { Header } from "../components/Header";
-import { Footer } from "../components/Footer";
+import { state } from "../state.js";
+import { Header } from "../components/Header.js";
+import { Footer } from "../components/Footer.js";
 
 export const ProfilePage = () => {
   if (!state.isLoggedIn) {
