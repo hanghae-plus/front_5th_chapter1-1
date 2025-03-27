@@ -1,6 +1,5 @@
 import auth from "../auth";
 import { createNodeElement, renderByNodeElement } from "./utils";
-import { router } from "../main";
 
 export default () => {
   const component = `
@@ -36,7 +35,7 @@ export default () => {
       return;
     }
     auth.login(username);
-    router.navigate("/");
+    window.router.navigate("/");
   });
 
   renderByNodeElement(element);

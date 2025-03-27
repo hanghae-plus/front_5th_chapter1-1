@@ -2,7 +2,6 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { createNodeElement, renderByNodeElement } from "./utils";
 import auth from "../auth";
-import { router } from "../main";
 
 export default () => {
   const component = `
@@ -108,7 +107,7 @@ export default () => {
     e.preventDefault();
     if (e.target.nodeName === "A") {
       const newPathname = e.target.href.replace(location.origin, "");
-      router.navigate(newPathname);
+      window.router.navigate(newPathname);
     }
   });
 

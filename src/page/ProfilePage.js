@@ -2,7 +2,6 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import auth from "../auth";
 import { createNodeElement, renderByNodeElement } from "./utils";
-import { router } from "../main";
 
 export default () => {
   const { username = "", email = "", bio = "" } = auth.getUser();
@@ -78,7 +77,7 @@ export default () => {
     if (e.target.nodeName === "A") {
       const newPathname = e.target.href.replace(location.origin, "");
       history.pushState({ path: newPathname }, "", newPathname);
-      router.navigate(newPathname);
+      window.router.navigate(newPathname);
     }
   });
 

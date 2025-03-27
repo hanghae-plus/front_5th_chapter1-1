@@ -33,7 +33,7 @@ const routes = [
   { fragment: "*", component: ErrorPage },
 ];
 
-const router = historyRouter(routes);
+const router = (window.router = historyRouter(routes));
 
 router.start();
 
