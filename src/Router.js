@@ -9,7 +9,6 @@ export function Router($container) {
       location.hash !== "" ? location.hash : location.pathname,
       location.hash !== "" ? "hash" : "browser",
     );
-    // console.log(location.hash);
     const TargetPage =
       location.hash === ""
         ? browserRoutes.find((route) => route.path === location.pathname)

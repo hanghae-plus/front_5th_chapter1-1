@@ -3,8 +3,7 @@ import { browserNavigate } from "./navigate";
 
 export const authGuard = (pathName, routerType) => {
   const user = getData("user", null);
-  console.log(pathName, "pathName");
-  console.log(routerType, "routerType");
+
   switch (routerType) {
     case "browser":
       // 만약 user가 있고 현재 페이지가 login이면 홈으로 리다이렉트
