@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="refresh" content="0; URL='/'" />
+  </head>
+  <body>
+    <script>
+      // 현재 경로를 유지하면서 index.html로 리다이렉트
+      const redirectTo = window.location.pathname;
+      window.location.replace(`/${redirectTo}`);
+    </script>
+  </body>
+</html>
