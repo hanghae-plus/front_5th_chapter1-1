@@ -4,8 +4,11 @@ import { resolve } from "path";
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
 
+  console.warn("🔥 현재 모드:", mode);
+  console.log("🧩 VITE_APP_BASE:", env.VITE_APP_BASE);
+
   return {
-    base: env.VITE_APP_BASE,
+    base: env.VITE_APP_BASE || "/",
     build: {
       rollupOptions: {
         input: {
