@@ -2,29 +2,46 @@ import { MainPage } from "./pages/homepage";
 import { ErrorPage } from "./pages/notFoundPage";
 import { ProfilePage } from "./pages/profilePage";
 import { LoginPage } from "./pages/loginPage";
+import { store, actions, navigateTo } from "../store/store";
 
-export function view(model) {
+export function view(state) {
   let content;
-  const path = model.path;
+  const path = state.path;
 
   if (path === "/" || path === "/home") {
-    content = MainPage();
+    content = MainPage(state);
   } else if (path === "/login") {
-    content = LoginPage();
+    if (state.isLoggedIn) {
+      const newPath = "/";
+      store.dispatch(actions.setPath(newPath));
+      window.history.replaceState(null, "", newPath);
+      // 새로운 state로 MainPage를 렌더링
+      content = MainPage({ ...state, path: newPath });
+    } else {
+      content = LoginPage(state.isLoggedIn);
+    }
   } else if (path === "/profile") {
-    if (!model.isLoggedIn) {
-      console.log("User not logged in, redirecting to /login");
-      model.setPath("/login");
+    if (!state.isLoggedIn) {
+      store.dispatch(actions.setPath("/login"));
       window.history.replaceState(null, "", "/login");
       content = LoginPage();
     } else {
-      content = ProfilePage(); // 로그인 상태라면 프로필 페이지 렌더링
+      content = ProfilePage(state);
     }
   } else {
-    content = ErrorPage(); // 존재하지 않는 페이지는 ErrorPage 렌더링
+    content = ErrorPage(state.isLoggedIn);
   }
 
   render(content);
+
+  // Nav의 로그아웃 버튼 이벤트 리스너
+  const logoutBtn = document.getElementById("logout");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      store.dispatch(actions.logout());
+      navigateTo(store.dispatch.bind(store), "/login");
+    });
+  }
 }
 
 function render(content) {
