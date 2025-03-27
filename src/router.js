@@ -2,7 +2,6 @@ import { MainPage } from "./pages/MainPage";
 import { LoginPage } from "./pages/LoginPage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { ErrorPage } from "./pages/ErrorPage";
-import { state } from "./state";
 
 const routes = {
   "/": MainPage,
@@ -25,20 +24,8 @@ export const render = () => {
     return;
   }
 
-  if (currentPath === "/login" && state.isLoggedIn) {
-    window.history.pushState({}, "", "/");
-    render();
-    return;
-  }
-
-  if (currentPath === "/profile" && !state.isLoggedIn) {
-    window.history.pushState({}, "", "/login");
-    render();
-    return;
-  }
-
   root.innerHTML = "";
-  root.appendChild(route?.() || ErrorPage());
+  root.appendChild(routes[currentPath]?.() || ErrorPage());
 };
 
 window.addEventListener("popstate", render);

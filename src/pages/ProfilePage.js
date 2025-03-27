@@ -1,27 +1,26 @@
-import { state } from "../state";
-import { Header } from "../components/Header";
-import { Footer } from "../components/Footer";
-
 export const ProfilePage = () => {
-  if (!state.isLoggedIn) {
-    window.history.pushState({}, "", "/login");
-    return;
-  }
-  const root = document.createElement("div");
-  root.className = "bg-gray-100 flex items-center justify-center min-h-screen";
-  root.innerHTML = `
-
+  return `
+  <div id="root">
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
-     ${Header()}
-     
+      <header class="bg-blue-600 text-white p-4 sticky top-0">
+        <h1 class="text-2xl font-bold">항해플러스</h1>
+      </header>
+
+      <nav class="bg-white shadow-md p-2 sticky top-14">
+        <ul class="flex justify-around">
+          <li><a href="/" class="text-gray-600">홈</a></li>
+          <li><a href="/profile" class="text-blue-600">프로필</a></li>
+          <li><a href="#" class="text-gray-600">로그아웃</a></li>
+        </ul>
+      </nav>
 
       <main class="p-4">
         <div class="bg-white p-8 rounded-lg shadow-md">
           <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
             내 프로필
           </h2>
-          <form id='profile-form'>
+          <form>
             <div class="mb-4">
               <label
                 for="username"
@@ -32,7 +31,7 @@ export const ProfilePage = () => {
                 type="text"
                 id="username"
                 name="username"
-                value="${state.user?.username}"
+                value="홍길동"
                 class="w-full p-2 border rounded"
               />
             </div>
@@ -46,7 +45,7 @@ export const ProfilePage = () => {
                 type="email"
                 id="email"
                 name="email"
-                 value="${state.user?.email}"
+                value="hong@example.com"
                 class="w-full p-2 border rounded"
               />
             </div>
@@ -62,7 +61,7 @@ export const ProfilePage = () => {
                 rows="4"
                 class="w-full p-2 border rounded"
               >
- ${state.user?.bio}</textarea
+안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
               >
             </div>
             <button
@@ -75,26 +74,11 @@ export const ProfilePage = () => {
         </div>
       </main>
 
-   ${Footer()}
+      <footer class="bg-gray-200 p-4 text-center">
+        <p>&copy; 2024 항해플러스. All rights reserved.</p>
+      </footer>
     </div>
   </div>
-
+</div>
     `;
-
-  const form = root.querySelector("#profile-form");
-  if (form) {
-    form.addEventListener("submit", (event) => {
-      event.preventDefault(); // 폼 기본 제출 방지
-      console.log("프로필 업데이트 제출!");
-      if (event.target.id === "profile-form") {
-        state.setUserInfo({
-          username: document.querySelector("#username")?.value,
-          email: document.querySelector("#email")?.value,
-          bio: document.querySelector("#bio")?.value,
-        });
-      }
-    });
-  }
-
-  return root;
 };
