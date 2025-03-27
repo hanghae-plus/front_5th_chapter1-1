@@ -227,14 +227,15 @@ const App = () => {
 };
 
 document.body.addEventListener("click", (e) => {
-  e.preventDefault();
   const linkEl = e.target.closest("a");
   if (linkEl) {
+    e.preventDefault();
     const path = linkEl.getAttribute("href");
     navigateTo(path);
   }
   const logoutButton = e.target.closest("#logout");
   if (logoutButton) {
+    e.preventDefault();
     state.isLoggedIn = false;
     localStorage.removeItem("user");
   }
