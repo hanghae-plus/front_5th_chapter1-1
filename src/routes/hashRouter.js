@@ -20,12 +20,10 @@ function HashRouter(userData) {
   }
 
   function navigate(path) {
-    // 경로가 '/'로 시작하면 '#'을 추가
     if (path.startsWith("/")) {
-      window.location.hash = path;
-    } else {
-      window.location.hash = "/" + path;
+      path = path.substring(1);
     }
+    window.location.hash = "/" + path;
   }
 
   function render() {
