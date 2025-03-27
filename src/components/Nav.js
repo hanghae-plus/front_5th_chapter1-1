@@ -1,6 +1,7 @@
 const Nav = () => {
   // 환경변수 가져오기
   const BASE_URL = import.meta.env.VITE_APP_BASE_URL || "/";
+  console.log("BASE_URL", BASE_URL);
   // pathname으로 라우터 타입 자동 감지
   const detectRouterType = () => {
     // pathname에 hash.html이 포함되어 있으면 해시 라우팅
@@ -49,7 +50,7 @@ const Nav = () => {
 
     if (routerType === "hash") {
       // 해시 라우팅 경로 형식
-      return `/${path}`;
+      return `#${path}`;
     } else {
       // 브라우저 라우팅 경로 형식
       if (path === "/") {

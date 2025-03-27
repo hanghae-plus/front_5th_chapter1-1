@@ -3,7 +3,8 @@ import { defineConfig } from "vitest/config";
 import { resolve } from "path";
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
-
+  console.log("env", env);
+  console.log("env.VITE_APP_BASE_URL", env.VITE_APP_BASE_URL);
   return {
     base: env.VITE_APP_BASE_URL || "/",
     build: {

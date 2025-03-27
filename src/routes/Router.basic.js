@@ -99,7 +99,7 @@ class Router {
         this.navigateTo("/login");
         return;
       }
-      this.navigateTo(href);
+      this.navigateTo(this.cleanPath(href));
     }
   };
 
@@ -151,19 +151,19 @@ class Router {
       console.log("인증 필요: 프로필 페이지 접근 시도");
       //여기서 navigateTo를 실행할 경우 테스트 통과가 되지 못하였다 why?
       // return this.navigateTo("/login");
-      return "/login"; // 리다이렉트할 경로 반환
+      return import.meta.env.VITE_APP_BASE_URL + "/login"; // 리다이렉트할 경로 반환
     }
 
     // 로그인 페이지에 이미 로그인한 상태로 접근 시
     if (path === "/login" && userData) {
       console.log("이미 로그인됨: 로그인 페이지 접근 시도");
-      return "/"; // 홈으로 리다이렉트
+      return import.meta.env.VITE_APP_BASE_URL + "/"; // 홈으로 리다이렉트
     }
 
     if (path === "/logout") {
       console.log("로그아웃 처리");
       authService.logout();
-      return "/login";
+      return import.meta.env.VITE_APP_BASE_URL + "/login";
     }
 
     // 인증 통과 또는 인증이 필요 없는 페이지
