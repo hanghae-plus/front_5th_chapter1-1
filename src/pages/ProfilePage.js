@@ -2,9 +2,13 @@ import { state } from "../state.js";
 import { Header } from "../components/Header.js";
 import { Footer } from "../components/Footer.js";
 
-export const ProfilePage = () => {
+export const ProfilePage = (isHistoryRouter) => {
   if (!state.isLoggedIn) {
-    window.history.pushState({}, "", "/login");
+    if (isHistoryRouter) {
+      window.history.pushState({}, "", "/login");
+    } else {
+      window.location.hash = "#/login";
+    }
     return;
   }
 
@@ -84,6 +88,5 @@ ${state.user?.bio}</textarea
   };
 
   render();
-  state.subscribe(render);
   return profileElem;
 };

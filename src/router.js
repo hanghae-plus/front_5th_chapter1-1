@@ -33,19 +33,29 @@ export const render = (hash) => {
   }
 
   if (currentPath === "/login" && state.isLoggedIn) {
-    window.history.pushState({}, "", "/");
-    render();
+    if (isHistoryRouter) {
+      window.history.pushState({}, "", "/");
+      render();
+    } else {
+      window.location.hash = "#/";
+      render("#/");
+    }
     return;
   }
 
   if (currentPath === "/profile" && !state.isLoggedIn) {
-    window.history.pushState({}, "", "/login");
-    render();
+    if (isHistoryRouter) {
+      window.history.pushState({}, "", "/login");
+      render();
+    } else {
+      window.location.hash = "#/login";
+      render("#/login");
+    }
     return;
   }
 
   root.innerHTML = "";
-  root.appendChild(route?.() || ErrorPage());
+  root.appendChild(route?.(isHistoryRouter) || ErrorPage());
 };
 
 window.addEventListener("popstate", render);

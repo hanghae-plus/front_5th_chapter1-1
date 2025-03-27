@@ -35,6 +35,6 @@ export const Header = () => {
   };
 
   render();
-  state.subscribe(render);
+  //state.subscribe(render);
   return headerDivElem;
 };
