@@ -26,29 +26,32 @@
  * @property {Route} logout - 로그아웃 페이지 ( 예외적 )
  */
 
+const baseUrl =
+  process.env.NODE_ENV === "production" ? "/front_5th_chapter1-1" : "";
+
 /** @type {Routes} */
 const route = {
   home: {
     id: "home",
-    path: "/",
+    path: `${baseUrl || "/"}`,
     title: "홈",
     accessLevel: "public",
   },
   login: {
     id: "login",
-    path: "/login",
+    path: `${baseUrl}/login`,
     title: "로그인",
     accessLevel: "loggedOut",
   },
   profile: {
     id: "profile",
-    path: "/profile",
+    path: `${baseUrl}/profile`,
     title: "프로필",
     accessLevel: "loggedIn",
   },
   logout: {
     id: "logout",
-    path: "/logout",
+    path: `${baseUrl}/logout`,
     title: "로그아웃",
     accessLevel: "loggedIn",
   },
