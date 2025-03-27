@@ -1,6 +1,6 @@
 import ErrorPage from "../pages/Error";
 
-import { login, logout, updateUser } from "../store/auth";
+import AuthAPI from "../interfaces/auth.interface";
 
 class Router {
   static instance = null;
@@ -39,7 +39,7 @@ class Router {
 
       if (e.target.matches('[data-action="logout"]')) {
         e.preventDefault();
-        logout();
+        AuthAPI.logout();
         this.navigate("/login");
       }
     });
@@ -48,7 +48,7 @@ class Router {
       if (e.target.id === "login-form") {
         e.preventDefault();
         const username = document.getElementById("username").value;
-        login({ username, email: "", bio: "" });
+        AuthAPI.login(username);
         this.navigate("/profile");
       }
 
@@ -57,7 +57,7 @@ class Router {
         const username = document.getElementById("username").value;
         const email = document.getElementById("email").value;
         const bio = document.getElementById("bio").value;
-        updateUser({ username, email, bio });
+        AuthAPI.updateUser({ username, email, bio });
       }
     });
   }

@@ -1,4 +1,4 @@
-import { isLoggedIn } from "../../store/auth";
+import AuthAPI from "../../interfaces/auth.interface";
 import { getRouter } from "../../router";
 import { BASE_PATH } from "../../consts/path";
 
@@ -7,7 +7,7 @@ const Header = () => {
   const path = router.currentPath;
 
   const renderNavLinks = () => {
-    if (isLoggedIn()) {
+    if (AuthAPI.isLoggedIn()) {
       return `
         <li><a data-link href="/profile" class="${path === BASE_PATH + "profile" ? "text-blue-600" : "text-gray-600"}">프로필</a></li>
         <li><a id="logout" href="#" class="text-gray-600" data-action="logout">로그아웃</a></li>

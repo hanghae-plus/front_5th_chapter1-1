@@ -1,8 +1,8 @@
-import { getUser } from "../../store/auth";
+import AuthAPI from "../../interfaces/auth.interface";
 import SubmitBtn from "../common/SubmitBtn";
 
 const ProfileForm = () => {
-  const user = getUser();
+  const user = AuthAPI.getUser();
   return `
     <form id="profile-form">
       <div class="mb-4">
