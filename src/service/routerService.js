@@ -1,5 +1,3 @@
-import { baseURL } from "../main.js";
-
 export function isHashUrl() {
   return location.hash ? true : false;
 }

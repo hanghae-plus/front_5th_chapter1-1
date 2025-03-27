@@ -7,7 +7,11 @@ import {
   getPath,
   changeToHashRoute
 } from '../service/routerService.js';
-import { baseURL } from "../main.js";
+
+export const baseURL =
+  typeof import.meta !== "undefined" && import.meta.env?.BASE_URL
+    ? import.meta.env.BASE_URL
+    : "/";
 
 /*
  *   url route 정보
