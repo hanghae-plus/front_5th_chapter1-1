@@ -101,6 +101,13 @@ const init = () => {
 
   Store.dispatch(createAction(ACTION_TYPES.SYNC_USER));
 
+  const urlParams = new URLSearchParams(window.location.search);
+  const path = urlParams.get("path");
+
+  if (path) {
+    history.replaceState(null, "", path);
+  }
+
   render(location.pathname);
 };
 
