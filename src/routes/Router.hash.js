@@ -27,6 +27,7 @@ class HashRouter extends Router {
   //navigateTo(path) 구현 필수
   navigateTo(path) {
     console.log("해시 라우터: navigateTo", path);
+    //#을 입력안해도 자동으로 #이 들어간다.
     window.location.hash = path;
   }
 
