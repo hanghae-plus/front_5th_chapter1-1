@@ -1,3 +1,5 @@
+const baseUrl = import.meta.env.VITE_BASE_URL;
+
 /**
  * 접근 권한 레벨
  * @typedef {'public' | 'loggedOut' | 'loggedIn'} AccessLevel
@@ -30,25 +32,25 @@
 const route = {
   home: {
     id: "home",
-    path: "/",
+    path: `${baseUrl ?? "/"}`,
     title: "홈",
     accessLevel: "public",
   },
   login: {
     id: "login",
-    path: "/login",
+    path: `${baseUrl}/login`,
     title: "로그인",
     accessLevel: "loggedOut",
   },
   profile: {
     id: "profile",
-    path: "/profile",
+    path: `${baseUrl}/profile`,
     title: "프로필",
     accessLevel: "loggedIn",
   },
   logout: {
     id: "logout",
-    path: "/logout",
+    path: `${baseUrl}/logout`,
     title: "로그아웃",
     accessLevel: "loggedIn",
   },

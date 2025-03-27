@@ -9,8 +9,6 @@ const router = {
   push(path) {
     const baseUrl = import.meta.env.VITE_BASE_URL ?? "/";
 
-    console.log("🚀 baseUrl >> ", baseUrl);
-
     if (state.routeType === "history") {
       window.history.pushState({}, "", `${baseUrl}${path}`);
     }
