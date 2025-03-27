@@ -2,9 +2,6 @@ import { render } from "../main";
 import hashState from "../store/hash";
 import user from "../store/user";
 
-let isLoggedIn = null;
-let pathname = null;
-
 const Header = () => {
   const navCondition = (route) => {
     return hashState.getHashState()
@@ -13,8 +10,6 @@ const Header = () => {
   };
 
   const template = () => {
-    isLoggedIn = user.getIsLoggedIn();
-    pathname = window.location.pathname;
     return `
     <header class="bg-blue-600 text-white p-4 sticky top-0">
       <h1 class="text-2xl font-bold">항해플러스</h1>
@@ -23,7 +18,7 @@ const Header = () => {
     <nav class="bg-white shadow-md p-2 sticky top-14">
       <ul class="flex justify-around">
       ${
-        isLoggedIn
+        user.getIsLoggedIn()
           ? `
            <li><a id="btn-home" href="/" class="${navCondition("/") ? "font-bold text-blue-600" : "text-gray-600"}">홈</a></li>
            <li><a id="btn-profile" href="/profile" class="${navCondition("/profile") ? "font-bold text-blue-600" : "text-gray-600"}">프로필</a></li>
