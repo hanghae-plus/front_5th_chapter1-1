@@ -57,18 +57,18 @@ export class BaseRouter {
   // 아래는 자식 class에서 구현해야 함
 
   addEventListener() {
-    throw new Error("addEventListener를 subclass에서 구현해야 합니다.");
+    throw new Error("addEventListener가 구현되지 않았습니다.");
   }
 
   getCurrentPath() {
-    throw new Error("getCurrentPath를 subclass에서 구현해야 합니다.");
+    throw new Error("getCurrentPath가 구현되지 않았습니다.");
   }
 
   replaceState() {
-    throw new Error("replaceState를 subclass에서 구현해야 합니다.");
+    throw new Error("replaceState가 구현되지 않았습니다.");
   }
 
   pushState() {
-    throw new Error("pushState를 subclass에서 구현해야 합니다.");
+    throw new Error("pushState가 구현되지 않았습니다.");
   }
 }

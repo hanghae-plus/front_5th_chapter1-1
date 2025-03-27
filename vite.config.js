@@ -1,11 +1,12 @@
 import { defineConfig } from "vitest/config";
 
-export default defineConfig({
-  base: process.env.NODE_ENV === "production" ? "/front_5th_chapter1-1/" : "/",
+export default defineConfig(({ command }) => ({
+  base: command === "build" ? "/front_5th_chapter1-1/" : "/",
   build: {
     rollupOptions: {
       input: {
-        main: "./index.hash.html",
+        main: "./index.html",
+        hash: "./index.hash.html",
       },
     },
   },
@@ -15,4 +16,4 @@ export default defineConfig({
     setupFiles: "./src/setupTests.js",
     exclude: ["**/e2e/**", "**/*.e2e.spec.js", "**/node_modules/**"],
   },
-});
+}));
