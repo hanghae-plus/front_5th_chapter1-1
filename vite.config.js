@@ -1,5 +1,7 @@
 import { defineConfig } from "vitest/config";
 
+console.log("🚀 process.env.VITE_BASE_URL >> ", process.env.VITE_BASE_URL);
+
 export default defineConfig({
   test: {
     globals: true,
@@ -7,5 +9,5 @@ export default defineConfig({
     setupFiles: "./src/setupTests.js",
     exclude: ["**/e2e/**", "**/*.e2e.spec.js", "**/node_modules/**"],
   },
-  base: "/front_5th_chapter1-1",
+  base: process.env.VITE_BASE_URL ?? "/",
 });

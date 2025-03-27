@@ -1,19 +1,19 @@
 import render from "../_actions/render";
 import state from "./state";
 
+const BASE_URL = process.env.VITE_BASE_URL ?? "/";
+
 const router = {
   /**
    * 페이지 이동
    * @param {string} path
    */
   push(path) {
-    const baseUrl = import.meta.env.VITE_BASE_URL ?? "/";
-
     if (state.routeType === "history") {
-      window.history.pushState({}, "", `${baseUrl}${path}`);
+      window.history.pushState({}, "", `${BASE_URL}${path}`);
     }
     if (state.routeType === "hash") {
-      window.location.hash = `${baseUrl}${path}`;
+      window.location.hash = `${BASE_URL}${path}`;
     }
 
     // FIXME: render 빼는법 알아보기
@@ -25,15 +25,11 @@ const router = {
    * @param {string} path
    */
   replace(path) {
-    const baseUrl = import.meta.env.VITE_BASE_URL ?? "/";
-
-    console.log("🚀 baseUrl >> ", baseUrl);
-
     if (state.routeType === "history") {
-      window.history.replaceState({}, "", `${baseUrl}${path}`);
+      window.history.replaceState({}, "", `${BASE_URL}${path}`);
     }
     if (state.routeType === "hash") {
-      window.location.hash = `${baseUrl}${path}`;
+      window.location.hash = `${BASE_URL}${path}`;
     }
 
     // FIXME: render 빼는법 알아보기
