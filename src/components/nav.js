@@ -3,7 +3,7 @@ import { state } from "../data/state";
 
 export const NavContent = () => {
   const getActiveClassName = (path) => {
-    const isCurrentPath = window.location.pathname === path;
+    const isCurrentPath = window.router.getCurrentPath() === path;
     return isCurrentPath ? "text-blue-600 font-bold" : "text-gray-600";
   };
 
