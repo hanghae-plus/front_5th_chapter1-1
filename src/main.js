@@ -149,9 +149,9 @@ const LoginPage = () => `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
-      <form>
+      <form id="login-form">
         <div class="mb-4">
-          <input id="login-email" type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
+          <input id="username" type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
         </div>
         <div class="mb-6">
           <input id="login-password" type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
@@ -169,7 +169,7 @@ const LoginPage = () => `
   </main>
 `;
 
-// {name, email, profileContent}
+// {username, email, profileContent}
 const ProfilePage = (userInfo) => `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
@@ -181,7 +181,7 @@ const ProfilePage = (userInfo) => `
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
             </h2>
-            <form>
+            <form id="profile-form">
               <div class="mb-4">
                 <label
                   for="username"
@@ -192,7 +192,7 @@ const ProfilePage = (userInfo) => `
                   type="text"
                   id="username"
                   name="username"
-                  value=${userInfo?.name}
+                  value=${userInfo?.username}
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -206,7 +206,7 @@ const ProfilePage = (userInfo) => `
                   type="email"
                   id="email"
                   name="email"
-                  value=${userInfo?.email}
+                  value=${userInfo?.email ? userInfo?.email : ""}
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -260,15 +260,17 @@ function loadContent(content, addevent) {
   }
 }
 
-const userInfo = window.localStorage.getItem("userInfo");
+const userInfo = window.localStorage.getItem("user");
 const parsedUserInfo = userInfo ? JSON.parse(userInfo) : "";
 
 // 페이지 로드 시 라우팅 실행
 window.addEventListener("load", () => {
   route("/", () => loadContent(MainPage(parsedUserInfo)));
-  route("/profile", () =>
-    loadContent(ProfilePage(parsedUserInfo), addEventProfile),
-  );
+  route("/profile", () => {
+    parsedUserInfo
+      ? loadContent(ProfilePage(parsedUserInfo), addEventProfile)
+      : router.navigateTo("/login");
+  });
   route("/login", () => loadContent(LoginPage(), addEventLogin));
   // route("/error", () => loadContent(ErrorPage()));
   if (!router.checkRoute(window.location.pathname)) {
@@ -280,7 +282,6 @@ window.addEventListener("load", () => {
 router.addRoute("/", () => loadContent(MainPage(parsedUserInfo)));
 router.addRoute("/profile", () => loadContent(ProfilePage(parsedUserInfo)));
 router.addRoute("/login", () => loadContent(LoginPage()));
-router.addRoute("/error", () => loadContent(ErrorPage()));
 
 window.addEventListener("click", (e) => {
   const targetId = e.target.id;
@@ -291,6 +292,7 @@ window.addEventListener("click", (e) => {
   } else if (targetId === "login") {
     router.navigateTo("/login");
   } else if (targetId === "logout") {
+    window.localStorage.removeItem("userInfo");
     router.navigateTo("/login");
   }
 });
@@ -298,17 +300,17 @@ window.addEventListener("click", (e) => {
 function addEventLogin() {
   const $loginBtn = document.getElementById("submit-login");
   $loginBtn.addEventListener("click", () => {
-    const $email = document.getElementById("login-email");
+    const $email = document.getElementById("username");
     const emailvalue = $email.value;
-    const userInfo = window.localStorage.getItem("userInfo");
+    const userInfo = window.localStorage.getItem("user");
 
     if (userInfo) {
       const parsedUserInfo = JSON.parse(userInfo);
-      const newItem = { ...parsedUserInfo, name: emailvalue };
-      window.localStorage.setItem("userInfo", JSON.stringify(newItem));
+      const newItem = { ...parsedUserInfo, username: emailvalue };
+      window.localStorage.setItem("user", JSON.stringify(newItem));
     } else {
-      const item = { name: emailvalue, username: "", bio: "" };
-      window.localStorage.setItem("userInfo", JSON.stringify(item));
+      const item = { email: emailvalue, username: "", bio: "" };
+      window.localStorage.setItem("user", JSON.stringify(item));
     }
 
     router.navigateTo("/profile");
