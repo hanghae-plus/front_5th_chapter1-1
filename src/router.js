@@ -1,14 +1,52 @@
 import LoginPage from "./pages/loginPage";
-import MainPage from "./pages/HomePage";
+import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/profilePage";
 import NotFoundPage from "./pages/NotFoundPage";
+import { Header, Footer } from "./componentes/layout";
+import { state } from "./store";
 
 export const isProd = location.hostname.includes("github.io");
 export const BASE_PATH = isProd ? "/front_5th_chapter1-1" : "";
 
+export const matchedPath = (path) => {
+  const currentPath = window.location.hash
+    ? window.location.hash.slice(1) || "/"
+    : window.location.pathname.replace(BASE_PATH, "") || "/";
+  return currentPath === path;
+};
+
 export const routes = {
-  "/login": LoginPage(),
-  "/profile": ProfilePage(),
-  "/": MainPage(),
-  "*": NotFoundPage(),
+  "/login": LoginPage,
+  "/profile": ProfilePage,
+  "/": HomePage,
+  "*": NotFoundPage,
+};
+
+const root = document.getElementById("root");
+
+export const router = () => {
+  const path = window.location.pathname.replace(BASE_PATH, "") || "/";
+  const template = routes[path];
+
+  if (typeof routes[path] !== "function") return (root.innerHTML = template);
+  if (path === "/") {
+    return (root.innerHTML = template);
+  }
+  if (path === "/profile") {
+    if (!state.loginState) {
+      navigate("/login");
+      return (root.innerHTML = template);
+    }
+    root.innerHTML = template({ Header, Footer });
+    return;
+  }
+  if (path === "/login" && state.loginState) {
+    navigate("/");
+    return (root.innerHTML = template);
+  }
+};
+
+export const navigate = (path) => {
+  history.pushState({}, "", `${BASE_PATH}${path}`);
+  router();
 };

@@ -36,3 +36,16 @@ export const Footer = () => /* html */ `
       <p>&copy; 2024 항해플러스. All rights reserved.</p>
     </footer>
 `;
+
+export const Layout = ({ child }) => {
+  return /* html */ `
+       <div class="bg-gray-100 min-h-screen flex justify-center">
+        <div class="max-w-md w-full">
+          ${Header({ loggedIn: true })}
+          ${child}
+         ${Footer()}
+        </div>
+      </div>
+
+  `;
+};
