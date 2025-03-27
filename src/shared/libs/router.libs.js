@@ -19,8 +19,7 @@ class Router {
   }
 
   addRoute(path, handler) {
-    this.routes[this.basePath + (path.startsWith("/") ? path : "/" + path)] =
-      handler;
+    this.routes[path] = handler;
   }
 
   navigateTo(path) {
