@@ -96,7 +96,7 @@ test.describe("SPA 기본 기능", () => {
     - text: 이메일
     - textbox "이메일": a@a.aa
     - text: 자기소개
-    - textbox "자기소개": 자기소개입니다. 자기소개입니다.
+    - textbox "자기소개": 자기소개입니다.
     - button "프로필 업데이트"
     `);
   });
@@ -155,27 +155,27 @@ test.describe("SPA 심화 기능", () => {
   }) => {
     await login(page);
     await expect(page.getByRole("navigation")).toMatchAriaSnapshot(`
-    - navigation:
-      - list:
-        - listitem:
-          - link "홈"
-        - listitem:
-          - link "프로필"
-        - listitem:
-          - link "로그아웃"
-    `);
+      - navigation:
+        - list:
+          - listitem:
+            - link "홈"
+          - listitem:
+            - link "프로필"
+          - listitem:
+            - link "로그아웃"
+      `);
 
     await page.goto("/login");
     await expect(page.getByRole("navigation")).toMatchAriaSnapshot(`
-    - navigation:
-      - list:
-        - listitem:
-          - link "홈"
-        - listitem:
-          - link "프로필"
-        - listitem:
-          - link "로그아웃"
-    `);
+      - navigation:
+        - list:
+          - listitem:
+            - link "홈"
+          - listitem:
+            - link "프로필"
+          - listitem:
+            - link "로그아웃"
+      `);
   });
 
   test("이벤트 위임이 올바르게 동작한다", async ({ page }) => {
