@@ -16,9 +16,7 @@ const routes = {
 
 const router = new Router(routes);
 
-// 전역 라우터 설정 및 베이스 경로
 window.router = router;
 window.BASE_ROUTE = BASE_ROUTE;
 
-// 라우터 시작
 router.start();
