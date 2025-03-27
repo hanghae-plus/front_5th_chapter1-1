@@ -233,12 +233,25 @@ const ProfilePage = () => `
   </div>
 `;
 
+const navigateTo = (path) => {
+  history.pushState(null, "", path);
+  render();
+};
 const App = () => {
   if (location.pathname === "/login") return LoginPage();
   if (location.pathname === "/profile") return ProfilePage();
   if (location.pathname === "/") return MainPage();
   return ErrorPage();
 };
+
+document.body.addEventListener("click", (e) => {
+  const linkEl = e.target.closest("a");
+  if (linkEl) {
+    e.preventDefault();
+    const path = linkEl.getAttribute("href");
+    navigateTo(path);
+  }
+});
 
 const render = () => {
   document.body.innerHTML = App();
