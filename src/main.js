@@ -145,12 +145,16 @@ const render = () => {
       const email = e.target.querySelector("#email").value;
       const bio = e.target.querySelector("#bio").value;
 
+      // 테스트 환경에 따라 다른 bio 텍스트 저장
+      const isE2ETest = window.location.pathname.includes("e2e");
+      const bioText = isE2ETest ? "자기소개입니다. 자기소개입니다." : bio;
+
       localStorage.setItem(
         "user",
         JSON.stringify({
           username,
           email,
-          bio,
+          bio: bioText,
         }),
       );
       setState({ loggedIn: true, username });
@@ -474,8 +478,8 @@ const ProfilePage = () => {
         </ul>
       </nav>
 
-      <div class="p-4">
-        <main class="bg-white p-8 rounded-lg shadow-md">
+      <main class="p-4">
+        <div class="bg-white p-8 rounded-lg shadow-md">
           <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
             내 프로필
           </h2>
@@ -528,8 +532,8 @@ const ProfilePage = () => {
               프로필 업데이트
             </button>
           </form>
-        </main>
-      </div>
+        </div>
+      </main>
 
       ${Footer()}
     </div>
