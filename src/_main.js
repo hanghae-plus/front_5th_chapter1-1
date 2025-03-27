@@ -1,3 +1,5 @@
+// main.js, routes/router.js 로 이전, 분리
+
 import { CUSTOM_EVENT, ELEMENT_ID, ROUTES } from "../config/index.js";
 import ErrorPage from "./pages/error-page.js";
 import LoginPage from "./pages/login-page.js";

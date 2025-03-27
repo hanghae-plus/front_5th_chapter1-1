@@ -1,3 +1,5 @@
+// main.hash.js, routes/hash.router.js 이전, 분리
+
 import { CUSTOM_EVENT, ELEMENT_ID, ROUTES } from "./config/index.js";
 import ErrorPage from "./pages/error-page.js";
 import LoginPage from "./pages/login-page.js";
