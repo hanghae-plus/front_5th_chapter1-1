@@ -48,7 +48,7 @@ class Router {
   }
 
   handleRoute(path) {
-    const handler = this.routes[path] || this.routes["*"];
+    const handler = this.routes[`${this.basePath}${path}`] || this.routes["*"];
 
     if (handler) {
       handler();
