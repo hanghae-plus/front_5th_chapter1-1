@@ -17,9 +17,14 @@ function state() {
   function getState() {
     return info;
   }
+
+  function isLogin() {
+    return info.username ? true : false;
+  }
   return {
     updateState: updateState,
     getState: getState,
+    isLogin: isLogin,
   };
 }
 

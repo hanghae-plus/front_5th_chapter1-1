@@ -33,7 +33,7 @@ const routes = {
  *  url이 기본적으로 바뀌지 않기 때문에 url을 바꾸어지고 렌더링 함수 실행
  */
 function navigate(path) {
-  //  브라우저 라우터/해시 라우터 판별
+  // 브라우저 라우터/해시 라우터 판별
   const type = isHashUrl() ? 'hash' : 'basic';
   if (type === 'hash') {
     // 해시 라우터 형테에서는 라우터를 바꿔도 #부터는 브라우저가 인식하지 못하기때문에 새로고침되지않음
@@ -53,10 +53,10 @@ function navigate(path) {
 export function renderPage() {
   // 내부적으로 hash route를 일반 route 형태로 변경
   let path = getPath();
-  if (path === `${baseURL}profile` && !pageState.getState()) {
+  if (path === `${baseURL}profile` && !pageState.isLogin()) {
     return navigate(routeMapping['login']);
   }
-  if (path === `${baseURL}login` && pageState.getState()) {
+  if (path === `${baseURL}login` && pageState.isLogin()) {
     return navigate(routeMapping['']);
   }
   const html = routes[path] ? routes[path]() : notFoundPage();

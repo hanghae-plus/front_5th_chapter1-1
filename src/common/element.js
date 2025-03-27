@@ -11,13 +11,12 @@ export const element = {
     `;
   },
   header: (currentPath = '/') => {
-    const user = pageState.getState();
-
+    const isLogin = pageState.isLogin();
     const isActive = (path) => {
       return currentPath === path ? styles.active : styles.inactive;
     };
 
-    if (!user) {
+    if (!isLogin) {
       return `
               <header class="bg-blue-600 text-white p-4 sticky top-0">
                   <h1 class="text-2xl font-bold">항해플러스</h1>
