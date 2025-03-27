@@ -7,7 +7,7 @@ const Header = () => `
 const Navbar = () => {
   const user = JSON.parse(localStorage.getItem("user") || "null");
   const base = import.meta.env.BASE_URL || "/";
-  const path = location.pathname + location.hash.replace(/^#/, "");
+  const path = getCurrentPath();
 
   const isActive = (href) => {
     const current = path === href || path === base + href.slice(1);
@@ -187,21 +187,33 @@ const ROUTES = {
   "/profile": ProfilePage,
 };
 
-function router() {
-  const base = import.meta.env.BASE_URL || "/";
-  let path;
-
+const getCurrentPath = () => {
   if (window.location.hash.startsWith("#/")) {
-    path = window.location.hash.slice(1);
-  } else {
-    const rawPath = window.location.pathname;
-    path = rawPath.replace(base.replace(/\/$/, ""), "") || "/";
+    return window.location.hash.slice(1);
   }
+  return window.location.pathname;
+};
 
+export const navigateTo = (path) => {
+  if (window.location.hash.startsWith("#/")) {
+    window.location.hash = path;
+  } else {
+    window.history.pushState({}, "", path);
+    window.dispatchEvent(new PopStateEvent("popstate"));
+  }
+};
+
+export const listenToRouteChange = (callback) => {
+  window.addEventListener("popstate", callback);
+  window.addEventListener("hashchange", callback);
+};
+
+function router() {
+  const path = getCurrentPath();
   const user = JSON.parse(localStorage.getItem("user") || "null");
 
-  if (path === "/profile" && !user) return navigate("/login");
-  if (path === "/login" && user) return navigate("/");
+  if (path === "/profile" && !user) return navigateTo("/login");
+  if (path === "/login" && user) return navigateTo("/");
 
   const render = ROUTES[path] || ErrorPage;
   document.getElementById("root").innerHTML = render();
@@ -257,5 +269,5 @@ function attachEvents() {
   }
 }
 
-window.addEventListener("popstate", router);
+listenToRouteChange(router);
 window.addEventListener("DOMContentLoaded", router);
