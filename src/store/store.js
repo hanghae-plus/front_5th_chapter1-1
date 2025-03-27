@@ -6,13 +6,6 @@ const Store = {
 
   listeners: [],
 
-  subscribe(listener) {
-    this.listeners.push(listener);
-    return () => {
-      this.listeners = this.listeners.filter((l) => l !== listener);
-    };
-  },
-
   getState() {
     return this.state;
   },
@@ -26,8 +19,6 @@ const Store = {
     if (partialState.user) {
       localStorage.setItem("user", JSON.stringify(this.state.user));
     }
-
-    this.listeners.forEach((listener) => listener(this.state));
   },
 
   actions: {
