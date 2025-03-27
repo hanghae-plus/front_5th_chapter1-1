@@ -1,0 +1,43 @@
+name: GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Set a branch name to trigger deployment
+  pull_request:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repo
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm ci
+
+      - name: Run tests
+        run: pnpm run test
+
+      - name: Build
+        run: pnpm run build --base=/front_5th_chapter1-1/
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        # If you're changing the branch from main,
+        # also change the `main` in `refs/heads/main`
+        # below accordingly.
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          force_orphan: true
+          clean: true
+          commit_message: "Deploy: ${{ github.event.head_commit.message }}"
