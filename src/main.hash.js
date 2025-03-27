@@ -1,4 +1,3 @@
-import "./main.js";
 import HashRouter from "./routes/hashRouter.js";
 import UserData from "./store/userData.js";
 
