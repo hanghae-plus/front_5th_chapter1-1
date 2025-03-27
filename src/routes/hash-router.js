@@ -64,4 +64,4 @@ const setEventListener = () => {
 };
 
 window.addEventListener("hashchange", render);
-render();
+// render();

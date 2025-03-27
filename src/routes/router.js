@@ -72,4 +72,4 @@ const setEventListener = () => {
 };
 
 window.addEventListener("popstate", render);
-render();
+// render();
