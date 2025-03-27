@@ -2,18 +2,19 @@ import MainPage from "../pages/Main";
 import ProfilePage from "../pages/Profile";
 import LoginPage from "../pages/Login";
 import { isLoggedIn } from "../store/auth";
+import { BASE_PATH } from "../consts/path";
 
 const routes = {
-  "/": MainPage,
-  "/profile": () => {
+  [BASE_PATH]: MainPage,
+  [BASE_PATH + "profile"]: () => {
     if (!isLoggedIn()) {
-      return { redirect: "/login" };
+      return { redirect: BASE_PATH + "login" };
     }
     return ProfilePage();
   },
-  "/login": () => {
+  [BASE_PATH + "login"]: () => {
     if (isLoggedIn()) {
-      return { redirect: "/" };
+      return { redirect: BASE_PATH };
     }
     return LoginPage();
   },

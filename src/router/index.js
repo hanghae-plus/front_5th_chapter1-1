@@ -1,10 +1,13 @@
 import Router from "./router";
 import routes from "./routes";
-
+import { BASE_PATH } from "../consts/path";
 let routerInstance = null;
 
 export const initRouter = (options = { mode: "history" }) => {
-  routerInstance = Router.getInstance(routes, options);
+  routerInstance = Router.getInstance(routes, {
+    ...options,
+    base: BASE_PATH,
+  });
   return routerInstance;
 };
 
