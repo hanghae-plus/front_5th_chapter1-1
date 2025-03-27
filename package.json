@@ -28,7 +28,8 @@
     ]
   },
   "dependencies": {
-    "vite": "^6.0.3"
+    "vite": "^6.0.3",
+    "vitest": "^2.1.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
@@ -44,7 +45,6 @@
     "husky": "^9.1.7",
     "jsdom": "^25.0.1",
     "lint-staged": "^15.2.11",
-    "prettier": "^3.4.2",
-    "vitest": "^2.1.8"
+    "prettier": "^3.4.2"
   }
 }
