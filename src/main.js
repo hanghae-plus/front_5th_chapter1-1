@@ -1,7 +1,7 @@
 import ProfilePage from "./pages/profilePage";
-import MainPage from "./pages/mainPage";
+import MainPage from "./pages/HomePage";
 import LoginPage from "./pages/loginPage";
-import ErrorPage from "./pages/errorPage";
+import ErrorPage from "./pages/NotFoundPage";
 import { MOCK_POSTS } from "./mockPosts";
 
 export const state = {
