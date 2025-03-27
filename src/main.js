@@ -4,13 +4,16 @@ import LoginPage from "./pages/LoginPage.js";
 import globalState from "./lib/globalState.js";
 import ProfilePage from "./pages/ProfilePage.js";
 
+const BASE_URL = import.meta.env.VITE_APP_BASE_URL || "/";
 //routing 연결
 const routePath = {
-  "/login": LoginPage,
-  "/profile": ProfilePage,
-  "/": MainPage,
-  "/error": ErrorPage,
+  [BASE_URL + "login"]: LoginPage,
+  [BASE_URL + "profile"]: ProfilePage,
+  [BASE_URL]: MainPage,
+  [BASE_URL + "error"]: ErrorPage,
 };
+
+console.log("routePath", { routePath });
 
 //페이지 렌더링
 const renderPage = (path) => {
@@ -40,11 +43,14 @@ const handleLinkClick = (event) => {
   if (event.target.tagName === "A") {
     event.preventDefault();
     const href = event.target.getAttribute("href");
-    if (href === "/logout") {
+    console.log("href", href);
+    console.log("BASE_URL", BASE_URL + "logout");
+    console.log("href === BASE_URL + 'logout'", href === BASE_URL + "logout");
+    if (href === BASE_URL + "logout") {
       console.log("logout 실행");
       // 로그아웃 처리 로직
       logoutUser(); // 로그아웃 함수 호출
-      navigateTo("/login");
+      navigateTo(BASE_URL + "login");
       return;
     }
     navigateTo(href);
@@ -68,7 +74,7 @@ const handleLogin = (event) => {
       bio: "",
     };
     globalState.setUser("user", user);
-    navigateTo("/profile");
+    navigateTo(BASE_URL + "profile");
   } else if (!username || !password) {
     alert("이름 또는 비밀번호를 입력해주세요.");
   } else {
@@ -105,6 +111,7 @@ const handleUpdateProfile = (event) => {
 
 //페이지 이동함수
 const navigateTo = (path) => {
+  console.log("navigateTo", path);
   // 여기서 spa pushState 추가.
   history.pushState(null, "", path);
   //페이지 렌더링
@@ -112,10 +119,10 @@ const navigateTo = (path) => {
   rootElement.innerHTML = renderPage(path);
 
   // 로그인 페이지일 때 이벤트 리스너 등록
-  if (path === "/login") {
+  if (path === BASE_URL + "login") {
     const userData = globalState.getUser("user");
     if (userData) {
-      navigateTo("/");
+      navigateTo(BASE_URL + "profile");
       return;
     }
     const loginForm = document.getElementById("login-form");
@@ -124,11 +131,11 @@ const navigateTo = (path) => {
     }
   }
 
-  if (path === "/profile") {
+  if (path === BASE_URL + "profile") {
     const loginInfo = globalState.getUser("user");
     console.log("loginInfo", loginInfo);
     if (!loginInfo) {
-      navigateTo("/login");
+      navigateTo(BASE_URL + "login");
       return;
     }
     const profileForm = document.getElementById("profile-form");
@@ -137,7 +144,7 @@ const navigateTo = (path) => {
     }
   }
 
-  if (path !== "/login" && path !== "/logout") {
+  if (path !== BASE_URL + "login" && path !== BASE_URL + "logout") {
     console.log("login or logout");
     const navElement = document.querySelector("nav");
 
@@ -152,6 +159,7 @@ const navigateTo = (path) => {
 };
 //첫 Dom이 로드되었을 때.
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOMContentLoaded", location.pathname);
   navigateTo(location.pathname);
 });
 

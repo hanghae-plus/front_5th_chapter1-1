@@ -1,10 +1,11 @@
+import { loadEnv } from "vite";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig(({ mode }) => {
-  const isProduction = mode === "production";
+  const env = loadEnv(mode, process.cwd());
 
   return {
-    base: isProduction ? "/front_5th_chapter1-1/" : "/",
+    base: env.VITE_APP_BASE_URL || "/",
     build: {
       outDir: "dist",
     },

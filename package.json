@@ -7,6 +7,7 @@
     "dev": "vite",
     "dev:hash": "vite --open ./index.hash.html",
     "build": "vite build",
+    "build:prod": "vite build --mode production",
     "lint:fix": "eslint --fix",
     "prettier:write": "prettier --write ./src",
     "preview": "vite preview",

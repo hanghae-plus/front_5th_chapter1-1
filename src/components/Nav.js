@@ -1,4 +1,6 @@
 const Nav = () => {
+  // 환경변수 가져오기
+  const BASE_URL = import.meta.env.VITE_APP_BASE_URL || "/";
   // pathname으로 라우터 타입 자동 감지
   const detectRouterType = () => {
     // pathname에 hash.html이 포함되어 있으면 해시 라우팅
@@ -14,10 +16,23 @@ const Nav = () => {
       return window.location.hash.slice(1) || "/";
     } else {
       // 브라우저 라우팅: 일반 pathname 사용
-      return window.location.pathname;
+      const fullPath = window.location.pathname;
+
+      // BASE_URL을 경로에서 제거
+      if (BASE_URL !== "/" && fullPath.startsWith(BASE_URL)) {
+        // BASE_URL 이후의 경로 추출 (없으면 "/" 반환)
+        const routePath = fullPath.substring(BASE_URL.length) || "/";
+
+        // 추출된 경로가 슬래시로 시작하는지 확인
+        return routePath.startsWith("/") ? routePath : `/${routePath}`;
+      }
+
+      return fullPath; // BASE_URL이 경로에 없으면 전체 경로 반환
     }
   };
   // localStorage에서 user 값을 가져옵니다.
+  console.log("getCurrentPath", getCurrentPath());
+
   const user = localStorage.getItem("user");
   const currentPath = getCurrentPath();
   const isHomeActive = currentPath === "/";
@@ -27,10 +42,33 @@ const Nav = () => {
     ? "text-blue-600 font-bold"
     : "text-gray-600";
 
-  // 라우터 타입에 따라 href 속성 형식 결정
+  // 라우터 타입에 따라 href 속성 형식 결정 (수정된 부분)
   const getHref = (path) => {
-    return routerType === "hash" ? `#${path}` : path;
+    if (!path) return BASE_URL;
+
+    if (routerType === "hash") {
+      // 해시 라우팅 경로 형식
+      return `#${path}`;
+    } else {
+      // 브라우저 라우팅 경로 형식
+      if (path === "/") {
+        return BASE_URL;
+      }
+
+      // 경로에서 선행 슬래시 제거
+      const cleanPath = path.startsWith("/") ? path.slice(1) : path;
+
+      console.log("cleanPath", cleanPath);
+
+      // BASE_URL에서 후행 슬래시 제거 여부 확인
+      const baseUrl = BASE_URL.endsWith("/") ? BASE_URL.slice(0, -1) : BASE_URL;
+
+      // 경로 조합
+      return `${baseUrl}/${cleanPath}`;
+    }
   };
+
+  console.log("getHref", getHref());
 
   let navItems;
 

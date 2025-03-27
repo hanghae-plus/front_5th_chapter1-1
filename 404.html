@@ -4,47 +4,28 @@
     <meta charset="utf-8" />
     <title>Single Page Apps for GitHub Pages</title>
     <script type="text/javascript">
-      // Single Page Apps for GitHub Pages
-      // https://github.com/rafrex/spa-github-pages
-      // Copyright (c) 2016 Rafael Pedicini,  licensed under the MIT License
-      //  ---------------------------------------------- ------------------------
-      // This script takes the current url and  converts the path and query
-      // string into just a query string, and then  redirects the browser
-      // to the new url with only a query string  and hash fragment,
-      // e.g. http://www.foo.tld/one/two?a=b& c=d#qwe, becomes
-      // http://www.foo.tld/?p=/one/two&  q=a=b~and~c=d#qwe
-      // Note: this 404.html file must be at least  512 bytes for it to work
-      // with Internet Explorer (it is currently >  512 bytes)
-
-      // If you're creating a Project Pages site  and NOT using a custom domain,
-      // then set segmentCount to 1 (enterprise   users may need to set it to > 1).
-      // This way the code will only replace the  route part of the path, and not
-      // the real directory in which the app  resides, for example:
-      //  https://username.github.io/repo-name/one/two?  a=b&c=d#qwe becomes
-      // https://username.github.io/repo-name/? p=/one/two&q=a=b~and~c=d#qwe
-      // Otherwise, leave segmentCount as 0.
-      var segmentCount = 1;
-
-      var l = window.location;
-      l.replace(
-        l.protocol +
-          "//" +
-          l.hostname +
-          (l.port ? ":" + l.port : "") +
-          l.pathname
-            .split("/")
-            .slice(0, 1 + segmentCount)
-            .join("/") +
-          "/?p=/" +
-          l.pathname
-            .slice(1)
-            .split("/")
-            .slice(segmentCount)
-            .join("/")
-            .replace(/&/g, "~and~") +
-          (l.search ? "&q=" + l.search.slice(1).replace(/&/g, "~and~") : "") +
-          l.hash
-      );
+       // GitHub Pages에서 SPA 라우팅을 위한 리다이렉션 처리
+    (function() {
+      // 404.html에서 리다이렉션된 경우 처리
+      var p = window.location.search.match(/\?p=\/?(.*)/);
+      var redirectPath = p ? (p[1] || '') : null;
+      
+      // 쿼리 파라미터 처리
+      var q = window.location.search.match(/&q=(.*)/);
+      var queryParams = q ? q[1].replace(/~and~/g, '&') : '';
+      
+      // 완전한 경로 구성
+      if (redirectPath) {
+        // 경로가 슬래시로 시작하지 않으면 추가
+        var path = redirectPath.startsWith('/') ? redirectPath : '/' + redirectPath;
+        
+        // 쿼리 파라미터 추가 (있는 경우)
+        var fullPath = path + (queryParams ? '?' + queryParams : '') + window.location.hash;
+        
+        // 히스토리 API를 사용하여 URL 변경
+        window.history.replaceState(null, null, fullPath);
+      }
+    })();
     </script>
   </head>
   <body></body>

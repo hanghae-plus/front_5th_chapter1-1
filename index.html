@@ -3,8 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/front_5th_chapter1-1/" />
     <title>항해플러스 SNS</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript">
+      (function () {
+        // GitHub Pages에서 ?p=/path 형식의 쿼리로 리다이렉션한 경우 처리
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect != location.href) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
