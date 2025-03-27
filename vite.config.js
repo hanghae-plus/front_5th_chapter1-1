@@ -13,7 +13,7 @@ export default defineConfig({
       },
     },
   },
-  plugins: [ssgCopyHTML(["login", "profile"])],
+  plugins: isCI ? [ssgCopyHTML(["login", "profile"])] : undefined,
   test: {
     globals: true,
     environment: "jsdom",
