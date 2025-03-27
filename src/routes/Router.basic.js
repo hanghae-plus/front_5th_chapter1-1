@@ -10,6 +10,7 @@
 
 import globalState from "../lib/globalState";
 import ErrorPage from "../pages/ErrorPage";
+import { authService } from "../services/authService";
 
 //3. 반복되는 함수는 있는지?
 /**
@@ -45,9 +46,9 @@ class Router {
   }
 
   //로그 아웃 처리 , 라우터에서 기능하는게 맞을까??!!
-  logout() {
-    globalState.initUser("user");
-  }
+  // logout() {
+  //   globalState.initUser("user");
+  // }
 
   //헤더 링크 클릭 이벤트 , navigateTo 자식 클래스에서 구현
   //헤더 링크 클릭 (로직이 거의 동일한데 살짝 다름 95% 동일)
@@ -61,7 +62,7 @@ class Router {
       if (href === "/logout" || path === "/logout") {
         console.log("/logout 실행");
         // 로그아웃 처리 로직
-        this.logout(); // 로그아웃 함수 호출
+        authService.logout();
         this.navigateTo("/login");
         return;
       }
@@ -76,16 +77,15 @@ class Router {
     const username = document.getElementById("username").value;
     const password = document.getElementById("userPw").value;
 
-    console.log("email", username);
-    console.log("password", password);
-
-    if (username === "testuser") {
-      const user = {
-        username: username,
-        email: "",
-        bio: "",
-      };
-      globalState.setUser("user", user);
+    // 해당 부분 authService로 분리해서 좀 더 간결하게 처리 해보려고 했습니다.
+    // if (username === "testuser") {
+    //   const user = {
+    //     username: username,
+    //     email: "",
+    //     bio: "",
+    //   };
+    //   globalState.setUser("user", user);
+    if (authService.login(username, password)) {
       this.navigateTo("/profile");
     } else if (!username || !password) {
       alert("이름 또는 비밀번호를 입력해주세요.");
