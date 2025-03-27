@@ -1,6 +1,14 @@
 import { MainPage, LoginPage, ProfilePage, ErrorPage } from "./components.js";
 
 function Router(userData) {
+  // base path 가져오기 (GitHub Pages 배포 시 사용됨)
+  const getBasePath = () => {
+    // vite.config.js의 base 설정과 일치시킴
+    return import.meta.env.MODE === "production" ? "/front_5th_chapter1-1" : "";
+  };
+
+  const basePath = getBasePath();
+
   const routes = {
     "/": MainPage,
     "/login": LoginPage,
@@ -8,20 +16,23 @@ function Router(userData) {
   };
 
   function navigate(path) {
-    history.pushState({}, "", path);
+    history.pushState({}, "", basePath + path);
     render();
   }
 
   function render() {
-    const path = window.location.pathname;
+    const fullPath = window.location.pathname;
+    // basePath를 제거하여 실제 라우트 경로 추출
+    const path = fullPath.replace(basePath, "") || "/";
+
     let page = routes[path];
 
     // 로그인 상태에 따른 리디렉션 처리
     if (path === "/profile" && !userData.isLoggedIn()) {
-      history.pushState({}, "", "/login");
+      history.pushState({}, "", basePath + "/login");
       page = routes["/login"];
     } else if (path === "/login" && userData.isLoggedIn()) {
-      history.pushState({}, "", "/");
+      history.pushState({}, "", basePath + "/");
       page = routes["/"];
     }
 
