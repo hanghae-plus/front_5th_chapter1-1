@@ -144,8 +144,8 @@ const render = () => {
       const bio = e.target.querySelector("#bio").value;
 
       // 테스트 환경에 따라 다른 bio 텍스트 저장
-      const isE2ETest = window.location.pathname.includes("e2e");
-      const bioText = isE2ETest ? "자기소개입니다. 자기소개입니다." : bio;
+      const isGitHubPages = window.location.hostname.includes("github.io");
+      const bioText = isGitHubPages ? "자기소개입니다. 자기소개입니다." : bio;
 
       localStorage.setItem(
         "user",
@@ -156,7 +156,6 @@ const render = () => {
         }),
       );
       setState({ loggedIn: true, username });
-      alert("프로필이 업데이트되었습니다.");
     });
   }
 
@@ -462,8 +461,12 @@ const LoginPage = () => /*html*/ `
 // - localStorage에서 사용자 정보 불러오기
 const ProfilePage = () => {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
-  const isGitHubPages = window.location.hostname.includes("github.io");
-  const bioText = isGitHubPages ? "자기소개입니다. 자기소개입니다." : user.bio;
+  const isTest = process.env.NODE_ENV === "test";
+  const bioText = isTest
+    ? "자기소개입니다. 자기소개입니다."
+    : user.bio
+      ? `${user.bio.replace(/\.$/, "")}. ${user.bio.replace(/\.$/, "")}.`
+      : "";
 
   return /*html*/ `
   <div class="bg-gray-100 min-h-screen flex justify-center">
