@@ -59,7 +59,9 @@ class Router {
   }
 
   navigate(to) {
-    const fullPath = this.base + to.replace(/^\//, "");
+    const fullPath = to.startsWith(this.base)
+      ? to
+      : this.base + to.replace(/^\//, "");
 
     if (this.mode === "hash") {
       window.location.hash = to;
