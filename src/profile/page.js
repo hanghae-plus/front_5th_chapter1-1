@@ -1,15 +1,15 @@
-import user from "../module/user.js";
+import userStore from "../module/userStore.js";
 import router from "../module/route.js";
-// 프로필 페이지
-const ProfilePage = () => {
-  const { getUser, isLoggedIn } = user();
 
-  if (!isLoggedIn) {
+const ProfilePage = () => {
+  if (!userStore.isLoggedIn()) {
     router.navigateTo("/login");
     return;
   }
 
-  const { username, email, bio } = getUser;
+  const user = userStore.getUser();
+  const { username, email, bio } = user;
+
   return /* HTML */ `
     <main class="p-4">
       <div class="bg-white p-8 rounded-lg shadow-md">
@@ -21,8 +21,9 @@ const ProfilePage = () => {
             <label
               for="username"
               class="block text-gray-700 text-sm font-bold mb-2"
-              >사용자 이름</label
             >
+              사용자 이름
+            </label>
             <input
               type="text"
               id="username"
@@ -35,8 +36,9 @@ const ProfilePage = () => {
             <label
               for="email"
               class="block text-gray-700 text-sm font-bold mb-2"
-              >이메일</label
             >
+              이메일
+            </label>
             <input
               type="email"
               id="email"
@@ -46,15 +48,14 @@ const ProfilePage = () => {
             />
           </div>
           <div class="mb-6">
-            <label for="bio" class="block text-gray-700 text-sm font-bold mb-2"
-              >자기소개</label
-            >
+            <label for="bio" class="block text-gray-700 text-sm font-bold mb-2">
+              자기소개
+            </label>
             <textarea
               id="bio"
               name="bio"
               rows="4"
               class="w-full p-2 border rounded"
-              value="${bio}"
             >
 ${bio}</textarea
             >
@@ -71,7 +72,7 @@ ${bio}</textarea
   `;
 };
 
-// 폼 제출
+// 이벤트 위임으로 처리
 document.addEventListener("submit", (e) => {
   if (e.target.id === "profile-form") {
     e.preventDefault();
@@ -79,8 +80,11 @@ document.addEventListener("submit", (e) => {
     const emailValue = document.getElementById("email").value;
     const bioValue = document.getElementById("bio").value;
 
-    const { saveUser } = user();
-    saveUser({ username: usernameValue, email: emailValue, bio: bioValue });
+    userStore.saveUser({
+      username: usernameValue,
+      email: emailValue,
+      bio: bioValue,
+    });
 
     alert("프로필 업데이트 완료");
   }

@@ -2,10 +2,7 @@ import login from "../module/login.js";
 
 const LoginPage = () => {
   return /* HTML */ `
-    <main
-      class="bg-gray-100 flex items-center justify-center min-h-screen"
-      data-component="login-page"
-    >
+    <main class="bg-gray-100 flex items-center justify-center min-h-screen">
       <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">
           항해플러스
@@ -49,12 +46,12 @@ const LoginPage = () => {
   `;
 };
 
-export default LoginPage;
-
-// 폼 제출
+// 이벤트 위임으로 처리
 document.addEventListener("submit", (e) => {
   if (e.target.id === "login-form") {
     e.preventDefault();
     login.loginHandler();
   }
 });
+
+export default LoginPage;
