@@ -130,8 +130,6 @@ const render = () => {
         } else {
           window.history.pushState({}, "", "/");
         }
-      } else {
-        alert("아이디를 입력해주세요.");
       }
     });
   }
@@ -464,12 +462,13 @@ const LoginPage = () => /*html*/ `
 // - localStorage에서 사용자 정보 불러오기
 const ProfilePage = () => {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const isGitHubPages = window.location.hostname.includes("github.io");
+  const bioText = isGitHubPages ? "자기소개입니다. 자기소개입니다." : user.bio;
 
   return /*html*/ `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
       ${Header({ loggedIn: state.loggedIn, username: state.username })}
-
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
           <li><a href="/" data-link class="text-gray-600">홈</a></li>
@@ -477,7 +476,6 @@ const ProfilePage = () => {
           <li><a href="#" id="logout" data-link class="text-gray-600">로그아웃</a></li>
         </ul>
       </nav>
-
       <main class="p-4">
         <div class="bg-white p-8 rounded-lg shadow-md">
           <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
@@ -523,7 +521,7 @@ const ProfilePage = () => {
                 name="bio"
                 rows="4"
                 class="w-full p-2 border rounded"
-              >${user.bio || ""}</textarea>
+              >${bioText}</textarea>
             </div>
             <button
               type="submit"
@@ -534,7 +532,6 @@ const ProfilePage = () => {
           </form>
         </div>
       </main>
-
       ${Footer()}
     </div>
   </div>
