@@ -4,6 +4,12 @@ export const state = {
   loggedIn: false,
 };
 
+const savedUser = localStorage.getItem('user');
+if (savedUser) {
+  state.loggedIn = true;
+  state.user = JSON.parse(savedUser);
+}
+
 export const navigate = (pathname) => {
   history.pushState(null, '', pathname);
   render();
@@ -23,6 +29,7 @@ const getPage = () => {
   }
   return ErrorPage();
 };
+
 export const render = () => {
   let root = document.getElementById('root');
 
@@ -38,12 +45,10 @@ export const render = () => {
   if (logoutButton) {
     logoutButton.addEventListener('click', (e) => {
       e.preventDefault();
+      e.stopPropagation();
       state.loggedIn = false;
       localStorage.removeItem('user');
-      document.getElementById('root').innerHTML = LoginPage({
-        state,
-        navigate,
-      });
+      navigate('/login');
     });
   }
 

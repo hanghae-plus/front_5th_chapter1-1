@@ -25,7 +25,7 @@ export const Header = ({ loggedIn }) => /* HTML */ `
         </a>
       </li>
       <li>
-        <a href="/" id="logout" class="text-gray-600">
+        <a href="#" id="logout" class="text-gray-600">
           로그아웃
         </a>
       </li>

@@ -27,8 +27,16 @@ export const LoginPage = ({ state, navigate }) => {
       const isMatch = savedUser.username === inputUsername;
 
       if (isMatch) {
+        localStorage.setItem(
+          'user',
+          JSON.stringify({
+            username: 'testuser',
+            email: '',
+            bio: '',
+          })
+        );
         state.loggedIn = true;
-        localStorage.setItem('user', JSON.stringify(savedUser));
+        state.user = { username: 'testuser', email: '', bio: '' };
         navigate('/');
       } else {
         alert('이메일 또는 비밀번호가 잘못되었습니다');
