@@ -1,10 +1,8 @@
 import { Footer, Header, Nav } from "../components";
 import { Posts } from "../components/posts";
 
-export const MainPage = (container) => {
-  if (!container) return;
-
-  container.innerHTML = `
+export const MainPage = {
+  template: () => `
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
         ${Header.template()}
@@ -22,10 +20,11 @@ export const MainPage = (container) => {
         ${Footer.template()}
       </div>
     </div>
-  `;
-
-  Header.onMount();
-  Nav.onMount();
-  Posts.onMount();
-  Footer.onMount();
+  `,
+  onMount: () => {
+    Header.onMount();
+    Nav.onMount();
+    Posts.onMount();
+    Footer.onMount();
+  },
 };

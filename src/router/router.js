@@ -29,7 +29,8 @@ export class BaseRouter {
   // 렌더링만 담당하도록 분할
   render(pathname) {
     const route = this.getRouteFromPathname(pathname);
-    route.render(this.container);
+    this.container.innerHTML = route.page.template();
+    route.page.onMount();
   }
 
   checkSafetyAndRender() {

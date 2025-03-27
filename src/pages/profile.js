@@ -1,10 +1,8 @@
 import { Footer, Header, Nav } from "../components";
 import { ProfileForm } from "../components/profileForm";
 
-export const ProfilePage = (container) => {
-  if (!container) return;
-
-  container.innerHTML = `
+export const ProfilePage = {
+  template: () => `
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
         ${Header.template()}
@@ -20,10 +18,11 @@ export const ProfilePage = (container) => {
         ${Footer.template()}
       </div>
     </div>
-  `;
-
-  Header.onMount();
-  Nav.onMount();
-  ProfileForm.onMount();
-  Footer.onMount();
+  `,
+  onMount: () => {
+    Header.onMount();
+    Nav.onMount();
+    ProfileForm.onMount();
+    Footer.onMount();
+  },
 };

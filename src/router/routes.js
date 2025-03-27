@@ -6,16 +6,16 @@ const { pathname } = CONST;
 
 export const routes = {
   [pathname.profile]: {
-    render: ProfilePage,
+    page: ProfilePage,
     guard: () => !!state.loggedInUser,
     redirect: pathname.login,
   },
   [pathname.login]: {
-    render: LoginPage,
+    page: LoginPage,
     guard: () => !state.loggedInUser,
     redirect: pathname.main,
   },
 
-  [pathname.main]: { render: MainPage },
-  default: { render: ErrorPage },
+  [pathname.main]: { page: MainPage },
+  default: { page: ErrorPage },
 };
