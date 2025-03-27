@@ -15,6 +15,7 @@ const render = () => {
     el.addEventListener("click", (e) => {
       e.preventDefault();
       const newPathName = e.target.href.replace(location.origin, "");
+      console.log(newPathName);
       navigate(newPathName);
       render();
     });

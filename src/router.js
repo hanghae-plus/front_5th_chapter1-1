@@ -5,7 +5,8 @@ import NotFoundPage from "./pages/NotFoundPage";
 import { Header, Footer } from "./componentes/layout";
 import { state } from "./store";
 
-export const isProd = location.hostname.includes("github.io");
+export const isProd = import.meta.env.PROD;
+console.log(isProd);
 export const BASE_PATH = isProd ? "/front_5th_chapter1-1" : "";
 
 export const matchedPath = (path) => {
@@ -39,9 +40,9 @@ export const router = () => {
   }
   if (path === "/login") {
     if (state.loginState) {
+      navigate("/");
       return (root.innerHTML = HomePage());
     }
-    navigate("/");
     return (root.innerHTML = LoginPage());
   }
   return (root.innerHTML = NotFoundPage());
