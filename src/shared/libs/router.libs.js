@@ -1,9 +1,12 @@
+import { config } from "../config";
+
 class Router {
   constructor() {
     // ? 1-4 SPA를 만들기 위한 지식 뭉치에서 나오는 코드 패턴
     // if (Router.instance) return Router.instance;
     // Router.instance = this;
     this.routes = {};
+    this.basePath = config.basePath;
     window.addEventListener("popstate", this.handlePopState.bind(this));
     window.addEventListener("hashchange", this.handleHashChange.bind(this));
   }
