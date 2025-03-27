@@ -47,8 +47,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install --ignore-scripts
 
+      # 빌드 전에 REPO_NAME 환경변수 설정
+      - name: Set repository name
+        run: echo "REPO_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
+      # 빌드 시 환경변수 전달
       - name: Build project
         run: pnpm run build
+        env:
+          VITE_BASE_URL: /${{ env.REPO_NAME }}/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
