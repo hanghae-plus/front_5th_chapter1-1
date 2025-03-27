@@ -17,8 +17,9 @@ export class HistoryRouter extends BaseRouter {
   }
 
   onLinkClick(e) {
-    const link = e.target.closest("#menu a");
+    const link = e.target.closest("a");
     if (!link) return;
+
     e.preventDefault();
     const newPathname = link.href.replace(window.location.origin, "");
     if (window.location.pathname === newPathname) return;
