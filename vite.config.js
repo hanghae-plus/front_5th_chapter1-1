@@ -10,5 +10,14 @@ export default defineConfig(({ mode }) => {
       setupFiles: "./src/setupTests.js",
       exclude: ["**/e2e/**", "**/*.e2e.spec.js", "**/node_modules/**"],
     },
+    build: {
+      rollupOptions: {
+        output: {
+          entryFileNames: "assets/[name]-[hash].js",
+          chunkFileNames: "assets/[name]-[hash].js",
+          assetFileNames: "assets/[name]-[hash].[ext]",
+        },
+      },
+    },
   };
 });
