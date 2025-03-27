@@ -1,8 +1,10 @@
 import render from "./_actions/render";
 import observer from "./_libs/observer";
+import router from "./_libs/router";
 import states from "./_libs/state";
 
 states.routeType = "hash";
+router.push("/");
 
 window.addEventListener("load", render);
 window.addEventListener("popstate", render);

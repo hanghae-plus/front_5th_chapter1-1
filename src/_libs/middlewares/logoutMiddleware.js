@@ -12,7 +12,7 @@ import state from "../state";
  * @returns {Function | string}
  */
 const logoutMiddleware = (fn) => {
-  if (state.routeType === "history" && location.href.includes("#")) {
+  if (location.href.includes("/logout")) {
     state.user = null;
     router.push(route.login.path);
     return LoginPage();
