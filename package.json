@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "vite",
     "dev:hash": "vite --open ./index.hash.html",
-    "build": "vite build",
     "lint:fix": "eslint --fix",
     "prettier:write": "prettier --write ./src",
     "preview": "vite preview",
@@ -19,7 +18,9 @@
     "test:e2e:report": "npx playwright show-report",
     "test:generate": "playwright codegen localhost:5173",
     "prepare": "husky",
-    "predeploy": "npm run build",
+    "build:test": "vite build --mode dev",
+    "build:prod": "vite build --mode prod",
+    "predeploy": "pnpm run build:prod && cp dist/index.html dist/404.html",
     "deploy": "gh-pages -d dist"
   },
   "lint-staged": {
