@@ -1,20 +1,31 @@
 import { getDeployUrl } from "../core/getDeployUrl";
+import getRouterMode from "../core/getRouterMode";
 import User from "../store/user";
 
-//design
 const BLUETEXT = "text-blue-600 font-bold";
 const GRAYTEXT = "text-gray-600";
 
+let DEPLOY_URL = getDeployUrl();
+
 export const Header = () => /* HTML */ {
   const isLogin = new User().isLogin();
-  let DEPLOY_URL = getDeployUrl();
+  let isHashMode = getRouterMode() === "hash";
 
   const nav = isLogin
     ? `<nav class="bg-white shadow-md p-2 sticky top-14">
 	  <ul class="flex justify-around">
 		<li>
-		  <a href="/" class="${location.pathname === `${DEPLOY_URL}/` || location.hash === "#/" || location.pathname === `${DEPLOY_URL}/login` || location.hash === "#/login" ? BLUETEXT : GRAYTEXT}"
-			>홈</a
+<a href="/" 
+   class="${
+     (
+       isHashMode
+         ? location.hash === "#/" || location.hash === "#/login"
+         : location.pathname === `${DEPLOY_URL}/` ||
+           location.pathname === `${DEPLOY_URL}/login`
+     )
+       ? BLUETEXT
+       : GRAYTEXT
+   }">			홈</a
 		  >
 		</li>
 		<li>
