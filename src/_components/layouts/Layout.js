@@ -1,4 +1,4 @@
-import routes from "../../_constants/route";
+import route from "../../_constants/route";
 import state from "../../_libs/state";
 import LoginPage from "../pages/LoginPage";
 import MainPage from "../pages/MainPage";
@@ -7,11 +7,12 @@ import ProfilePage from "../pages/ProfilePage";
 
 const Layout = () => {
   switch (state.pathname) {
-    case routes.home.path:
+    case route.home.path + "/":
+    case route.home.path:
       return MainPage();
-    case routes.login.path:
+    case route.login.path:
       return LoginPage();
-    case routes.profile.path:
+    case route.profile.path:
       return ProfilePage();
     default:
       return NotFoundPage();
