@@ -18,7 +18,6 @@ class Router {
     this.routes = routes;
     this.mode = options.mode;
     this.base = options.base;
-    this.currentPath = this.getCurrentPath();
 
     const handleRender = () => {
       this.render();
@@ -85,11 +84,6 @@ class Router {
     return window.location.pathname;
   }
 
-  getLinkHref(path) {
-    const fullPath = this.base + path.replace(/^\//, "");
-    return this.mode === "hash" ? `#${path}` : fullPath;
-  }
-
   navigate(to) {
     const fullPath = this.base + to.replace(/^\//, "");
 
@@ -99,11 +93,12 @@ class Router {
       window.history.pushState({}, "", fullPath);
     }
 
-    this.currentPath = this.getCurrentPath();
     this.render();
   }
 
   render() {
+    this.currentPath = this.getCurrentPath();
+
     const page = this.routes[this.currentPath]
       ? this.routes[this.currentPath]()
       : ErrorPage();
