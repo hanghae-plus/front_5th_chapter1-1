@@ -1,6 +1,5 @@
 import { User, userStore } from "@/entities/user";
 import { router } from "@/shared/libs";
-import { config } from "../../../shared/config";
 import { InvalidError, LoginError } from "../errors";
 import { validateLoginForm } from "../libs/validator";
 
@@ -11,7 +10,7 @@ export const AuthenticationService = () => ({
       validateLoginForm({ username, password });
       const user = User.build({ username });
       userStore.setUser(user);
-      router.navigateTo(`${config.basePath}/profile`);
+      router.navigateTo("/profile");
     } catch (error) {
       if (error instanceof InvalidError) {
         throw new LoginError(`로그인 중 오류가 발생했습니다: ${error.message}`);
@@ -22,7 +21,7 @@ export const AuthenticationService = () => ({
 
   logout: () => {
     userStore.removeUser();
-    router.navigateTo(`${config.basePath}/login`);
+    router.navigateTo("/login");
   },
 });
 

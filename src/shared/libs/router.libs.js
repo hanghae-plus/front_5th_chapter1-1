@@ -35,7 +35,17 @@ class Router {
 
   handlePopState() {
     if (!this.isHashMode) {
-      this.handleRoute(window.location.pathname);
+      let path = window.location.pathname;
+
+      if (this.basePath !== "") {
+        if (path === this.basePath || path === this.basePath + "/") {
+          path = "/";
+        } else if (path.startsWith(this.basePath)) {
+          path = path.substring(this.basePath.length);
+        }
+      }
+
+      this.handleRoute(path);
     }
   }
 
