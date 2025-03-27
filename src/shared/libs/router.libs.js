@@ -19,7 +19,7 @@ class Router {
   }
 
   addRoute(path, handler) {
-    this.routes[path] = handler;
+    this.routes[this.basePath + path] = handler;
   }
 
   navigateTo(path) {
@@ -28,8 +28,8 @@ class Router {
       const routePath = path || "/";
       this.handleRoute(routePath);
     } else {
-      history.pushState(null, "", path);
-      this.handleRoute(path);
+      history.pushState(null, "", this.basePath + path);
+      this.handleRoute(this.basePath + path);
     }
   }
 
@@ -37,6 +37,7 @@ class Router {
     if (!this.isHashMode) {
       this.handleRoute(window.location.pathname);
     }
+    this.handleRoute(this.basePath + window.location.pathname);
   }
 
   handleHashChange() {

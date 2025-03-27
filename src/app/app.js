@@ -25,6 +25,7 @@ export const render = () => {
         path = path.replace(basePath, "");
       }
     }
+    console.log(router.routes);
     router.handleRoute(path);
   }
 };
