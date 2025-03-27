@@ -15,14 +15,14 @@ const routes = {
 
 // 다른 경로로 리디렉션하는 함수
 const redirectTo = (path) => {
-  console.log(`Redirecting to ${path}`);
+  // console.log(`Redirecting to ${path}`);
   router.navigate(path);
   return routes[path]();
 };
 
 // 라우터 기능을 처리하는 함수
 const handleRouting = (path) => {
-  console.log("routes - handleRouting");
+  // console.log("routes - handleRouting");
   const userData = JSON.parse(localStorage.getItem("user"));
   let pageComponent;
 
@@ -34,7 +34,6 @@ const handleRouting = (path) => {
   }
   // 로그인 상태에서 로그인 페이지 이동 시 홈으로 리다이렉션
   else if (userData !== null && path === "/login") {
-    console.log(`${BASE}/login`);
     console.log("Already logged in, redirecting to home");
     return redirectTo(`${BASE}/`);
   }

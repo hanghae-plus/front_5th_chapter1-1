@@ -30,12 +30,6 @@ const Header = (/*html*/) => {
     baseProfile = profile;
     baseLogin = login;
   }
-  // console.log(currentPath);
-  // console.log(currentHash);
-  // console.log(process.env.NODE_ENV);
-  // console.log(import.meta.env.MODE);
-  console.log(currentPath + " | " + baseHome);
-  console.log(currentPath + " | " + baseProfile);
 
   return `
     <div class="max-w-md w-full">

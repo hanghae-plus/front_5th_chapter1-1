@@ -2,8 +2,6 @@ import ErrorPage from "./pages/ErrorPage";
 import handleRouting from "./router/routes";
 import router from "./router/router.js";
 
-console.log(router.getCurrentPath());
-
 const isProduction = import.meta.env.MODE === "production";
 const BASE = isProduction ? "/front_5th_chapter1-1" : "";
 
@@ -24,11 +22,11 @@ window.addEventListener("popstate", () => {
 
 // 화면에 어떻게 표시될지를 정의하는 함수
 const render = () => {
-  console.log("main.js redner start");
+  // console.log("main.js redner start");
   // const path = window.location.pathname;
 
   const path = router.getCurrentPath();
-  console.log(path);
+
   // render함수 안에 routes모듈 불러옴
   const content = handleRouting(path);
 
@@ -47,7 +45,7 @@ render();
 
 // 이벤트 위임을 해줘서 한번만 등록 시 사라지지 않음
 document.body.addEventListener("click", (e) => {
-  console.log("addEventListener click");
+  // console.log("addEventListener click");
 
   // submit 버튼인 경우 무시
   // submit 버튼 클릭 시 이벤트 버블링? 때문에 click이벤트가 먼저 실행되어버림
@@ -61,16 +59,12 @@ document.body.addEventListener("click", (e) => {
       const url = new URL(e.target.href);
       const path = url.pathname;
 
-      console.log(`url: ${url}`);
-      console.log(`path: ${path}`);
-
       if (e.target.id === "logout") {
         logout();
       }
 
       if (e.target.tagName === "A") {
         const listItems = document.querySelectorAll("nav ul li a");
-        // console.log(listItems);
         listItems.forEach((item) => {
           item.classList.add("bg-blue");
         });
@@ -78,7 +72,7 @@ document.body.addEventListener("click", (e) => {
       navigateTo(BASE + path);
     }
   }
-  console.log("addEventListener click End");
+  // console.log("addEventListener click End");
 });
 
 document.body.addEventListener("submit", (e) => {
