@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite",
     "dev:hash": "vite --open ./index.hash.html",
+    "homepage": "https://dlsxody1.github.io/front_5th_chapter1-1/",
     "build": "vite build",
+    "deploy": "gh-pages -d dist",
+    "predeploy": "npm run build",
     "lint:fix": "eslint --fix",
     "prettier:write": "prettier --write ./src",
     "preview": "vite preview",
