@@ -28,8 +28,8 @@ class Router {
       const routePath = path || "/";
       this.handleRoute(routePath);
     } else {
-      history.pushState(null, "", this.basePath + path);
-      this.handleRoute(this.basePath + path);
+      history.pushState(null, "", path);
+      this.handleRoute(path);
     }
   }
 
@@ -37,7 +37,6 @@ class Router {
     if (!this.isHashMode) {
       this.handleRoute(window.location.pathname);
     }
-    this.handleRoute(this.basePath + window.location.pathname);
   }
 
   handleHashChange() {
