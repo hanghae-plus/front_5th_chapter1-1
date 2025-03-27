@@ -1,5 +1,3 @@
-import ghpages from "gh-pages";
-
 const userInfo = {
   username: "test",
   email: "test@example.com",
@@ -325,5 +323,3 @@ document.body.addEventListener("submit", (event) => {
     localStorage.setItem("user", JSON.stringify(newInfo));
   }
 });
-
-ghpages.publish("dist", (err) => console.log(err));
