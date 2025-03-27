@@ -1,8 +1,10 @@
+const BASE_PATH = "/front-5th-chapter1-1";
+
 const userInfo = {
-  username: "test",
+  username: "testuser",
   email: "test@example.com",
   bio: "hi",
-  password: "test",
+  password: "1234",
 };
 
 let userInput = {
@@ -11,6 +13,8 @@ let userInput = {
 };
 
 let profileInput = {
+  username: "",
+  email: "",
   bio: "",
 };
 
@@ -28,7 +32,7 @@ const Navigate = () => {
         <ul class="flex justify-around">
           <li><a href="/" class="text-blue-600">홈</a></li>
           <li><a href="/profile" class="text-gray-600">프로필</a></li>
-          <li><button id="logout-button" href="#" class="text-gray-600">로그아웃</button></li>
+          <li><a href="/logout" class="text-gray-600">로그아웃</a></li>
         </ul>
       </nav>
 `;
@@ -146,7 +150,7 @@ const LoginPage = () => `
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
       <form id="login-form">
         <div class="mb-4">
-          <input id="id-input" type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
+          <input id="id-input" type="text" placeholder="사용자 이름" class="w-full p-2 border rounded">
         </div>
         <div class="mb-6">
           <input id="pw-input" type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
@@ -229,18 +233,26 @@ const ProfilePage = () => {
 `;
 };
 
-const render = (path) => {
+const render = (fullPath) => {
+  if (!fullPath.startsWith(BASE_PATH)) {
+    fullPath = BASE_PATH + fullPath;
+  }
+
   const rootElement = document.getElementById("root");
-  rootElement.innerHTML = getPageContent(path);
+  rootElement.innerHTML = getPageContent(fullPath);
 };
 
 const navigate = (path) => {
-  window.history.pushState(null, "", path);
-  render(path);
+  const fullPath = BASE_PATH + path;
+  window.history.pushState(null, "", fullPath);
+  render(fullPath);
 };
 
-const getPageContent = (path) => {
+const getPageContent = (fullPath) => {
   const user = localStorage.getItem("user");
+  const path = fullPath.split(BASE_PATH)[1];
+
+  if (!path) return ErrorPage();
 
   switch (path) {
     case "/":
@@ -276,12 +288,11 @@ document.body.addEventListener("click", (event) => {
   if (event.target.tagName === "A") {
     event.preventDefault();
     const href = event.target.getAttribute("href");
-    navigate(href);
-  }
 
-  if (event.target.id === "logout-button") {
-    localStorage.removeItem("user");
-    navigate("/login");
+    if (href === "/logout") {
+      localStorage.removeItem("user");
+      navigate("/login");
+    } else navigate(href);
   }
 });
 
@@ -292,12 +303,12 @@ document.body.addEventListener("input", (event) => {
   if (event.target.id === "pw-input") {
     userInput.password = event.target.value;
   }
-  // if (event.target.id === "username") {
-  //   profileInput.username = event.target.value;
-  // }
-  // if (event.target.id === "email") {
-  //   profileInput.email = event.target.value;
-  // }
+  if (event.target.id === "username") {
+    profileInput.username = event.target.value;
+  }
+  if (event.target.id === "email") {
+    profileInput.email = event.target.value;
+  }
   if (event.target.id === "bio") {
     profileInput.bio = event.target.value;
   }
