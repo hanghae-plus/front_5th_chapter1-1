@@ -56,6 +56,7 @@ test.describe("SPA 기본 기능", () => {
           - link "로그아웃"
     `);
     await page.getByRole("link", { name: "로그아웃" }).click();
+
     await expect(page.locator("#root")).toMatchAriaSnapshot(`
     - heading "항해플러스" [level=1]
     - textbox "사용자 이름"
@@ -96,7 +97,7 @@ test.describe("SPA 기본 기능", () => {
     - text: 이메일
     - textbox "이메일": a@a.aa
     - text: 자기소개
-    - textbox "자기소개": 자기소개입니다. 자기소개입니다.
+    - textbox "자기소개": 자기소개입니다.
     - button "프로필 업데이트"
     `);
   });
