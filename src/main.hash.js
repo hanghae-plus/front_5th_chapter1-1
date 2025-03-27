@@ -3,7 +3,7 @@ import MainPage from "./pages/MainPage.js";
 import LoginPage from "./pages/LoginPage.js";
 import ProfilePage from "./pages/ProfilePage.js";
 import ErrorPage from "./pages/ErrorPage.js";
-import { setupNavLogout } from "./components/Nav.js"; // 필요한 경우 추가
+import { setupNavLogout } from "./components/Nav.js";
 
 const routes = {
   "/": {
@@ -24,7 +24,6 @@ const routes = {
   },
 };
 
-// setupNavLogout을 전역으로 설정 (HashRouter에서 사용하기 위함)
 window.setupNavLogout = setupNavLogout;
 
 const router = new HashRouter(routes);
