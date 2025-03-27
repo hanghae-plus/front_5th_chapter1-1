@@ -1,30 +1,36 @@
-import { store, handlePopState, navigateTo } from "./store/store";
-import { view } from "./view/view";
+import { userContext } from "./context/userContext";
+import { renderApp } from "./app";
+import { handleLinkClick, handlePopState } from "./router/Router";
 
-// 초기 렌더링
-view(store.getState());
+// 로그인 상태 복구
+const userData = localStorage.getItem("user");
+const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+const path = localStorage.getItem("path") || "/";
 
-// 상태 변경 시 자동 렌더링
-store.subscribe((state) => {
-  view(state);
-});
-
-// 페이지 로드 시 초기 설정
-window.addEventListener("load", () => {
-  const initialPath = window.location.pathname;
-  navigateTo(store.dispatch.bind(store), initialPath);
-});
-
-// 뒤로가기, 앞으로가기 처리
-window.addEventListener("popstate", () => {
-  handlePopState(store.dispatch.bind(store));
-});
-
-// 링크 클릭 이벤트 처리
-document.addEventListener("click", (event) => {
-  if (event.target.tagName === "A" && event.target.href) {
-    event.preventDefault();
-    const path = new URL(event.target.href).pathname;
-    navigateTo(store.dispatch.bind(store), path);
+if (userData && isLoggedIn) {
+  try {
+    const user = JSON.parse(userData);
+    userContext.setState({ isLoggedIn: true, user, path });
+  } catch (e) {
+    console.error("Failed to parse user data:", e);
+    alert("사용자 데이터를 불러오는 데 실패했습니다. 다시 로그인해 주세요.");
+    localStorage.removeItem("user");
+    localStorage.removeItem("isLoggedIn");
   }
-});
+} else {
+  userContext.setState({ isLoggedIn: false, user: null, path });
+}
+
+renderApp();
+
+function initializeEventListeners() {
+  window.addEventListener("load", () => {
+    const initialPath = window.location.pathname;
+    userContext.setState({ path: initialPath });
+  });
+
+  window.addEventListener("popstate", handlePopState);
+  document.addEventListener("click", handleLinkClick);
+}
+
+initializeEventListeners();
