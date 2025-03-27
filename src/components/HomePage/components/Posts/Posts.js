@@ -22,8 +22,10 @@ const Post = (post) => {
 };
 
 export const Posts = () => {
+  const orderPosts = posts.sort((a, b) => b.id - a.id);
+
   return `<div class="space-y-4">
-    ${posts.map((post) => Post(post)).join("")}
+    ${orderPosts.map((post) => Post(post)).join("")}
   </div>
   `;
 };

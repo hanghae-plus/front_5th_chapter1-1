@@ -1,3 +1,7 @@
+import {
+  getUserInfoFromStorage,
+  removeUserInfoFromStorage,
+} from "@/logic/localStorage.js";
 import { HomePage } from "@/components/HomePage/HomePage.js";
 import { addEventListenerToLoginForm } from "@/components/LoginPage/logic.js";
 import { LoginPage } from "@/components/LoginPage/LoginPage.js";
@@ -5,12 +9,9 @@ import { NotFoundPage } from "@/components/NotFoundPage/NotFoundPage.js";
 import { addEventListenerToProfileForm } from "@/components/ProfilePage/logic.js";
 import { ProfilePage } from "@/components/ProfilePage/ProfilePage.js";
 import { ID } from "@/constant.js";
-import {
-  getUserInfoFromStorage,
-  removeUserInfoFromStorage,
-} from "@/logic/localStorage.js";
 import { goTo } from "@/logic/router.js";
 import { setBoldFontToNavigationItem } from "@/components/shared/Navigation/logic.js";
+import { addEventListenerToWritePost } from "@/components/HomePage/logic.js";
 
 export let userInfo = null;
 export function updateUserInfo() {
@@ -78,12 +79,18 @@ function addEventDelegation() {
 function setEventListeners() {
   // root 요소에 이벤트 리스너를 추가해서 delegation
   addEventDelegation();
-  // login form에 이벤트 리스너 추가
+
+  // login form 제출 로직
   addEventListenerToLoginForm();
-  // profile form에 이벤트 리스너 추가
+
+  // profile form 제출 로직
   addEventListenerToProfileForm();
+
   // navigation item에 bold font 토글
   setBoldFontToNavigationItem();
+
+  // 글 제출 시 post에 추가되는 로직
+  addEventListenerToWritePost();
 }
 
 export function renderPage() {
