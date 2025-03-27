@@ -13,34 +13,71 @@ const isLogIn = () => {
 export const Router = () => {
   // 현재 페이지 URL 가져오기
   // pathname 이란, https://naver.com/login 에서 /login 부분.
-  const path = window.location.pathname;
+  // const path = window.location.pathname;
 
   let layout = "";
 
-  switch (path) {
-    case "/":
-      layout = `${Header()}${HomePage()}${Footer()}`;
-      break;
-    case "/login":
-      layout = `${LoginPage()}`;
-      break;
-    case "/profile":
-      if (isLogIn()) {
-        layout = `${Header()}${ProfilePage()}${Footer()}`;
-      } else {
-        window.history.pushState({}, "", "/login");
+  if (window.location.pathname) {
+    const path = window.location.pathname;
+    switch (path) {
+      case "/":
+        layout = `${Header()}${HomePage()}${Footer()}`;
+        break;
+      case "/login":
         layout = `${LoginPage()}`;
-      }
-      break;
-    default:
-      layout = `${NotFoundPage()}`;
-      break;
+        break;
+      case "/profile":
+        if (isLogIn()) {
+          layout = `${Header()}${ProfilePage()}${Footer()}`;
+        } else {
+          window.history.pushState({}, "", "/login");
+          layout = `${LoginPage()}`;
+        }
+        break;
+      default:
+        layout = `${NotFoundPage()}`;
+        break;
+    }
+  }
+
+  if (window.location.hash) {
+    const hash = window.location.hash;
+
+    switch (hash) {
+      case "#/":
+        layout = `${Header()}${HomePage()}${Footer()}`;
+        break;
+      case "#/login":
+        if (isLogIn()) {
+          window.history.hash = "#/";
+          layout = `${Header()}${HomePage()}${Footer()}`;
+        } else {
+          layout = `${LoginPage()}`;
+        }
+        break;
+      case "#/profile":
+        if (isLogIn()) {
+          layout = `${Header()}${ProfilePage()}${Footer()}`;
+        } else {
+          window.history.hash = "#/login";
+          layout = `${LoginPage()}`;
+        }
+        break;
+      default:
+        layout = `${NotFoundPage()}`;
+        break;
+    }
   }
 
   document.getElementById("root").innerHTML = layout;
 };
 
+// 주소가 /면, history #면, hash
 export const goTo = (url) => {
-  window.history.pushState({}, "", url);
+  if (window.location.hash) {
+    window.location.hash = url;
+  } else {
+    window.history.pushState({}, "", url);
+  }
   Router();
 };
