@@ -44,8 +44,6 @@ const createLoginProxy = () => {
 
   // 실제 사용하는 이벤트 핸들러
   const loginHandler = () => {
-    console.log("loginHandler 진입");
-
     const username = document.getElementById("username").value;
 
     if (!validateUsername(username)) {
