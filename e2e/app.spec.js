@@ -46,6 +46,7 @@ test.describe("SPA 기본 기능", () => {
   test("로그인과 로그아웃이 동작한다", async ({ page }) => {
     await login(page);
     await expect(page.getByRole("navigation")).toMatchAriaSnapshot(`
+
     - navigation:
       - list:
         - listitem:
@@ -90,14 +91,15 @@ test.describe("SPA 기본 기능", () => {
     await page.getByRole("button", { name: "프로필 업데이트" }).click();
     await page.reload();
     await expect(page.getByRole("main")).toMatchAriaSnapshot(`
-    - heading "내 프로필" [level=2]
-    - text: 사용자 이름
-    - textbox "사용자 이름": testuser
-    - text: 이메일
-    - textbox "이메일": a@a.aa
-    - text: 자기소개
-    - textbox "자기소개": 자기소개입니다. 자기소개입니다.
-    - button "프로필 업데이트"
+      - main:
+        - heading "내 프로필" [level=2]
+        - text: 사용자 이름
+        - textbox "사용자 이름": testuser
+        - text: 이메일
+        - textbox "이메일": a@a.aa
+        - text: 자기소개
+        - textbox "자기소개": 자기소개입니다.
+        - button "프로필 업데이트"
     `);
   });
 });
