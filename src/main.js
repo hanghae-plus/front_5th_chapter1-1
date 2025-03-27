@@ -2,10 +2,8 @@ import MainPage from "./pages/MainPage.js";
 import NotFoundPage from "./pages/NotFoundPage.js";
 import LoginPage from "./pages/LoginPage.js";
 import ProfilePage from "./pages/ProfilePage.js";
-
-const state = {
-  isLoggedIn: false,
-};
+import { store } from "./store/store.js";
+store.getUser();
 
 const navigateTo = (path) => {
   history.pushState(null, "", path);
@@ -16,7 +14,7 @@ const App = () => {
   console.log("path", location.pathname);
   if (location.pathname === "/login") return LoginPage();
   if (location.pathname === "/profile") {
-    if (!state.isLoggedIn) {
+    if (!store.isLoggedIn) {
       navigateTo("/login");
       return LoginPage();
     }
@@ -36,7 +34,7 @@ document.body.addEventListener("click", (e) => {
   const logoutButton = e.target.closest("#logout");
   if (logoutButton) {
     e.preventDefault();
-    state.isLoggedIn = false;
+    store.isLoggedIn = false;
     localStorage.removeItem("user");
   }
 });
@@ -54,8 +52,8 @@ document.body.addEventListener("submit", (e) => {
       email: "",
       bio: "",
     };
-    if (userName) localStorage.setItem("user", JSON.stringify(user));
-    state.isLoggedIn = true;
+    if (userName) store.setUser(user);
+    store.isLoggedIn = true;
     navigateTo("/");
   }
 
@@ -66,7 +64,7 @@ document.body.addEventListener("submit", (e) => {
     const bio = form.querySelector("#bio").value.trim();
     const updatedUser = { username, email, bio };
 
-    localStorage.setItem("user", JSON.stringify(updatedUser));
+    store.setUser(updatedUser);
     alert("프로필이 저장되었습니다!");
     render();
   }

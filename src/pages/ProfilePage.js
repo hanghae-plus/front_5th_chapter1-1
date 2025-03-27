@@ -1,10 +1,10 @@
 import Header from "../components/Header.js";
 import Nav from "../components/Nav.js";
 import Footer from "../components/Footer.js";
+import { store } from "../store/store.js";
 
 const ProfilePage = () => {
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-  const { username = "", email = "", bio = "" } = user;
+  const { username, email, bio } = store.state.user;
 
   return `
     <div id="root">
