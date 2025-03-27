@@ -1,9 +1,12 @@
-import Router from "./router.js";
-import UserData from "./userData.js";
+import Router from "./routes/router.js";
+import HashRouter from "./routes/hashRouter.js";
+import UserData from "./store/userData.js";
 
 // 상태관리 및 라우터
 const userData = UserData();
-const router = Router(userData);
+// 해시 라우터를 사용할지 여부 결정 (테스트를 위해 기본값을 false로 설정)
+const useHashRouter = false;
+const router = useHashRouter ? HashRouter(userData) : Router(userData);
 
 // base path 가져오기
 const getBasePath = () => {
@@ -21,8 +24,8 @@ document.addEventListener("click", (e) => {
     router.navigate("/login");
   }
 
-  // 링크 이동
-  if (e.target.matches('a[href^="/"]')) {
+  // 링크 이동 (해시 라우터가 아닌 경우에만)
+  if (!useHashRouter && e.target.matches('a[href^="/"]')) {
     e.preventDefault();
     let href = e.target.getAttribute("href");
     // base path가 포함된 경우 제거

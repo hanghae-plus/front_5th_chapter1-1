@@ -1,4 +1,7 @@
-import { MainPage, LoginPage, ProfilePage, ErrorPage } from "./components.js";
+import MainPage from "../pages/MainPage.js";
+import LoginPage from "../pages/LoginPage.js";
+import ProfilePage from "../pages/ProfilePage.js";
+import ErrorPage from "../pages/ErrorPage.js";
 
 function Router(userData) {
   // base path 가져오기 (GitHub Pages 배포 시 사용됨)
@@ -27,7 +30,7 @@ function Router(userData) {
 
     let page = routes[path];
 
-    // 로그인 상태에 따른 리디렉션 처리
+    // 라우트 가드
     if (path === "/profile" && !userData.isLoggedIn()) {
       history.pushState({}, "", basePath + "/login");
       page = routes["/login"];
@@ -36,7 +39,6 @@ function Router(userData) {
       page = routes["/"];
     }
 
-    // 존재하지 않는 경로일 경우 404 페이지 표시
     if (!page) {
       page = ErrorPage;
     }
