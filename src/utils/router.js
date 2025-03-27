@@ -4,7 +4,7 @@ import { LoginPage } from "../view/login";
 import { ErrorPage } from "../view/nonexistent";
 
 import { login, logout, updateUser, isLoggedIn } from "../store/auth";
-import { BASE_PATH } from "./index";
+import { BASE_PATH } from "./constants";
 
 export const routes = {
   [BASE_PATH]: MainPage,

@@ -1,5 +1,6 @@
 import { isLoggedIn } from "../store/auth";
-import { getRouter, BASE_PATH } from "../utils";
+import { getRouter } from "../utils";
+import { BASE_PATH } from "../utils/constants";
 
 const Header = () => {
   const router = getRouter();

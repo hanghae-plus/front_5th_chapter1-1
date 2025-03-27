@@ -1,4 +1,5 @@
 import { Router, routes } from "./router";
+import { BASE_PATH } from "./constants";
 
 let routerInstance = null;
 
@@ -21,6 +22,3 @@ export default {
   initRouter,
   getRouter,
 };
-
-export const BASE_PATH =
-  process.env.BASE_PATH === "production" ? "front/front_5th_chapter1-1/" : "/";
