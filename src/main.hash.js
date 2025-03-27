@@ -1,5 +1,3 @@
-import "./main.js";
-
 // -- 라우터 시스템 구현 --
 
 // 전역 상태 관리 객체
@@ -46,16 +44,18 @@ const router = () => {
   const path = window.location.hash.slice(1) || "/";
   state.currentPath = path;
 
+  // 로그인된 상태에서 /login 페이지 접근 시 메인으로 리다이렉트
+  if (path === "/login" && state.loggedIn) {
+    window.location.hash = "/";
+    return MainPage();
+  }
+
   switch (path) {
     case "/":
       return MainPage();
     case "/profile":
       return requireAuth(ProfilePage)();
     case "/login":
-      if (isLoggedIn()) {
-        window.location.hash = "/";
-        return MainPage();
-      }
       return LoginPage();
     default:
       return ErrorPage();

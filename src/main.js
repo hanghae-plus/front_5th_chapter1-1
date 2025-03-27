@@ -22,6 +22,12 @@ const router = () => {
   const path = window.location.pathname;
   state.currentPath = path;
 
+  // 로그인된 상태에서 /login 페이지 접근 시 메인으로 리다이렉트
+  if (path === "/login" && state.loggedIn) {
+    window.history.pushState({}, "", "/");
+    return MainPage();
+  }
+
   switch (path) {
     case "/":
       return MainPage();
@@ -203,7 +209,7 @@ const MainPage = () => /*html*/ `
           ? /*html*/ `<nav class="bg-white shadow-md p-2 sticky top-14">
               <ul class="flex justify-around">
                 <li>
-                  <a href="/" class="text-blue-600">
+                  <a href="/" class="text-blue-600 font-bold">
                     홈
                   </a>
                 </li>
