@@ -1,13 +1,15 @@
 import User from "../store/user";
-import { navigate } from "../core/navigate";
+import navigate from "../core/navigate";
+
 const user = new User();
+
 //git reset
 export function handleSubmit(e) {
   e.preventDefault();
   if (e.target && e.target.id === "login-form") {
     let username = document.getElementById("username")?.value;
     user.set({ username });
-    navigate("profile");
+    navigate("/profile");
   }
 
   if (e.target && e.target.id === "profile-form") {
@@ -28,6 +30,6 @@ export function handleClick(e) {
   }
   if (e.target && e.target.id === "logout") {
     user.clear();
-    navigate("login");
+    navigate("/login");
   }
 }

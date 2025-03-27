@@ -1,3 +1,4 @@
+import { getDeployUrl } from "../core/getDeployUrl";
 import User from "../store/user";
 
 //design
@@ -5,21 +6,21 @@ const BLUETEXT = "text-blue-600 font-bold";
 const GRAYTEXT = "text-gray-600";
 
 export const Header = () => /* HTML */ {
-  const user = new User();
-  let isLogin = user.isLogin();
+  const isLogin = new User().isLogin();
+  let DEPLOY_URL = getDeployUrl();
 
   const nav = isLogin
     ? `<nav class="bg-white shadow-md p-2 sticky top-14">
 	  <ul class="flex justify-around">
 		<li>
-		  <a href="/" class="${location.pathname === "/" || location.hash === "#/" || location.pathname === "/login" ? BLUETEXT : GRAYTEXT}"
+		  <a href="/" class="${location.pathname === `${DEPLOY_URL}/` || location.hash === "#/" || location.pathname === `${DEPLOY_URL}/login` || location.hash === "#/login" ? BLUETEXT : GRAYTEXT}"
 			>홈</a
 		  >
 		</li>
 		<li>
 		  <a
 			href="/profile"
-			class="${location.pathname === "/profile" || location.hash === "#/profile" ? BLUETEXT : GRAYTEXT}"
+			class="${location.pathname === `${DEPLOY_URL}/profile` || location.hash === "#/profile" ? BLUETEXT : GRAYTEXT}"
 			>프로필</a
 		  >
 		</li>
@@ -31,7 +32,7 @@ export const Header = () => /* HTML */ {
     : `<nav class="bg-white shadow-md p-2 sticky top-14">
 	  <ul class="flex justify-around">
 		<li>
-		  <a href="/" class="${location.pathname === "/" || location.hash === "#/" ? BLUETEXT : GRAYTEXT}"
+		  <a href="/" class="${location.pathname === `${DEPLOY_URL}/` || location.hash === "#/" ? BLUETEXT : GRAYTEXT}"
 			>홈</a
 		  >
 		</li>

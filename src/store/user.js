@@ -13,10 +13,10 @@ export default class User {
     };
     localStorage.setItem("user", JSON.stringify(this.user));
   }
-  clear() {
-    localStorage.removeItem("user");
-  }
   isLogin() {
     return this.get().username ? true : false;
+  }
+  clear() {
+    localStorage.removeItem("user");
   }
 }

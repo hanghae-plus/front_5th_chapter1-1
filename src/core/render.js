@@ -1,7 +1,7 @@
-import { route } from "./route";
+import { App } from "./App";
 
 const root = document.getElementById("root");
 
 export const render = () => {
-  root.innerHTML = route();
+  root.innerHTML = App();
 };

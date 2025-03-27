@@ -1,12 +1,9 @@
-import { mode } from "./mode";
+import getRouterMode from "./getRouterMode";
+import { render } from "./render";
 
-export const navigate = (pathname) => {
-  if (mode() === "hash") {
-    history.pushState(null, "", `#/` + pathname.replace(/^\/+/, ""));
-    window.dispatchEvent(new Event("hashchange"));
-    return;
-  }
-  history.pushState(null, "", pathname);
-  window.dispatchEvent(new Event("popstate"));
-  return;
-};
+export default function navigate(pathname) {
+  let newPathName =
+    getRouterMode() === "hash" ? pathname.replace(/^\/+/, "") : pathname;
+  history.pushState(null, "", newPathName);
+  return render();
+}
