@@ -2,7 +2,12 @@ import { hashHandleRoute, hashNavigateTo } from "./hashRouter.js";
 
 // 해시 변경을 감지하여 라우팅 처리
 window.addEventListener("hashchange", hashHandleRoute);
-window.addEventListener("DOMContentLoaded", hashHandleRoute);
+window.addEventListener("DOMContentLoaded", () => {
+  if (!window.location.hash || window.location.hash === "#index.hash.html") {
+    window.location.hash = "/";
+  }
+  hashHandleRoute();
+});
 
 document.body.addEventListener("click", (e) => {
   if (e.target.matches('a[href^="/"]')) {
