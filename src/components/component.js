@@ -3,16 +3,11 @@ import { getRouter } from "../utils";
 
 const Header = () => {
   const router = getRouter();
-  console.log("isLoggedin", isLoggedIn());
 
   const navClassName = (pathname) => {
-    console.log("router.currentPath", router.currentPath);
-    console.log("pathname", pathname);
-    console.log(
-      "router.currentPath === pathname",
-      router.currentPath === pathname,
-    );
-    return router.currentPath === pathname ? "text-blue-600" : "text-gray-600";
+    return router.currentPath === pathname
+      ? "text-blue-600 font-bold"
+      : "text-gray-600";
   };
 
   const template = /*html*/ `
@@ -50,8 +45,8 @@ const Footer = () => /*html*/ `
 `;
 
 const Post = (post) => {
-  const template = /*html*/ `
-		<div class="bg-white rounded-lg shadow p-4">
+  return /*html*/ `
+  <div class="bg-white rounded-lg shadow p-4">
 		<div class="flex items-center mb-2">
 			<img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
 			<div>
@@ -65,9 +60,8 @@ const Post = (post) => {
 			<button>댓글</button>
 			<button>공유</button>
 		</div>
-		</div>
-      `;
-  return template;
+  </div>
+  `;
 };
 
 export { Header, Footer, Post };
