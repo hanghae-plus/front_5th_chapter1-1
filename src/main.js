@@ -1,28 +1,6 @@
-import MainPage from "./pages/MainPage.js";
-import NotFoundPage from "./pages/NotFoundPage.js";
-import LoginPage from "./pages/LoginPage.js";
-import ProfilePage from "./pages/ProfilePage.js";
+import { render, navigateTo } from "./router/router.js";
 import { store } from "./store/store.js";
 store.getUser();
-
-const navigateTo = (path) => {
-  history.pushState(null, "", path);
-  render();
-};
-
-const App = () => {
-  console.log("path", location.pathname);
-  if (location.pathname === "/login") return LoginPage();
-  if (location.pathname === "/profile") {
-    if (!store.isLoggedIn) {
-      navigateTo("/login");
-      return LoginPage();
-    }
-    return ProfilePage();
-  }
-  if (location.pathname === "/") return MainPage();
-  return NotFoundPage();
-};
 
 document.body.addEventListener("click", (e) => {
   const linkEl = e.target.closest("a");
@@ -31,11 +9,10 @@ document.body.addEventListener("click", (e) => {
     const path = linkEl.getAttribute("href");
     navigateTo(path);
   }
-  const logoutButton = e.target.closest("#logout");
-  if (logoutButton) {
+  const logoutBtn = e.target.closest("#logout");
+  if (logoutBtn) {
     e.preventDefault();
-    store.isLoggedIn = false;
-    localStorage.removeItem("user");
+    store.clearUser("user");
   }
 });
 
@@ -54,7 +31,7 @@ document.body.addEventListener("submit", (e) => {
     };
     if (userName) store.setUser(user);
     store.isLoggedIn = true;
-    navigateTo("/");
+    navigateTo("/profile");
   }
 
   // 프로필 폼 처리
@@ -70,20 +47,5 @@ document.body.addEventListener("submit", (e) => {
   }
 });
 
-const init = () => {
-  let root = document.getElementById("root");
-  if (!root) {
-    root = document.createElement("div");
-    root.id = "root";
-    document.body.appendChild(root);
-  }
-  return root;
-};
-const render = () => {
-  const root = init(); // 항상 root 존재 보장
-  root.innerHTML = App();
-};
-
 window.addEventListener("popstate", render);
-
 render();

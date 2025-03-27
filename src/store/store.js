@@ -9,19 +9,18 @@ export const store = {
   },
   setUser(user) {
     this.state.user = user;
-    this.state.isLoggedIn = !!user;
+    this.state.isLoggedIn = true;
     localStorage.setItem("user", JSON.stringify(user));
   },
   clearUser() {
     this.state.user = { username: "", email: "", bio: "" };
-    this.state.isLoggedIn = false;
     localStorage.removeItem("user");
+    this.state.isLoggedIn = false;
   },
   getUser() {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
       this.state.user = user;
-      this.state.isLoggedIn = true;
     }
   },
 };
