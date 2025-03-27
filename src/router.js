@@ -73,6 +73,29 @@ export const Router = () => {
   }
 
   document.getElementById("root").innerHTML = layout;
+
+  const logoutButton = document.getElementById("logout");
+  if (logoutButton) {
+    logoutButton.addEventListener("click", () => {
+      localStorage.removeItem("user");
+      goTo("/");
+    });
+  }
+
+  const profileForm = document.getElementById("profile-form");
+
+  if (profileForm) {
+    profileForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const email = document.getElementById("email").value;
+      const bioInput = document.getElementById("bio").value;
+      const user = JSON.parse(localStorage.getItem("user"));
+      user.email = email;
+      user.bio = bioInput;
+      localStorage.setItem("user", JSON.stringify(user));
+      alert("프로필이 업데이트되었습니다.");
+    });
+  }
   // console.log('주소');
   // console.log(window.location.pathname);
   // console.log(window.location.pathname.includes('hash'));

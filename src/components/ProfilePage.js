@@ -66,22 +66,22 @@ export const ProfilePage = () => {
    </div>
   `;
 
-  setTimeout(() => {
-    const profileForm = document.getElementById("profile-form");
+  // setTimeout(() => {
+  //   const profileForm = document.getElementById("profile-form");
 
-    if (profileForm) {
-      profileForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-        const email = document.getElementById("email").value;
-        const bioInput = document.getElementById("bio").value;
-        const user = JSON.parse(localStorage.getItem("user"));
-        user.email = email;
-        user.bio = bioInput;
-        localStorage.setItem("user", JSON.stringify(user));
-        alert("프로필이 업데이트되었습니다.");
-      });
-    }
-  }, 0);
+  //   if (profileForm) {
+  //     profileForm.addEventListener("submit", (event) => {
+  //       event.preventDefault();
+  //       const email = document.getElementById("email").value;
+  //       const bioInput = document.getElementById("bio").value;
+  //       const user = JSON.parse(localStorage.getItem("user"));
+  //       user.email = email;
+  //       user.bio = bioInput;
+  //       localStorage.setItem("user", JSON.stringify(user));
+  //       alert("프로필이 업데이트되었습니다.");
+  //     });
+  //   }
+  // }, 0);
 
   return template;
 };

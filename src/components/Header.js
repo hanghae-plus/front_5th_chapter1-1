@@ -1,4 +1,4 @@
-import { goTo } from "../router";
+// import { goTo } from "../router";
 
 export const Header = () => {
   const isLogIn = localStorage.getItem("user");
@@ -22,15 +22,15 @@ export const Header = () => {
     </nav>
   `;
 
-  setTimeout(() => {
-    const logoutButton = document.getElementById("logout");
-    if (logoutButton) {
-      logoutButton.addEventListener("click", () => {
-        localStorage.removeItem("user");
-        goTo("/");
-      });
-    }
-  }, 0);
+  // setTimeout(() => {
+  //   const logoutButton = document.getElementById("logout");
+  //   if (logoutButton) {
+  //     logoutButton.addEventListener("click", () => {
+  //       localStorage.removeItem("user");
+  //       goTo("/");
+  //     });
+  //   }
+  // }, 0);
 
   return template;
 };
