@@ -7,12 +7,7 @@ import ErrorPage from "./pages/ErrorPage.js";
 const isProduction = import.meta.env.MODE === "production";
 const BASE_ROUTE = isProduction ? "/front_5th_chapter1-1" : "";
 
-console.log(BASE_ROUTE, "base route");
-// 라우터 설정
 const routes = {
-  "/": { render: MainPage },
-  "/login": { render: LoginPage },
-  "/profile": { render: ProfilePage },
   [`${BASE_ROUTE}/`]: { render: MainPage },
   [`${BASE_ROUTE}/login`]: { render: LoginPage },
   [`${BASE_ROUTE}/profile`]: { render: ProfilePage },
