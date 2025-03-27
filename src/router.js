@@ -42,6 +42,7 @@ export const Router = () => {
 
   if (window.location.hash) {
     const hash = window.location.hash;
+    // const hash = window.location + '#/';
 
     switch (hash) {
       case "#/":
@@ -70,6 +71,11 @@ export const Router = () => {
   }
 
   document.getElementById("root").innerHTML = layout;
+  // console.log('주소');
+  // console.log(window.location.pathname);
+  // console.log(window.location.pathname.includes('hash'));
+  // console.log(window.location);
+  // console.log(window.location + '#/');
 };
 
 // 주소가 /면, history #면, hash
