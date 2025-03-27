@@ -1,15 +1,14 @@
+// path: ~/Develop/front_5th_chapter1-1/src/router/route.js
+
+// 원래 라우터 파일 변경으로 백업(history API 사용 => hash 사용)
+
 // path: ~/Develop/front_5th_chapter1-1/src/router/router.js
 import { MainPage, ProfilePage, LoginPage, ErrorPage } from "../pages/index.js";
 
 export const router = {
-  // 전역 상태를 router 객체 내부로 유지하되 해시 기반으로 currentPath 관리
+  // 전역 상태를 router 객체 내부로 이동
   state: {
-    get currentPath() {
-      return window.location.hash.replace(/^#/, "") || "/";
-    },
-    set currentPath(path) {
-      window.location.hash = path;
-    },
+    currentPath: window.location.pathname,
     user: JSON.parse(localStorage.getItem("user")) || null,
   },
 
@@ -23,27 +22,32 @@ export const router = {
     const path = this.state.currentPath;
     const root = document.getElementById("root");
 
+    // 현재 경로에 해당하는 컴포넌트 찾기
     let component = this.routes[path];
 
-    if (path === "/profile" && !this.state.user) {
+    // 경로가 없거나 프로필 페이지 접근 시 로그인 필요 확인
+    if (!component) {
+      component = ErrorPage;
+    } else if (path === "/profile" && !this.state.user) {
       this.navigateTo("/login");
       return;
     }
 
-    if (!component) {
-      component = ErrorPage;
-    }
-
+    // 페이지 렌더링
     root.innerHTML = component();
+
+    // 이벤트 리스너 등록
     this.setupEventListeners();
   },
 
   navigateTo(path) {
-    this.state.currentPath = path; // 자동으로 location.hash 변경됨
-    // render()는 hashchange 이벤트에서 호출되므로 여기선 생략 가능
+    history.pushState(null, null, path);
+    this.state.currentPath = path;
+    this.render();
   },
 
   setupEventListeners() {
+    // 링크 클릭 이벤트 처리
     document.querySelectorAll(".nav-link").forEach((link) => {
       link.addEventListener("click", (e) => {
         e.preventDefault();
@@ -52,6 +56,7 @@ export const router = {
       });
     });
 
+    // 로그아웃 버튼 클릭 이벤트 처리
     const logoutButton = document.getElementById("logout");
     if (logoutButton) {
       logoutButton.addEventListener("click", (e) => {
@@ -62,13 +67,20 @@ export const router = {
       });
     }
 
+    // 로그인 폼 제출 이벤트 처리
     const loginForm = document.getElementById("login-form");
     if (loginForm) {
       loginForm.addEventListener("submit", (e) => {
         e.preventDefault();
         const username = document.getElementById("username").value;
 
-        const user = { username, email: "", bio: "" };
+        // 사용자 정보 저장
+        const user = {
+          username,
+          email: "",
+          bio: "",
+        };
+
         localStorage.setItem("user", JSON.stringify(user));
         this.state.user = user;
 
@@ -76,6 +88,7 @@ export const router = {
       });
     }
 
+    // 프로필 폼 제출 이벤트 처리
     const profileForm = document.getElementById("profile-form");
     if (profileForm) {
       profileForm.addEventListener("submit", (e) => {
@@ -84,17 +97,14 @@ export const router = {
         const email = document.getElementById("email").value;
         const bio = document.getElementById("bio").value;
 
+        // 사용자 정보 업데이트
         const user = { username, email, bio };
         localStorage.setItem("user", JSON.stringify(user));
         this.state.user = user;
 
+        // 사용자에게 피드백 제공
         alert("프로필이 업데이트되었습니다.");
       });
     }
   },
 };
-
-// 해시 변경 이벤트로 라우팅
-window.addEventListener("hashchange", () => {
-  router.render();
-});

@@ -4,9 +4,9 @@ export const Navigation = () => {
   const currentPath = window.location.pathname;
 
   // 현재 경로에 따라 클래스 지정
-  const homeClass = currentPath === "/" ? "text-blue-600" : "text-gray-600";
+  const homeClass = currentPath === "/#" ? "text-blue-600" : "text-gray-600";
   const profileClass =
-    currentPath === "/profile" ? "text-blue-600" : "text-gray-600";
+    currentPath === "profile" ? "text-blue-600" : "text-gray-600";
 
   return `
     <nav class="bg-white shadow-md p-2 sticky top-14">
