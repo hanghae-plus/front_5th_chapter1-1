@@ -105,7 +105,7 @@ describe("기본과제 테스트", () => {
       loginForm.dispatchEvent(
         new SubmitEvent("submit", { bubbles: true, cancelable: true }),
       );
-
+      // console.log('loginForm.dispatchEvent', loginForm.dispatchEvent)
       goTo("/profile");
     });
 
@@ -152,6 +152,7 @@ describe("기본과제 테스트", () => {
 
     it("Header, Footer 컴포넌트가 메인 페이지와 프로필 페이지에 존재하고, 로그인페이지와 에러페이지에는 존재하지 않는다.", async () => {
       goTo("/");
+      console.log("document.body.innerHTML:", document.body.innerHTML);
       expect(document.querySelector("header")).not.toBeFalsy();
       expect(document.querySelector("footer")).not.toBeFalsy();
       expect(document.querySelector("nav")).not.toBeFalsy();
@@ -185,14 +186,15 @@ describe("기본과제 테스트", () => {
       goTo("/login");
 
       const loginForm = document.getElementById("login-form");
-
+      console.log("loginForm", loginForm);
       await user.type(document.getElementById("username"), "testuser");
 
       loginForm.dispatchEvent(
         new SubmitEvent("submit", { bubbles: true, cancelable: true }),
       );
-
+      // console.log('user:', user.type(document.getElementById("username"), "testuser"))
       // 로그인 상태
+
       expect(document.body.innerHTML).toContain("로그아웃");
     });
   });
