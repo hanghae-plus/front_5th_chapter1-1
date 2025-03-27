@@ -1,5 +1,4 @@
 import { render } from "../main";
-import { hashRender } from "../main.hash";
 import hashState from "../store/hash";
 import user from "../store/user";
 
@@ -8,7 +7,9 @@ let pathname = null;
 
 const Header = () => {
   const navCondition = (route) => {
-    return location.pathname === route || location.hash === "#" + route;
+    return hashState.getHashState()
+      ? location.hash === "#" + route
+      : location.pathname === route;
   };
 
   const template = () => {
@@ -41,11 +42,10 @@ const Header = () => {
     const homeBtn = document.getElementById("btn-home");
     homeBtn.addEventListener("click", (e) => {
       e.preventDefault();
-
-      if (!hashState.getHashState()) {
+      if (!hashState.getHashState) {
         render("/");
       } else {
-        location.hash = "#/";
+        import("../main.hash").then((mainHash) => mainHash.hashRender("#/"));
       }
     });
 
@@ -55,10 +55,12 @@ const Header = () => {
       loginBtn.addEventListener("click", (e) => {
         e.preventDefault();
 
-        if (!hashState.getHashState()) {
+        if (!hashState.getHashState) {
           render("/login");
         } else {
-          hashRender("#/login");
+          import("../main.hash").then((mainHash) =>
+            mainHash.hashRender("#/login"),
+          );
         }
       });
     }
@@ -69,10 +71,12 @@ const Header = () => {
       profileBtn.addEventListener("click", (e) => {
         e.preventDefault();
 
-        if (!hashState.getHashState()) {
+        if (!hashState.getHashState) {
           render("/profile");
         } else {
-          hashRender("#/profile");
+          import("../main.hash").then((mainHash) =>
+            mainHash.hashRender("#/profile"),
+          );
         }
       });
     }
@@ -86,10 +90,12 @@ const Header = () => {
       user.setIsLoggedIn(false);
       localStorage.removeItem("user");
 
-      if (!hashState.getHashState()) {
+      if (!hashState.getHashState) {
         render("/login");
       } else {
-        hashRender("#/login");
+        import("../main.hash").then((mainHash) =>
+          mainHash.hashRender("#/login"),
+        );
       }
     });
   }

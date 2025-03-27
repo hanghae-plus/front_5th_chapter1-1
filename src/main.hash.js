@@ -1,9 +1,11 @@
-import HomePage from "./pages/HomePage.js";
-import LoginPage from "./pages/LoginPage.js";
-import NotFoundPage from "./pages/NotFoundPage.js";
-import ProfilePage from "./pages/ProfilePage.js";
-import { app } from "./main.js";
-import hashState from "./store/hash.js";
+import "./main";
+import ProfilePage from "./pages/ProfilePage";
+import LoginPage from "./pages/LoginPage";
+import HomePage from "./pages/HomePage";
+import NotFoundPage from "./pages/NotFoundPage";
+import hashState from "./store/hash";
+
+const app = document.querySelector("#root");
 
 const detectHashPath = (hash) => {
   const HASHROUTES = {
@@ -26,17 +28,14 @@ export const hashRender = (hash) => {
 };
 
 const hashRouter = () => {
-  hashRender(location.hash);
-
-  window.addEventListener("popstate", (e) => {
-    e.preventDefault();
-    const { hash } = location;
-    hashRender(hash);
-  });
+  hashState.setHashState(true);
+  const { pathname } = location;
+  hashRender("#" + pathname);
 };
 
-if (location.pathname.includes("hash") || hashState.getHashState()) {
-  hashState.setHashState(true);
-  location.hash = "#/";
-  hashRouter();
-}
+window.addEventListener("hashchange", (e) => {
+  e.preventDefault();
+  hashRender(location.hash);
+});
+
+hashRouter();

@@ -2,8 +2,6 @@ import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import HomePage from "./pages/HomePage";
-import user from "./store/user";
-import hashState from "./store/hash";
 
 export const app = document.querySelector("#root");
 
@@ -45,6 +43,4 @@ window.addEventListener("popstate", (e) => {
   detectPath(pathname);
 });
 
-if (!location.pathname.includes("hash") && !hashState.getHashState()) {
-  router();
-}
+router();
