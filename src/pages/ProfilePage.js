@@ -1,9 +1,8 @@
-import { Header } from "../components/Header";
-import { Footer } from "../components/Footer";
 import { getData } from "../utils/localStorage";
 import { browserNavigate } from "../utils/navigate";
 import { removeData, setData } from "../utils/localStorage";
 import { isHash } from "../utils/isHash";
+import { Layout } from "../components/Layout";
 // import store from "../store/store";
 
 class ProfilePage {
@@ -20,10 +19,7 @@ class ProfilePage {
     }
     this.$container.innerHTML = /*html*/ `
         <div id="root">
-          <div class="bg-gray-100 min-h-screen flex justify-center">
-            <div class="max-w-md w-full">
-              ${Header()}
-             <main class="p-4">
+          ${Layout(`<main class="p-4">
                 <div class="bg-white p-8 rounded-lg shadow-md">
                   <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
                     내 프로필
@@ -79,10 +75,9 @@ class ProfilePage {
                     </button>
                   </form>
                 </div>
-             </main>
-             ${Footer()}
-            </div>
-          </div>
+             </main>`)}
+             
+           
         </div>
       `;
     this.setEvent();

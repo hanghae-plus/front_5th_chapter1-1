@@ -1,11 +1,10 @@
-import { Header } from "../components/Header";
-import { Footer } from "../components/Footer";
 import { MOCK_DATA } from "../const/mockData";
 import { FeedCard } from "../components/FeedCard";
 import { removeData } from "../utils/localStorage";
 import { browserNavigate } from "../utils/navigate";
 import { isHash } from "../utils/isHash";
 // import store from "../store/store";
+import { Layout } from "../components/Layout";
 class MainPage {
   constructor($container) {
     this.$container = $container;
@@ -13,12 +12,8 @@ class MainPage {
   }
 
   render = () => {
-    // console.log(store.getState("write"), "store.getState");
-    this.$container.innerHTML = /*html*/ `
-        <div class="bg-gray-100 min-h-screen flex justify-center">
-          <div class="max-w-md w-full">
-            ${Header()}
-            <main class="p-4">
+    this.$container.innerHTML = `
+       ${Layout(/*html*/ `<main class="p-4">
               <div class="mb-4 bg-white rounded-lg shadow p-4">
                 <textarea id="contents" class="w-full p-2 border rounded" placeholder="무슨 생각을 하고 계신가요?"></textarea>
                 <button id="write" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded">게시</button>
@@ -26,11 +21,8 @@ class MainPage {
               <div class="space-y-4">
               ${MOCK_DATA.map(FeedCard).join("")}
               </div>
-            </main>
-
-            ${Footer()}
-          </div>
-        </div>
+            </main>`)}
+             
       `;
     this.setEvent();
   };
