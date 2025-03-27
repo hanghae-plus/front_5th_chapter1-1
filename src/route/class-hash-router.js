@@ -28,6 +28,7 @@ class HashRouter {
       path = "/" + path;
     }
     window.location.hash = `#${path}`;
+    this.handleRouteChange();
   }
 
   handleRouteChange() {
