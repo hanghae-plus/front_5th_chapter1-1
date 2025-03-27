@@ -6,6 +6,14 @@ export default defineConfig(({ command }) => {
 
   return {
     base: isProd ? "/front_5th_chapter1-1/" : "/",
+    build: {
+      rollupOptions: {
+        input: {
+          main: "index.html",
+          hash: "index.hash.html",
+        },
+      },
+    },
     test: {
       globals: true,
       environment: "jsdom",
