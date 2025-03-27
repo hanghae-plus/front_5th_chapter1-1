@@ -2,6 +2,7 @@ import path from "path";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
+  base: "/front_5th_chapter1-1/",
   test: {
     globals: true,
     environment: "jsdom",
