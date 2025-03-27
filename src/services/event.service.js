@@ -1,5 +1,6 @@
 import { AuthAPI } from "../interfaces/auth.interface";
 import { getRouter } from "../router";
+import { formService } from "./form.service";
 
 export const eventService = {
   handleNavigation(e) {
@@ -22,17 +23,28 @@ export const eventService = {
 
     if (e.target.id === "login-form") {
       e.preventDefault();
-      const username = document.getElementById("username").value;
-      AuthAPI.login(username);
-      router.navigate("/profile");
+      try {
+        const formData = formService.getFormData("login-form");
+        formService.validateLoginForm(formData);
+
+        AuthAPI.login(formData.username);
+        router.navigate("/profile");
+      } catch (error) {
+        alert(error.message);
+      }
     }
 
     if (e.target.id === "profile-form") {
       e.preventDefault();
-      const username = document.getElementById("username").value;
-      const email = document.getElementById("email").value;
-      const bio = document.getElementById("bio").value;
-      AuthAPI.updateUser({ username, email, bio });
+      try {
+        const formData = formService.getFormData("profile-form");
+        formService.validateProfileForm(formData);
+
+        AuthAPI.updateUser(formData);
+        alert("프로필이 업데이트되었습니다");
+      } catch (error) {
+        alert(error.message);
+      }
     }
   },
 };
