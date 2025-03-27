@@ -106,17 +106,15 @@ export default () => {
   element.querySelector("nav").addEventListener("click", (e) => {
     e.preventDefault();
     if (e.target.nodeName === "A") {
+      if (e.target.id === "logout") {
+        auth.logout();
+        window.router.navigate("/login");
+        return;
+      }
       const newPathname = e.target.href.replace(location.origin, "");
       window.router.navigate(newPathname);
     }
   });
-
-  const logoutForm = element.querySelector("#logout");
-  if (logoutForm) {
-    logoutForm.addEventListener("click", () => {
-      auth.logout();
-    });
-  }
 
   renderByNodeElement(element);
 };

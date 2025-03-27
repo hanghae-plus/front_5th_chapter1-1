@@ -27,12 +27,10 @@ export default {
       username,
     });
     this.loggedIn = true;
-    window.router.navigate("/");
   },
   logout() {
     this.loggedIn = false;
     UserStorage.clear();
-    window.router.navigate("/login");
   },
   getUser() {
     return UserStorage.get();

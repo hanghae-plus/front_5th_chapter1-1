@@ -75,6 +75,11 @@ export default () => {
   element.querySelector("nav").addEventListener("click", (e) => {
     e.preventDefault();
     if (e.target.nodeName === "A") {
+      if (e.target.id === "logout") {
+        auth.logout();
+        window.router.navigate("/login");
+        return;
+      }
       const newPathname = e.target.href.replace(location.origin, "");
       history.pushState({ path: newPathname }, "", newPathname);
       window.router.navigate(newPathname);
@@ -91,13 +96,6 @@ export default () => {
     auth.setUser(user);
     alert("프로필이 업데이트 되었습니다.");
   });
-
-  const logoutForm = element.querySelector("#logout");
-  if (logoutForm) {
-    logoutForm.addEventListener("click", () => {
-      auth.logout();
-    });
-  }
 
   renderByNodeElement(element);
 };
