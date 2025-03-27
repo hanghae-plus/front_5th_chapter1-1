@@ -1,5 +1,5 @@
-import { MainLayout } from "../layouts/MainLayout";
-import { userContext } from "../context/userContext";
+import { MainLayout } from "../layouts/MainLayout.js";
+import { userContext } from "../context/userContext.js";
 
 export const ProfilePage = () => {
   const state = userContext.getState();

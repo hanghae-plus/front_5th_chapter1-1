@@ -1,8 +1,8 @@
-import { MainLayout } from "../layouts/MainLayout";
-import { PostInput } from "../components/PostInput";
-import { PostCard } from "../components/PostCard";
-import { POSTS } from "../data/posts";
-import { userContext } from "../context/userContext";
+import { MainLayout } from "../layouts/MainLayout.js";
+import { PostInput } from "../components/PostInput.js";
+import { PostCard } from "../components/PostCard.js";
+import { POSTS } from "../data/posts.js";
+import { userContext } from "../context/userContext.js";
 
 export const MainPage = () => {
   const state = userContext.getState();

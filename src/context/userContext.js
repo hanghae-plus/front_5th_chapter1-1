@@ -1,4 +1,4 @@
-import { createContext } from "./context";
+import { createContext } from "./context.js";
 
 export const userContext = createContext({
   path: "/",

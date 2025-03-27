@@ -1,8 +1,8 @@
-import { MainPage } from "../pages/HomePage";
-import { ErrorPage } from "../pages/ErrorPage";
-import { ProfilePage } from "../pages/ProfilePage";
-import { LoginPage } from "../pages/LoginPage";
-import { userContext } from "../context/userContext";
+import { MainPage } from "../pages/HomePage.js";
+import { ErrorPage } from "../pages/ErrorPage.js";
+import { ProfilePage } from "../pages/ProfilePage.js";
+import { LoginPage } from "../pages/LoginPage.js";
+import { userContext } from "../context/userContext.js";
 
 // 경로 상수 정의
 const PATHS = {

@@ -1,5 +1,5 @@
-import { userContext } from "../context/userContext";
-import { navigateTo } from "../router/navigate";
+import { userContext } from "../context/userContext.js";
+import { navigateTo } from "../router/navigate.js";
 
 export const LoginPage = () => {
   const content = `

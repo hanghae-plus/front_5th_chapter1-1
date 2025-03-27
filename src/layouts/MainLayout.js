@@ -1,6 +1,6 @@
-import { Header } from "../components/Header";
-import { Footer } from "../components/Footer";
-import { Nav } from "../components/Nav";
+import { Header } from "../components/Header.js";
+import { Footer } from "../components/Footer.js";
+import { Nav } from "../components/Nav.js";
 
 export const MainLayout = (content) => {
   return `

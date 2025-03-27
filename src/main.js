@@ -1,6 +1,6 @@
-import { userContext } from "./context/userContext";
-import { renderApp } from "./app";
-import { handleLinkClick, handlePopState } from "./router/Router";
+import { userContext } from "./context/userContext.js";
+import { renderApp } from "./app.js";
+import { handleLinkClick, handlePopState } from "./router/Router.js";
 
 // 로그인 상태 복구
 const userData = localStorage.getItem("user");

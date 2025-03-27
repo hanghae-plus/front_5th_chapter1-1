@@ -1,5 +1,5 @@
-import { userContext } from "./context/userContext";
-import { resolveRoute } from "./router/routeTable";
+import { userContext } from "./context/userContext.js";
+import { resolveRoute } from "./router/routeTable.js";
 
 export function renderApp() {
   const state = userContext.getState();

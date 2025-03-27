@@ -1,4 +1,4 @@
-import { userContext } from "../context/userContext";
+import { userContext } from "../context/userContext.js";
 
 export function navigateTo(path) {
   if (window.location.pathname !== path) {

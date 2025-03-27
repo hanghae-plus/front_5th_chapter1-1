@@ -1,5 +1,5 @@
-import { userContext } from "../context/userContext";
-import { navigateTo } from "./navigate";
+import { userContext } from "../context/userContext.js";
+import { navigateTo } from "./navigate.js";
 
 // 뒤로가기 / 앞으로가기 이벤트
 export function handlePopState() {
