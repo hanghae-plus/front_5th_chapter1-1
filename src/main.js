@@ -290,7 +290,13 @@ document.body.addEventListener("submit", (e) => {
 });
 
 const render = () => {
-  document.body.innerHTML = App();
+  const root = document.getElementById("root");
+  if (root) {
+    root.innerHTML = "";
+    root.innerHTML = App();
+  } else {
+    document.body.innerHTML = App();
+  }
 };
 
 window.addEventListener("popstate", render);
