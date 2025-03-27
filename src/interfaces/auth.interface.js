@@ -1,6 +1,6 @@
 import { authService } from "../services/auth.service";
 
-const AuthAPI = {
+export const AuthAPI = {
   getUser: () => authService.getUser(),
   login: (username) =>
     authService.login({
@@ -12,5 +12,3 @@ const AuthAPI = {
   isLoggedIn: () => authService.isLoggedIn(),
   updateUser: (user) => authService.updateUser(user),
 };
-
-export default AuthAPI;

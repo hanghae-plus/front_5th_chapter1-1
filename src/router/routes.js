@@ -1,7 +1,7 @@
 import MainPage from "../pages/Main";
 import ProfilePage from "../pages/Profile";
 import LoginPage from "../pages/Login";
-import AuthAPI from "../interfaces/auth.interface";
+import { AuthAPI } from "../interfaces/auth.interface";
 import { BASE_PATH } from "../consts/path";
 
 const routes = {

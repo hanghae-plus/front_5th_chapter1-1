@@ -1,4 +1,4 @@
-import AuthAPI from "../../interfaces/auth.interface";
+import { AuthAPI } from "../../interfaces/auth.interface";
 import SubmitBtn from "../common/SubmitBtn";
 
 const ProfileForm = () => {
