@@ -22,7 +22,7 @@ const Header = () => {
           ? `
            <li><a id="btn-home" href="/" class="${navCondition("/") ? "font-bold text-blue-600" : "text-gray-600"}">홈</a></li>
            <li><a id="btn-profile" href="/profile" class="${navCondition("/profile") ? "font-bold text-blue-600" : "text-gray-600"}">프로필</a></li>
-           <li><a id="logout" href="/" class="text-gray-600">로그아웃</a></li>`
+           <li><a id="logout" href="/login" class="text-gray-600">로그아웃</a></li>`
           : `
             <li><a id="btn-home" href="/" class="text-blue-600 font-bold">홈</a></li>
             <li><a id="btn-login" href="/login" class="text-gray-600">로그인</a></li>
@@ -40,7 +40,7 @@ const Header = () => {
 
         if (e.target.tagName === "A") {
           const path = e.target.getAttribute("href");
-          if (path === "/logout") {
+          if (e.target.id === "logout") {
             user.setIsLoggedIn(false);
             localStorage.removeItem("user");
           }
