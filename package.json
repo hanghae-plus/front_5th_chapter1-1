@@ -7,6 +7,7 @@
     "dev": "vite",
     "dev:hash": "vite --open ./index.hash.html",
     "build": "vite build",
+    "deploy": "gh-pages -d dist",
     "lint:fix": "eslint --fix",
     "prettier:write": "prettier --write ./src",
     "preview": "vite preview",
@@ -20,6 +21,7 @@
     "test:generate": "playwright codegen localhost:5173",
     "prepare": "husky"
   },
+  "homepage": "https://neo622.github.io/front_5th_chapter1-1/",
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "prettier --write",
@@ -35,6 +37,7 @@
     "eslint": "^9.16.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
+    "gh-pages": "^6.3.0",
     "globals": "^15.13.0",
     "husky": "^9.1.7",
     "jsdom": "^25.0.1",
@@ -42,6 +45,5 @@
     "prettier": "^3.4.2",
     "vite": "^6.0.3",
     "vitest": "^2.1.8"
-  },
-  "packageManager": "pnpm@9.15.1+sha512.1acb565e6193efbebda772702950469150cf12bcc764262e7587e71d19dc98a423dff9536e57ea44c49bdf790ff694e83c27be5faa23d67e0c033b583be4bfcf"
+  }
 }
