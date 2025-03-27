@@ -21,7 +21,7 @@ class Router {
   handleRoute(path) {
     const isLogin = !!localStorage.getItem("user");
     let nowPath = path.replace("/index.hash.html", "/");
-    console.log(nowPath);
+    nowPath = nowPath.replace("/front_5th_chapter1-1", "");
     if (path === "/login" && isLogin) {
       history.pushState(null, "", "/");
       nowPath = "/";
