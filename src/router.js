@@ -50,13 +50,14 @@ export function hashRender() {
 }
 
 export function onClickLink(e) {
-  if (e.target.matches("[data-link]")) {
-    e.preventDefault();
-  } else if (e.target.href && e.target.href.includes("#")) {
-    e.preventDefault();
+  const target = e.target.closest("a");
+  if (!target) return;
+
+  e.preventDefault();
+  if (target.href && target.href.includes("#")) {
     logout();
-  } else if (e.target.href) {
-    navigate(e.target.href);
+  } else {
+    navigate(target.href);
   }
 }
 
