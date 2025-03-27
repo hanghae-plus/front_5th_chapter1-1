@@ -38,45 +38,18 @@ const Header = () => {
       navEl.addEventListener("click", (e) => {
         e.preventDefault();
 
-        if (e.target.id === "btn-home") {
-          if (!hashState.getHashState()) {
-            render("/");
-          } else {
-            import("../main.hash").then((mainHash) =>
-              mainHash.hashRender("#/"),
-            );
+        if (e.target.tagName === "A") {
+          const path = e.target.getAttribute("href");
+          if (path === "/logout") {
+            user.setIsLoggedIn(false);
+            localStorage.removeItem("user");
           }
-        }
-
-        if (e.target.id === "btn-login") {
-          if (!hashState.getHashState()) {
-            render("/login");
-          } else {
-            import("../main.hash").then((mainHash) =>
-              mainHash.hashRender("#/login"),
-            );
-          }
-        }
-
-        if (e.target.id === "btn-profile") {
-          if (!hashState.getHashState()) {
-            render("/profile");
-          } else {
-            import("../main.hash").then((mainHash) =>
-              mainHash.hashRender("#/profile"),
-            );
-          }
-        }
-
-        if (e.target.id === "logout") {
-          user.setIsLoggedIn(false);
-          localStorage.removeItem("user");
 
           if (!hashState.getHashState()) {
-            render("/login");
+            render(path);
           } else {
             import("../main.hash").then((mainHash) =>
-              mainHash.hashRender("#/login"),
+              mainHash.hashRender("#" + path),
             );
           }
         }
