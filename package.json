@@ -1,8 +1,9 @@
 {
-  "name": "front-5th-chapter1-1",
+  "name": "front_5th_chapter1-1",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://1-blue.github.io/front_5th_chapter1-1",
   "scripts": {
     "dev": "vite",
     "dev:hash": "vite --open ./index.hash.html",
@@ -19,13 +20,19 @@
     "test:e2e:report": "npx playwright show-report",
     "test:generate": "playwright codegen localhost:5173",
     "prepare": "husky",
-    "gh-pages": "bash gh-pages-publish.sh"
+    "gh-pages": "bash gh-pages-publish.sh",
+    "deploy": "pnpm build && gh-pages -d dist"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "prettier --write",
       "eslint --fix"
     ]
+  },
+  "dependencies": {
+    "gh-pages": "^6.3.0",
+    "vite": "^6.0.3",
+    "vitest": "^2.1.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
@@ -41,8 +48,6 @@
     "husky": "^9.1.7",
     "jsdom": "^25.0.1",
     "lint-staged": "^15.2.11",
-    "prettier": "^3.4.2",
-    "vite": "^6.0.3",
-    "vitest": "^2.1.8"
+    "prettier": "^3.4.2"
   }
 }
