@@ -1,5 +1,5 @@
-import { getData } from "../utils/localStorage";
-import { isHash } from "../utils/isHash";
+import { getData } from "../../utils/localStorage";
+import { isHash } from "../../utils/isHash";
 
 export const Header = () => {
   const user = getData("user", null);

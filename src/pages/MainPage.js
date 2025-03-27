@@ -4,7 +4,7 @@ import { removeData } from "../utils/localStorage";
 import { browserNavigate } from "../utils/navigate";
 import { isHash } from "../utils/isHash";
 // import store from "../store/store";
-import { Layout } from "../components/Layout";
+import { Layout } from "../components/common/Layout";
 class MainPage {
   constructor($container) {
     this.$container = $container;

@@ -2,7 +2,7 @@ import { getData } from "../utils/localStorage";
 import { browserNavigate } from "../utils/navigate";
 import { removeData, setData } from "../utils/localStorage";
 import { isHash } from "../utils/isHash";
-import { Layout } from "../components/Layout";
+import { Layout } from "../components/common/Layout";
 // import store from "../store/store";
 
 class ProfilePage {
