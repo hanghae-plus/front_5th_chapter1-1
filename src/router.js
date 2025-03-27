@@ -52,11 +52,12 @@ export function hashRender() {
 export function onClickLink(e) {
   if (e.target.matches("[data-link]")) {
     e.preventDefault();
-  } else if (e.target.href.includes("#")) {
+  } else if (e.target.href && e.target.href.includes("#")) {
     e.preventDefault();
     logout();
+  } else if (e.target.href) {
+    navigate(e.target.href);
   }
-  navigate(e.target.href);
 }
 
 export function navigate(path) {
