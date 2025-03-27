@@ -19,7 +19,7 @@
     "test:e2e:report": "npx playwright show-report",
     "test:generate": "playwright codegen localhost:5173",
     "prepare": "husky",
-    "predeploy": "pnpm run build && copy dist\\index.html dist\\404.html && copy index.hash.html dist\\ && copy .nojekyll dist\\",
+    "predeploy": "pnpm run build && copy dist\\index.html dist\\404.html && copy .nojekyll dist\\",
     "deploy": "gh-pages -d dist"
   },
   "lint-staged": {
