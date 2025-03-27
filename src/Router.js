@@ -1,4 +1,4 @@
-import ErrorPage from "./pages/ErrorPage";
+import ErrorPage from "./pages/404";
 import { browserRoutes, hashRoutes } from "./routes";
 export function Router($container) {
   this.$container = $container;

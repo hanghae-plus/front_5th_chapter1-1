@@ -1,6 +1,6 @@
-import MainPage from "./pages/MainPage";
-import LoginPage from "./pages/LoginPage";
-import ProfilePage from "./pages/ProfilePage";
+import MainPage from "./pages/main";
+import LoginPage from "./pages/login";
+import ProfilePage from "./pages/profile";
 export const browserRoutes = [
   { path: "/", component: MainPage },
   { path: "/login", component: LoginPage },
