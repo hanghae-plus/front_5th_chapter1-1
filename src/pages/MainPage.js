@@ -1,5 +1,5 @@
 import { MOCK_DATA } from "../const/mockData";
-import { FeedCard } from "../components/FeedCard";
+import { FeedCard } from "../components/main/FeedCard";
 import { removeData } from "../utils/localStorage";
 import { browserNavigate } from "../utils/navigate";
 import { isHash } from "../utils/isHash";
