@@ -1,13 +1,7 @@
 import { Header, Nav } from "./Header";
-import { isLoggedIn } from "../utils/login.js";
-import LoginPage from "./LoginPage.jsx";
 import { store } from "../utils/store.js";
 
 const ProfilePage = () => {
-  if (!isLoggedIn()) {
-    return LoginPage();
-  }
-
   const user = store.getData("user");
   return `
   <div id="root">
@@ -32,7 +26,7 @@ const ProfilePage = () => {
                   type="text"
                   id="username"
                   name="username"
-                  value="${user.username}"
+                  value="${user?.username}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -46,7 +40,7 @@ const ProfilePage = () => {
                   type="email"
                   id="email"
                   name="email"
-                  value="${user.email}"
+                  value="${user?.email}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -61,7 +55,7 @@ const ProfilePage = () => {
                   name="bio"
                   rows="4"
                   class="w-full p-2 border rounded"
-                >${user.bio}</textarea>
+                >${user?.bio}</textarea>
               </div>
               <button
                 type="submit"

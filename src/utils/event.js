@@ -1,12 +1,16 @@
 import { App } from "./router.js";
 import { store } from "./store.js";
 
-// 라우터 이벤트 리스너
+/**
+ * 라우터 이벤트 리스너
+ */
 window.addEventListener("popstate", () => {
   App.Render();
 });
 
-// 클릭 이벤트 리스너
+/**
+ * 클릭 이벤트 리스너
+ */
 document.addEventListener("click", (e) => {
   if (e.target.tagName === "A") {
     e.preventDefault();
@@ -22,7 +26,9 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// 로그인 폼 submit 이벤트 리스너
+/**
+ * 로그인 폼 submit 이벤트 리스너
+ */
 document.addEventListener("submit", (e) => {
   if (e.target.id === "login-form") {
     e.preventDefault();
