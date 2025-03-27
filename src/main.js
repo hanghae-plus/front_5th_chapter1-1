@@ -1,4 +1,4 @@
-import { handleRoute, navigateTo } from "./router.js";
+import { handleRoute, navigateTo } from "./router/router.js";
 
 window.addEventListener("popstate", handleRoute);
 

@@ -1,4 +1,4 @@
-import { hashHandleRoute, hashNavigateTo } from "./hashRouter.js";
+import { hashHandleRoute, hashNavigateTo } from "./router/hashRouter.js";
 
 // 해시 변경을 감지하여 라우팅 처리
 window.addEventListener("hashchange", hashHandleRoute);
