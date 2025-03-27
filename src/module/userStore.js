@@ -6,7 +6,6 @@ class UserStore {
 
   // 구독자 추가
   subscribe(observer) {
-    console.log("🔔 구독자 추가됨");
     this.observers.add(observer);
   }
 
