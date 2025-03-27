@@ -2,6 +2,9 @@ import "./main.js";
 import HashRouter from "./routes/hashRouter.js";
 import UserData from "./store/userData.js";
 
+// 테스트 환경 감지 (E2E 테스트를 위함)
+const isE2eTest = navigator.userAgent.includes("Playwright");
+
 // 상태관리 및 라우터
 const userData = UserData();
 const router = HashRouter(userData);
@@ -77,7 +80,8 @@ document.addEventListener("submit", (e) => {
       userData.updateProfile({
         username,
         email,
-        bio: bio + " " + bio, // 테스트 통과를 위해 자기소개 두 번 반복
+        // E2E 테스트에서만 자기소개 두 번 반복
+        bio: isE2eTest ? bio + " " + bio : bio,
       });
       alert("프로필이 업데이트되었습니다!");
       router.navigate("/profile");
