@@ -1,0 +1,10 @@
+{
+  "user":[
+    {
+      "userId": 1,
+      "name": "홍길동",
+      "email": "hong@example.com",
+      "bio": "안녕하세요. 저는 홍길동입니다."
+    }
+  ]
+}

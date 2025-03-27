@@ -1,0 +1,31 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "author": "홍길동",
+      "profileImage": "https://placehold.co/40",
+      "content": "오늘 날씨가 정말 좋네요. 다들 좋은 하루 보내세요!",
+      "timestamp": "2025-03-27T14:25:00Z",
+      "likes": 5,
+      "comments": 2
+    },
+    {
+      "id": 2,
+      "author": "김철수",
+      "profileImage": "https://placehold.co/40",
+      "content": "새로운 프로젝트를 시작했어요. 열심히 코딩 중입니다!",
+      "timestamp": "2025-03-27T14:15:00Z",
+      "likes": 10,
+      "comments": 3
+    },
+    {
+      "id": 3,
+      "author": "이영희",
+      "profileImage": "https://placehold.co/40",
+      "content": "오늘 점심 메뉴 추천 받습니다. 뭐가 좋을까요?",
+      "timestamp": "2025-03-27T14:00:00Z",
+      "likes": 2,
+      "comments": 8
+    }
+  ]
+}
