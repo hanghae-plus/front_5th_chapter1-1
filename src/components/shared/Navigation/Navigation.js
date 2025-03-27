@@ -1,5 +1,5 @@
 import { ID } from "@/constant.js";
-import { getUserInfoFromStorage } from "@/logic/localStorage.js";
+import { userInfo } from "@/main.js";
 
 const loginLink = () => {
   return `<li><a href="/login" class="text-gray-600">로그인</a></li>`;
@@ -10,7 +10,7 @@ const logoutLink = () => {
 };
 
 export const Navigation = () => {
-  const loggedInUserInfo = getUserInfoFromStorage();
+  const loggedInUserInfo = userInfo;
 
   return `
    <nav class="bg-white shadow-md p-2 sticky top-14">

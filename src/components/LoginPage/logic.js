@@ -1,6 +1,6 @@
 import { setUserInfoToStorage } from "@/logic/localStorage.js";
 import { ID } from "@/constant.js";
-import { renderPage } from "@/main.js";
+import { renderPage, updateUserInfo } from "@/main.js";
 
 function handleSubmitLogin(event) {
   event.preventDefault();
@@ -19,6 +19,8 @@ function handleSubmitLogin(event) {
     email,
     bio,
   });
+
+  updateUserInfo();
 
   return true;
 }

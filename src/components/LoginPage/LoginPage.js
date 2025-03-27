@@ -1,5 +1,5 @@
 import { ID } from "@/constant.js";
-import { getUserInfoFromStorage } from "@/logic/localStorage.js";
+import { userInfo } from "@/main.js";
 
 const LoginForm = () => {
   return `
@@ -32,7 +32,8 @@ const LogoutButton = () => {
 };
 
 export const LoginPage = () => {
-  const loggedInUserInfo = getUserInfoFromStorage();
+  // const loggedInUserInfo = getUserInfoFromStorage();
+  const loggedInUserInfo = userInfo;
 
   return `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">

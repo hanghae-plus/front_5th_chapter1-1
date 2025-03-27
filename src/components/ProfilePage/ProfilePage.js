@@ -1,12 +1,12 @@
-import { getUserInfoFromStorage } from "@/logic/localStorage.js";
 import { goTo } from "@/logic/router.js";
 import { Header } from "@/components/shared/Header/Header.js";
 import { Navigation } from "@/components/shared/Navigation/Navigation.js";
 import { Footer } from "@/components/shared/Footer/Footer.js";
 import { ID } from "@/constant.js";
+import { userInfo } from "@/main.js";
 
 export const ProfilePage = () => {
-  const user = getUserInfoFromStorage();
+  const user = userInfo;
 
   if (!user) {
     return goTo("/login");
