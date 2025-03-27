@@ -4,10 +4,13 @@ import LoginPage from "../pages/LoginPage";
 import ProfilePage from "../pages/ProfilePage";
 import router from "./router";
 
+const isProduction = import.meta.env.MODE === "production";
+const BASE = isProduction ? "/front_5th_chapter1-1" : "";
+
 const routes = {
-  "/": MainPage,
-  "/login": LoginPage,
-  "/profile": ProfilePage,
+  [`${BASE}/`]: MainPage,
+  [`${BASE}/login`]: LoginPage,
+  [`${BASE}/profile`]: ProfilePage,
 };
 
 // 다른 경로로 리디렉션하는 함수
