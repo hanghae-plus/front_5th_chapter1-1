@@ -1,4 +1,4 @@
-import { element } from "../common/element";
+import { element } from "../common/element.js";
 
 const profilePage = () => {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
