@@ -7,8 +7,7 @@ import {
   getPath,
   changeToHashRoute
 } from '../service/routerService.js';
-
-const baseURL = import.meta.env.BASE_URL;
+import { baseURL } from "../main.js";
 
 /*
  *   url route 정보

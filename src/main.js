@@ -1,3 +1,4 @@
+export const baseURL = import.meta.env.BASE_URL;
 const { renderPage } = require("./helper/route.js");
 
 // DOMContentLoaded, popstate의 경우 (popstate가 발생하는 시점에서는 이미 브라우저가 이전상태로 바뀌어있음).  url path가 이미 변경됨.. 따로 pushstate 할 필요없음.
