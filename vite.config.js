@@ -1,6 +1,6 @@
 import { resolve } from "path";
 import { defineConfig } from "vitest/config";
-// import { ssgCopyHTML } from "./plugins/ssg-copy";
+import { ssgCopyHTML } from "./plugins/ssg-copy";
 const isCI = process.env.CI === "true";
 
 export default defineConfig({
@@ -13,7 +13,7 @@ export default defineConfig({
       },
     },
   },
-  // plugins: isCI ? [ssgCopyHTML(["login", "profile"])] : undefined,
+  plugins: isCI ? undefined : [ssgCopyHTML(["login", "profile"])],
   test: {
     globals: true,
     environment: "jsdom",

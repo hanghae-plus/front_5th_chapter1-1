@@ -29,6 +29,8 @@ export const render = () => {
   let { pathname } = location;
   if (pathname.includes(PREFIX)) pathname = pathname.replace(PREFIX, "");
   const isLogon = store.isLogon();
+  if (pathname !== ROUTES.MAIN && pathname.endsWith("/"))
+    pathname = pathname.slice(0, -1);
   if (pathname === ROUTES.PROFILE && !isLogon)
     return navigate(ROUTES.LOGIN, true);
   else if (pathname === ROUTES.LOGIN && isLogon)
