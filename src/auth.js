@@ -1,5 +1,3 @@
-import { navigateTo } from "./lib/router";
-
 const UserStorage = {
   loggedIn: localStorage.getItem("user") ? true : false,
   preferences: JSON.parse(localStorage.getItem("user")) || {},
@@ -29,12 +27,12 @@ export default {
       username,
     });
     this.loggedIn = true;
-    navigateTo({ path: "/", replace: true });
+    window.router.navigate("/");
   },
   logout() {
     this.loggedIn = false;
     UserStorage.clear();
-    navigateTo({ path: "/login", replace: true });
+    window.router.navigate("/login");
   },
   getUser() {
     return UserStorage.get();
