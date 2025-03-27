@@ -1,4 +1,4 @@
-import { BASE_PATH } from "../router";
+import { BASE_PATH } from "../router/router";
 
 const matchedPath = (path) => {
   const currentPath = window.location.hash
@@ -8,15 +8,6 @@ const matchedPath = (path) => {
 };
 
 export const Header = ({ loggedIn }) => {
-  const nav = loggedIn
-    ? /* html */ `
-          <li><a href="/profile" class=${matchedPath("/profile") ? "text-blue-600" : "text-gray-600"}>프로필</a></li>
-          <li id="logout"><a href="#" class="text-gray-600">로그아웃</a></li>
-          `
-    : /* html */ `
-          <li><a href="/login" class=${matchedPath("/login") ? "text-blue-600" : "text-gray-600"}>로그인</a></li>
-          `;
-
   return /* html */ `
       <header class="bg-blue-600 text-white p-4 sticky top-0">
         <h1 class="text-2xl font-bold">항해플러스</h1>
@@ -24,8 +15,17 @@ export const Header = ({ loggedIn }) => {
 
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
-          <li><a href="/" class=${matchedPath("/") ? "text-blue-600" : "text-gray-600"}>홈</a></li>
-        ${nav}
+          <li><a href="/" class=${matchedPath("/") ? "text-blue-600 font-bold" : "text-gray-600"}>홈</a></li>
+        ${
+          loggedIn
+            ? /* html */ `
+          <li><a href="/profile" class=${matchedPath("/profile") ? "text-blue-600 font-bold" : "text-gray-600"}>프로필</a></li>
+          <li id="logout"><a href="#" class="text-gray-600">로그아웃</a></li>
+          `
+            : /* html */ `
+          <li><a href="/login" class=${matchedPath("/login") ? "text-blue-600 font-bold" : "text-gray-600"}>로그인</a></li>
+          `
+        }
         </ul>
       </nav>
 `;
