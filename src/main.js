@@ -1,5 +1,3 @@
-import { userData } from "./data/user";
-
 // -- router --
 
 // 전역 상태 관리 객체
@@ -8,7 +6,7 @@ import { userData } from "./data/user";
 // username: 현재 로그인한 사용자의 이름
 const state = {
   loggedIn: false,
-  currentPath: window.location.pathname,
+  currentPath: window.location.hash.slice(1) || window.location.pathname,
   username: "",
 };
 
@@ -21,53 +19,57 @@ const getPathFromHash = () => {
   return hash ? hash.slice(1) : window.location.pathname;
 };
 
+// 라우팅 가드 함수들
+// isLoggedIn: localStorage에서 사용자 정보를 확인하여 로그인 상태를 반환
+const isLoggedIn = () => {
+  return !!localStorage.getItem("user");
+};
+
+// requireAuth: 로그인이 필요한 페이지를 위한 가드 함수
+const requireAuth = (component) => {
+  return () => {
+    if (!isLoggedIn()) {
+      if (window.location.hash) {
+        window.location.hash = "/login";
+      } else {
+        window.history.pushState({}, "", "/login");
+      }
+      return LoginPage();
+    }
+    return component();
+  };
+};
+
 // 라우터 함수: URL 경로에 따라 적절한 페이지 컴포넌트를 렌더링
-// - /: 메인 페이지
-// - /profile: 로그인 상태에 따라 프로필 페이지 또는 로그인 페이지
-// - /login: 로그인 페이지
-// - 그 외: 에러 페이지
 const router = () => {
   const path = getPathFromHash();
   state.currentPath = path;
 
   // 로그인된 상태에서 /login 페이지 접근 시 메인으로 리다이렉트
   if (path === "/login" && state.loggedIn) {
-    window.history.pushState({}, "", "/");
+    if (window.location.hash) {
+      window.location.hash = "/";
+    } else {
+      window.history.pushState({}, "", "/");
+    }
     return MainPage();
   }
 
-  // 해시 기반 라우팅 처리
-  if (window.location.hash) {
-    switch (path) {
-      case "/login":
-        return /*html*/ `
-          <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
-          <input type="text" name="username" id="username" placeholder="사용자 이름" class="w-full p-2 border rounded">
-          <input type="password" name="password" id="password" placeholder="비밀번호" class="w-full p-2 border rounded">
-          <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
-          <a href="#" class="text-blue-600 text-sm">비밀번호를 잊으셨나요?</a>
-          <hr class="my-6">
-          <button class="bg-green-500 text-white px-4 py-2 rounded font-bold">새 계정 만들기</button>
-        `;
-      case "/nonexistent":
-        return /*html*/ `
-          <h1 class="text-2xl font-bold text-blue-600 mb-4">항해플러스</h1>
-          <p class="text-4xl font-bold text-gray-800 mb-4">404</p>
-          <p class="text-xl text-gray-600 mb-8">페이지를 찾을 수 없습니다</p>
-          <p class="text-gray-600 mb-8">요청하신 페이지가 존재하지 않거나 이동되었을 수 있습니다.</p>
-          <a href="/" class="bg-blue-600 text-white px-4 py-2 rounded font-bold">홈으로 돌아가기</a>
-        `;
-      default:
-        return MainPage();
+  // 비로그인 상태에서 /profile 페이지 접근 시 로그인으로 리다이렉트
+  if (path === "/profile" && !state.loggedIn) {
+    if (window.location.hash) {
+      window.location.hash = "/login";
+    } else {
+      window.history.pushState({}, "", "/login");
     }
+    return LoginPage();
   }
 
-  // 일반 라우팅 처리
   switch (path) {
     case "/":
       return MainPage();
     case "/profile":
-      return state.loggedIn ? ProfilePage() : LoginPage();
+      return requireAuth(ProfilePage)();
     case "/login":
       return LoginPage();
     default:
@@ -76,21 +78,15 @@ const router = () => {
 };
 
 // 상태 업데이트 함수
-// 새로운 상태를 기존 상태와 병합하고 화면을 다시 렌더링
 const setState = (newState) => {
   Object.assign(state, newState);
   render();
 };
 
 // 화면 렌더링 함수
-// 1. 라우터를 통해 현재 경로에 맞는 페이지 컴포넌트를 가져옴
-// 2. root 엘리먼트가 없으면 생성
-// 3. 페이지 컴포넌트를 root에 렌더링
-// 4. 이벤트 리스너 등록 (네비게이션, 로그인 폼, 프로필 폼, 로그아웃)
 const render = () => {
   const content = router();
 
-  // root 엘리먼트가 없으면 생성
   let root = document.getElementById("root");
   if (!root) {
     root = document.createElement("div");
@@ -98,9 +94,13 @@ const render = () => {
     document.body.appendChild(root);
   }
 
+  if (!root) {
+    console.error("Failed to create root element");
+    return;
+  }
+
   root.innerHTML = content;
 
-  // 이전 이벤트 리스너 제거 후 새로운 이벤트 리스너 등록
   if (navigationListener) {
     document.removeEventListener("click", navigationListener);
   }
@@ -108,9 +108,6 @@ const render = () => {
   document.addEventListener("click", navigationListener);
 
   // 로그인 폼 이벤트 리스너
-  // - 폼 제출 시 사용자 정보를 localStorage에 저장
-  // - 로그인 상태 업데이트
-  // - 홈 페이지로 리다이렉트
   const loginForm = document.getElementById("login-form");
   if (loginForm) {
     loginForm.addEventListener("submit", (e) => {
@@ -118,7 +115,7 @@ const render = () => {
       const username = e.target.querySelector("#username").value;
       const password = e.target.querySelector("#password").value;
 
-      if (username && password) {
+      if (username) {
         localStorage.setItem(
           "user",
           JSON.stringify({
@@ -128,17 +125,18 @@ const render = () => {
           }),
         );
         setState({ loggedIn: true, username });
-        window.history.pushState({}, "", "/");
-        render();
+        if (window.location.hash) {
+          window.location.hash = "/";
+        } else {
+          window.history.pushState({}, "", "/");
+        }
       } else {
-        alert("아이디와 비밀번호를 입력해주세요.");
+        alert("아이디를 입력해주세요.");
       }
     });
   }
 
   // 프로필 폼 이벤트 리스너
-  // - 폼 제출 시 사용자 정보를 localStorage에 업데이트
-  // - 로그인 상태 유지
   const profileForm = document.getElementById("profile-form");
   if (profileForm) {
     profileForm.addEventListener("submit", (e) => {
@@ -152,39 +150,34 @@ const render = () => {
         JSON.stringify({
           username,
           email,
-          bio: `${bio} ${bio}`,
+          bio,
         }),
       );
       setState({ loggedIn: true, username });
       alert("프로필이 업데이트되었습니다.");
-      window.history.pushState({}, "", "/profile");
-      render();
     });
   }
 
   // 로그아웃 버튼 이벤트 리스너
-  // - localStorage에서 사용자 정보 제거
-  // - 로그아웃 상태로 변경
-  // - 로그인 페이지로 리다이렉트
   const logoutButton = document.getElementById("logout");
   if (logoutButton) {
     logoutButton.onclick = (e) => {
       e.preventDefault();
       localStorage.removeItem("user");
       setState({ loggedIn: false, username: "" });
-      window.history.pushState({}, "", "/login");
-      render();
+      if (window.location.hash) {
+        window.location.hash = "/login";
+      } else {
+        window.history.pushState({}, "", "/login");
+      }
     };
   }
 };
 
 // 네비게이션 이벤트 처리 함수
-// - 링크 클릭 시 기본 동작 방지
-// - 로그아웃 링크(#) 클릭 시 로그아웃 처리
-// - 다른 링크 클릭 시 해당 경로로 이동
 const handleNavigation = (e) => {
   const target = e.target;
-  const link = target.closest("a[data-link]");
+  const link = target.closest("a[data-link]") || target.closest("a");
 
   if (link) {
     e.preventDefault();
@@ -193,16 +186,23 @@ const handleNavigation = (e) => {
     if (href === "#") {
       localStorage.removeItem("user");
       setState({ loggedIn: false, username: "" });
-      window.history.pushState({}, "", "/login");
+      if (window.location.hash) {
+        window.location.hash = "/login";
+      } else {
+        window.history.pushState({}, "", "/login");
+      }
     } else {
-      window.history.pushState({}, "", href);
+      if (window.location.hash) {
+        window.location.hash = href;
+      } else {
+        window.history.pushState({}, "", href);
+      }
     }
     render();
   }
 };
 
 // 브라우저 뒤로가기/앞으로가기 이벤트 처리
-// - popstate 이벤트 발생 시 화면 다시 렌더링
 window.addEventListener("popstate", () => {
   render();
 });
@@ -213,9 +213,6 @@ window.addEventListener("hashchange", () => {
 });
 
 // 초기화: 페이지 로드 시 실행
-// - localStorage에서 사용자 정보 확인
-// - 로그인 상태 복원
-// - 초기 화면 렌더링
 document.addEventListener("DOMContentLoaded", () => {
   const user = localStorage.getItem("user");
   if (user) {
@@ -257,17 +254,17 @@ const MainPage = () => /*html*/ `
           ? /*html*/ `<nav class="bg-white shadow-md p-2 sticky top-14">
               <ul class="flex justify-around">
                 <li>
-                  <a href="/" class="text-blue-600 font-bold">
+                  <a href="/" data-link class="text-blue-600 font-bold">
                     홈
                   </a>
                 </li>
                 <li>
-                  <a href="/profile" class="text-gray-600">
+                  <a href="/profile" data-link class="text-gray-600">
                     프로필
                   </a>
                 </li>
                 <li>
-                  <a href="#" id="logout" class="text-gray-600">
+                  <a href="#" id="logout" data-link class="text-gray-600">
                     로그아웃
                   </a>
                 </li>
@@ -276,12 +273,12 @@ const MainPage = () => /*html*/ `
           : /*html*/ `<nav class="bg-white shadow-md p-2 sticky top-14">
               <ul class="flex justify-around">
                 <li>
-                  <a href="/" class="text-blue-600">
+                  <a href="/" data-link class="text-blue-600">
                     홈
                   </a>
                 </li>
                 <li>
-                  <a href="/login" class="text-gray-600">
+                  <a href="/login" data-link class="text-gray-600">
                     로그인
                   </a>
                 </li>
@@ -323,12 +320,90 @@ const MainPage = () => /*html*/ `
           `
               : ""
           }
+
+          <div class="bg-white rounded-lg shadow p-4">
+            <div class="flex items-center mb-2">
+              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
+              <div>
+                <p class="font-bold">홍길동</p>
+                <p class="text-sm text-gray-500">5분 전</p>
+              </div>
+            </div>
+            <p>오늘 날씨가 정말 좋네요. 다들 좋은 하루 보내세요!</p>
+            <div class="mt-2 flex justify-between text-gray-500">
+              <button>좋아요</button>
+              <button>댓글</button>
+              <button>공유</button>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-lg shadow p-4">
+            <div class="flex items-center mb-2">
+              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
+              <div>
+                <p class="font-bold">김철수</p>
+                <p class="text-sm text-gray-500">15분 전</p>
+              </div>
+            </div>
+            <p>새로운 프로젝트를 시작했어요. 열심히 코딩 중입니다!</p>
+            <div class="mt-2 flex justify-between text-gray-500">
+              <button>좋아요</button>
+              <button>댓글</button>
+              <button>공유</button>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-lg shadow p-4">
+            <div class="flex items-center mb-2">
+              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
+              <div>
+                <p class="font-bold">이영희</p>
+                <p class="text-sm text-gray-500">30분 전</p>
+              </div>
+            </div>
+            <p>오늘 점심 메뉴 추천 받습니다. 뭐가 좋을까요?</p>
+            <div class="mt-2 flex justify-between text-gray-500">
+              <button>좋아요</button>
+              <button>댓글</button>
+              <button>공유</button>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-lg shadow p-4">
+            <div class="flex items-center mb-2">
+              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
+              <div>
+                <p class="font-bold">박민수</p>
+                <p class="text-sm text-gray-500">1시간 전</p>
+              </div>
+            </div>
+            <p>주말에 등산 가실 분 계신가요? 함께 가요!</p>
+            <div class="mt-2 flex justify-between text-gray-500">
+              <button>좋아요</button>
+              <button>댓글</button>
+              <button>공유</button>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-lg shadow p-4">
+            <div class="flex items-center mb-2">
+              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
+              <div>
+                <p class="font-bold">정수연</p>
+                <p class="text-sm text-gray-500">2시간 전</p>
+              </div>
+            </div>
+            <p>새로 나온 영화 재미있대요. 같이 보러 갈 사람?</p>
+            <div class="mt-2 flex justify-between text-gray-500">
+              <button>좋아요</button>
+              <button>댓글</button>
+              <button>공유</button>
+            </div>
+          </div>
         </div>
       </main>
 
-      <footer class="bg-gray-200 p-4 text-center">
-        <p>&copy; 2024 항해플러스. All rights reserved.</p>
-      </footer>
+      ${Footer()}
     </div>
   </div>
 `;
@@ -345,7 +420,7 @@ const ErrorPage = () => /*html*/ `
       <p class="text-gray-600 mb-8">
         요청하신 페이지가 존재하지 않거나 이동되었을 수 있습니다.
       </p>
-      <a href="/" class="bg-blue-600 text-white px-4 py-2 rounded font-bold">
+      <a href="/" data-link class="bg-blue-600 text-white px-4 py-2 rounded font-bold">
         홈으로 돌아가기
       </a>
     </div>
@@ -395,9 +470,9 @@ const ProfilePage = () => {
 
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
-          <li><a href="/" class="text-gray-600">홈</a></li>
-          <li><a href="/profile" class="text-blue-600">프로필</a></li>
-          <li><a href="#" id="logout" class="text-gray-600">로그아웃</a></li>
+          <li><a href="/" data-link class="text-gray-600">홈</a></li>
+          <li><a href="/profile" data-link class="text-blue-600">프로필</a></li>
+          <li><a href="#" id="logout" data-link class="text-gray-600">로그아웃</a></li>
         </ul>
       </nav>
 
@@ -458,9 +533,7 @@ const ProfilePage = () => {
         </div>
       </main>
 
-      <footer class="bg-gray-200 p-4 text-center">
-        <p>&copy; 2024 항해플러스. All rights reserved.</p>
-      </footer>
+      ${Footer()}
     </div>
   </div>
 `;
