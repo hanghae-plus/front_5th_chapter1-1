@@ -28,7 +28,7 @@ class Router {
       const routePath = path || "/";
       this.handleRoute(routePath);
     } else {
-      history.pushState(null, "", path);
+      history.pushState(null, "", `${this.basePath}${path}`);
       this.handleRoute(path);
     }
   }
@@ -37,7 +37,6 @@ class Router {
     if (!this.isHashMode) {
       this.handleRoute(window.location.pathname);
     }
-    this.handleRoute(window.location.pathname);
   }
 
   handleHashChange() {
@@ -48,7 +47,7 @@ class Router {
   }
 
   handleRoute(path) {
-    const handler = this.routes[`${this.basePath}${path}`] || this.routes["*"];
+    const handler = this.routes[path] || this.routes["*"];
 
     if (handler) {
       handler();
