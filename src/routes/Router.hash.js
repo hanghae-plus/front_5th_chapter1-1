@@ -21,6 +21,7 @@ class HashRouter extends Router {
   handleHashChange() {
     console.log("해시 변경 감지됨");
     const path = this.getCurrentPath();
+    console.log("해시 라우터: handleHashChange", path);
     this.handleRoute("root", path);
   }
 
@@ -29,25 +30,24 @@ class HashRouter extends Router {
     console.log("해시 라우터: navigateTo", path);
     //#을 입력안해도 자동으로 #이 들어간다.
     window.location.hash = path;
+    console.log("해시 라우터: navigateTo", window.location.hash);
   }
 
-  //handleRoute 구현 필수
-  handleRoute(element, path) {
-    if (path === "/profile") {
-      const userData = localStorage.getItem("user");
-      if (!userData) {
-        this.navigateTo("/login");
-        return; // 함수 종료로 렌더링 자체를 방지
-      }
-    }
-
-    // 인증 통과 또는 다른 페이지인 경우 렌더링 계속 진행
-    const renderElement = document.getElementById(element);
-    if (renderElement) {
-      renderElement.innerHTML = this.renderPage(path);
-      this.setupPageListeners(path);
-    }
-  }
+  // //handleRoute 구현 필수
+  // handleRoute(element, path) {
+  //   const redirectPath = this.authGuard(path);
+  //   if (redirectPath) {
+  //     console.log("인증 실패: 리다이렉트", redirectPath);
+  //     this.navigateTo(redirectPath);
+  //     return; // 렌더링 중단
+  //   }
+  //   // 인증 통과 또는 다른 페이지인 경우 렌더링 계속 진행
+  //   const renderElement = document.getElementById(element);
+  //   if (renderElement) {
+  //     renderElement.innerHTML = this.renderPage(path);
+  //     this.setupPageListeners(path);
+  //   }
+  // }
   //init 구현 필수
   init() {
     this.addRoute("/", MainPage);

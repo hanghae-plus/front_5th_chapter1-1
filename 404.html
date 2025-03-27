@@ -1,31 +1,33 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
     <title>Single Page Apps for GitHub Pages</title>
     <script type="text/javascript">
-       // GitHub Pages에서 SPA 라우팅을 위한 리다이렉션 처리
-    (function() {
-      // 404.html에서 리다이렉션된 경우 처리
-      var p = window.location.search.match(/\?p=\/?(.*)/);
-      var redirectPath = p ? (p[1] || '') : null;
-      
-      // 쿼리 파라미터 처리
-      var q = window.location.search.match(/&q=(.*)/);
-      var queryParams = q ? q[1].replace(/~and~/g, '&') : '';
-      
-      // 완전한 경로 구성
-      if (redirectPath) {
-        // 경로가 슬래시로 시작하지 않으면 추가
-        var path = redirectPath.startsWith('/') ? redirectPath : '/' + redirectPath;
-        
-        // 쿼리 파라미터 추가 (있는 경우)
-        var fullPath = path + (queryParams ? '?' + queryParams : '') + window.location.hash;
-        
-        // 히스토리 API를 사용하여 URL 변경
-        window.history.replaceState(null, null, fullPath);
-      }
-    })();
+      var pathSegmentsToKeep = 1;
+      var l = window.location;
+      var pathname = l.pathname;
+      var search = l.search;
+      var hash = l.hash;
+
+      // 경로에서 슬래시 유지
+      var pathParts = pathname.split("/");
+      var basePath = pathParts.slice(0, 1 + pathSegmentsToKeep).join("/");
+      var remainingPath = pathParts.slice(1 + pathSegmentsToKeep).join("/");
+
+      // 리다이렉션 URL 생성
+      var redirectUrl =
+        l.protocol +
+        "//" +
+        l.hostname +
+        (l.port ? ":" + l.port : "") +
+        basePath +
+        "/?p=/" +
+        remainingPath +
+        (search ? "&q=" + search.slice(1).replace(/&/g, "~and~") : "") +
+        hash;
+
+      l.replace(redirectUrl);
     </script>
   </head>
   <body></body>

@@ -12,6 +12,7 @@ const Nav = () => {
   // 라우터 타입에 따라 현재 경로 확인 방법 결정
   const getCurrentPath = () => {
     if (routerType === "hash") {
+      console.log("해시 라우팅: getCurrentPath", window.location.hash);
       // 해시 라우팅: #/path 형식에서 경로 추출
       return window.location.hash.slice(1) || "/";
     } else {
@@ -48,7 +49,7 @@ const Nav = () => {
 
     if (routerType === "hash") {
       // 해시 라우팅 경로 형식
-      return `#${path}`;
+      return `/${path}`;
     } else {
       // 브라우저 라우팅 경로 형식
       if (path === "/") {

@@ -9,6 +9,11 @@
  */
 
 import globalState from "../lib/globalState";
+import {
+  loginFormSubmitEvent,
+  navLinkClickEvent,
+  profileFormSubmitEvent,
+} from "../lib/setEvent";
 import ErrorPage from "../pages/ErrorPage";
 import { authService } from "../services/authService";
 
@@ -49,18 +54,46 @@ class Router {
   // logout() {
   //   globalState.initUser("user");
   // }
+  //브라우저에서 repoName을 삭제해서 진행
+  cleanPath(path) {
+    // path가 null이나 undefined인 경우 기본값 제공
+    if (!path) return "/";
+    console.log("this.repoName", this.repoName);
+    console.log("window.location.hostname", window.location.hostname);
+    console.log("this.isGhPages", this.isGhPages);
 
+    if (this.repoName && path.startsWith(this.repoName)) {
+      // repoName을 제거한 후의 경로
+      const cleanedPath = path.slice(this.repoName.length);
+      console.log("cleanedPath", cleanedPath);
+
+      // 시작이 '/'로 시작하지 않으면 '/'를 추가
+      if (!cleanedPath.startsWith("/")) {
+        console.log("cleanedPath", "/" + cleanedPath);
+        return "/" + cleanedPath;
+      }
+      // 이미 '/'로 시작하면 그대로 반환
+      return cleanedPath;
+    }
+    // gh-pages가 아닌 경우는 원래 경로 반환
+    return path;
+  }
   //헤더 링크 클릭 이벤트 , navigateTo 자식 클래스에서 구현
   //헤더 링크 클릭 (로직이 거의 동일한데 살짝 다름 95% 동일)
   handleLinkClick = (event) => {
     console.log("handleLinkClick 실행");
     if (event.target.tagName === "A") {
       event.preventDefault();
-      const href = event.target.getAttribute("href");
-      const path = href.includes("#") ? href.split("#")[1] : href;
-      console.log("handleLinkClick", path);
-      if (href === "/logout" || path === "/logout") {
-        console.log("/logout 실행");
+      console.log(
+        "event.target.getAttribute('href')",
+        event.target.getAttribute("href"),
+      );
+      const href = this.cleanPath(event.target.getAttribute("href"));
+      const path = href.includes("#")
+        ? href.split("#")[1]
+        : this.cleanPath(href);
+      console.log("path", path); ///{repoName}/logout 경로를 타고 갈때 repo이름이 붙는거 같다.
+      if (this.cleanPath(href) === "/logout" || path === "/logout") {
         // 로그아웃 처리 로직
         authService.logout();
         this.navigateTo("/login");
@@ -76,15 +109,6 @@ class Router {
 
     const username = document.getElementById("username").value;
     const password = document.getElementById("userPw").value;
-
-    // 해당 부분 authService로 분리해서 좀 더 간결하게 처리 해보려고 했습니다.
-    // if (username === "testuser") {
-    //   const user = {
-    //     username: username,
-    //     email: "",
-    //     bio: "",
-    //   };
-    //   globalState.setUser("user", user);
     if (authService.login(username, password)) {
       this.navigateTo("/profile");
     } else if (!username || !password) {
@@ -110,48 +134,78 @@ class Router {
       };
 
       globalState.setUser("user", user);
-      window.location.reload();
+      // window.location.reload();
+      this.navigateTo("/profile");
     }
   };
 
+  //authGuard 생성
+  authGuard(path) {
+    console.log("authGuard 실행");
+    console.log("path", path);
+    const userData = globalState.getUser("user");
+    console.log("userData", userData);
+    //프로필 페이지 접근 시 인증 필요
+    // 프로필 페이지 접근 시 인증 필요
+    if (path === "/profile" && !userData) {
+      console.log("인증 필요: 프로필 페이지 접근 시도");
+      //여기서 navigateTo를 실행할 경우 테스트 통과가 되지 못하였다 why?
+      // return this.navigateTo("/login");
+      return "/login"; // 리다이렉트할 경로 반환
+    }
+
+    // 로그인 페이지에 이미 로그인한 상태로 접근 시
+    if (path === "/login" && userData) {
+      console.log("이미 로그인됨: 로그인 페이지 접근 시도");
+      return "/"; // 홈으로 리다이렉트
+    }
+
+    // 인증 통과 또는 인증이 필요 없는 페이지
+    return null; // 리다이렉트 필요 없음
+  }
+
+  //handleRoute 구현 필수
+  handleRoute(element, path) {
+    const redirectPath = this.authGuard(path);
+    if (redirectPath) {
+      console.log("인증 실패: 리다이렉트", redirectPath);
+      this.navigateTo(redirectPath);
+      return; // 렌더링 중단
+    }
+    // 인증 통과 또는 다른 페이지인 경우 렌더링 계속 진행
+    const renderElement = document.getElementById(element);
+    if (renderElement) {
+      renderElement.innerHTML = this.renderPage(path);
+      this.setupPageListeners(path);
+    }
+  }
+
   //authGuard형태로 표시하고 싶지만 일단 우선은 구현에 초점
+  //authGuard생성 후 변경.
   setupPageListeners(path) {
     console.log("setupPageListeners path", path);
     this.currentPath = path;
-    const userData = globalState.getUser("user");
 
     if (path === "/login") {
-      if (userData) {
-        this.navigateTo("/");
-        return;
-      }
-      const loginForm = document.getElementById("login-form");
-      if (loginForm) {
-        loginForm.removeEventListener("submit", this.handleLogin);
-        loginForm.addEventListener("submit", this.handleLogin);
-      }
+      // 로그인 관련 인증 검사 코드 제거 (이미 authGuard에서 처리)
+      loginFormSubmitEvent(this.handleLogin);
     }
 
     // 프로필 페이지 리스너
-    if (path === "/profile" && !userData) {
-      this.navigateTo("/login");
-      return;
-    } else {
-      const profileForm = document.getElementById("profile-form");
-      if (profileForm) {
-        profileForm.removeEventListener("submit", this.handleUpdateProfile);
-        profileForm.addEventListener("submit", this.handleUpdateProfile);
-      }
+    if (path === "/profile") {
+      // 프로필 관련 인증 검사 코드 제거 (이미 authGuard에서 처리)
+      profileFormSubmitEvent(this.handleUpdateProfile);
     }
 
     //네비게이션 리스너 (로그인, 로그아웃 페이지 제외)
     if (path !== "/login") {
       console.log("nav 이벤트 리스너 등록");
-      const navElement = document.querySelector("nav");
-      if (navElement) {
-        navElement.removeEventListener("click", this.handleLinkClick);
-        navElement.addEventListener("click", this.handleLinkClick);
-      }
+      // const navElement = document.querySelector("nav");
+      // if (navElement) {
+      //   navElement.removeEventListener("click", this.handleLinkClick);
+      //   navElement.addEventListener("click", this.handleLinkClick);
+      // }
+      navLinkClickEvent(this.handleLinkClick);
     }
   }
 
@@ -160,10 +214,10 @@ class Router {
     throw new Error("자식 클래스에서 해당 메서드 구현해야합니다.");
   }
 
-  //자식 클래스 에서 구현합니다.
-  handleRoute() {
-    throw new Error("자식 클래스에서 해당 메서드 구현해야합니다.");
-  }
+  // //자식 클래스 에서 구현합니다.
+  // handleRoute() {
+  //   throw new Error("자식 클래스에서 해당 메서드 구현해야합니다.");
+  // }
 
   //init 자식 메서드에서 구현합니다. 이렇게 Error를 호출하지 않으면 선언시 아무런 문제가 발생하지 않아, 어떤 문제 인지 알기 힘들다.
 
