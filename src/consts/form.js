@@ -20,12 +20,12 @@ export const PROFILE_FORM_FIELDS = [
 export const LOGIN_FORM_FIELDS = [
   {
     id: "username",
-    label: "사용자 이름",
+    placeholder: "사용자 이름",
     type: "text",
   },
   {
     id: "password",
-    label: "비밀번호",
+    placeholder: "비밀번호",
     type: "password",
   },
 ];
