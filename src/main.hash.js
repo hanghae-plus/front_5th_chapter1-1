@@ -7,6 +7,8 @@ import { BASE_URL } from "./util/constants";
 import { render } from "./hashRender";
 
 const App = () => {
+  console.log(location.hash);
+
   const isAuthenticated = store.getState().loggedIn;
   if (location.hash === `${BASE_URL}#/profile` && !isAuthenticated) {
     location.hash = `${BASE_URL}#/login`;
