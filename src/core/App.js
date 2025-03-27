@@ -4,17 +4,16 @@ import { getDeployUrl } from "./getDeployUrl";
 import getRouterMode from "./getRouterMode";
 
 export const App = () => {
-  let isHashRouter = getRouterMode() === "hash";
-  let path = isHashRouter ? window.location.hash.slice(1) : location.pathname;
-  let isLogin = new User().isLogin();
+  const isHashRouter = getRouterMode() === "hash";
+  const path = isHashRouter ? window.location.hash.slice(1) : location.pathname;
+  const isLogin = new User().isLogin();
   const DEPLOY_URL = getDeployUrl();
 
-  if (path === `${DEPLOY_URL}/`) return MainPage();
-  if (path === `${DEPLOY_URL}/profile`) {
-    return isLogin ? ProfilePage() : LoginPage();
-  }
-  if (path === `${DEPLOY_URL}/login`) {
-    return isLogin ? MainPage() : LoginPage();
-  }
-  return ErrorPage();
+  const routes = {
+    [`${DEPLOY_URL}/`]: MainPage(),
+    [`${DEPLOY_URL}/profile`]: isLogin ? ProfilePage() : LoginPage(),
+    [`${DEPLOY_URL}/login`]: isLogin ? MainPage() : LoginPage(),
+  };
+
+  return routes[path] || ErrorPage();
 };
