@@ -1,5 +1,5 @@
 import { Footer, Header, Nav } from "../components";
-import { getMockPosts } from "../mock/posts";
+import { Posts } from "../components/posts";
 
 export const MainPage = (container) => {
   if (!container) return;
@@ -16,7 +16,7 @@ export const MainPage = (container) => {
           </div>
 
           <div class="space-y-4">
-            ${getMockPosts()}
+            ${Posts.template()}
           </div>
         </main>
         ${Footer()}
@@ -25,4 +25,5 @@ export const MainPage = (container) => {
   `;
 
   Nav.onMount();
+  Posts.onMount();
 };
