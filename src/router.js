@@ -17,6 +17,7 @@ export const Router = () => {
 
   let layout = "";
 
+  // history api
   if (window.location.pathname) {
     const path = window.location.pathname;
     switch (path) {
@@ -40,6 +41,7 @@ export const Router = () => {
     }
   }
 
+  // hash
   if (window.location.hash) {
     const hash = window.location.hash;
     // const hash = window.location + '#/';
