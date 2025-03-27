@@ -4,10 +4,12 @@ import router from "./router/router.js";
 import ErrorPage from "./pages/ErrorPage";
 
 function render() {
-  console.log("hash render start!");
+  // console.log("hash render start!");
   const path = router.getCurrentPath(); // hash라우터. path값을 받아 옴. ex)/login
   // render함수 안에 routes모듈 불러옴
+
   const content = handleRouting(path);
+  // console.log(content);
 
   // 해쉬 모드일 때 window.location.hash에 path값을 넣어준다
   // 이 부분 나중에 확인. 라우트 가드로 인해 routes.js파일에서 이 부분 넣어놓음.

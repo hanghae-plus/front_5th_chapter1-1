@@ -6,20 +6,30 @@
 // if(window.location.pathname.includes("index.hash.html") && window.)
 console.log("나는 router.js야");
 
+const isProduction = import.meta.env.MODE === "production";
+const BASE = isProduction ? "/front_5th_chapter1-1" : "";
+
 const router = {
   // hash모드이면 #을 제거한 /login OR / 아니면 그냥 pathname(history mode)
   getCurrentPath: () => {
-    // console.log("getCurrentPath");
+    console.log("start getCurrentPath");
     const isHashMode =
       window.location.pathname.includes("index.hash.html") ||
       window.location.hash !== "";
 
-    return isHashMode
-      ? window.location.hash.slice(1) || "/"
-      : window.location.pathname;
+    // 배포모드이고 해쉬모드일 때
+    if (isProduction && isHashMode) {
+      return isHashMode
+        ? BASE + window.location.hash.slice(1) || BASE + "/"
+        : window.location.pathname;
+    } else {
+      return isHashMode
+        ? window.location.hash.slice(1) || "/"
+        : window.location.pathname;
+    }
   },
   navigate: (path) => {
-    console.log("router - navigate");
+    // console.log("router - navigate");
     const isHashMode =
       window.location.pathname.includes("index.hash.html") ||
       window.location.hash !== "";

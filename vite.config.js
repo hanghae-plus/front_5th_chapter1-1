@@ -10,5 +10,13 @@ export default defineConfig(({ mode }) => {
       setupFiles: "./src/setupTests.js",
       exclude: ["**/e2e/**", "**/*.e2e.spec.js", "**/node_modules/**"],
     },
+    build: {
+      rollupOptions: {
+        input: {
+          main: "index.html",
+          hash: "index.hash.html", // Hash 라우터용 HTML 추가
+        },
+      },
+    },
   };
 });
