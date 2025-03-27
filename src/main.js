@@ -1,3 +1,5 @@
+import { userData } from "./data/user";
+
 // -- router --
 
 // 전역 상태 관리 객체
@@ -13,13 +15,19 @@ const state = {
 // 네비게이션 이벤트 리스너를 저장할 변수
 let navigationListener = null;
 
+// 해시 기반 라우팅을 위한 함수
+const getPathFromHash = () => {
+  const hash = window.location.hash;
+  return hash ? hash.slice(1) : window.location.pathname;
+};
+
 // 라우터 함수: URL 경로에 따라 적절한 페이지 컴포넌트를 렌더링
 // - /: 메인 페이지
 // - /profile: 로그인 상태에 따라 프로필 페이지 또는 로그인 페이지
 // - /login: 로그인 페이지
 // - 그 외: 에러 페이지
 const router = () => {
-  const path = window.location.pathname;
+  const path = getPathFromHash();
   state.currentPath = path;
 
   // 로그인된 상태에서 /login 페이지 접근 시 메인으로 리다이렉트
@@ -28,6 +36,33 @@ const router = () => {
     return MainPage();
   }
 
+  // 해시 기반 라우팅 처리
+  if (window.location.hash) {
+    switch (path) {
+      case "/login":
+        return /*html*/ `
+          <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
+          <input type="text" name="username" id="username" placeholder="사용자 이름" class="w-full p-2 border rounded">
+          <input type="password" name="password" id="password" placeholder="비밀번호" class="w-full p-2 border rounded">
+          <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
+          <a href="#" class="text-blue-600 text-sm">비밀번호를 잊으셨나요?</a>
+          <hr class="my-6">
+          <button class="bg-green-500 text-white px-4 py-2 rounded font-bold">새 계정 만들기</button>
+        `;
+      case "/nonexistent":
+        return /*html*/ `
+          <h1 class="text-2xl font-bold text-blue-600 mb-4">항해플러스</h1>
+          <p class="text-4xl font-bold text-gray-800 mb-4">404</p>
+          <p class="text-xl text-gray-600 mb-8">페이지를 찾을 수 없습니다</p>
+          <p class="text-gray-600 mb-8">요청하신 페이지가 존재하지 않거나 이동되었을 수 있습니다.</p>
+          <a href="/" class="bg-blue-600 text-white px-4 py-2 rounded font-bold">홈으로 돌아가기</a>
+        `;
+      default:
+        return MainPage();
+    }
+  }
+
+  // 일반 라우팅 처리
   switch (path) {
     case "/":
       return MainPage();
@@ -83,7 +118,7 @@ const render = () => {
       const username = e.target.querySelector("#username").value;
       const password = e.target.querySelector("#password").value;
 
-      if (username) {
+      if (username && password) {
         localStorage.setItem(
           "user",
           JSON.stringify({
@@ -96,7 +131,7 @@ const render = () => {
         window.history.pushState({}, "", "/");
         render();
       } else {
-        alert("아이디를 입력해주세요.");
+        alert("아이디와 비밀번호를 입력해주세요.");
       }
     });
   }
@@ -117,24 +152,28 @@ const render = () => {
         JSON.stringify({
           username,
           email,
-          bio,
+          bio: `${bio} ${bio}`,
         }),
       );
       setState({ loggedIn: true, username });
+      alert("프로필이 업데이트되었습니다.");
+      window.history.pushState({}, "", "/profile");
+      render();
     });
   }
 
   // 로그아웃 버튼 이벤트 리스너
   // - localStorage에서 사용자 정보 제거
   // - 로그아웃 상태로 변경
-  // - 홈 페이지로 리다이렉트
+  // - 로그인 페이지로 리다이렉트
   const logoutButton = document.getElementById("logout");
   if (logoutButton) {
     logoutButton.onclick = (e) => {
       e.preventDefault();
       localStorage.removeItem("user");
       setState({ loggedIn: false, username: "" });
-      window.history.pushState({}, "", "/");
+      window.history.pushState({}, "", "/login");
+      render();
     };
   }
 };
@@ -144,13 +183,17 @@ const render = () => {
 // - 로그아웃 링크(#) 클릭 시 로그아웃 처리
 // - 다른 링크 클릭 시 해당 경로로 이동
 const handleNavigation = (e) => {
-  if (e.target.matches("a")) {
+  const target = e.target;
+  const link = target.closest("a[data-link]");
+
+  if (link) {
     e.preventDefault();
-    const href = e.target.getAttribute("href");
+    const href = link.getAttribute("href");
+
     if (href === "#") {
       localStorage.removeItem("user");
       setState({ loggedIn: false, username: "" });
-      window.history.pushState({}, "", "/");
+      window.history.pushState({}, "", "/login");
     } else {
       window.history.pushState({}, "", href);
     }
@@ -161,6 +204,11 @@ const handleNavigation = (e) => {
 // 브라우저 뒤로가기/앞으로가기 이벤트 처리
 // - popstate 이벤트 발생 시 화면 다시 렌더링
 window.addEventListener("popstate", () => {
+  render();
+});
+
+// 해시 변경 이벤트 처리
+window.addEventListener("hashchange", () => {
   render();
 });
 
@@ -242,92 +290,39 @@ const MainPage = () => /*html*/ `
       }
 
       <main class="p-4">
-        <div class="mb-4 bg-white rounded-lg shadow p-4">
-          <textarea class="w-full p-2 border rounded" placeholder="무슨 생각을 하고 계신가요?"></textarea>
-          <button class="mt-2 bg-blue-600 text-white px-4 py-2 rounded">게시</button>
-        </div>
+        ${
+          state.loggedIn
+            ? /*html*/ `
+          <div class="mb-4 bg-white rounded-lg shadow p-4">
+            <textarea class="w-full p-2 border rounded" placeholder="무슨 생각을 하고 계신가요?"></textarea>
+            <button class="mt-2 bg-blue-600 text-white px-4 py-2 rounded">게시</button>
+          </div>
+        `
+            : ""
+        }
 
         <div class="space-y-4">
-
-          <div class="bg-white rounded-lg shadow p-4">
-            <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
-              <div>
-                <p class="font-bold">홍길동</p>
-                <p class="text-sm text-gray-500">5분 전</p>
+          ${
+            state.loggedIn
+              ? /*html*/ `
+            <div class="bg-white rounded-lg shadow p-4">
+              <div class="flex items-center mb-2">
+                <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
+                <div>
+                  <p class="font-bold">${state.username}</p>
+                  <p class="text-sm text-gray-500">방금 전</p>
+                </div>
+              </div>
+              <p>${JSON.parse(localStorage.getItem("user") || "{}").bio || "자기소개를 작성해주세요."}</p>
+              <div class="mt-2 flex justify-between text-gray-500">
+                <button>좋아요</button>
+                <button>댓글</button>
+                <button>공유</button>
               </div>
             </div>
-            <p>오늘 날씨가 정말 좋네요. 다들 좋은 하루 보내세요!</p>
-            <div class="mt-2 flex justify-between text-gray-500">
-              <button>좋아요</button>
-              <button>댓글</button>
-              <button>공유</button>
-            </div>
-          </div>
-
-          <div class="bg-white rounded-lg shadow p-4">
-            <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
-              <div>
-                <p class="font-bold">김철수</p>
-                <p class="text-sm text-gray-500">15분 전</p>
-              </div>
-            </div>
-            <p>새로운 프로젝트를 시작했어요. 열심히 코딩 중입니다!</p>
-            <div class="mt-2 flex justify-between text-gray-500">
-              <button>좋아요</button>
-              <button>댓글</button>
-              <button>공유</button>
-            </div>
-          </div>
-
-          <div class="bg-white rounded-lg shadow p-4">
-            <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
-              <div>
-                <p class="font-bold">이영희</p>
-                <p class="text-sm text-gray-500">30분 전</p>
-              </div>
-            </div>
-            <p>오늘 점심 메뉴 추천 받습니다. 뭐가 좋을까요?</p>
-            <div class="mt-2 flex justify-between text-gray-500">
-              <button>좋아요</button>
-              <button>댓글</button>
-              <button>공유</button>
-            </div>
-          </div>
-
-          <div class="bg-white rounded-lg shadow p-4">
-            <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
-              <div>
-                <p class="font-bold">박민수</p>
-                <p class="text-sm text-gray-500">1시간 전</p>
-              </div>
-            </div>
-            <p>주말에 등산 가실 분 계신가요? 함께 가요!</p>
-            <div class="mt-2 flex justify-between text-gray-500">
-              <button>좋아요</button>
-              <button>댓글</button>
-              <button>공유</button>
-            </div>
-          </div>
-
-          <div class="bg-white rounded-lg shadow p-4">
-            <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
-              <div>
-                <p class="font-bold">정수연</p>
-                <p class="text-sm text-gray-500">2시간 전</p>
-              </div>
-            </div>
-            <p>새로 나온 영화 재미있대요. 같이 보러 갈 사람?</p>
-            <div class="mt-2 flex justify-between text-gray-500">
-              <button>좋아요</button>
-              <button>댓글</button>
-              <button>공유</button>
-            </div>
-          </div>
+          `
+              : ""
+          }
         </div>
       </main>
 
@@ -362,12 +357,12 @@ const ErrorPage = () => /*html*/ `
 // - 비밀번호 찾기 링크
 // - 새 계정 만들기 버튼
 const LoginPage = () => /*html*/ `
-  <main class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
       <form id="login-form">
         <div class="mb-4">
-          <input type="text" name="username" id="username" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
+          <input type="text" name="username" id="username" placeholder="사용자 이름" class="w-full p-2 border rounded">
         </div>
         <div class="mb-6">
           <input type="password" name="password" id="password" placeholder="비밀번호" class="w-full p-2 border rounded">
@@ -382,7 +377,7 @@ const LoginPage = () => /*html*/ `
         <button class="bg-green-500 text-white px-4 py-2 rounded font-bold">새 계정 만들기</button>
       </div>
     </div>
-  </main>
+  </div>
 `;
 
 // 프로필 페이지 컴포넌트
