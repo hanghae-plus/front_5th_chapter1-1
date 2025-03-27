@@ -17,6 +17,9 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
+    server: {
+      historyApiFallback: true, // 새로고침 시 404 방지
+    },
     test: {
       globals: true,
       environment: "jsdom",

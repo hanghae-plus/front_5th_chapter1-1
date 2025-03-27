@@ -6,7 +6,7 @@
   "homepage": "https://alchogh.github.io/front_5th_chapter1-1/",
   "scripts": {
     "dev": "vite",
-    "predeploy": "pnpm run build",
+    "predeploy": "pnpm run build && cp dist/index.html dist/404.html",
     "deploy": "gh-pages -d dist",
     "dev:hash": "vite --open ./index.hash.html",
     "build": "vite build",

@@ -4,10 +4,10 @@ import { getUser } from "../utils/storage";
 export class Header extends Component {
   template() {
     const user = getUser();
-    const hash = window.location.hash || "#/";
-
+    const hash = window.location.pathname || "#/";
+    console.log(hash);
     const isActive = (route) =>
-      hash === `#${route}` ? "text-blue-600 font-bold" : "text-gray-600";
+      hash === `${route}` ? "text-blue-600 font-bold" : "text-gray-600";
 
     return `
       <header class="bg-blue-600 text-white p-4 sticky top-0">
