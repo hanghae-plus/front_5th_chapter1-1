@@ -38,67 +38,56 @@ const Header = () => {
   };
 
   const action = () => {
-    // NOTE : 메인 버튼 클릭 시 메인 페이지로
-    const homeBtn = document.getElementById("btn-home");
-    homeBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      if (!hashState.getHashState()) {
-        render("/");
-      } else {
-        import("../main.hash").then((mainHash) => mainHash.hashRender("#/"));
-      }
-    });
-
-    // NOTE : 로그인 버튼 클릭 시 로그인 페이지로
-    const loginBtn = document.getElementById("btn-login");
-    if (loginBtn) {
-      loginBtn.addEventListener("click", (e) => {
+    const navEl = document.querySelector("nav ul");
+    if (navEl) {
+      navEl.addEventListener("click", (e) => {
         e.preventDefault();
 
-        if (!hashState.getHashState()) {
-          render("/login");
-        } else {
-          import("../main.hash").then((mainHash) =>
-            mainHash.hashRender("#/login"),
-          );
+        if (e.target.id === "btn-home") {
+          if (!hashState.getHashState()) {
+            render("/");
+          } else {
+            import("../main.hash").then((mainHash) =>
+              mainHash.hashRender("#/"),
+            );
+          }
         }
-      });
-    }
 
-    // NOTE : 프로필 버튼 클릭 시 프로필 페이지로
-    const profileBtn = document.getElementById("btn-profile");
-    if (profileBtn) {
-      profileBtn.addEventListener("click", (e) => {
-        e.preventDefault();
+        if (e.target.id === "btn-login") {
+          if (!hashState.getHashState()) {
+            render("/login");
+          } else {
+            import("../main.hash").then((mainHash) =>
+              mainHash.hashRender("#/login"),
+            );
+          }
+        }
 
-        if (!hashState.getHashState()) {
-          render("/profile");
-        } else {
-          import("../main.hash").then((mainHash) =>
-            mainHash.hashRender("#/profile"),
-          );
+        if (e.target.id === "btn-profile") {
+          if (!hashState.getHashState()) {
+            render("/profile");
+          } else {
+            import("../main.hash").then((mainHash) =>
+              mainHash.hashRender("#/profile"),
+            );
+          }
+        }
+
+        if (e.target.id === "logout") {
+          user.setIsLoggedIn(false);
+          localStorage.removeItem("user");
+
+          if (!hashState.getHashState()) {
+            render("/login");
+          } else {
+            import("../main.hash").then((mainHash) =>
+              mainHash.hashRender("#/login"),
+            );
+          }
         }
       });
     }
   };
-
-  // NOTE : 로그아웃 버튼 클릭 시 로그아웃 후 리다이렉션
-  const logoutBtn = document.getElementById("logout");
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      user.setIsLoggedIn(false);
-      localStorage.removeItem("user");
-
-      if (!hashState.getHashState()) {
-        render("/login");
-      } else {
-        import("../main.hash").then((mainHash) =>
-          mainHash.hashRender("#/login"),
-        );
-      }
-    });
-  }
 
   return { template, action };
 };

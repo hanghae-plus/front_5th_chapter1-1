@@ -6,8 +6,6 @@ import HomePage from "./pages/HomePage";
 export const app = document.querySelector("#root");
 
 const detectPath = (page) => {
-  console.log("detect Path loaded!");
-
   const ROUTES = {
     "/": HomePage(),
     "/login": LoginPage(),
