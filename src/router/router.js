@@ -1,6 +1,6 @@
 import ErrorPage from "../pages/Error";
 
-import { login, logout, updateUser } from "../store/auth";
+import { eventService } from "../services/event.service";
 
 class Router {
   static instance = null;
@@ -19,6 +19,8 @@ class Router {
     this.mode = options.mode;
     this.base = options.base;
 
+    Router.instance = this;
+
     const handleRender = () => {
       this.render();
     };
@@ -29,45 +31,19 @@ class Router {
       window.addEventListener("popstate", handleRender);
     }
 
-    Router.instance = this;
-
     document.addEventListener("click", (e) => {
-      if (e.target.matches("[data-link]")) {
-        e.preventDefault();
-        this.navigate(e.target.getAttribute("href"));
-      }
+      eventService.handleNavigation(e);
+      eventService.handleAuth(e);
     });
 
     document.addEventListener("submit", (e) => {
-      if (e.target.id === "login-form") {
-        e.preventDefault();
-        const username = document.getElementById("username").value;
-        login({ username, email: "", bio: "" });
-        this.navigate("/profile");
-      }
-
-      if (e.target.id === "profile-form") {
-        e.preventDefault();
-        const username = document.getElementById("username").value;
-        const email = document.getElementById("email").value;
-        const bio = document.getElementById("bio").value;
-        updateUser({ username, email, bio });
-      }
-    });
-
-    document.addEventListener("click", (e) => {
-      if (e.target.matches('[data-action="logout"]')) {
-        e.preventDefault();
-        logout();
-        this.navigate("/login");
-      }
+      eventService.handleFormSubmit(e);
     });
   }
 
   getCurrentPath() {
+    // hash 모드 처리
     if (this.mode === "hash") {
-      // hash 모드 처리
-      console.log("hash", window.location.hash);
       return window.location.hash.slice(1) || "/";
     }
 
@@ -75,17 +51,17 @@ class Router {
     const params = new URLSearchParams(window.location.search);
     const redirectPath = params.get("p");
     if (redirectPath?.startsWith("/")) {
-      console.log("redirectPath", redirectPath);
       return redirectPath;
     }
 
     // 로컬 개발환경 등 일반 history 모드
-    console.log("pathname", window.location.pathname);
     return window.location.pathname;
   }
 
   navigate(to) {
-    const fullPath = this.base + to.replace(/^\//, "");
+    const fullPath = to.startsWith(this.base)
+      ? to
+      : this.base + to.replace(/^\//, "");
 
     if (this.mode === "hash") {
       window.location.hash = to;
