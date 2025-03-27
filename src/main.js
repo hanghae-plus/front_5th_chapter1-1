@@ -333,6 +333,7 @@ const App = () => {
       state.isLoggedIn = true;
       history.pushState(null, "", "/");
       window.dispatchEvent(new Event("popstate"));
+
       return MainPage();
     }
   }
@@ -341,6 +342,8 @@ const App = () => {
     if (state.isLoggedIn) {
       return ProfilePage();
     } else {
+      state.isLoggedIn = false;
+      state.userInfo = null;
       history.pushState(null, "", "/login");
       window.dispatchEvent(new Event("popstate"));
       return LoginPage();
@@ -361,10 +364,9 @@ const render = () => {
     $ul.addEventListener(
       "click",
       (e) => {
-        if (e.target.tagName === "A") {
+        if (e.target.tagName === "A" && e.target.id !== "logout") {
           e.preventDefault();
           const href = e.target.getAttribute("href");
-
           history.pushState(null, "", href);
           window.dispatchEvent(new Event("popstate"));
         }
@@ -382,6 +384,7 @@ const render = () => {
           email: "",
           bio: "",
         });
+        state.userInfo = getLocalStorage("user");
         state.isLoggedIn = true;
         history.pushState(null, "", "/profile");
         window.dispatchEvent(new Event("popstate"));
@@ -393,10 +396,11 @@ const render = () => {
 
   if ($logoutButton) {
     $logoutButton.addEventListener("click", () => {
-      state.isLoggedIn = false;
-      removeLocalStorage("user");
       history.pushState(null, "", "/login");
       window.dispatchEvent(new Event("popstate"));
+      state.isLoggedIn = false;
+      state.userInfo = null;
+      removeLocalStorage("user");
     });
   }
 
