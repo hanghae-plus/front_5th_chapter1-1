@@ -6,6 +6,12 @@ import UserData from "./store/userData.js";
 const userData = UserData();
 const router = HashRouter(userData);
 
+// base path 가져오기
+const getBasePath = () => {
+  return import.meta.env.MODE === "production" ? "/front_5th_chapter1-1" : "";
+};
+const basePath = getBasePath();
+
 // 이벤트 위임 핸들러
 document.addEventListener("click", (e) => {
   // 로그아웃
@@ -20,6 +26,11 @@ document.addEventListener("click", (e) => {
   if (e.target.matches('a[href^="#/"], a[href^="/"]')) {
     e.preventDefault();
     let href = e.target.getAttribute("href");
+
+    // 경로에 basePath가 포함된 경우 제거
+    if (href.startsWith(basePath)) {
+      href = href.replace(basePath, "");
+    }
 
     // 일반 경로인 경우 해시 경로로 변환
     if (href.startsWith("/")) {
