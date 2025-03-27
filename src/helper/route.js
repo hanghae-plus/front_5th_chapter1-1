@@ -6,7 +6,7 @@ import {
   isHashUrl,
   getPath,
   changeToHashRoute
-} from '../service/routerService';
+} from '../service/routerService.js';
 
 const baseURL = import.meta.env.BASE_URL;
 
