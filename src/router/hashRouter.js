@@ -1,12 +1,11 @@
-import LoginPage from "./pages/loginPage";
-import HomePage from "./pages/HomePage";
-import ProfilePage from "./pages/profilePage";
-import NotFoundPage from "./pages/NotFoundPage";
-import { Header, Footer } from "./componentes/layout";
-import { state } from "./store";
+import LoginPage from "../pages/loginPage";
+import HomePage from "../pages/HomePage";
+import ProfilePage from "../pages/profilePage";
+import NotFoundPage from "../pages/NotFoundPage";
+import { Header, Footer } from "../componentes/layout";
+import { state } from "../store";
 
 export const isProd = import.meta.env.PROD;
-console.log(isProd);
 export const BASE_PATH = isProd ? "/front_5th_chapter1-1" : "";
 
 export const matchedPath = (path) => {
@@ -16,17 +15,10 @@ export const matchedPath = (path) => {
   return currentPath === path;
 };
 
-export const routes = {
-  "/login": LoginPage,
-  "/profile": ProfilePage,
-  "/": HomePage,
-  "*": NotFoundPage,
-};
-
 const root = document.getElementById("root");
 
 export const router = () => {
-  const path = window.location.pathname.replace(BASE_PATH, "") || "/";
+  const path = location.hash.replace(/^#/, "") || "/";
   if (path === "/") {
     return (root.innerHTML = HomePage());
   }
@@ -49,6 +41,6 @@ export const router = () => {
 };
 
 export const navigate = (path) => {
-  history.pushState({}, "", `${BASE_PATH}${path}`);
+  location.hash = path;
   router();
 };

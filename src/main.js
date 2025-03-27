@@ -1,5 +1,5 @@
 import { state, getUser } from "./store";
-import { router, navigate } from "./router";
+import { router, navigate } from "./router/router";
 
 window.addEventListener("popstate", () => {
   render();
@@ -15,7 +15,6 @@ const render = () => {
     el.addEventListener("click", (e) => {
       e.preventDefault();
       const newPathName = e.target.href.replace(location.origin, "");
-      console.log(newPathName);
       navigate(newPathName);
       render();
     });
