@@ -20,7 +20,6 @@
     "test:e2e:report": "npx playwright show-report",
     "test:generate": "playwright codegen localhost:5173",
     "prepare": "husky",
-    "gh-pages": "bash gh-pages-publish.sh",
     "predeploy": "pnpm build",
     "deploy": "gh-pages -d dist"
   },
