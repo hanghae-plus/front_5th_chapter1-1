@@ -13,13 +13,14 @@ const Header = ({ path, isLoggedIn }) => {
   return `
     <header class="bg-blue-600 text-white p-4 sticky top-0">
       <h1 class="text-2xl font-bold">항해플러스</h1>
-      <nav class="bg-white shadow-md p-2">
-        <ul class="flex justify-around">
-          <li><a href="/" class="${getLinkClass(path, "/")}">홈</a></li>
-          ${isLoggedIn ? logoutNav : loginNav}
-        </ul>
-      </nav>
     </header>
+    
+    <nav class="bg-white shadow-md p-2">
+      <ul class="flex justify-around">
+        <li><a href="/" class="${getLinkClass(path, "/")}">홈</a></li>
+        ${isLoggedIn ? logoutNav : loginNav}
+      </ul>
+    </nav>
   `;
 };
 
