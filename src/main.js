@@ -8,8 +8,6 @@ window.addEventListener("popstate", () => {
 const render = () => {
   const user = getUser();
   state.loginState = !!user;
-  console.log("-----location.href----");
-  console.log(location.href);
 
   router();
 
@@ -17,7 +15,7 @@ const render = () => {
     el.addEventListener("click", (e) => {
       e.preventDefault();
       const newPathName = e.target.href.replace(location.origin, "");
-      history.pushState(null, "", newPathName);
+      navigate(newPathName);
       render();
     });
   });
