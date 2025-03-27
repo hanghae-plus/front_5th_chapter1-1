@@ -1,8 +1,6 @@
 import store from "../../store/store";
+import { BASE_URL } from "../../util/constants";
 import { HEADER_CONTENT } from "../../util/data";
-
-const BASE_URL =
-  process.env.NODE_ENV === "production" ? "/front_5th_chapter1-1" : "";
 
 const Header = () => {
   const loggedIn = store.getState().loggedIn;

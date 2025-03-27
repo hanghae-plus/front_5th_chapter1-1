@@ -1,4 +1,4 @@
-import App from "./main.js";
+import App from "./main.hash.js";
 import store from "./store/store";
 import { BASE_URL } from "./util/constants.js";
 
@@ -11,7 +11,7 @@ const handleFormSubmit = (e) => {
   if (e.target && e.target.id === "login-form") {
     const username = e.target.querySelector("#username").value;
     store.setUserInfo({ username, email: "", bio: "" });
-    history.pushState(null, "", `${BASE_URL}/profile`);
+    location.hash = `${BASE_URL}#/profile`;
 
     updateRoot();
   }
@@ -30,7 +30,7 @@ const handleLogout = (e) => {
   if (e.target && e.target.id === "logout") {
     e.preventDefault();
     store.removeUserInfo();
-    history.pushState(null, "", `${BASE_URL}/login`);
+    location.hash = "#/login";
 
     updateRoot();
   }
@@ -39,7 +39,9 @@ const handleLogout = (e) => {
 const handleLinkClick = (e) => {
   if (e.target && e.target.nodeName === "A") {
     e.preventDefault();
-    history.pushState(null, "", e.target.href.replace(location.origin, ""));
+
+    location.hash = e.target.href.replace(location.origin, "");
+
     updateRoot();
   }
 };

@@ -14,7 +14,6 @@ class Store {
   }
 
   setUserInfo(info) {
-    console.log(info);
     this.#userInfo = info;
     localStorage.setItem(this.#localKey, JSON.stringify(info));
     this.state.loggedIn = true;
@@ -28,10 +27,6 @@ class Store {
 
   get userInfo() {
     return this.#userInfo;
-  }
-
-  get isAuthenticated() {
-    return this.#userInfo !== null;
   }
 
   getState() {

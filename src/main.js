@@ -4,14 +4,14 @@ import MainPage from "./page/MainPage";
 import ProfilePage from "./page/ProfilePage";
 import { render } from "./render";
 import store from "./store/store";
-const BASE_URL =
-  process.env.NODE_ENV === "production" ? "/front_5th_chapter1-1" : "";
+import { BASE_URL } from "./util/constants";
+
 const App = () => {
-  const loggedIn = store.getState().loggedIn;
-  if (location.pathname === `${BASE_URL}/profile` && !loggedIn) {
+  const isAuthenticated = store.getState().loggedIn;
+  if (location.pathname === `${BASE_URL}/profile` && !isAuthenticated) {
     history.pushState({}, "", `${BASE_URL}/login`);
   }
-  if (location.pathname === `${BASE_URL}/login` && loggedIn) {
+  if (location.pathname === `${BASE_URL}/login` && isAuthenticated) {
     history.pushState({}, "", `${BASE_URL}/`);
   }
   switch (location.pathname) {
