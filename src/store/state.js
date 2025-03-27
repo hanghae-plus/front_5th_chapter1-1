@@ -1,4 +1,3 @@
-import { render } from "../main";
 import { MOCK_POSTS } from "../posts";
 
 export const state = {
@@ -12,5 +11,4 @@ export const state = {
 //로그인 상태 업데이트
 export const setLoggedIn = ({ newLoggedIn }) => {
   state.loggedIn = newLoggedIn;
-  render();
 };
