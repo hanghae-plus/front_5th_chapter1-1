@@ -30,7 +30,7 @@ jobs:
 
       # pnpm 설정
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v2
         with:
           version: 8
 
