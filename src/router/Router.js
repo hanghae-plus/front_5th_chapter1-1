@@ -4,18 +4,20 @@ export class Router {
     this.container = document.body.querySelector("#root");
   }
 
-  normalizePathname(pathname) {
-    if (window.BASE_ROUTE && pathname.startsWith(window.BASE_ROUTE)) {
-      return pathname.slice(window.BASE_ROUTE.length);
-    }
-    return pathname;
-  }
-
   render(pathname = window.location.pathname) {
-    const normalizedPath = this.normalizePathname(pathname);
-    const fullPath = window.BASE_ROUTE + normalizedPath;
+    if (this.routes[pathname]) {
+      this.routes[pathname].render(this.container);
+      return;
+    }
 
-    const route = this.routes[fullPath] || this.routes["default"];
+    let normalizedPath = pathname;
+    if (window.BASE_ROUTE && pathname.startsWith(window.BASE_ROUTE)) {
+      normalizedPath = pathname.slice(window.BASE_ROUTE.length) || "/";
+    }
+
+    const routeKey = `${window.BASE_ROUTE}${normalizedPath === "/" ? "" : normalizedPath}`;
+
+    const route = this.routes[routeKey] || this.routes.default;
     route.render(this.container);
   }
 
@@ -25,13 +27,10 @@ export class Router {
   }
 
   navigate(pathname) {
-    // pathname이 이미 '/'로 시작하는지 확인
     const path = pathname.startsWith("/") ? pathname : `/${pathname}`;
 
-    // BASE_ROUTE를 포함한 전체 경로 계산
     const fullPath = window.BASE_ROUTE + path;
 
-    // 현재 경로와 다르면 이동
     if (fullPath !== window.location.pathname) {
       history.pushState({}, "", fullPath);
       this.render(fullPath);
