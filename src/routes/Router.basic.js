@@ -160,6 +160,12 @@ class Router {
       return "/"; // 홈으로 리다이렉트
     }
 
+    if (path === "/logout") {
+      console.log("로그아웃 처리");
+      authService.logout();
+      return "/login";
+    }
+
     // 인증 통과 또는 인증이 필요 없는 페이지
     return null; // 리다이렉트 필요 없음
   }
