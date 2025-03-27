@@ -10,4 +10,12 @@ export default defineConfig({
     exclude: ["**/e2e/**", "**/*.e2e.spec.js", "**/node_modules/**"],
   },
   base: isProduction ? "/front_5th_chapter1-1/" : "/",
+  build: {
+    rollupOptions: {
+      input: {
+        index: "./index.html",
+        hash: "./index.hash.html",
+      },
+    },
+  },
 });
