@@ -139,10 +139,10 @@ const LoginPage = () => `
           <input id="username" name="userName" type="text" placeholder="사용자 이름" class="w-full p-2 border rounded">
         </div>
         <div class="mb-4">
-          <input id="useremail" name="userEmail" type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
+          <input id="email" name="userEmail" type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
         </div>
         <div class="mb-6">
-          <input id="userpassword" name="userPassword" type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
+          <input id="password" name="userPassword" type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
         </div>
         <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
       </form>
@@ -243,28 +243,47 @@ document.body.addEventListener("click", (e) => {
 
 document.body.addEventListener("submit", (e) => {
   e.preventDefault();
-  const userName = document.querySelector("#username").value.trim();
-  const userEmail = document.querySelector("#useremail").value.trim();
-  const userPassword = document.querySelector("#userpassword").value.trim();
-  const user = {
-    username: userName,
-    email: userEmail,
-    bio: userPassword,
-  };
-  console.log("user", user);
-  if (userName) localStorage.setItem("user", JSON.stringify(user));
-  state.isLoggedIn = true;
-  navigateTo("/");
+  const form = e.target;
+
+  // 로그인 폼 처리
+  if (form.id === "login-form") {
+    console.log("login-form");
+    const userName = form.querySelector("#username").value.trim();
+    const user = {
+      username: userName,
+      email: "",
+      bio: "",
+    };
+    if (userName) localStorage.setItem("user", JSON.stringify(user));
+    state.isLoggedIn = true;
+    navigateTo("/");
+  }
+
+  // 프로필 폼 처리
+  if (form.id === "profile-form") {
+    const username = form.querySelector("#username").value.trim();
+    const email = form.querySelector("#email").value.trim();
+    const bio = form.querySelector("#bio").value.trim();
+    const updatedUser = { username, email, bio };
+
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+    alert("프로필이 저장되었습니다!");
+    render();
+  }
 });
 
-const render = () => {
-  const root = document.getElementById("root");
-  if (root) {
-    root.innerHTML = "";
-    root.innerHTML = App();
-  } else {
-    document.body.innerHTML = App();
+const init = () => {
+  let root = document.getElementById("root");
+  if (!root) {
+    root = document.createElement("div");
+    root.id = "root";
+    document.body.appendChild(root);
   }
+  return root;
+};
+const render = () => {
+  const root = init(); // 항상 root 존재 보장
+  root.innerHTML = App();
 };
 
 window.addEventListener("popstate", render);
