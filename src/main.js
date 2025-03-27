@@ -4,6 +4,9 @@ import router from "./router/router.js";
 
 console.log(router.getCurrentPath());
 
+const isProduction = import.meta.env.MODE === "production";
+const BASE = isProduction ? "/front_5th_chapter1-1" : "";
+
 function navigateTo(url) {
   router.navigate(url);
   // history.pushState("", null, url); // URL 변경(새로고침 없이). ㅇㅣ거만 단독 적용하면 url만 바뀌고 페이지 변경은 안됨
@@ -21,8 +24,11 @@ window.addEventListener("popstate", () => {
 
 // 화면에 어떻게 표시될지를 정의하는 함수
 const render = () => {
+  console.log("main.js redner start");
   // const path = window.location.pathname;
+
   const path = router.getCurrentPath();
+  console.log(path);
   // render함수 안에 routes모듈 불러옴
   const content = handleRouting(path);
 
@@ -55,6 +61,9 @@ document.body.addEventListener("click", (e) => {
       const url = new URL(e.target.href);
       const path = url.pathname;
 
+      console.log(`url: ${url}`);
+      console.log(`path: ${path}`);
+
       if (e.target.id === "logout") {
         logout();
       }
@@ -66,9 +75,10 @@ document.body.addEventListener("click", (e) => {
           item.classList.add("bg-blue");
         });
       }
-      navigateTo(path);
+      navigateTo(BASE + path);
     }
   }
+  console.log("addEventListener click End");
 });
 
 document.body.addEventListener("submit", (e) => {
@@ -87,7 +97,8 @@ document.body.addEventListener("submit", (e) => {
     localStorage.setItem("user", JSON.stringify(user));
 
     // 로그인 성공 시 바로 상태를 업데이트 해야 됨.
-    navigateTo("/profile");
+
+    navigateTo(`${BASE}/profile`);
   } else if (e.target.id === "profile-form") {
     const user = JSON.parse(localStorage.getItem("user"));
     const formData = new FormData(e.target); // 폼 데이터 가져오기
@@ -99,7 +110,7 @@ document.body.addEventListener("submit", (e) => {
     // 유저 프로필 정보 localStorage에 저장
     localStorage.setItem("user", JSON.stringify(user));
     alert("프로필 정보가 수정되었습니다. ");
-    navigateTo("/profile");
+    navigateTo(`${BASE}/profile`);
   }
 });
 
