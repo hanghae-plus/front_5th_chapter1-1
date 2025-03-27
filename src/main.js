@@ -270,7 +270,7 @@ export const ProfilePage = () => `
                 <label
                   for="username"
                   class="block text-gray-700 text-sm font-bold mb-2"
-                  >이메일 또는 전화번호
+                  >사용자 이름
                 </label>
                 <input
                   type="text"
@@ -339,7 +339,9 @@ const App = () => {
   }
 
   if (location.pathname === "/profile") {
-    if (state.isLoggedIn) {
+    if (state.userInfo) {
+      state.isLoggedIn = true;
+
       return ProfilePage();
     } else {
       state.isLoggedIn = false;
@@ -410,17 +412,15 @@ const render = () => {
     const $email = document.getElementById("email");
     const $bio = document.getElementById("bio");
 
-    const userInfo = getLocalStorage("user");
-
-    $username.value = userInfo.username;
-    $email.value = userInfo.email;
-    $bio.value = userInfo.bio;
+    $username.value = state.userInfo.username;
+    $email.value = state.userInfo.email;
+    $bio.value = state.userInfo.bio;
 
     $profileForm.addEventListener("submit", (e) => {
       e.preventDefault();
       setLocalStorage("user", {
-        username: userInfo.username,
-        email: userInfo.email,
+        username: $username.value,
+        email: $email.value,
         bio: $bio.value,
       });
 
