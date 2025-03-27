@@ -7,6 +7,7 @@ import {
   getPath,
   changeToHashRoute
 } from '../service/routerService.js';
+import { pageState } from "../store/user.js";
 
 export const baseURL =
   typeof import.meta !== "undefined" && import.meta.env?.BASE_URL
