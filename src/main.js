@@ -1,17 +1,38 @@
-const MainPage = () => `
-  <div class="bg-gray-100 min-h-screen flex justify-center">
-    <div class="max-w-md w-full">
-      <header class="bg-blue-600 text-white p-4 sticky top-0">
+import { router } from "./controller/route";
+
+const NavComponent = () => `
+          <li><div id="home" class="text-blue-600">홈</div></li>
+          <li><div id="login" class="text-gray-600">로그인</div></li>
+`;
+
+const NavComponentWithLoggedIn = () => `
+          <li><div id="home" class="text-blue-600">홈</div></li>
+          <li><div id="profile" class="text-gray-600">프로필</div></li>
+          <li><div id="logout" class="text-gray-600">로그아웃</div></li>
+`;
+
+const HeaderComponent = (userInfo) => `
+<header class="bg-blue-600 text-white p-4 sticky top-0">
         <h1 class="text-2xl font-bold">항해플러스</h1>
       </header>
 
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
-          <li><a href="/" class="text-blue-600">홈</a></li>
-          <li><a href="/profile" class="text-gray-600">프로필</a></li>
-          <li><a href="#" class="text-gray-600">로그아웃</a></li>
+          ${userInfo ? NavComponentWithLoggedIn() : NavComponent()}
         </ul>
       </nav>
+`;
+
+const FooterComponent = () => `
+<footer class="bg-gray-200 p-4 text-center">
+        <p>&copy; 2024 항해플러스. All rights reserved.</p>
+      </footer>
+`;
+
+const MainPage = (userInfo) => `
+  <div class="bg-gray-100 min-h-screen flex justify-center">
+    <div class="max-w-md w-full">
+      ${HeaderComponent(userInfo)}
 
       <main class="p-4">
         <div class="mb-4 bg-white rounded-lg shadow p-4">
@@ -103,9 +124,7 @@ const MainPage = () => `
         </div>
       </main>
 
-      <footer class="bg-gray-200 p-4 text-center">
-        <p>&copy; 2024 항해플러스. All rights reserved.</p>
-      </footer>
+      ${FooterComponent()}
     </div>
   </div>
 `;
@@ -119,9 +138,9 @@ const ErrorPage = () => `
       <p class="text-gray-600 mb-8">
         요청하신 페이지가 존재하지 않거나 이동되었을 수 있습니다.
       </p>
-      <a href="/" class="bg-blue-600 text-white px-4 py-2 rounded font-bold">
+      <div id="home" class="bg-blue-600 text-white px-4 py-2 rounded font-bold">
         홈으로 돌아가기
-      </a>
+      </div>
     </div>
   </main>
 `;
@@ -130,14 +149,14 @@ const LoginPage = () => `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
-      <form>
+      <form id="login-form">
         <div class="mb-4">
-          <input type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
+          <input id="username" type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
         </div>
         <div class="mb-6">
-          <input type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
+          <input id="login-password" type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
         </div>
-        <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
+        <button id="submit-login" type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
       </form>
       <div class="mt-4 text-center">
         <a href="#" class="text-blue-600 text-sm">비밀번호를 잊으셨나요?</a>
@@ -150,28 +169,19 @@ const LoginPage = () => `
   </main>
 `;
 
-const ProfilePage = () => `
+// {username, email, profileContent}
+const ProfilePage = (userInfo) => `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
-        <header class="bg-blue-600 text-white p-4 sticky top-0">
-          <h1 class="text-2xl font-bold">항해플러스</h1>
-        </header>
-
-        <nav class="bg-white shadow-md p-2 sticky top-14">
-          <ul class="flex justify-around">
-            <li><a href="/" class="text-gray-600">홈</a></li>
-            <li><a href="/profile" class="text-blue-600">프로필</a></li>
-            <li><a href="#" class="text-gray-600">로그아웃</a></li>
-          </ul>
-        </nav>
+        ${HeaderComponent(userInfo)}
 
         <main class="p-4">
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
             </h2>
-            <form>
+            <form id="profile-form">
               <div class="mb-4">
                 <label
                   for="username"
@@ -182,7 +192,7 @@ const ProfilePage = () => `
                   type="text"
                   id="username"
                   name="username"
-                  value="홍길동"
+                  value=${userInfo?.username}
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -196,7 +206,7 @@ const ProfilePage = () => `
                   type="email"
                   id="email"
                   name="email"
-                  value="hong@example.com"
+                  value=${userInfo?.email ? userInfo?.email : ""}
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -212,10 +222,12 @@ const ProfilePage = () => `
                   rows="4"
                   class="w-full p-2 border rounded"
                 >
-안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
+                  ${userInfo?.bio ? userInfo?.bio : ""}
+                </textarea
                 >
               </div>
               <button
+                id="submit-profile-update"
                 type="submit"
                 class="w-full bg-blue-600 text-white p-2 rounded font-bold"
               >
@@ -225,9 +237,7 @@ const ProfilePage = () => `
           </div>
         </main>
 
-        <footer class="bg-gray-200 p-4 text-center">
-          <p>&copy; 2024 항해플러스. All rights reserved.</p>
-        </footer>
+        ${FooterComponent()}
       </div>
     </div>
   </div>
@@ -235,7 +245,90 @@ const ProfilePage = () => `
 
 document.body.innerHTML = `
   ${MainPage()}
-  ${ProfilePage()}
-  ${LoginPage()}
-  ${ErrorPage()}
 `;
+
+function route(path, callback) {
+  if (window.location.pathname === path) {
+    callback();
+  }
+}
+
+function loadContent(content, addevent) {
+  document.body.innerHTML = content;
+  if (addevent) {
+    addevent();
+  }
+}
+
+const userInfo = window.localStorage.getItem("user");
+const parsedUserInfo = userInfo ? JSON.parse(userInfo) : "";
+
+// 페이지 로드 시 라우팅 실행
+window.addEventListener("load", () => {
+  route("/", () => loadContent(MainPage(parsedUserInfo)));
+  route("/profile", () => {
+    parsedUserInfo
+      ? loadContent(ProfilePage(parsedUserInfo), addEventProfile)
+      : router.navigateTo("/login");
+  });
+  route("/login", () => loadContent(LoginPage(), addEventLogin));
+  // route("/error", () => loadContent(ErrorPage()));
+  if (!router.checkRoute(window.location.pathname)) {
+    loadContent(ErrorPage());
+  }
+});
+
+// router 사용
+router.addRoute("/", () => loadContent(MainPage(parsedUserInfo)));
+router.addRoute("/profile", () => loadContent(ProfilePage(parsedUserInfo)));
+router.addRoute("/login", () => loadContent(LoginPage()));
+
+window.addEventListener("click", (e) => {
+  const targetId = e.target.id;
+  if (targetId === "home") {
+    router.navigateTo("/");
+  } else if (targetId === "profile") {
+    router.navigateTo("/profile");
+  } else if (targetId === "login") {
+    router.navigateTo("/login");
+  } else if (targetId === "logout") {
+    window.localStorage.removeItem("userInfo");
+    router.navigateTo("/login");
+  }
+});
+
+function addEventLogin() {
+  const $loginBtn = document.getElementById("submit-login");
+  $loginBtn.addEventListener("click", () => {
+    const $email = document.getElementById("username");
+    const emailvalue = $email.value;
+    const userInfo = window.localStorage.getItem("user");
+
+    if (userInfo) {
+      const parsedUserInfo = JSON.parse(userInfo);
+      const newItem = { ...parsedUserInfo, username: emailvalue };
+      window.localStorage.setItem("user", JSON.stringify(newItem));
+    } else {
+      const item = { email: emailvalue, username: "", bio: "" };
+      window.localStorage.setItem("user", JSON.stringify(item));
+    }
+
+    router.navigateTo("/profile");
+  });
+}
+
+function addEventProfile() {
+  const $updateProfileBtn = document.getElementById("submit-profile-update");
+  $updateProfileBtn.addEventListener("click", () => {
+    const $nameInput = document.getElementById("username");
+    const $emailInput = document.getElementById("email");
+    const $bioTextArea = document.getElementById("bio");
+
+    const item = {
+      name: $nameInput.value,
+      email: $emailInput.value,
+      bio: $bioTextArea.value,
+    };
+    window.localStorage.setItem("userInfo", JSON.stringify(item));
+  });
+}
