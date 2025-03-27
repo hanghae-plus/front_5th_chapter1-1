@@ -1,19 +1,16 @@
 import { getData } from "../../utils/localStorage";
-import { isHash } from "../../utils/isHash";
 
 export const Header = () => {
   const user = getData("user", null);
   const currentPath = location.pathname;
   const currentHash = location.hash;
 
-  // console.log(currentPath);
-  // console.log(isHash);
-  // console.log(location.hash);
-
-  const isHome = isHash ? currentHash === "#/" : currentPath === "/";
-  const isProfile = isHash
-    ? currentHash === "#/profile"
-    : currentPath === "/profile";
+  const isHome =
+    location.hash !== "" ? currentHash === "#/" : currentPath === "/";
+  const isProfile =
+    location.hash !== ""
+      ? currentHash === "#/profile"
+      : currentPath === "/profile";
   const homeUrl = "/";
   const profileUrl = "/profile";
   const loginUrl = "/login";

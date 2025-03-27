@@ -1,4 +1,3 @@
-import { getData } from "../utils/localStorage";
 import { browserNavigate } from "../utils/navigate";
 import { removeData } from "../utils/localStorage";
 import { isHash } from "../utils/isHash";
@@ -13,11 +12,6 @@ class ProfilePage {
   }
 
   render = () => {
-    const user = getData("user", null);
-    if (!user) {
-      isHash ? (location.hash = "/login") : browserNavigate("/login", true);
-      return;
-    }
     this.$container.innerHTML = /*html*/ `
         <div id="root">
           ${Layout(/*html*/ `<main class="p-4">

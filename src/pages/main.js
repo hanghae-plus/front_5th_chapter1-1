@@ -46,8 +46,11 @@ class MainPage {
         e.preventDefault();
         const targetPath = target.href.replace(location.origin, "");
         console.log(targetPath, "targetPath");
+        console.log(isHash, "isHash");
+        console.log(location.hash, "location.hash");
+        console.log(location.hash !== "");
 
-        isHash
+        location.hash !== ""
           ? (location.hash = targetPath)
           : browserNavigate(targetPath, true);
       });

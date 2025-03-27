@@ -1,6 +1,3 @@
-import { getData } from "../utils/localStorage";
-import { browserNavigate } from "../utils/navigate";
-import { isHash } from "../utils/isHash";
 import LoginForm from "../components/login/LoginForm";
 class LoginPage {
   constructor($container) {
@@ -8,12 +5,6 @@ class LoginPage {
     this.render();
   }
   render = () => {
-    const user = getData("user", null);
-    if (user) {
-      isHash ? (location.hash = "/") : browserNavigate("/", true);
-      return;
-    }
-
     this.$container.innerHTML = /*html*/ `
      <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">

@@ -19,7 +19,7 @@ class ProfileForm {
                       >
                       <input
                         type="text"
-                       id="username"
+                        id="username"
                         name="username"
                         value="${user.username}"
                        class="w-full p-2 border rounded"

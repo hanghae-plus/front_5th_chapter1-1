@@ -1,10 +1,15 @@
 import ErrorPage from "./pages/404";
 import { browserRoutes, hashRoutes } from "./routes";
+import { authGuard } from "./utils/authGuard";
 export function Router($container) {
   this.$container = $container;
 
   const findPage = () => {
-    console.log("location.hash", location.hash);
+    authGuard(
+      location.hash !== "" ? location.hash : location.pathname,
+      location.hash !== "" ? "hash" : "browser",
+    );
+    // console.log(location.hash);
     const TargetPage =
       location.hash === ""
         ? browserRoutes.find((route) => route.path === location.pathname)
