@@ -4,7 +4,6 @@ const LoginPage = (container) => {
   if (!container) return;
 
   if (Store.getState().isLoggedIn) {
-    console.log("로그인 되어있음.");
     window.router.navigate("/");
     return;
   }

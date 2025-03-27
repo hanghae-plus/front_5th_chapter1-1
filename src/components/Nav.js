@@ -20,9 +20,8 @@ export const Nav = () => {
               ? `<li><a href="${getHashLink("/profile")}" class="${currentHash === "#/profile" ? "text-blue-600 font-bold" : "text-gray-600"}">프로필</a></li>
                  <li><a href="#" id="logout" class="text-gray-600">로그아웃</a></li>`
               : `<li>
-                   <!-- 테스트를 위한 추가 링크 -->
-                   <a href="/login" data-testid="login-link" class="text-gray-600">로그인</a>
-                   <a href="${getHashLink("/login")}" class="${currentHash === "#/login" ? "text-blue-600 font-bold" : "text-gray-600"}">로그인</a>
+                   <a href="/login" class="text-gray-600 hidden">로그인</a>
+                   <a href="${getHashLink("/login")}" data-testid="login-link" class="${currentHash === "#/login" ? "text-blue-600 font-bold" : "text-gray-600"}">로그인</a>
                  </li>`
           }
         </ul>
