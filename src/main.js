@@ -1,20 +1,30 @@
-import { navigateTo, handlePopState } from "./update/update";
+import { store, handlePopState, navigateTo } from "./store/store";
+import { view } from "./view/view";
 
-// 페이지 로드 시 초기 경로 설정
-window.addEventListener("load", () => {
-  // 페이지 로드 시 경로에 맞는 렌더링
-  const initialPath = window.location.pathname;
-  navigateTo(initialPath);
+// 초기 렌더링
+view(store.getState());
+
+// 상태 변경 시 자동 렌더링
+store.subscribe((state) => {
+  view(state);
 });
 
-// 뒤로가기, 앞으로가기 시 경로 변경 처리
-window.addEventListener("popstate", handlePopState);
+// 페이지 로드 시 초기 설정
+window.addEventListener("load", () => {
+  const initialPath = window.location.pathname;
+  navigateTo(store.dispatch.bind(store), initialPath);
+});
+
+// 뒤로가기, 앞으로가기 처리
+window.addEventListener("popstate", () => {
+  handlePopState(store.dispatch.bind(store));
+});
 
 // 링크 클릭 이벤트 처리
 document.addEventListener("click", (event) => {
   if (event.target.tagName === "A" && event.target.href) {
-    event.preventDefault(); // 기본 링크 동작 방지
+    event.preventDefault();
     const path = new URL(event.target.href).pathname;
-    navigateTo(path);
+    navigateTo(store.dispatch.bind(store), path);
   }
 });
