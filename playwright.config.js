@@ -8,7 +8,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: process.env.CI ? "dot" : "html",
   use: {
-    baseURL: "http://localhost:5173/front-5th-chapter1-1",
+    baseURL: "http://localhost:5173/front_5th_chapter1-1",
     trace: "on-first-retry",
   },
   projects: [

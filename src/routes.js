@@ -5,10 +5,10 @@ import ProfilePage from "./components/ProfilePage";
 import ErrorPage from "./components/ErrorPage";
 import { state } from "./state";
 
-const BASE_PATH = "/front-5th-chapter1-1";
+const BASE_PATH = "/front_5th_chapter1-1";
 
 export const getPageContent = (fullPath) => {
-  const path = fullPath.split("/front-5th-chapter1-1")[1];
+  const path = fullPath.split(BASE_PATH)[1];
 
   if (!path) return ErrorPage();
 
