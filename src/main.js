@@ -13,7 +13,7 @@ const MainPage = () => `
         <ul class="flex justify-around">
           <li><a href="/" class="text-blue-600">홈</a></li>
           <li><a href="/profile" class="text-gray-600">프로필</a></li>
-          <li><a href="#" class="text-gray-600">로그아웃</a></li>
+          <li><a href="/login" id="logout" class="text-gray-600">로그아웃</a></li>
         </ul>
       </nav>
 
@@ -134,12 +134,15 @@ const LoginPage = () => `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
-      <form>
+      <form id="login-form">
         <div class="mb-4">
-          <input type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
+          <input id="username" name="userName" type="text" placeholder="사용자 이름" class="w-full p-2 border rounded">
+        </div>
+        <div class="mb-4">
+          <input id="useremail" name="userEmail" type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
         </div>
         <div class="mb-6">
-          <input type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
+          <input id="userpassword" name="userPassword" type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
         </div>
         <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
       </form>
@@ -166,7 +169,7 @@ const ProfilePage = () => `
           <ul class="flex justify-around">
             <li><a href="/" class="text-gray-600">홈</a></li>
             <li><a href="/profile" class="text-blue-600">프로필</a></li>
-            <li><a href="#" class="text-gray-600">로그아웃</a></li>
+            <li><a href="/login" id="logout" class="text-gray-600">로그아웃</a></li>
           </ul>
         </nav>
 
@@ -241,6 +244,7 @@ const navigateTo = (path) => {
   history.pushState(null, "", path);
   render();
 };
+
 const App = () => {
   console.log("path", location.pathname);
   if (location.pathname === "/login") return LoginPage();
@@ -256,12 +260,33 @@ const App = () => {
 };
 
 document.body.addEventListener("click", (e) => {
+  e.preventDefault();
   const linkEl = e.target.closest("a");
   if (linkEl) {
-    e.preventDefault();
     const path = linkEl.getAttribute("href");
     navigateTo(path);
   }
+  const logoutButton = e.target.closest("#logout");
+  if (logoutButton) {
+    state.isLoggedIn = false;
+    localStorage.removeItem("user");
+  }
+});
+
+document.body.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const userName = document.querySelector("#username").value.trim();
+  const userEmail = document.querySelector("#useremail").value.trim();
+  const userPassword = document.querySelector("#userpassword").value.trim();
+  const user = {
+    username: userName,
+    email: userEmail,
+    bio: userPassword,
+  };
+  console.log("user", user);
+  if (userName) localStorage.setItem("user", JSON.stringify(user));
+  state.isLoggedIn = true;
+  navigateTo("/");
 });
 
 const render = () => {
