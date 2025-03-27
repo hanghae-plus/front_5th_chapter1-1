@@ -47,10 +47,11 @@ function HashRouter(userData) {
     window.addEventListener("hashchange", render);
 
     // 초기 렌더링
-    if (!window.location.hash) {
+    if (!window.location.hash || window.location.hash === "#") {
       window.location.hash = "/";
     } else {
-      render();
+      // 약간의 지연을 주어 해시 변경이 완료된 후 렌더링
+      setTimeout(render, 0);
     }
   }
 
