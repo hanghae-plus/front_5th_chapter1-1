@@ -10,17 +10,14 @@ window.addEventListener("popstate", () => {
 document.addEventListener("click", (e) => {
   if (e.target.tagName === "A") {
     e.preventDefault();
-    console.log(e.target.textContent);
     if (e.target.textContent === "로그아웃") {
-      console.log("로그아웃");
       store.removeData("user");
       App.push("/login");
       App.Render();
       return;
     }
 
-    const path = e.target.href.split("/").pop();
-    App.push(path);
+    App.push(e.target.href);
     App.Render();
   }
 });
