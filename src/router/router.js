@@ -1,6 +1,6 @@
 import ErrorPage from "../pages/Error";
 
-import AuthAPI from "../interfaces/auth.interface";
+import { eventService } from "../services/event.service";
 
 class Router {
   static instance = null;
@@ -32,33 +32,12 @@ class Router {
     }
 
     document.addEventListener("click", (e) => {
-      if (e.target.matches("[data-link]")) {
-        e.preventDefault();
-        this.navigate(e.target.getAttribute("href"));
-      }
-
-      if (e.target.matches('[data-action="logout"]')) {
-        e.preventDefault();
-        AuthAPI.logout();
-        this.navigate("/login");
-      }
+      eventService.handleNavigation(e);
+      eventService.handleAuth(e);
     });
 
     document.addEventListener("submit", (e) => {
-      if (e.target.id === "login-form") {
-        e.preventDefault();
-        const username = document.getElementById("username").value;
-        AuthAPI.login(username);
-        this.navigate("/profile");
-      }
-
-      if (e.target.id === "profile-form") {
-        e.preventDefault();
-        const username = document.getElementById("username").value;
-        const email = document.getElementById("email").value;
-        const bio = document.getElementById("bio").value;
-        AuthAPI.updateUser({ username, email, bio });
-      }
+      eventService.handleFormSubmit(e);
     });
   }
 
