@@ -1,5 +1,5 @@
 import { isLoggedIn } from "../store/auth";
-import { getRouter } from "../utils";
+import { getRouter, BASE_PATH } from "../utils";
 
 const Header = () => {
   const router = getRouter();
@@ -19,15 +19,15 @@ const Header = () => {
   
           <nav id="nav_tab" class="bg-white shadow-md p-2 sticky top-14">
               <ul class="flex justify-around">
-              <li><a href="${router.getLinkHref("/")}" class="${navClassName("/")}">홈</a></li>
+              <li><a href="${router.getLinkHref(BASE_PATH)}" class="${navClassName(BASE_PATH)}">홈</a></li>
       ${
         isLoggedIn()
           ? /*html*/ `
-                  <li><a href="${router.getLinkHref("/profile")}" class="${navClassName("/profile")}">프로필</a></li>
+                  <li><a href="${router.getLinkHref(`${BASE_PATH}profile`)}" class="${navClassName(`${BASE_PATH}profile`)}">프로필</a></li>
                   <li><a id="logout" href="#" class="text-gray-600">로그아웃</a></li>
                   `
           : /*html*/ `
-                  <li><a href="${router.getLinkHref("/login")}" class="${navClassName("/login")}">로그인</a></li>
+                  <li><a href="${router.getLinkHref(`${BASE_PATH}login`)}" class="${navClassName(`${BASE_PATH}login`)}">로그인</a></li>
                   `
       }
               </ul>

@@ -4,18 +4,19 @@ import { LoginPage } from "../view/login";
 import { ErrorPage } from "../view/nonexistent";
 
 import { login, logout, updateUser, isLoggedIn } from "../store/auth";
+import { BASE_PATH } from "./index";
 
 export const routes = {
-  "/": MainPage,
-  "/profile": () => {
+  [BASE_PATH]: MainPage,
+  [BASE_PATH + "profile"]: () => {
     if (!isLoggedIn()) {
-      return { redirect: "/login" };
+      return { redirect: BASE_PATH + "login" };
     }
     return ProfilePage();
   },
-  "/login": () => {
+  [BASE_PATH + "login"]: () => {
     if (isLoggedIn()) {
-      return { redirect: "/" };
+      return { redirect: BASE_PATH };
     }
     return LoginPage();
   },
