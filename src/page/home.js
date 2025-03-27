@@ -1,5 +1,5 @@
-import { element } from "../common/element";
-import { utill } from "../common/utill";
+import { element } from "../common/element.js";
+import { utill } from "../common/utill.js";
 
 const posts = [
   ['홍길동', '5분 전', '오늘 날씨가 정말 좋네요. 다들 좋은 하루 보내세요!'],

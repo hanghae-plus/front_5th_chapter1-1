@@ -1,4 +1,4 @@
-import { styles } from "./style";
+import { styles } from "./style.js";
 
 // 재사용 가능한 element 컴포넌트
 export const element = {

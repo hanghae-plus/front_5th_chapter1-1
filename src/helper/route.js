@@ -1,7 +1,7 @@
-import homePage from '../page/home';
-import loginPage from '../page/login';
-import profilePage from '../page/profile';
-import notFoundPage from '../page/error';
+import homePage from '../page/home.js';
+import loginPage from '../page/login.js';
+import profilePage from '../page/profile.js';
+import notFoundPage from '../page/error.js';
 import {
   isHashUrl,
   getPath,
