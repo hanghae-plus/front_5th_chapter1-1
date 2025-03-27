@@ -2,7 +2,7 @@ import MainPage from "./page/MainPage";
 import ErrorPage from "./page/ErrorPage";
 import LoginPage from "./page/LoginPage";
 import ProfilePage from "./page/ProfilePage";
-import createRouter, { navigateTo } from "./lib/router";
+import { historyRouter, navigateTo } from "./lib/router";
 import auth from "./auth";
 
 const guard = {
@@ -33,7 +33,7 @@ const routes = [
   { fragment: "*", component: ErrorPage },
 ];
 
-export const router = createRouter({ routes, type: "history" });
+const router = historyRouter(routes);
 
 router.start();
 
