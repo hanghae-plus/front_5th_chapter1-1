@@ -1,6 +1,8 @@
 import { setUserInfoToStorage } from "@/logic/localStorage.js";
+import { ID } from "@/constant.js";
+import { renderPage } from "@/main.js";
 
-export function handleSubmitLogin(event) {
+function handleSubmitLogin(event) {
   event.preventDefault();
 
   const formData = new FormData(event.target);
@@ -19,4 +21,12 @@ export function handleSubmitLogin(event) {
   });
 
   return true;
+}
+
+export function addEventListenerToLoginForm() {
+  const loginForm = document.getElementById(ID.LOGIN_FORM);
+  loginForm?.addEventListener("submit", (event) => {
+    const loginSuccess = handleSubmitLogin(event);
+    loginSuccess && renderPage();
+  });
 }

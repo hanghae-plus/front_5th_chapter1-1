@@ -1,8 +1,8 @@
 import { HomePage } from "@/components/HomePage/HomePage.js";
-import { handleSubmitLogin } from "@/components/LoginPage/logic.js";
+import { addEventListenerToLoginForm } from "@/components/LoginPage/logic.js";
 import { LoginPage } from "@/components/LoginPage/LoginPage.js";
 import { NotFoundPage } from "@/components/NotFoundPage/NotFoundPage.js";
-import { handleSubmitProfile } from "@/components/ProfilePage/logic.js";
+import { addEventListenerToProfileForm } from "@/components/ProfilePage/logic.js";
 import { ProfilePage } from "@/components/ProfilePage/ProfilePage.js";
 import { ID } from "@/constant.js";
 import { getUserInfoFromStorage } from "@/logic/localStorage.js";
@@ -66,17 +66,9 @@ function setEventListeners() {
     }
   });
 
-  const loginForm = document.getElementById(ID.LOGIN_FORM);
-  loginForm?.addEventListener("submit", (event) => {
-    const loginSuccess = handleSubmitLogin(event);
-    loginSuccess && renderPage();
-  });
+  addEventListenerToLoginForm();
 
-  const profileForm = document.getElementById(ID.PROFILE_FORM);
-  profileForm?.addEventListener("submit", (event) => {
-    handleSubmitProfile(event);
-    renderPage();
-  });
+  addEventListenerToProfileForm();
 
   setBoldFontToNavigationItem();
 }

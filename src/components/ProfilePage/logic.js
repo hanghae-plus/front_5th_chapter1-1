@@ -1,6 +1,8 @@
 import { setUserInfoToStorage } from "@/logic/localStorage.js";
+import { ID } from "@/constant.js";
+import { renderPage } from "@/main.js";
 
-export function handleSubmitProfile(event) {
+function handleSubmitProfile(event) {
   event.preventDefault();
 
   const formData = new FormData(event.target);
@@ -12,5 +14,13 @@ export function handleSubmitProfile(event) {
     username,
     email,
     bio,
+  });
+}
+
+export function addEventListenerToProfileForm() {
+  const profileForm = document.getElementById(ID.PROFILE_FORM);
+  profileForm?.addEventListener("submit", (event) => {
+    handleSubmitProfile(event);
+    renderPage();
   });
 }
