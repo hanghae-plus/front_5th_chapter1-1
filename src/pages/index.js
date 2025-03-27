@@ -1,4 +1,4 @@
-export { MainPage } from "./main.js";
-export { ProfilePage } from "./profile.js";
-export { LoginPage } from "./login.js";
-export { ErrorPage } from "./error.js";
+export { MainPage } from "./Main.js";
+export { ProfilePage } from "./Profile.js";
+export { LoginPage } from "./Login.js";
+export { ErrorPage } from "./404.js";
