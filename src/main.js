@@ -8,8 +8,8 @@ const MainPage = () => `
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
           <li><a href="/" class="text-blue-600">홈</a></li>
-          <li><a href="/profile" class="text-gray-600">프로필</a></li>
-          <li><a href="#" class="text-gray-600">로그아웃</a></li>
+          <li id="profile" class="hidden"><a href="/profile" class="text-gray-600">프로필</a></li>
+          <li id="login"><a href="/login" class="text-gray-600">로그인</a></li>
         </ul>
       </nav>
 
@@ -110,6 +110,24 @@ const MainPage = () => `
   </div>
 `;
 
+const updateNav = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user) return;
+
+  const profileLink = document.querySelector("#profile");
+  profileLink.classList.remove("hidden");
+
+  const loginLink = document.querySelector("#login");
+  loginLink.textContent = "로그아웃";
+  loginLink.id = "logout";
+  loginLink.href = "/";
+  loginLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    localStorage.removeItem("user");
+    router.navigateTo("/");
+  });
+};
+
 const ErrorPage = () => `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full text-center" style="max-width: 480px">
@@ -130,9 +148,9 @@ const LoginPage = () => `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
-      <form>
+      <form id="login-form">
         <div class="mb-4">
-          <input type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
+          <input id="username" type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
         </div>
         <div class="mb-6">
           <input type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
@@ -150,8 +168,25 @@ const LoginPage = () => `
   </main>
 `;
 
+const handleLoginFormSubmit = () => {
+  const loginForm = document.querySelector("form");
+  if (!loginForm) return;
+
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const id = loginForm.querySelector("#username").value;
+
+    if (id) {
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ username: "testuser", email: "", bio: "" }),
+      );
+      router.navigateTo("/");
+    }
+  });
+};
+
 const ProfilePage = () => `
-  <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
         <header class="bg-blue-600 text-white p-4 sticky top-0">
@@ -160,10 +195,10 @@ const ProfilePage = () => `
 
         <nav class="bg-white shadow-md p-2 sticky top-14">
           <ul class="flex justify-around">
-            <li><a href="/" class="text-gray-600">홈</a></li>
-            <li><a href="/profile" class="text-blue-600">프로필</a></li>
-            <li><a href="#" class="text-gray-600">로그아웃</a></li>
-          </ul>
+          <li><a href="/" class="text-blue-600">홈</a></li>
+          <li id="profile" class="hidden"><a href="/profile" class="text-gray-600">프로필</a></li>
+          <li id="login"><a href="/login" class="text-gray-600">로그인</a></li>
+        </ul>
         </nav>
 
         <main class="p-4">
@@ -171,7 +206,7 @@ const ProfilePage = () => `
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
             </h2>
-            <form>
+            <form id="profile-form">
               <div class="mb-4">
                 <label
                   for="username"
@@ -230,24 +265,37 @@ const ProfilePage = () => `
         </footer>
       </div>
     </div>
-  </div>
 `;
 
-window.addEventListener("load", () => {
-  route("/", () => {
-    loadContent("root", MainPage());
-  });
-});
-
-function route(path, callback) {
-  if (window.location.pathname === path) {
-    callback();
+const fillProfile = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (user) {
+    document.querySelector("#username").value = user.username;
+    document.querySelector("#email").value = user.email;
+    document.querySelector("#bio").value = user.bio;
   }
-}
+};
 
-function loadContent(elementId, content) {
-  document.getElementById(elementId).innerHTML = content;
-}
+const handleProfileFormSubmit = () => {
+  const profileForm = document.querySelector("form");
+  if (!profileForm) return;
+
+  profileForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const username = profileForm.querySelector("#username").value;
+    const email = profileForm.querySelector("#email").value;
+    const bio = profileForm.querySelector("#bio").value;
+
+    localStorage.setItem("user", JSON.stringify({ username, email, bio }));
+  });
+};
+
+const checkLogin = () => {
+  const user = localStorage.getItem("user");
+  if (!user) {
+    router.navigateTo("/login");
+  }
+};
 
 class Router {
   constructor() {
@@ -282,12 +330,26 @@ const router = new Router();
 
 router.addRoute("/", () => {
   loadContent("root", MainPage());
+  updateNav();
 });
 
 router.addRoute("/login", () => {
   loadContent("root", LoginPage());
+  handleLoginFormSubmit();
 });
 
 router.addRoute("/profile", () => {
   loadContent("root", ProfilePage());
+  updateNav();
+  checkLogin();
+  fillProfile();
+  handleProfileFormSubmit();
 });
+
+window.addEventListener("load", () => {
+  router.handleRoute(window.location.pathname);
+});
+
+function loadContent(elementId, content) {
+  document.getElementById(elementId).innerHTML = content;
+}
