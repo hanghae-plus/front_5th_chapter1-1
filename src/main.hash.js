@@ -1,9 +1,6 @@
 import { hashRenderRoute, navigateTo } from "./routers/hashRouter";
 import { Store } from "./store";
 
-const isProd = location.hostname.includes("github.io");
-const BASE_PATH = isProd ? "/front_5th_chapter1-1" : "";
-
 window.addEventListener("hashchange", hashRenderRoute);
 window.addEventListener("DOMContentLoaded", hashRenderRoute);
 
@@ -22,7 +19,8 @@ document.addEventListener("click", (event) => {
     event.preventDefault();
     Store.logout();
 
-    location.hash = `${BASE_PATH}/login`;
+    location.hash = "/login";
     hashRenderRoute();
+    return;
   }
 });

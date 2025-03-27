@@ -1,3 +1,4 @@
+import { resolve } from "path";
 import { defineConfig } from "vite";
 
 export default defineConfig(({ command }) => {
@@ -6,11 +7,12 @@ export default defineConfig(({ command }) => {
 
   return {
     base: isProd ? "/front_5th_chapter1-1/" : "/",
+
     build: {
       rollupOptions: {
         input: {
-          main: "index.html",
-          hash: "index.hash.html",
+          main: resolve(__dirname, "index.html"),
+          hash: resolve(__dirname, "index.hash.html"),
         },
       },
     },

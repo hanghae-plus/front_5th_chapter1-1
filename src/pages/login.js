@@ -52,10 +52,10 @@ export const setUpLoginForm = () => {
       email: "",
       bio: "",
     });
+    const isHashMode = location.href.includes("#/");
 
-    const isHash = location.hash;
-    if (isHash) {
-      location.hash = `${BASE_PATH}/profile`;
+    if (isHashMode) {
+      location.hash = "/profile";
     } else {
       history.pushState({}, "", `${BASE_PATH}/profile`);
     }

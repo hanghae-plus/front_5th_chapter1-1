@@ -4,13 +4,10 @@ import { NotFoundPage } from "../pages/notFound";
 import { ProfilePage, updateProfile } from "../pages/profile";
 import { Store } from "../store";
 
-const isProd = location.hostname.includes("github.io");
-const BASE_PATH = isProd ? "/front_5th_chapter1-1" : "";
-
 const hashRoutes = {
-  [`${BASE_PATH}/`]: MainPage,
-  [`${BASE_PATH}/login`]: LoginPage,
-  [`${BASE_PATH}/profile`]: ProfilePage,
+  ["/"]: MainPage,
+  ["/login"]: LoginPage,
+  ["/profile"]: ProfilePage,
 };
 
 export function hashRenderRoute() {
@@ -28,26 +25,26 @@ export function hashRenderRoute() {
   root.innerHTML = Page();
 
   //로그인 안된 상태에서 프로필 페이지 접근 시 -> 로그인페이지로 리다이렉트
-  if (path === `${BASE_PATH}/profile` && !isLogin) {
-    location.hash = `${BASE_PATH}/login`;
-    root.innerHTML = hashRoutes[`${BASE_PATH}/login`]();
+  if (path === "/profile" && !isLogin) {
+    location.hash = "/login";
+    root.innerHTML = hashRoutes["/login"]();
     return;
   }
 
   // 로그인 사용자가 로그인 페이지 접근 시 -> 메인 페이지로 리다이렉트
-  if (path === `${BASE_PATH}/login` && isLogin) {
-    location.hash = `${BASE_PATH}/`;
-    root.innerHTML = hashRoutes[`${BASE_PATH}/`]();
+  if (path === "/login" && isLogin) {
+    location.hash = "/";
+    root.innerHTML = hashRoutes["/"]();
     return;
   }
 
   // 로그인 폼 제출관련
-  if (path === `${BASE_PATH}/login`) {
+  if (path === "/login") {
     setUpLoginForm();
     return;
   }
   //  프로필 업데이트 관련
-  if (path === `${BASE_PATH}/profile` && isLogin) {
+  if (path === "/profile" && isLogin) {
     updateProfile();
   }
 }
