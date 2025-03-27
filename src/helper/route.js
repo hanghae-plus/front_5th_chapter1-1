@@ -2,32 +2,39 @@ import homePage from '../page/home.js';
 import loginPage from '../page/login.js';
 import profilePage from '../page/profile.js';
 import notFoundPage from '../page/error.js';
-import {
-  isHashUrl,
-  getPath,
-  changeToHashRoute
-} from '../service/routerService.js';
-import { pageState } from "../store/user.js";
+import { changeToHashRoute, getPath, isHashUrl } from '../service/routerService.js';
+import { pageState } from '../store/user.js';
 
+// vite 빌드를 사용중일때 사용할 수있는 환경 변수 import.meta.env?.BASE_URL
+// 단, 테스트 도구에서는 vite 환경이 아니기때문에 예외 처리가 필요하다.
 export const baseURL =
-  typeof import.meta !== "undefined" && import.meta.env?.BASE_URL
-    ? import.meta.env.BASE_URL
-    : "/";
+  typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL ? import.meta.env.BASE_URL : '/';
+
+/*
+ *   url path 정보
+ */
+const routeMapping = {
+  '': baseURL,
+  login: `${baseURL}login`,
+  profile: `${baseURL}profile`,
+};
 
 /*
  *   url route 정보
  */
 const routes = {
-  [baseURL]: homePage,
-  [`${baseURL}login`]: loginPage,
-  [`${baseURL}profile`]: profilePage,
+  [routeMapping['']]: homePage,
+  [routeMapping['login']]: loginPage,
+  [routeMapping['profile']]: profilePage,
 };
 
 /*
  *  화면 전환
  *  url이 기본적으로 바뀌지 않기 때문에 url을 바꾸어지고 렌더링 함수 실행
  */
-function navigate(type, path) {
+function navigate(path) {
+  //  브라우저 라우터/해시 라우터 판별
+  const type = isHashUrl() ? 'hash' : 'basic';
   if (type === 'hash') {
     // 해시 라우터 형테에서는 라우터를 바꿔도 #부터는 브라우저가 인식하지 못하기때문에 새로고침되지않음
     // hashchange 이벤트로 변경사항 확인 가능
@@ -46,11 +53,11 @@ function navigate(type, path) {
 export function renderPage() {
   // 내부적으로 hash route를 일반 route 형태로 변경
   let path = getPath();
-  if (path === `${baseURL}profile` && !localStorage.getItem('user')) {
-    return navigate(isHashUrl() ? 'hash' : 'basic', `${baseURL}login`);
+  if (path === `${baseURL}profile` && !pageState.getState()) {
+    return navigate(routeMapping['login']);
   }
-  if (path === `${baseURL}login` && localStorage.getItem('user')) {
-    return navigate(isHashUrl() ? 'hash' : 'basic', `${baseURL}`);
+  if (path === `${baseURL}login` && pageState.getState()) {
+    return navigate(routeMapping['']);
   }
   const html = routes[path] ? routes[path]() : notFoundPage();
   // innerHTML은 매번 기존 내용을 모두 지우고 새로 파싱해서 DOM을 구성함.
@@ -67,10 +74,8 @@ function bindEvents() {
     loginForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const username = document.getElementById('username').value.trim();
-
       pageState.updateState({ username, email: '', bio: '' });
-      localStorage.setItem('user', JSON.stringify({ username, email: '', bio: '' }));
-      navigate(isHashUrl() ? 'hash' : 'basic', `${baseURL}profile`);
+      navigate(routeMapping['profile']);
     });
   }
 
@@ -79,8 +84,7 @@ function bindEvents() {
     logoutBtn.addEventListener('click', (e) => {
       e.preventDefault();
       pageState.updateState({ username: '', email: '', bio: '' });
-      localStorage.removeItem('user');
-      navigate(isHashUrl() ? 'hash' : 'basic', `${baseURL}login`);
+      navigate(routeMapping['login']);
     });
   }
 
@@ -91,12 +95,10 @@ function bindEvents() {
       const username = document.getElementById('username').value;
       const email = document.getElementById('email').value;
       const bio = document.getElementById('bio').value;
-
       pageState.updateState({ username, email, bio });
-      localStorage.setItem('user', JSON.stringify({ username, email, bio }));
       alert('프로필이 업데이트되었습니다.');
       // 상태 변경에 따른 re render
-      navigate(isHashUrl() ? 'hash' : 'basic', `${baseURL}profile`);
+      navigate(routeMapping['profile']);
     });
   }
 
@@ -109,7 +111,7 @@ function bindEvents() {
         // closest() 가장 가까운 요소를 반환
         const a = e.target.closest('a');
         const href = a.getAttribute('href').substring(1, a.getAttribute('href').length);
-        navigate(isHashUrl() ? 'hash' : 'basic', `${baseURL}${href}`);
+        navigate(routeMapping[href]);
       }
     });
   }

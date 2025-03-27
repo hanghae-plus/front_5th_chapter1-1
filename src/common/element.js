@@ -1,4 +1,5 @@
-import { styles } from "./style.js";
+import { styles } from './style.js';
+import { pageState } from '../store/user.js';
 
 // 재사용 가능한 element 컴포넌트
 export const element = {
@@ -10,7 +11,7 @@ export const element = {
     `;
   },
   header: (currentPath = '/') => {
-    const user = localStorage.getItem('user');
+    const user = pageState.getState();
 
     const isActive = (path) => {
       return currentPath === path ? styles.active : styles.inactive;

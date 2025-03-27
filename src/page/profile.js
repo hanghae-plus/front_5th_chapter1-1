@@ -1,7 +1,8 @@
-import { element } from "../common/element.js";
+import { element } from '../common/element.js';
+import { pageState } from '../store/user.js';
 
 const profilePage = () => {
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const user = pageState.getState();
 
   return `
             <div class="bg-gray-100 min-h-screen flex justify-center">

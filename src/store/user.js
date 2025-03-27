@@ -7,6 +7,11 @@ function state() {
     bio: '',
   };
   function updateState({ username, email, bio }) {
+    if (username === '' && email === '' && bio === '') {
+      localStorage.removeItem('user');
+    } else {
+      localStorage.setItem('user', JSON.stringify({ username, email, bio }));
+    }
     info = { username, email, bio };
   }
   function getState() {
