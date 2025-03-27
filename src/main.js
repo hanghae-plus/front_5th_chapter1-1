@@ -20,7 +20,7 @@ export function updateUserInfo() {
 
 export function getPath() {
   const isProduction = process.env.NODE_ENV === "production";
-  const base = isProduction ? "/front-5th-chapter1-1/" : "/";
+  const base = isProduction ? "/front-5th-chapter1-1" : "/";
 
   let locationPath = window.location.pathname;
   const hash = window.location.hash;
@@ -29,14 +29,14 @@ export function getPath() {
     const hashPath = hash.slice(1);
     locationPath = hashPath;
   }
-
+  console.log("locationPath", locationPath);
   //프로덕션 환경에서는 경로가 다르기 때문에 경로를 변경해줘야 함
   return isProduction ? locationPath.replace(base, "") : locationPath;
 }
 
 function getHtmlByPathName() {
   const path = getPath();
-
+  console.log("path", path);
   const isLoggedIn = userInfo;
   switch (path) {
     case "/":
