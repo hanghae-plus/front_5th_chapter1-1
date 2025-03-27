@@ -16,7 +16,9 @@ export const MainPage = () => /* HTML */ `
             게시
           </button>
         </div>
-        <div class="space-y-4">${POST_DATA.map((post) => PostItem(post))}</div>
+        <div class="space-y-4">
+          ${POST_DATA.map((post) => PostItem(post)).join("")}
+        </div>
       </main>
       ${Footer}
     </div>
