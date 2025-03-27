@@ -26,27 +26,29 @@ const root = document.getElementById("root");
 
 export const router = () => {
   const path = window.location.pathname.replace(BASE_PATH, "") || "/";
-  const template = routes[path];
-
-  if (typeof routes[path] !== "function") return (root.innerHTML = template);
   if (path === "/") {
-    return (root.innerHTML = template);
+    return (root.innerHTML = HomePage());
   }
   if (path === "/profile") {
     if (!state.loginState) {
       navigate("/login");
-      return (root.innerHTML = template);
+      return (root.innerHTML = LoginPage());
     }
-    root.innerHTML = template({ Header, Footer });
-    return;
+
+    return (root.innerHTML = ProfilePage({ Header, Footer }));
   }
-  if (path === "/login" && state.loginState) {
+  if (path === "/login") {
+    if (state.loginState) {
+      return (root.innerHTML = HomePage());
+    }
     navigate("/");
-    return (root.innerHTML = template);
+    return (root.innerHTML = LoginPage());
   }
+  return (root.innerHTML = NotFoundPage());
 };
 
 export const navigate = (path) => {
-  history.pushState({}, "", `${BASE_PATH}${path}`);
+  history.pushState({}, "", path);
+  //   history.pushState({}, "", `${BASE_PATH}${path}`);
   router();
 };

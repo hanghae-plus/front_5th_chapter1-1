@@ -8,6 +8,8 @@ window.addEventListener("popstate", () => {
 const render = () => {
   const user = getUser();
   state.loginState = !!user;
+  console.log("-----location.href----");
+  console.log(location.href);
 
   router();
 
