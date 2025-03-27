@@ -20,12 +20,11 @@ function HashRouter(userData) {
   }
 
   function navigate(path) {
-    // 슬래시로 시작하게 통일
-    if (path.startsWith("/")) {
-      window.location.hash = path;
-    } else {
-      window.location.hash = "/" + path;
+    if (!path.startsWith("/")) {
+      path = "/" + path;
     }
+
+    window.location.hash = path;
   }
 
   function render() {
