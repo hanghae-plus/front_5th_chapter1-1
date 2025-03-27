@@ -3,6 +3,8 @@ import { router } from "../main";
 import { authStore, logout } from "../store/authStore";
 import { executeCleanup, registerCleanup } from "../util/cleanup";
 
+const BASE_PATH = import.meta.env.BASE_URL;
+
 const CLASS_NAME = {
   ACTIVE: "text-blue-600",
   INACTIVE: "text-gray-600",
@@ -20,7 +22,7 @@ const Header = () => {
     
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
-          <li><a href="/" id="home" class="${CLASS_NAME.ACTIVE} ${CLASS_NAME.BOLD}">홈</a></li>
+          <li><a href="/" id="home" class="${CLASS_NAME.INACTIVE}">홈</a></li>
           ${
             isLoggedIn
               ? `
@@ -35,7 +37,7 @@ const Header = () => {
   };
 
   const onRendered = () => {
-    const pathname = window.location.pathname;
+    const pathname = window.location.pathname.replace(BASE_PATH, "/");
 
     const nav = document.querySelector("nav");
     const links = nav.querySelectorAll("li");
@@ -63,7 +65,7 @@ const Header = () => {
 
       event.target.classList = `${CLASS_NAME.ACTIVE} ${CLASS_NAME.BOLD}`;
 
-      router.navigate(event.target.href);
+      router.navigate(event.target.pathname.replace(BASE_PATH, "/"));
     };
 
     links.forEach((link) => {

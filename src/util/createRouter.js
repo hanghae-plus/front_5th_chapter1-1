@@ -2,11 +2,15 @@ import { ROUTE_TYPES, ROUTE_PATHS, routes } from "../constants";
 import { authStore } from "../store/authStore";
 import { cleanupAll } from "./cleanup";
 
+const BASE_PATH = import.meta.env.BASE_URL;
+
 const createRouter = () => {
   const navigate = (path) => {
-    if (path === window.location.pathname) return;
+    const fullPath = BASE_PATH + (path.startsWith("/") ? path.slice(1) : path);
 
-    window.history.pushState({}, "", path);
+    if (fullPath === window.location.pathname) return;
+
+    window.history.pushState({}, "", fullPath);
 
     render();
   };
@@ -32,9 +36,11 @@ const createRouter = () => {
   };
 
   const render = (isHashChange = false) => {
-    const path = isHashChange
+    const fullPath = isHashChange
       ? window.location.hash.slice(1)
       : window.location.pathname;
+
+    const path = fullPath.replace(BASE_PATH, "/");
 
     const route = routes[path] ?? routes[ROUTE_PATHS.ERROR];
 
