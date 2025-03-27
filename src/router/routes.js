@@ -2,11 +2,19 @@
 import MainPage from "../pages/MainPage";
 import LoginPage from "../pages/LoginPage";
 import ProfilePage from "../pages/ProfilePage";
+import router from "./router";
 
 const routes = {
   "/": MainPage,
   "/login": LoginPage,
   "/profile": ProfilePage,
+};
+
+// 다른 경로로 리디렉션하는 함수
+const redirectTo = (path) => {
+  console.log(`Redirecting to ${path}`);
+  router.navigate(path);
+  return routes[path]();
 };
 
 // 라우터 기능을 처리하는 함수
@@ -15,12 +23,19 @@ const handleRouting = (path) => {
   const userData = JSON.parse(localStorage.getItem("user"));
   let pageComponent;
 
+  // 라우트 가드 로직
   // 비로그인 상태에서 프로필 페이지 이동 시 login페이지로 리다이렉션
   if (userData === null && path === "/profile") {
-    pageComponent = routes["/login"];
-  } else if (userData !== null && path === "/login") {
-    pageComponent = routes["/"];
-  } else {
+    console.log("Unauthorized access to profile, redirecting to login");
+    return redirectTo("/login");
+  }
+  // 로그인 상태에서 로그인 페이지 이동 시 홈으로 리다이렉션
+  else if (userData !== null && path === "/login") {
+    console.log("Already logged in, redirecting to home");
+    return redirectTo("/");
+  }
+  // 일반적인 경로 처리
+  else {
     // 경로에 맞는 페이지 컴포넌트 반환
     pageComponent = routes[path];
   }

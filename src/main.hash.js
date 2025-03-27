@@ -8,7 +8,11 @@ function render() {
   const path = router.getCurrentPath(); // hash라우터. path값을 받아 옴. ex)/login
   // render함수 안에 routes모듈 불러옴
   const content = handleRouting(path);
-  router.navigate(path); // 해쉬 모드일 때 window.location.hash에 path값을 넣어준다
+
+  // 해쉬 모드일 때 window.location.hash에 path값을 넣어준다
+  // 이 부분 나중에 확인. 라우트 가드로 인해 routes.js파일에서 이 부분 넣어놓음.
+  // router.navigate(path);
+
   // console.log("content:", content);
   // routes값에 정의되어 있지 않은 url값이 들어올 때
   if (content === undefined) {
