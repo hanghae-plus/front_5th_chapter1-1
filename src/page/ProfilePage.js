@@ -81,7 +81,6 @@ export default () => {
         return;
       }
       const newPathname = e.target.href.replace(location.origin, "");
-      history.pushState({ path: newPathname }, "", newPathname);
       window.router.navigate(newPathname);
     }
   });
