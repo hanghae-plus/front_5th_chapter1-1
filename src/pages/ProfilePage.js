@@ -7,22 +7,6 @@ export const ProfilePage = () => {
   const email = userInfo?.email;
   const bio = userInfo?.bio;
 
-  // document.addEventListener("DOMContentLoaded", () => {
-  //   //TODO root의 innerHTML 을 교체하는 방식이므로 이미 돔이 있다는 말. 동작 안 할수도 by성진님
-  //   const form = document.getElementById("profile-form");
-  //   form.addEventListener("submit", (e) => {
-  //     e.preventDefault();
-  //     const username = document.getElementById("username").value || "";
-  //     const email = document.getElementById("email").value || "";
-  //     const bio = document.getElementById("bio").value || "";
-
-  //     localStorage.setItem(
-  //       "user",
-  //       JSON.stringify({ username: username, email: email, bio: bio }),
-  //     );
-  //   });
-  // });
-
   return /*html*/ `
 <div id="root">
   <div class="bg-gray-100 min-h-screen flex justify-center">

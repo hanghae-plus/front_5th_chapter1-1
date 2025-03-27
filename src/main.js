@@ -77,17 +77,13 @@ export const render = () => {
       e.preventDefault();
       const username = document.getElementById("username")?.value || "";
 
-      // if (!username) {
-      //   alert("사용자 이름을 입력해주세요.");
-      //   return;
-      // } else {
       localStorage.setItem(
         "user",
         JSON.stringify({ username, email: "", bio: "" }),
       );
-      // alert("로그인 정보가 저장되었습니다.");
+
       setLoggedIn({ newLoggedIn: true });
-      history.pushState(null, "", "/"); //메인페이지 이동 - TODO "?" 생기는 증상
+      history.pushState(null, "", "/"); //메인페이지 이동 - "?" 생기는 증상 발견
       render();
       // }
     } else if (e.target.id === "profile-form") {

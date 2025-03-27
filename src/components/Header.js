@@ -8,17 +8,6 @@ export const Header = (url) => {
       `
     : /*html*/ `<li><a href="/login" class=${url === "/login" ? "text-blue-600 font-bold" : "text-gray-600"}>로그인</a></li>`;
 
-  //로그아웃 이벤트
-  // window.addEventListener("click", (e) => {
-  //   if (e.target.innerHTML === "로그아웃") {
-  //     e.preventDefault();
-  //     setLoggedIn({ newLoggedIn: false });
-  //     localStorage.removeItem("user");
-  //     history.pushState(null, "", "/login");
-  //     render();
-  //   }
-  // });
-
   return /*html*/ `
     <header class="bg-blue-600 text-white p-4 sticky top-0">
       <h1 class="text-2xl font-bold">항해플러스</h1>

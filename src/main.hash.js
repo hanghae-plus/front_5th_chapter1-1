@@ -76,15 +76,11 @@ export const render = () => {
       e.preventDefault();
       const username = document.getElementById("username")?.value || "";
 
-      // if (!username) {
-      //   alert("사용자 이름을 입력해주세요.");
-      //   return;
-      // } else {
       localStorage.setItem(
         "user",
         JSON.stringify({ username, email: "", bio: "" }),
       );
-      // alert("로그인 정보가 저장되었습니다.");
+
       setLoggedIn({ newLoggedIn: true });
       location.hash = "#/";
       render();
