@@ -1,4 +1,6 @@
 import { render } from "../main";
+import { hashRender } from "../main.hash";
+import hashState from "../store/hash";
 import user from "../store/user";
 
 const LoginPage = () => {
@@ -42,7 +44,11 @@ const LoginPage = () => {
 
         user.setIsLoggedIn(true);
 
-        render("/profile");
+        if (!hashState.getHashState()) {
+          render("/profile");
+        } else {
+          hashRender("#/profile");
+        }
       });
     }
   };

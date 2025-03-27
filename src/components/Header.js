@@ -1,10 +1,16 @@
 import { render } from "../main";
+import { hashRender } from "../main.hash";
+import hashState from "../store/hash";
 import user from "../store/user";
 
 let isLoggedIn = null;
 let pathname = null;
 
 const Header = () => {
+  const navCondition = (route) => {
+    return location.pathname === route || location.hash === "#" + route;
+  };
+
   const template = () => {
     isLoggedIn = user.getIsLoggedIn();
     pathname = window.location.pathname;
@@ -18,11 +24,11 @@ const Header = () => {
       ${
         isLoggedIn
           ? `
-           <li><a id="btn-home" href="/" class=${pathname === "/" ? "text-blue-600" : "text-gray-600"}>홈</a></li>
-           <li><a id="btn-profile" href="/profile" class=${pathname === "/profile" ? "text-blue-600" : "text-gray-600"}>프로필</a></li>
+           <li><a id="btn-home" href="/" class="${navCondition("/") ? "font-bold text-blue-600" : "text-gray-600"}">홈</a></li>
+           <li><a id="btn-profile" href="/profile" class="${navCondition("/profile") ? "font-bold text-blue-600" : "text-gray-600"}">프로필</a></li>
            <li><a id="logout" href="/" class="text-gray-600">로그아웃</a></li>`
           : `
-            <li><a id="btn-home" href="/" class="text-blue-600">홈</a></li>
+            <li><a id="btn-home" href="/" class="text-blue-600 font-bold">홈</a></li>
             <li><a id="btn-login" href="/login" class="text-gray-600">로그인</a></li>
             `
       }
@@ -35,7 +41,12 @@ const Header = () => {
     const homeBtn = document.getElementById("btn-home");
     homeBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      render("/");
+
+      if (!hashState.getHashState()) {
+        render("/");
+      } else {
+        location.hash = "#/";
+      }
     });
 
     // NOTE : 로그인 버튼 클릭 시 로그인 페이지로
@@ -43,7 +54,12 @@ const Header = () => {
     if (loginBtn) {
       loginBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        render("/login");
+
+        if (!hashState.getHashState()) {
+          render("/login");
+        } else {
+          hashRender("#/login");
+        }
       });
     }
 
@@ -52,7 +68,12 @@ const Header = () => {
     if (profileBtn) {
       profileBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        render("/profile");
+
+        if (!hashState.getHashState()) {
+          render("/profile");
+        } else {
+          hashRender("#/profile");
+        }
       });
     }
   };
@@ -64,7 +85,12 @@ const Header = () => {
       e.preventDefault();
       user.setIsLoggedIn(false);
       localStorage.removeItem("user");
-      render("/login");
+
+      if (!hashState.getHashState()) {
+        render("/login");
+      } else {
+        hashRender("#/login");
+      }
     });
   }
 

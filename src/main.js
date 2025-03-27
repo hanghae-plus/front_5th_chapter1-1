@@ -2,19 +2,23 @@ import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import HomePage from "./pages/HomePage";
+import user from "./store/user";
+import hashState from "./store/hash";
 
-const app = document.querySelector("#root");
-
-const ROUTES = {
-  "/": HomePage(),
-  "/login": LoginPage(),
-  "/profile": ProfilePage(),
-};
+export const app = document.querySelector("#root");
 
 const detectPath = (page) => {
-  if (ROUTES[page]) {
-    app.innerHTML = ROUTES[page].template();
-    ROUTES[page].action();
+  const ROUTES = {
+    "/": HomePage(),
+    "/login": LoginPage(),
+    "/profile": ProfilePage(),
+  };
+
+  let path = page;
+
+  if (ROUTES[path]) {
+    app.innerHTML = ROUTES[path].template();
+    ROUTES[path].action();
   } else {
     app.innerHTML = NotFoundPage();
   }
@@ -27,13 +31,11 @@ export const render = (page) => {
 };
 
 export const router = () => {
-  // NOTE : 메인 페이지 히스토리 초기화
-  const { pathname } = window.location;
+  const { pathname } = location;
   if (!history.state) {
     history.replaceState({}, "", pathname);
   }
   render(pathname);
-  detectPath(pathname);
 };
 
 window.addEventListener("popstate", (e) => {
@@ -43,4 +45,6 @@ window.addEventListener("popstate", (e) => {
   detectPath(pathname);
 });
 
-router();
+if (!location.pathname.includes("hash") && !hashState.getHashState()) {
+  router();
+}
