@@ -1,4 +1,7 @@
 export const CONST = {
+  localhost: "localhost",
+  deployPath: "/front_5th_chapter1-1",
+  blankPath: "",
   lsKey: {
     users: "users",
     user: "user",

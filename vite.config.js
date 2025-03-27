@@ -1,12 +1,13 @@
 import { defineConfig } from "vitest/config";
+import { resolve } from "path";
 
-export default defineConfig(({ command }) => ({
-  base: command === "build" ? "/front_5th_chapter1-1/" : "/",
+export default defineConfig({
+  base: process.env.NODE_ENV === "production" ? "/front_5th_chapter1-1/" : "/",
   build: {
     rollupOptions: {
       input: {
-        main: "./index.html",
-        hash: "./index.hash.html",
+        main: resolve(__dirname, "index.html"),
+        hash: resolve(__dirname, "index.hash.html"),
       },
     },
   },
@@ -16,4 +17,4 @@ export default defineConfig(({ command }) => ({
     setupFiles: "./src/setupTests.js",
     exclude: ["**/e2e/**", "**/*.e2e.spec.js", "**/node_modules/**"],
   },
-}));
+});

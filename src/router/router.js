@@ -1,4 +1,8 @@
+import { CONST } from "../data/constants";
 import { routes } from "./routes";
+
+const BASE_PATH =
+  location.hostname === CONST.localhost ? CONST.blankPath : CONST.deployPath;
 
 export class BaseRouter {
   constructor() {
@@ -7,6 +11,11 @@ export class BaseRouter {
     }
     this.routes = routes;
     this.container = document.body.querySelector("#root");
+    this.basePath = BASE_PATH;
+  }
+
+  isLocalhost() {
+    return location.hostname === CONST.localhost;
   }
 
   getGuardCheckedPath(pathname) {

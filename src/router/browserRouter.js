@@ -10,14 +10,21 @@ export class BrowserRouter extends BaseRouter {
   }
 
   getCurrentPath() {
-    return window.location.pathname;
+    const { pathname } = window.location;
+    return this.isLocalhost() ? pathname : pathname.replace(this.basePath, "");
   }
 
   replaceState(pathname) {
-    history.replaceState({}, "", pathname);
+    const fullPathname = this.isLocalhost()
+      ? pathname
+      : `${this.basePath}${pathname}`;
+    history.replaceState({}, "", fullPathname);
   }
 
   pushState(pathname) {
-    history.pushState({}, "", pathname);
+    const fullPathname = this.isLocalhost()
+      ? pathname
+      : `${this.basePath}${pathname}`;
+    history.pushState({}, "", fullPathname);
   }
 }
