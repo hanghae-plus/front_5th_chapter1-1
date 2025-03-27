@@ -5,7 +5,7 @@ import { Post } from "./components/Post";
 import { ProfilePage } from "./pages/ProfilePage";
 import { LoginPage } from "./pages/LoginPage";
 import { ErrorPage } from "./pages/ErrorPage";
-import { state } from "./store/state";
+import { state, setLoggedIn } from "./store/state";
 
 const MainPage = () => /*html*/ `
   <div class="bg-gray-100 min-h-screen flex justify-center">
@@ -23,11 +23,18 @@ const MainPage = () => /*html*/ `
 `;
 
 const App = () => {
+  const isLoggedIn = state.loggedIn;
+
   if (location.pathname === "/login") {
     return LoginPage();
   }
   if (location.pathname === "/profile") {
-    return ProfilePage();
+    if (isLoggedIn) {
+      return ProfilePage();
+    } else {
+      history.pushState(null, "", "/login");
+      return LoginPage();
+    }
   }
   if (location.pathname === "/") {
     return MainPage();
@@ -40,7 +47,7 @@ window.addEventListener("popstate", () => {
   render();
 });
 
-const render = () => {
+export const render = () => {
   document.getElementById("root").innerHTML = App();
 
   document.querySelectorAll("a").forEach((el) => {
@@ -52,32 +59,36 @@ const render = () => {
     });
   });
 
-  // // 주희 수정
-  // const form = document.getElementById("login-form");
+  document.addEventListener("submit", (e) => {
+    if (e.target.id === "login-form") {
+      e.preventDefault();
+      const username = document.getElementById("username")?.value || "";
 
-  // form.addEventListener("submit", () => {
-  //   const username = document.getElementById("username").value;
-  //   const password = document.getElementById("password").value;
+      if (!username) {
+        alert("사용자 이름을 입력해주세요.");
+        return;
+      } else {
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ username, email: "", bio: "" }),
+        );
+        // alert("로그인 정보가 저장되었습니다.");
+        setLoggedIn({ newLoggedIn: true });
+        history.pushState(null, "", "/"); //메인페이지 이동 - TODO "?" 생기는 증상
+        render();
+      }
+    } else if (e.target.id === "profile-form") {
+      e.preventDefault();
+      const username = document.getElementById("username").value || "";
+      const email = document.getElementById("email").value || "";
+      const bio = document.getElementById("bio").value || "";
 
-  //   if (username === "") {
-  //     alert("사용자 이름을 입력해주세요.");
-  //     return;
-  //   }
-
-  //   localStorage.setItem(
-  //     "user",
-  //     JSON.stringify({
-  //       username,
-  //       email: "",
-  //       bio: "",
-  //     }),
-  //   );
-  // });
-
-  // history.pushState(null, "", "/");
-  // // 주희 수정
-
-  // console.log("render");
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ username: username, email: email, bio: bio }),
+      );
+    }
+  });
 };
 
 render();

@@ -1,30 +1,40 @@
+import { Footer } from "../components/Footer";
+import { Header } from "../components/Header";
+
 export const ProfilePage = () => {
-  //TODO 프로필 수정 기능
-  //수정된 정보 로컬스토리지 저장
-  //사용자 소개 텍스트 수정 가능
+  const userInfo = JSON.parse(localStorage.getItem("user"));
+  const username = userInfo?.username;
+  const email = userInfo?.email;
+  const bio = userInfo?.bio;
+
+  // document.addEventListener("DOMContentLoaded", () => {
+  //   //TODO root의 innerHTML 을 교체하는 방식이므로 이미 돔이 있다는 말. 동작 안 할수도 by성진님
+  //   const form = document.getElementById("profile-form");
+  //   form.addEventListener("submit", (e) => {
+  //     e.preventDefault();
+  //     const username = document.getElementById("username").value || "";
+  //     const email = document.getElementById("email").value || "";
+  //     const bio = document.getElementById("bio").value || "";
+
+  //     localStorage.setItem(
+  //       "user",
+  //       JSON.stringify({ username: username, email: email, bio: bio }),
+  //     );
+  //   });
+  // });
 
   return /*html*/ `
 <div id="root">
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
-      <header class="bg-blue-600 text-white p-4 sticky top-0">
-        <h1 class="text-2xl font-bold">항해플러스</h1>
-      </header>
-
-      <nav class="bg-white shadow-md p-2 sticky top-14">
-        <ul class="flex justify-around">
-          <li><a href="/" class="text-gray-600">홈</a></li>
-          <li><a href="/profile" class="text-blue-600">프로필</a></li>
-          <li><a href="#" class="text-gray-600">로그아웃</a></li>
-        </ul>
-      </nav>
+      ${Header()}
 
       <main class="p-4">
         <div class="bg-white p-8 rounded-lg shadow-md">
           <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
             내 프로필
           </h2>
-          <form>
+          <form id="profile-form">
             <div class="mb-4">
               <label
                 for="username"
@@ -35,7 +45,7 @@ export const ProfilePage = () => {
                 type="text"
                 id="username"
                 name="username"
-                value="홍길동"
+                value="${username}"
                 class="w-full p-2 border rounded"
               />
             </div>
@@ -49,7 +59,7 @@ export const ProfilePage = () => {
                 type="email"
                 id="email"
                 name="email"
-                value="hong@example.com"
+                value="${email}"
                 class="w-full p-2 border rounded"
               />
             </div>
@@ -64,12 +74,11 @@ export const ProfilePage = () => {
                 name="bio"
                 rows="4"
                 class="w-full p-2 border rounded"
-              >
-안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
-              >
+              >${bio}</textarea>
             </div>
             <button
               type="submit"
+              id="profileUpdateBtn"
               class="w-full bg-blue-600 text-white p-2 rounded font-bold"
             >
               프로필 업데이트
@@ -78,9 +87,7 @@ export const ProfilePage = () => {
         </div>
       </main>
 
-      <footer class="bg-gray-200 p-4 text-center">
-        <p>&copy; 2024 항해플러스. All rights reserved.</p>
-      </footer>
+      ${Footer()}
     </div>
   </div>
 </div>

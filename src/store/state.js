@@ -1,3 +1,4 @@
+import { render } from "../main";
 import { MOCK_POSTS } from "../posts";
 
 export const state = {
@@ -8,10 +9,8 @@ export const state = {
   userdetail: "",
 };
 
-export const setLoggedIn = () => {
-  if (state.loggedIn) {
-    state.loggedIn = false;
-  } else {
-    state.loggedIn = true;
-  }
+//로그인 상태 업데이트
+export const setLoggedIn = ({ newLoggedIn }) => {
+  state.loggedIn = newLoggedIn;
+  render();
 };
