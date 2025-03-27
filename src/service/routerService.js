@@ -4,9 +4,10 @@ export function isHashUrl() {
 
 export function getPath() {
   // 최초 index.hash.html 로드시
-  if (!location.hash && location.pathname === `/index.hash.html`) {
-    history.pushState({}, '', `/index.hash.html#${baseURL}`);
-  }
+  // if (!location.hash && location.pathname === `/index.hash.html`) {
+  //   history.pushState({}, '', `/index.hash.html#${baseURL}`);
+  // }
+
   return isHashUrl() ? changeToBaseRoute(location.hash) : location.pathname;
 }
 
