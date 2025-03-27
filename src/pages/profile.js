@@ -1,5 +1,4 @@
-import { Footer, Header, Nav } from "../components";
-import { ProfileForm } from "../components/profileForm";
+import { Footer, Header, Nav, ProfileForm } from "../components";
 
 export const ProfilePage = {
   template: () => `

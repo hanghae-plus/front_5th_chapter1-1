@@ -1,5 +1,4 @@
-import { Footer, Header, Nav } from "../components";
-import { Posts } from "../components/posts";
+import { Footer, Header, Nav, Posts } from "../components";
 
 export const MainPage = {
   template: () => `
