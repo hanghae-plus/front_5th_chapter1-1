@@ -7,14 +7,14 @@ import ErrorPage from "./pages/ErrorPage.js";
 const isProduction = import.meta.env.MODE === "production";
 const BASE_ROUTE = isProduction ? "/front_5th_chapter1-1" : "";
 
-// 라우팅 경로 생성 헬퍼 함수
-const getPath = (path) => `${BASE_ROUTE}${path}`;
-
 // 라우터 설정
 const routes = {
-  [getPath("/")]: { render: MainPage },
-  [getPath("/login")]: { render: LoginPage },
-  [getPath("/profile")]: { render: ProfilePage },
+  "/": { render: MainPage },
+  "/login": { render: LoginPage },
+  "/profile": { render: ProfilePage },
+  [`${BASE_ROUTE}/`]: { render: MainPage },
+  [`${BASE_ROUTE}/login`]: { render: LoginPage },
+  [`${BASE_ROUTE}/profile`]: { render: ProfilePage },
   default: { render: ErrorPage },
 };
 
