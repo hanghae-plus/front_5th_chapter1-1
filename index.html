@@ -5,31 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>항해플러스 SNS</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- GitHub Pages SPA 리디렉션 처리 -->
-    <script type="text/javascript">
-      // 404.html에서 리디렉션된 경우
-      (function(){
-        var redirect = sessionStorage.redirect;
-        delete sessionStorage.redirect;
-        if (redirect && redirect !== location.href) {
-          history.replaceState(null, null, redirect);
-        }
-        
-        // 쿼리 파라미터에서 p 값 추출 (?p=/login 같은 형태)
-        var loc = window.location;
-        if (loc.search) {
-          var params = new URLSearchParams(loc.search);
-          var path = params.get('p');
-          if (path) {
-            // 쿼리 파라미터 p의 값으로 경로 설정
-            history.replaceState(null, null, '/' + 'front_5th_chapter1-1' + path);
-          }
-        }
-      })();
-    </script>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="./src/main.js"></script>
   </body>
 </html>
