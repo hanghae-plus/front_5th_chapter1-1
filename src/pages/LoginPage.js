@@ -36,7 +36,9 @@ export const LoginPage = () => {
       bio: "",
     });
 
-    window.history.pushState({}, "", "/");
+    const isProduction = import.meta.env.MODE === "production";
+    const BASE = isProduction ? "/front_5th_chapter1-1" : "";
+    window.history.pushState({}, "", `${BASE}/`);
     state.notify();
     render();
   });

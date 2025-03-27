@@ -4,10 +4,13 @@ import { ProfilePage } from "./pages/ProfilePage";
 import { ErrorPage } from "./pages/ErrorPage";
 import { state } from "./state";
 
+const isProduction = import.meta.env.MODE === "production";
+const BASE = isProduction ? "/front_5th_chapter1-1" : "";
+
 const routes = {
-  "/": MainPage,
-  "/login": LoginPage,
-  "/profile": ProfilePage,
+  [`${BASE}/`]: MainPage,
+  [`${BASE}/login`]: LoginPage,
+  [`${BASE}/profile`]: ProfilePage,
 };
 
 export const render = (hash) => {
