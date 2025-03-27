@@ -24,7 +24,8 @@ afterAll(() => {
 });
 
 const goTo = (path) => {
-  window.history.pushState({}, "", path);
+  // window.history.pushState({}, "", path);
+  window.location.hash = path;
   window.dispatchEvent(new Event("popstate"));
 };
 
