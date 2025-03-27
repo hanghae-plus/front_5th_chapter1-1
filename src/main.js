@@ -1,3 +1,3 @@
 import { render } from "./routes/router.js";
 
-(() => render())();
+window.addEventListener("DOMContentLoaded", render);

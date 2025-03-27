@@ -1,3 +1,3 @@
 import { render } from "./routes/hash-router.js";
 
-(() => render())();
+window.addEventListener("DOMContentLoaded", render);
