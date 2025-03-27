@@ -233,9 +233,61 @@ const ProfilePage = () => `
   </div>
 `;
 
-document.body.innerHTML = `
-  ${MainPage()}
-  ${ProfilePage()}
-  ${LoginPage()}
-  ${ErrorPage()}
-`;
+window.addEventListener("load", () => {
+  route("/", () => {
+    loadContent("root", MainPage());
+  });
+});
+
+function route(path, callback) {
+  if (window.location.pathname === path) {
+    callback();
+  }
+}
+
+function loadContent(elementId, content) {
+  document.getElementById(elementId).innerHTML = content;
+}
+
+class Router {
+  constructor() {
+    this.routes = {};
+    window.addEventListener("popstate", this.handlePopState.bind(this));
+  }
+
+  addRoute(path, handler) {
+    this.routes[path] = handler;
+  }
+
+  navigateTo(path) {
+    history.pushState(null, "", path);
+    this.handleRoute(path);
+  }
+
+  handlePopState() {
+    this.handleRoute(window.location.pathname);
+  }
+
+  handleRoute(path) {
+    const handler = this.routes[path];
+    if (handler) {
+      handler();
+    } else {
+      loadContent("root", ErrorPage());
+    }
+  }
+}
+
+const router = new Router();
+
+router.addRoute("/", () => {
+  loadContent("root", MainPage());
+});
+
+router.addRoute("/login", () => {
+  loadContent("root", LoginPage());
+});
+
+router.addRoute("/profile", () => {
+  loadContent("root", ProfilePage());
+});
