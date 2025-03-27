@@ -1,29 +1,99 @@
-const MainPage = () => `
+// TODO: 로그인 라우터별 이벤트 리스너 맞게 변경하기
+
+//TODO: localstorage에서 받아오는 user정보도 기본state로 만들 수 있도록 state.isLoggedIn은 로컬스토리지의 값으로 판별할 수 있을 것 같음
+// 스토어 컴포넌트 함수 라우트
+
+export const setLocalStorage = (key, userInfo) => {
+  try {
+    localStorage.setItem(key, JSON.stringify(userInfo));
+  } catch (error) {
+    alert("error", error);
+  }
+};
+
+export const getLocalStorage = (key) => {
+  try {
+    const item = localStorage.getItem(key);
+    return JSON.parse(item);
+  } catch (error) {
+    alert("error", error);
+  }
+};
+
+export const removeLocalStorage = (key) => {
+  try {
+    localStorage.removeItem(key);
+  } catch (error) {
+    alert("error", error);
+  }
+};
+
+const USER_KEY = "user";
+
+const state = {
+  isLoggedIn: false,
+  userInfo: getLocalStorage(USER_KEY),
+};
+
+const textHighlighter = (href) => {
+  if (location.pathname === href) return "text-blue-600 font-bold";
+  return "text-gray-600";
+};
+
+const Header = ({ isLoggedIn }) => {
+  const nav = isLoggedIn
+    ? `
+        <li><a href="/profile" class="${textHighlighter("/profile")}">프로필</a></li>
+        <li><a href="/login" class="text-gray-600" id="logout">로그아웃</a></li>
+      `
+    : `
+      <li><a href="/login" class="text-gray-600">로그인</a></li>
+      `;
+
+  return /* HTML */ `
+    <header class="bg-blue-600 text-white p-4 sticky top-0">
+      <h1 class="text-2xl font-bold">항해플러스</h1>
+    </header>
+
+    <nav class="bg-white shadow-md p-2 sticky top-14">
+      <ul class="flex justify-around">
+        <li><a href="/" class="${textHighlighter("/")}">홈</a></li>
+        ${nav}
+      </ul>
+    </nav>
+  `;
+};
+
+const Footer = /* HTML */ `
+  <footer class="bg-gray-200 p-4 text-center">
+    <p>&copy; 2024 항해플러스. All rights reserved.</p>
+  </footer>
+`;
+
+export const MainPage = () => /* HTML */ `
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
-      <header class="bg-blue-600 text-white p-4 sticky top-0">
-        <h1 class="text-2xl font-bold">항해플러스</h1>
-      </header>
-
-      <nav class="bg-white shadow-md p-2 sticky top-14">
-        <ul class="flex justify-around">
-          <li><a href="/" class="text-blue-600">홈</a></li>
-          <li><a href="/profile" class="text-gray-600">프로필</a></li>
-          <li><a href="#" class="text-gray-600">로그아웃</a></li>
-        </ul>
-      </nav>
+      ${Header({ isLoggedIn: state.isLoggedIn })}
 
       <main class="p-4">
         <div class="mb-4 bg-white rounded-lg shadow p-4">
-          <textarea class="w-full p-2 border rounded" placeholder="무슨 생각을 하고 계신가요?"></textarea>
-          <button class="mt-2 bg-blue-600 text-white px-4 py-2 rounded">게시</button>
+          <textarea
+            class="w-full p-2 border rounded"
+            placeholder="무슨 생각을 하고 계신가요?"
+          ></textarea>
+          <button class="mt-2 bg-blue-600 text-white px-4 py-2 rounded">
+            게시
+          </button>
         </div>
 
         <div class="space-y-4">
-
           <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
+              <img
+                src="https://placehold.co/40"
+                alt="프로필"
+                class="rounded-full mr-2"
+              />
               <div>
                 <p class="font-bold">홍길동</p>
                 <p class="text-sm text-gray-500">5분 전</p>
@@ -39,7 +109,11 @@ const MainPage = () => `
 
           <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
+              <img
+                src="https://placehold.co/40"
+                alt="프로필"
+                class="rounded-full mr-2"
+              />
               <div>
                 <p class="font-bold">김철수</p>
                 <p class="text-sm text-gray-500">15분 전</p>
@@ -55,7 +129,11 @@ const MainPage = () => `
 
           <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
+              <img
+                src="https://placehold.co/40"
+                alt="프로필"
+                class="rounded-full mr-2"
+              />
               <div>
                 <p class="font-bold">이영희</p>
                 <p class="text-sm text-gray-500">30분 전</p>
@@ -71,7 +149,11 @@ const MainPage = () => `
 
           <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
+              <img
+                src="https://placehold.co/40"
+                alt="프로필"
+                class="rounded-full mr-2"
+              />
               <div>
                 <p class="font-bold">박민수</p>
                 <p class="text-sm text-gray-500">1시간 전</p>
@@ -87,7 +169,11 @@ const MainPage = () => `
 
           <div class="bg-white rounded-lg shadow p-4">
             <div class="flex items-center mb-2">
-              <img src="https://placehold.co/40" alt="프로필" class="rounded-full mr-2">
+              <img
+                src="https://placehold.co/40"
+                alt="프로필"
+                class="rounded-full mr-2"
+              />
               <div>
                 <p class="font-bold">정수연</p>
                 <p class="text-sm text-gray-500">2시간 전</p>
@@ -103,16 +189,17 @@ const MainPage = () => `
         </div>
       </main>
 
-      <footer class="bg-gray-200 p-4 text-center">
-        <p>&copy; 2024 항해플러스. All rights reserved.</p>
-      </footer>
+      ${Footer}
     </div>
   </div>
 `;
 
-const ErrorPage = () => `
+export const ErrorPage = () => /* HTML */ `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="bg-white p-8 rounded-lg shadow-md w-full text-center" style="max-width: 480px">
+    <div
+      class="bg-white p-8 rounded-lg shadow-md w-full text-center"
+      style="max-width: 480px"
+    >
       <h1 class="text-2xl font-bold text-blue-600 mb-4">항해플러스</h1>
       <p class="text-4xl font-bold text-gray-800 mb-4">404</p>
       <p class="text-xl text-gray-600 mb-8">페이지를 찾을 수 없습니다</p>
@@ -126,63 +213,69 @@ const ErrorPage = () => `
   </main>
 `;
 
-const LoginPage = () => `
+export const LoginPage = () => /* HTML */ `
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-      <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
-      <form>
+      <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">
+        항해플러스
+      </h1>
+      <form id="login-form">
         <div class="mb-4">
-          <input type="text" placeholder="이메일 또는 전화번호" class="w-full p-2 border rounded">
+          <input
+            type="text"
+            placeholder="사용자 이름"
+            class="w-full p-2 border rounded"
+            id="username"
+          />
         </div>
         <div class="mb-6">
-          <input type="password" placeholder="비밀번호" class="w-full p-2 border rounded">
+          <input
+            type="password"
+            placeholder="비밀번호"
+            class="w-full p-2 border rounded"
+          />
         </div>
-        <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
+        <button
+          type="submit"
+          class="w-full bg-blue-600 text-white p-2 rounded font-bold"
+        >
+          로그인
+        </button>
       </form>
       <div class="mt-4 text-center">
         <a href="#" class="text-blue-600 text-sm">비밀번호를 잊으셨나요?</a>
       </div>
-      <hr class="my-6">
+      <hr class="my-6" />
       <div class="text-center">
-        <button class="bg-green-500 text-white px-4 py-2 rounded font-bold">새 계정 만들기</button>
+        <button class="bg-green-500 text-white px-4 py-2 rounded font-bold">
+          새 계정 만들기
+        </button>
       </div>
     </div>
   </main>
 `;
 
-const ProfilePage = () => `
+export const ProfilePage = () => `
   <div id="root">
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
-        <header class="bg-blue-600 text-white p-4 sticky top-0">
-          <h1 class="text-2xl font-bold">항해플러스</h1>
-        </header>
-
-        <nav class="bg-white shadow-md p-2 sticky top-14">
-          <ul class="flex justify-around">
-            <li><a href="/" class="text-gray-600">홈</a></li>
-            <li><a href="/profile" class="text-blue-600">프로필</a></li>
-            <li><a href="#" class="text-gray-600">로그아웃</a></li>
-          </ul>
-        </nav>
-
+        ${Header({ isLoggedIn: state.isLoggedIn })}
         <main class="p-4">
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
               내 프로필
             </h2>
-            <form>
+            <form id="profile-form">
               <div class="mb-4">
                 <label
                   for="username"
                   class="block text-gray-700 text-sm font-bold mb-2"
-                  >사용자 이름</label
-                >
+                  >사용자 이름
+                </label>
                 <input
                   type="text"
                   id="username"
                   name="username"
-                  value="홍길동"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -190,13 +283,12 @@ const ProfilePage = () => `
                 <label
                   for="email"
                   class="block text-gray-700 text-sm font-bold mb-2"
-                  >이메일</label
-                >
+                  >이메일
+                </label>
                 <input
                   type="email"
                   id="email"
                   name="email"
-                  value="hong@example.com"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -204,16 +296,15 @@ const ProfilePage = () => `
                 <label
                   for="bio"
                   class="block text-gray-700 text-sm font-bold mb-2"
-                  >자기소개</label
-                >
+                  >자기소개
+                </label>
                 <textarea
                   id="bio"
                   name="bio"
                   rows="4"
                   class="w-full p-2 border rounded"
                 >
-안녕하세요, 항해플러스에서 열심히 공부하고 있는 홍길동입니다.</textarea
-                >
+                </textarea>
               </div>
               <button
                 type="submit"
@@ -224,18 +315,122 @@ const ProfilePage = () => `
             </form>
           </div>
         </main>
-
-        <footer class="bg-gray-200 p-4 text-center">
-          <p>&copy; 2024 항해플러스. All rights reserved.</p>
-        </footer>
+        ${Footer}
       </div>
     </div>
   </div>
 `;
 
-document.body.innerHTML = `
-  ${MainPage()}
-  ${ProfilePage()}
-  ${LoginPage()}
-  ${ErrorPage()}
-`;
+const App = () => {
+  if (location.pathname === "/") {
+    return MainPage();
+  }
+  if (location.pathname === "/login") {
+    if (!state.userInfo) {
+      return LoginPage();
+    }
+    if (state.userInfo.username !== "") {
+      state.isLoggedIn = true;
+      history.pushState(null, "", "/");
+      window.dispatchEvent(new Event("popstate"));
+
+      return MainPage();
+    }
+  }
+
+  if (location.pathname === "/profile") {
+    if (state.userInfo) {
+      state.isLoggedIn = true;
+
+      return ProfilePage();
+    } else {
+      state.isLoggedIn = false;
+      state.userInfo = null;
+      history.pushState(null, "", "/login");
+      window.dispatchEvent(new Event("popstate"));
+      return LoginPage();
+    }
+  }
+  return ErrorPage();
+};
+
+const render = () => {
+  document.querySelector("#root").innerHTML = App();
+
+  const $ul = document.querySelector("ul");
+  const $loginForm = document.getElementById("login-form");
+  const $usernameInput = document.getElementById("username");
+  const $logoutButton = document.getElementById("logout");
+
+  if ($ul) {
+    $ul.addEventListener(
+      "click",
+      (e) => {
+        if (e.target.tagName === "A" && e.target.id !== "logout") {
+          e.preventDefault();
+          const href = e.target.getAttribute("href");
+          history.pushState(null, "", href);
+          window.dispatchEvent(new Event("popstate"));
+        }
+      },
+      false,
+    );
+  }
+
+  if ($loginForm) {
+    $loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if ($usernameInput.value !== "") {
+        setLocalStorage("user", {
+          username: $usernameInput.value,
+          email: "",
+          bio: "",
+        });
+        state.userInfo = getLocalStorage("user");
+        state.isLoggedIn = true;
+        history.pushState(null, "", "/profile");
+        window.dispatchEvent(new Event("popstate"));
+      } else {
+        alert("아이디 필수");
+      }
+    });
+  }
+
+  if ($logoutButton) {
+    $logoutButton.addEventListener("click", () => {
+      history.pushState(null, "", "/login");
+      window.dispatchEvent(new Event("popstate"));
+      state.isLoggedIn = false;
+      state.userInfo = null;
+      removeLocalStorage("user");
+    });
+  }
+
+  if (location.pathname === "/profile") {
+    const $profileForm = document.getElementById("profile-form");
+    const $username = document.getElementById("username");
+    const $email = document.getElementById("email");
+    const $bio = document.getElementById("bio");
+
+    $username.value = state.userInfo.username;
+    $email.value = state.userInfo.email;
+    $bio.value = state.userInfo.bio;
+
+    $profileForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      setLocalStorage("user", {
+        username: $username.value,
+        email: $email.value,
+        bio: $bio.value,
+      });
+
+      alert("프로필이 업데이트 되었습니다.");
+    });
+  }
+};
+
+window.addEventListener("popstate", () => {
+  render();
+});
+
+render();
