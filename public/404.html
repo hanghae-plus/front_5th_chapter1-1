@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Single Page Apps for GitHub Pages</title>
+  <script type="text/javascript">
+    // SPA를 위한 리디렉션 스크립트
+    // /front_5th_chapter1-1/login과 같은 경로를 처리
+    
+    // 저장소명에 따라 조정 (예: front_5th_chapter1-1)
+    var repoName = "front_5th_chapter1-1";
+    var segmentCount = 1;
+    
+    var l = window.location;
+    // URL을 저장소 기본 경로 + ?p=실제경로 형식으로 변환
+    var redirectUrl = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+      '/' + repoName + '/?p=' +
+      l.pathname.slice(1).split('/').slice(segmentCount).join('/').replace(/&/g, '~and~') +
+      (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+      l.hash;
+
+    // 리디렉션 실행
+    sessionStorage.redirect = redirectUrl;
+    window.location.href = '/' + repoName;
+  </script>
+</head>
+<body>
+</body>
+</html> 
