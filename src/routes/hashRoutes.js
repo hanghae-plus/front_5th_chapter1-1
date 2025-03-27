@@ -1,5 +1,6 @@
 import { BASE_PATH } from "../constants";
 import { ErrorPage, LoginPage, MainPage, ProfilePage } from "../pages";
+import { handleLogin, updateProfile } from "../services/auth";
 import { userStore } from "../store/store";
 
 const routes = {
@@ -8,7 +9,7 @@ const routes = {
   [`${BASE_PATH}#/login`]: LoginPage,
 };
 
-const goTo = (path) => {
+const renderPageWithHash = (path) => {
   window.location.hash = path;
   render();
 };
@@ -21,10 +22,10 @@ export const render = () => {
   const isLoggedIn = userStore.loggedIn();
 
   if (!isLoggedIn && path === `${BASE_PATH}#/profile`) {
-    return goTo(`${BASE_PATH}#/login`);
+    return renderPageWithHash(`${BASE_PATH}#/login`);
   }
   if (isLoggedIn && path === `${BASE_PATH}#/login`) {
-    return goTo(`${BASE_PATH}#/`);
+    return renderPageWithHash(`${BASE_PATH}#/`);
   }
 
   const page = routes[path] || ErrorPage;
@@ -42,46 +43,21 @@ export const render = () => {
       return render();
     }
 
-    goTo(`${BASE_PATH}#${target.pathname}`);
+    renderPageWithHash(`${BASE_PATH}#${target.pathname}`);
   });
 
   root.addEventListener("submit", (e) => {
     e.preventDefault();
 
     if (e.target.id === "login-form") {
-      const username = e.target.elements.username.value;
-
-      if (!username || !username.trim()) {
-        return window.alert("이름을 입력해주세요.");
-      }
-
-      userStore.setUserInfo("username", username);
-      userStore.setUserInfo("email", "");
-      userStore.setUserInfo("bio", "");
-
-      history.pushState(null, "", `${BASE_PATH}#/profile`);
-      return render();
+      handleLogin(e.target.elements);
+      renderPageWithHash(`${BASE_PATH}#/profile`);
     }
 
     if (e.target.id === "profile-form") {
-      e.preventDefault();
-      const { username, email, bio } = userStore.getUserInfo();
-
-      const userNameValue = e.target.elements.username.value;
-      const emailValue = e.target.elements.email.value;
-      const bioValue = e.target.elements.bio.value;
-
-      if (username !== userNameValue) {
-        userStore.setUserInfo("username", userNameValue);
-      }
-      if (email !== emailValue) {
-        userStore.setUserInfo("email", emailValue);
-      }
-      if (bio !== bioValue) {
-        userStore.setUserInfo("bio", bioValue);
-      }
+      updateProfile(e.target.elements);
     }
   });
 };
 
-window.addEventListener("hashchange", () => render());
+window.addEventListener("hashchange", render);
