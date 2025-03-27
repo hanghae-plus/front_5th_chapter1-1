@@ -1,4 +1,4 @@
-export default function ErrorPage() {
+export default function NotFoundPage() {
   return /* html */ `
     <main class="bg-gray-100 flex items-center justify-center min-h-screen">
       <div class="bg-white p-8 rounded-lg shadow-md w-full text-center" style="max-width: 480px">

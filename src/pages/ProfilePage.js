@@ -1,9 +1,9 @@
-import { Footer, Header } from "../componentes/layout";
+// import { Header, Footer } from "../componentes/layout";
+import { getUser } from "../store";
 
-export default function ProfilePage({ username, email, bio }) {
+export default function ProfilePage({ Header, Footer }) {
+  const { username, bio, email } = getUser();
   return /* html */ `
-
-    <div id="root">
       <div class="bg-gray-100 min-h-screen flex justify-center">
         <div class="max-w-md w-full">
      ${Header({ loggedIn: true })}
@@ -69,6 +69,6 @@ export default function ProfilePage({ username, email, bio }) {
           ${Footer()}
         </div>
       </div>
-    </div>
+
     `;
 }

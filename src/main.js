@@ -1,38 +1,17 @@
-import ProfilePage from "./pages/profilePage";
-import MainPage from "./pages/mainPage";
-import LoginPage from "./pages/loginPage";
-import ErrorPage from "./pages/errorPage";
-import { MOCK_POSTS } from "./mockPosts";
-
-export const state = {
-  loginState: false,
-  posts: MOCK_POSTS,
-};
-
-const App = () => {
-  if (location.pathname === "/login") {
-    return LoginPage();
-  }
-  if (location.pathname === "/profile") {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (!user) return LoginPage();
-    return ProfilePage({ ...user });
-  }
-  if (location.pathname === "/") {
-    return MainPage({ ...state });
-  }
-  return ErrorPage();
-};
+import { state, getUser } from "./store";
+import { router, navigate } from "./router";
 
 window.addEventListener("popstate", () => {
   render();
 });
 
 const render = () => {
-  const user = JSON.parse(localStorage.getItem("user") || "null");
+  const user = getUser();
   state.loginState = !!user;
+  console.log("-----location.href----");
+  console.log(location.href);
 
-  document.getElementById("root").innerHTML = App();
+  router();
 
   document.querySelectorAll("a").forEach((el) => {
     el.addEventListener("click", (e) => {
@@ -51,11 +30,10 @@ const render = () => {
       const username = document.getElementById("username").value;
       const email = document.getElementById("email").value;
       const bio = document.getElementById("bio").value;
-      const user = JSON.parse(localStorage.getItem("user"));
+      const user = getUser();
       user.username = username;
       user.email = email;
       user.bio = bio;
-      console.log(user);
       localStorage.setItem("user", JSON.stringify(user));
       render();
     });
@@ -86,7 +64,7 @@ const login = () => {
 
   state.loginState = true;
 
-  history.pushState(null, "", "/");
+  navigate("/");
   render();
 };
 
@@ -95,7 +73,7 @@ const logout = () => {
 
   state.loginState = false;
 
-  history.pushState(null, "", "/login");
+  navigate("/login");
   render();
 };
 

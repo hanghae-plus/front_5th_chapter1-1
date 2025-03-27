@@ -1,17 +1,20 @@
-export const Footer = () => /* html */ `
-    <footer class="bg-gray-200 p-4 text-center">
-      <p>&copy; 2024 항해플러스. All rights reserved.</p>
-    </footer>
-`;
+import { BASE_PATH } from "../router";
+
+const matchedPath = (path) => {
+  const currentPath = window.location.hash
+    ? window.location.hash.slice(1) || "/"
+    : window.location.pathname.replace(BASE_PATH, "") || "/";
+  return currentPath === path;
+};
 
 export const Header = ({ loggedIn }) => {
   const nav = loggedIn
     ? /* html */ `
-          <li><a href="/profile" class=${location.pathname === "/profile" ? "text-blue-600" : "text-gray-600"}>프로필</a></li>
+          <li><a href="/profile" class=${matchedPath("/profile") ? "text-blue-600" : "text-gray-600"}>프로필</a></li>
           <li id="logout"><a href="#" class="text-gray-600">로그아웃</a></li>
           `
     : /* html */ `
-          <li><a href="/login" class=${location.pathname === "/login" ? "text-blue-600" : "text-gray-600"}>로그인</a></li>
+          <li><a href="/login" class=${matchedPath("/login") ? "text-blue-600" : "text-gray-600"}>로그인</a></li>
           `;
 
   return /* html */ `
@@ -21,9 +24,28 @@ export const Header = ({ loggedIn }) => {
 
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
-          <li><a href="/" class=${location.pathname === "/" ? "text-blue-600" : "text-gray-600"}>홈</a></li>
+          <li><a href="/" class=${matchedPath("/") ? "text-blue-600" : "text-gray-600"}>홈</a></li>
         ${nav}
         </ul>
       </nav>
 `;
+};
+
+export const Footer = () => /* html */ `
+    <footer class="bg-gray-200 p-4 text-center">
+      <p>&copy; 2024 항해플러스. All rights reserved.</p>
+    </footer>
+`;
+
+export const Layout = ({ child }) => {
+  return /* html */ `
+       <div class="bg-gray-100 min-h-screen flex justify-center">
+        <div class="max-w-md w-full">
+          ${Header({ loggedIn: true })}
+          ${child}
+         ${Footer()}
+        </div>
+      </div>
+
+  `;
 };
