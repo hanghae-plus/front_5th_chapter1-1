@@ -5,6 +5,10 @@ export default defineConfig({
   build: {
     assetsDir: "assets",
     rollupOptions: {
+      input: {
+        main: "index.html",
+        hash: "index.hash.html",
+      },
       output: {
         assetFileNames: "assets/[name].[ext]",
         chunkFileNames: "assets/[name].[hash].js",
