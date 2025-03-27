@@ -12,7 +12,11 @@ function HashRouter(userData) {
 
   // URL 해시를 경로로 변환
   function getHashRoute() {
-    return window.location.hash.replace("#", "") || "/";
+    let hash = window.location.hash;
+    if (!hash || hash === "#") return "/";
+    return hash.startsWith("#/")
+      ? hash.replace("#", "")
+      : "/" + hash.replace("#", "");
   }
 
   function navigate(path) {

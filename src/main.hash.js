@@ -37,12 +37,10 @@ document.addEventListener("click", (e) => {
 
     // 일반 경로인 경우 해시 경로로 변환
     if (href.startsWith("/")) {
-      href = href.replace("/", "");
+      router.navigate(href);
     } else if (href.startsWith("#/")) {
-      href = href.replace("#/", "");
+      router.navigate(href.replace("#/", "/"));
     }
-
-    router.navigate(href);
   }
 });
 
@@ -61,7 +59,6 @@ document.addEventListener("submit", (e) => {
         username,
         email: "",
         bio: "",
-        password,
       });
       console.log("로그인 성공");
       router.navigate("/profile");
