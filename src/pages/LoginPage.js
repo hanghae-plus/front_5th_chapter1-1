@@ -9,10 +9,15 @@ const LoginPage = () => {
             <input type="text" id="username" placeholder="사용자 이름" class="w-full p-2 border rounded" required>
             </div>
             <div class="mb-4">
-            <textarea id="bio" placeholder="간단한 소개" class="w-full p-2 border rounded h-24" required></textarea>
+            <input type="password" id="password" placeholder="비밀번호" class="w-full p-2 border rounded" required>
             </div>
             <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded font-bold">로그인</button>
         </form>
+        <div class="mt-4 text-center">
+            <a href="#" class="text-blue-600 text-sm">비밀번호를 잊으셨나요?</a>
+            <hr class="my-4 border-gray-200" />
+            <button class="bg-green-500 text-white px-4 py-2 rounded font-bold">새 계정 만들기</button>
+        </div>
         </div>
     </main>
     `;
