@@ -48,7 +48,6 @@ export const router = () => {
 };
 
 export const navigate = (path) => {
-  history.pushState({}, "", path);
-  //   history.pushState({}, "", `${BASE_PATH}${path}`);
+  history.pushState({}, "", `${BASE_PATH}${path}`);
   router();
 };
