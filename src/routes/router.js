@@ -33,6 +33,7 @@ export const render = () => {
     return navigate(ROUTES.LOGIN, true);
   else if (pathname === ROUTES.LOGIN && isLogon)
     return navigate(ROUTES.MAIN, true);
+  if (pathname.endsWith("/")) pathname = pathname.slice(0, -1); // github page 는 엔드포인트를 /profile => /profile/ 처리함
   const page = URL_MAP[pathname] || ErrorPage;
   root.innerHTML = page();
   setEventListener();
