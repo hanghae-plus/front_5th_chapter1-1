@@ -26,7 +26,7 @@ const renderPage = (path) => {
   return ErrorPage();
 };
 
-//로그아웃 처리
+//로그아웃 처리, hash 와 동일 로직
 const logoutUser = () => {
   // 로그아웃 처리 로직
   // localStorage의 데이터 제거
@@ -35,7 +35,7 @@ const logoutUser = () => {
   globalState.initUser("user");
 };
 
-//헤더 링크 클릭
+//헤더 링크 클릭 (로직이 거의 동일한데 살짝 다름 95% 동일)
 const handleLinkClick = (event) => {
   if (event.target.tagName === "A") {
     event.preventDefault();
@@ -51,7 +51,7 @@ const handleLinkClick = (event) => {
   }
 };
 
-//로그인 처리
+//로그인 처리 (거의 동일)
 const handleLogin = (event) => {
   event.preventDefault(); // 기본 폼 제출 방지
 
