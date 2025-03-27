@@ -19,6 +19,8 @@ class Router {
     this.mode = options.mode;
     this.base = options.base;
 
+    Router.instance = this;
+
     const handleRender = () => {
       this.render();
     };
@@ -29,12 +31,16 @@ class Router {
       window.addEventListener("popstate", handleRender);
     }
 
-    Router.instance = this;
-
     document.addEventListener("click", (e) => {
       if (e.target.matches("[data-link]")) {
         e.preventDefault();
         this.navigate(e.target.getAttribute("href"));
+      }
+
+      if (e.target.matches('[data-action="logout"]')) {
+        e.preventDefault();
+        logout();
+        this.navigate("/login");
       }
     });
 
@@ -54,20 +60,11 @@ class Router {
         updateUser({ username, email, bio });
       }
     });
-
-    document.addEventListener("click", (e) => {
-      if (e.target.matches('[data-action="logout"]')) {
-        e.preventDefault();
-        logout();
-        this.navigate("/login");
-      }
-    });
   }
 
   getCurrentPath() {
+    // hash 모드 처리
     if (this.mode === "hash") {
-      // hash 모드 처리
-      console.log("hash", window.location.hash);
       return window.location.hash.slice(1) || "/";
     }
 
@@ -75,12 +72,10 @@ class Router {
     const params = new URLSearchParams(window.location.search);
     const redirectPath = params.get("p");
     if (redirectPath?.startsWith("/")) {
-      console.log("redirectPath", redirectPath);
       return redirectPath;
     }
 
     // 로컬 개발환경 등 일반 history 모드
-    console.log("pathname", window.location.pathname);
     return window.location.pathname;
   }
 
