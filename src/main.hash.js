@@ -25,8 +25,8 @@ document.addEventListener("click", (e) => {
     router.navigate("/login");
   }
 
-  // 링크 이동 (모든 링크에 대해)
-  if (e.target.tagName === "A" && e.target.getAttribute("href")) {
+  // 링크 이동
+  if (e.target.matches('a[href^="#/"], a[href^="/"]')) {
     e.preventDefault();
     let href = e.target.getAttribute("href");
 
@@ -35,15 +35,17 @@ document.addEventListener("click", (e) => {
       href = href.replace(basePath, "");
     }
 
-    // 해시 경로로 변환
-    if (href.startsWith("/")) {
-      router.navigate(href);
-    } else if (href.startsWith("#/")) {
-      router.navigate(href.replace("#/", "/"));
-    } else if (href === "#") {
-      // 그냥 # 인 경우 무시
-      return;
+    // 경로 처리 및 이동
+    if (href === "#") {
+      return; // 단순 '#' 링크는 무시
     }
+
+    // #/ 시작하는 경우 # 제거
+    if (href.startsWith("#/")) {
+      href = href.substring(1);
+    }
+
+    router.navigate(href);
   }
 });
 
@@ -89,7 +91,5 @@ document.addEventListener("submit", (e) => {
   }
 });
 
-// 페이지 로드 시 라우터 초기화
-window.addEventListener("DOMContentLoaded", () => {
-  router.init();
-});
+// 라우터 초기화
+router.init();

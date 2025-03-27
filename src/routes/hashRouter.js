@@ -20,7 +20,12 @@ function HashRouter(userData) {
   }
 
   function navigate(path) {
-    window.location.hash = path;
+    // 경로가 '/'로 시작하면 '#'을 추가
+    if (path.startsWith("/")) {
+      window.location.hash = path;
+    } else {
+      window.location.hash = "/" + path;
+    }
   }
 
   function render() {
@@ -50,8 +55,8 @@ function HashRouter(userData) {
     if (!window.location.hash || window.location.hash === "#") {
       window.location.hash = "/";
     } else {
-      // 약간의 지연을 주어 해시 변경이 완료된 후 렌더링
-      setTimeout(render, 0);
+      // 약간의 지연을 통해 해시 변경 후 렌더링
+      setTimeout(render, 10);
     }
   }
 
