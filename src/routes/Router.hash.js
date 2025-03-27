@@ -33,7 +33,15 @@ class HashRouter extends Router {
 
   //handleRoute 구현 필수
   handleRoute(element, path) {
-    console.log("해시 라우터: handleRoute", path);
+    if (path === "/profile") {
+      const userData = localStorage.getItem("user");
+      if (!userData) {
+        this.navigateTo("/login");
+        return; // 함수 종료로 렌더링 자체를 방지
+      }
+    }
+
+    // 인증 통과 또는 다른 페이지인 경우 렌더링 계속 진행
     const renderElement = document.getElementById(element);
     if (renderElement) {
       renderElement.innerHTML = this.renderPage(path);

@@ -14,6 +14,7 @@ import HashRouter from "./Router.hash";
 // }
 
 function createRouter(type = "browser") {
+  console.log("createRouter", type.toLowerCase());
   switch (type.toLowerCase()) {
     case "hash":
       return new HashRouter();

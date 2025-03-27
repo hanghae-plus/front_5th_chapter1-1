@@ -14,7 +14,11 @@ class BrowserRouter extends Router {
 
   //브라우저에서 repoName을 삭제해서 진행
   cleanPath(path) {
-    if (this.isGhPages && path.startsWith(this.repoName)) {
+    // path가 null이나 undefined인 경우 기본값 제공
+    if (!path) return "/";
+
+    // this.repoName이 undefined인지 확인
+    if (this.isGhPages && this.repoName && path.startsWith(this.repoName)) {
       // repoName을 제거한 후의 경로
       const cleanedPath = path.slice(this.repoName.length);
 
@@ -32,7 +36,7 @@ class BrowserRouter extends Router {
   //브라우저에 popState 이벤트 핸들러 연결
   handlePopState() {
     console.log("브라우저 popstate 이벤트 발생");
-    this.handleRoute(window.location.pathname);
+    this.handleRoute("root", window.location.pathname);
   }
 
   //navgiateTo 구현 필수
