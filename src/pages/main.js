@@ -1,4 +1,4 @@
-import { Footer, Header, NavComponent } from "../components";
+import { Footer, Header, Nav } from "../components";
 import { getMockPosts } from "../mock/posts";
 
 export const MainPage = (container) => {
@@ -8,7 +8,7 @@ export const MainPage = (container) => {
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
         ${Header()}
-        <nav class="bg-white shadow-md p-2 sticky top-14"></nav>
+        ${Nav.template()}
         <main class="p-4">
           <div class="mb-4 bg-white rounded-lg shadow p-4">
             <textarea class="w-full p-2 border rounded" placeholder="무슨 생각을 하고 계신가요?"></textarea>
@@ -24,7 +24,5 @@ export const MainPage = (container) => {
     </div>
   `;
 
-  const navContainer = container.querySelector("nav");
-  const navComponent = new NavComponent(navContainer);
-  navComponent.render();
+  Nav.onMount();
 };
