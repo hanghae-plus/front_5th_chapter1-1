@@ -21,8 +21,10 @@ const routes = {
 };
 
 export function resolveRoute(path) {
+  const baseUrl = "/front_5th_chapter1-1"; // baseUrl 정의
   const { isLoggedIn } = userContext.getState();
-  const routeHandler = routes[path] || ErrorPage;
+  const cleanPath = path.replace(baseUrl, ""); // baseUrl 제거
+  const routeHandler = routes[cleanPath] || ErrorPage;
   return typeof routeHandler === "function"
     ? routeHandler(isLoggedIn)
     : routeHandler();
