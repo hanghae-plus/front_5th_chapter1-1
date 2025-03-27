@@ -37,6 +37,7 @@ class Router {
     if (!this.isHashMode) {
       this.handleRoute(window.location.pathname);
     }
+    this.handleRoute(window.location.pathname);
   }
 
   handleHashChange() {

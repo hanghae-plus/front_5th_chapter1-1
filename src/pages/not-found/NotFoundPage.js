@@ -1,4 +1,5 @@
 import { ensureRootElement } from "@/shared/utils";
+import { config } from "../../shared/config";
 
 export class NotFoundPage {
   constructor() {
@@ -17,7 +18,7 @@ export class NotFoundPage {
       <p class="text-gray-600 mb-8">
         요청하신 페이지가 존재하지 않거나 이동되었을 수 있습니다.
       </p>
-      <a data-link href="/" class="bg-blue-600 text-white px-4 py-2 rounded font-bold">
+      <a data-link href="${config.basePath}/" class="bg-blue-600 text-white px-4 py-2 rounded font-bold">
         홈으로 돌아가기
       </a>
     </div>
