@@ -1,8 +1,9 @@
 {
-  "name": "front-5th-chapter1-1",
+  "name": "front_5th_chapter1-1",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://leeyeonseong.github.io/front_5th_chapter1-1",
   "scripts": {
     "dev": "vite",
     "dev:hash": "vite --open ./index.hash.html",
@@ -19,7 +20,9 @@
     "test:e2e:report": "npx playwright show-report",
     "test:generate": "playwright codegen localhost:5173",
     "prepare": "husky",
-    "gh-pages": "bash gh-pages-publish.sh"
+    "gh-pages": "bash gh-pages-publish.sh",
+    "predeploy": "pnpm build",
+    "deploy": "gh-pages -d dist"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -36,6 +39,7 @@
     "eslint": "^9.16.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
+    "gh-pages": "^6.3.0",
     "globals": "^15.13.0",
     "husky": "^9.1.7",
     "jsdom": "^25.0.1",

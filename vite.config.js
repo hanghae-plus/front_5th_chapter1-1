@@ -1,6 +1,7 @@
-import { defineConfig } from "vitest/config";
+import { defineConfig } from "vite";
 
 export default defineConfig({
+  base: "/front_5th_chapter1-1/",
   test: {
     globals: true,
     environment: "jsdom",
