@@ -7,7 +7,7 @@ export const MainPage = (container) => {
   container.innerHTML = `
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
-        ${Header()}
+        ${Header.template()}
         ${Nav.template()}
         <main class="p-4">
           <div class="mb-4 bg-white rounded-lg shadow p-4">
@@ -19,11 +19,13 @@ export const MainPage = (container) => {
             ${Posts.template()}
           </div>
         </main>
-        ${Footer()}
+        ${Footer.template()}
       </div>
     </div>
   `;
 
+  Header.onMount();
   Nav.onMount();
   Posts.onMount();
+  Footer.onMount();
 };
