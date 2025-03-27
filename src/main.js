@@ -6,6 +6,8 @@ import HomePage from "./pages/HomePage";
 export const app = document.querySelector("#root");
 
 const detectPath = (page) => {
+  console.log("detect Path loaded!");
+
   const ROUTES = {
     "/": HomePage(),
     "/login": LoginPage(),
@@ -29,18 +31,17 @@ export const render = (page) => {
 };
 
 export const router = () => {
-  const { pathname } = location;
+  let { pathname } = location;
   if (!history.state) {
     history.replaceState({}, "", pathname);
   }
+
   render(pathname);
 };
 
 window.addEventListener("popstate", (e) => {
   e.preventDefault();
-
-  const { pathname } = location;
-  detectPath(pathname);
+  detectPath(location.pathname);
 });
 
 router();

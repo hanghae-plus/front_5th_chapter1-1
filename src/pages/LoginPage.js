@@ -28,6 +28,8 @@ const LoginPage = () => {
 `;
 
   const action = () => {
+    if (user.getIsLoggedIn()) render("/");
+
     const loginForm = document.getElementById("login-form");
     if (loginForm) {
       loginForm.addEventListener("submit", (e) => {
@@ -43,7 +45,7 @@ const LoginPage = () => {
 
         user.setIsLoggedIn(true);
 
-        if (!hashState.getHashState) {
+        if (!hashState.getHashState()) {
           render("/profile");
         } else {
           import("../main.hash").then((mainHash) =>

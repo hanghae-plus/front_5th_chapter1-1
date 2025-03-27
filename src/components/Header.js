@@ -42,7 +42,7 @@ const Header = () => {
     const homeBtn = document.getElementById("btn-home");
     homeBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      if (!hashState.getHashState) {
+      if (!hashState.getHashState()) {
         render("/");
       } else {
         import("../main.hash").then((mainHash) => mainHash.hashRender("#/"));
@@ -55,7 +55,7 @@ const Header = () => {
       loginBtn.addEventListener("click", (e) => {
         e.preventDefault();
 
-        if (!hashState.getHashState) {
+        if (!hashState.getHashState()) {
           render("/login");
         } else {
           import("../main.hash").then((mainHash) =>
@@ -71,7 +71,7 @@ const Header = () => {
       profileBtn.addEventListener("click", (e) => {
         e.preventDefault();
 
-        if (!hashState.getHashState) {
+        if (!hashState.getHashState()) {
           render("/profile");
         } else {
           import("../main.hash").then((mainHash) =>
@@ -90,7 +90,7 @@ const Header = () => {
       user.setIsLoggedIn(false);
       localStorage.removeItem("user");
 
-      if (!hashState.getHashState) {
+      if (!hashState.getHashState()) {
         render("/login");
       } else {
         import("../main.hash").then((mainHash) =>
