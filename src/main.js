@@ -1,5 +1,19 @@
 const BASE_PATH = "/front-5th-chapter1-1";
 
+const state = {
+  user: JSON.parse(localStorage.getItem("user")) || null,
+};
+
+const setUser = (user) => {
+  state.user = user;
+  localStorage.setItem("user", JSON.stringify(user));
+  render(window.location.pathname);
+};
+
+const initUser = () => {
+  state.user = JSON.parse(localStorage.getItem("user")) || null;
+};
+
 const userInfo = {
   username: "testuser",
   email: "test@example.com",
@@ -25,8 +39,7 @@ const Header = () => `
 `;
 
 const Navigate = () => {
-  const user = localStorage.getItem("user");
-  if (user) {
+  if (state.user) {
     return `
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
@@ -168,11 +181,8 @@ const LoginPage = () => `
 `;
 
 const ProfilePage = () => {
-  const user = localStorage.getItem("user");
-  let userInfo = {};
-  if (user) {
-    userInfo = JSON.parse(user);
-    profileInput = { bio: userInfo.bio };
+  if (state.user) {
+    profileInput = { ...state.user };
   }
   return `
           <div class="bg-white p-8 rounded-lg shadow-md">
@@ -190,7 +200,7 @@ const ProfilePage = () => {
                   type="text"
                   id="username"
                   name="username"
-                  value="${userInfo.username}"
+                  value="${state.user.username}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -204,7 +214,7 @@ const ProfilePage = () => {
                   type="email"
                   id="email"
                   name="email"
-                  value="${userInfo.email}"
+                  value="${state.user.email}"
                   class="w-full p-2 border rounded"
                 />
               </div>
@@ -219,7 +229,7 @@ const ProfilePage = () => {
                   name="bio"
                   rows="4"
                   class="w-full p-2 border rounded"
-                >${userInfo.bio}</textarea
+                >${state.user.bio}</textarea
                 >
               </div>
               <button
@@ -249,7 +259,6 @@ const navigate = (path) => {
 };
 
 const getPageContent = (fullPath) => {
-  const user = localStorage.getItem("user");
   const path = fullPath.split(BASE_PATH)[1];
 
   if (!path) return ErrorPage();
@@ -258,14 +267,14 @@ const getPageContent = (fullPath) => {
     case "/":
       return MainLayout(HomePage);
     case "/profile": {
-      if (!user) {
+      if (!state.user) {
         navigate("/login");
         return LoginPage();
       }
       return MainLayout(ProfilePage);
     }
     case "/login": {
-      if (user) {
+      if (state.user) {
         navigate("/");
         return MainLayout(HomePage);
       }
@@ -275,8 +284,8 @@ const getPageContent = (fullPath) => {
       return ErrorPage();
   }
 };
-
 window.addEventListener("load", () => {
+  initUser();
   render(window.location.pathname);
 });
 
@@ -290,7 +299,7 @@ document.body.addEventListener("click", (event) => {
     const href = event.target.getAttribute("href");
 
     if (href === "/logout") {
-      localStorage.removeItem("user");
+      setUser(null);
       navigate("/login");
     } else navigate(href);
   }
@@ -321,7 +330,7 @@ document.body.addEventListener("submit", (event) => {
       userInfo.username === userInput.username &&
       userInfo.password === userInput.password
     ) {
-      localStorage.setItem("user", JSON.stringify(userInfo));
+      setUser(userInfo);
       navigate("/profile");
     } else {
       alert("로그인 실패!");
@@ -331,6 +340,6 @@ document.body.addEventListener("submit", (event) => {
   if (event.target.id === "profile-form") {
     event.preventDefault();
     const newInfo = { ...userInfo, ...profileInput };
-    localStorage.setItem("user", JSON.stringify(newInfo));
+    setUser(newInfo);
   }
 });
