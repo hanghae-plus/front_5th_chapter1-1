@@ -1,7 +1,3 @@
-import { initRouter } from "./router";
+import { initRouter } from "./routers/router";
 
-function initializeApp() {
-  initRouter();
-}
-
-initializeApp();
+initRouter();

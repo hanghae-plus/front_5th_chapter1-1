@@ -1,4 +1,4 @@
-import { navigate } from "../router";
+import { navigate } from "../routers/router";
 
 export function login(data) {
   localStorage.setItem("user", JSON.stringify(data));

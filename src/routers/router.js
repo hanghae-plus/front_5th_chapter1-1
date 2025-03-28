@@ -1,8 +1,8 @@
-import { getUser, login, logout, updateProfile } from "./auth/auth";
-import LoginPage from "./pages/LoginPage";
-import MainPage from "./pages/MainPage";
-import NotFoundPage from "./pages/NotFoundPage";
-import ProfilePage from "./pages/ProfilePage";
+import { getUser, login, logout, updateProfile } from "../auth/auth";
+import LoginPage from "../pages/LoginPage";
+import MainPage from "../pages/MainPage";
+import NotFoundPage from "../pages/NotFoundPage";
+import ProfilePage from "../pages/ProfilePage";
 
 const routes = {
   "/": MainPage,
@@ -13,25 +13,6 @@ const routes = {
 
 export function render() {
   const path = window.location.pathname;
-  let component;
-
-  const user = getUser();
-
-  if (user && path === "/login") {
-    component = routes["/"];
-  } else if (!user && path === "/profile") {
-    component = routes["/login"];
-  } else {
-    component = routes[path] || routes["*"];
-  }
-  const $app = document.querySelector("#root");
-  $app.innerHTML = component();
-
-  setupEventListeners();
-}
-
-export function hashRender() {
-  const path = window.location.hash.slice(1) || "/";
   let component;
 
   const user = getUser();
@@ -68,7 +49,6 @@ export function navigate(path) {
 
 export function initRouter() {
   window.addEventListener("popstate", render);
-  window.addEventListener("hashchange", hashRender);
   document.body.addEventListener("click", onClickLink);
 
   render();
