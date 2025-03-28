@@ -19,7 +19,11 @@ export const historyRouter = (routes) => {
   };
 
   router.navigate = (fragment) => {
-    history.pushState({}, "", BASE_ROUTE + fragment);
+    history.pushState(
+      {},
+      "",
+      fragment.includes(BASE_ROUTE) ? fragment : BASE_ROUTE + fragment,
+    );
     checkRoutes();
   };
 
