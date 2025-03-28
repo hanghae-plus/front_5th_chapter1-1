@@ -25,7 +25,12 @@ export const Router = () => {
         layout = `${Header()}${HomePage()}${Footer()}`;
         break;
       case "/login":
-        layout = `${LoginPage()}`;
+        if (isLogIn()) {
+          window.history.pushState({}, "", "/");
+          layout = `${Header()}${HomePage()}${Footer()}`;
+        } else {
+          layout = `${LoginPage()}`;
+        }
         break;
       case "/profile":
         if (isLogIn()) {
@@ -96,6 +101,22 @@ export const Router = () => {
       alert("프로필이 업데이트되었습니다.");
     });
   }
+
+  // const loginForm = document.getElementById("login-form");
+  // const name = document.getElementById("username");
+
+  // if(loginForm) {
+  //   loginForm.addEventListener("submit", (event) => {
+  //     event.preventDefault();
+  //     const username = name.value;
+  //     localStorage.setItem(
+  //       "user",
+  //       JSON.stringify({ username: username, email: "", bio: "" }),
+  //     );
+  //     goTo("/profile");
+  //   }
+  // )}
+
   // console.log('주소');
   // console.log(window.location.pathname);
   // console.log(window.location.pathname.includes('hash'));
