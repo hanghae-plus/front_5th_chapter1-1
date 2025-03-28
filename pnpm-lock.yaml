@@ -7,6 +7,13 @@ settings:
 importers:
 
   .:
+    dependencies:
+      front-5th-chapter1-1:
+        specifier: 'file:'
+        version: 'front_5th_chapter1-1@file:'
+      front_5th_chapter1-1:
+        specifier: 'file:'
+        version: 'file:'
     devDependencies:
       '@eslint/js':
         specifier: ^9.16.0
@@ -1020,6 +1027,9 @@ packages:
   form-data@4.0.2:
     resolution: {integrity: sha512-hGfm/slu0ZabnNt4oaRZ6uREyfCj6P4fT/n6A1rGV+Z0VdGXjfOhVUpkn6qVQONHGIFwmveGXyDs75+nr6FM8w==}
     engines: {node: '>= 6'}
+
+  'front_5th_chapter1-1@file:':
+    resolution: {directory: '', type: directory}
 
   fs-extra@11.3.0:
     resolution: {integrity: sha512-Z4XaCL6dUDHfP/jT25jJKMmtxvuwbkrD1vNSMFlo9lNLY2c5FHYSQgHPRZUjAB26TpDEoW9HCOgplrdbaPV/ew==}
@@ -2618,6 +2628,8 @@ snapshots:
       combined-stream: 1.0.8
       es-set-tostringtag: 2.1.0
       mime-types: 2.1.35
+
+  'front_5th_chapter1-1@file:': {}
 
   fs-extra@11.3.0:
     dependencies:
