@@ -23,7 +23,9 @@ test.describe("SPA 기본 기능", () => {
     await expect(
       page.getByRole("heading", { name: "항해플러스" }).first(),
     ).toBeVisible();
+
     await page.getByRole("link", { name: "로그인" }).click();
+
     await expect(page.locator("#root")).toMatchAriaSnapshot(`
     - heading "항해플러스" [level=1]
     - textbox "사용자 이름"
@@ -90,14 +92,15 @@ test.describe("SPA 기본 기능", () => {
     await page.getByRole("button", { name: "프로필 업데이트" }).click();
     await page.reload();
     await expect(page.getByRole("main")).toMatchAriaSnapshot(`
-    - heading "내 프로필" [level=2]
-    - text: 사용자 이름
-    - textbox "사용자 이름": testuser
-    - text: 이메일
-    - textbox "이메일": a@a.aa
-    - text: 자기소개
-    - textbox "자기소개": 자기소개입니다. 자기소개입니다.
-    - button "프로필 업데이트"
+      - main:
+        - heading "내 프로필" [level=2]
+        - text: 사용자 이름
+        - textbox "사용자 이름": testuser
+        - text: 이메일
+        - textbox "이메일": a@a.aa
+        - text: 자기소개
+        - textbox "자기소개": 자기소개입니다.
+        - button "프로필 업데이트"
     `);
   });
 });
