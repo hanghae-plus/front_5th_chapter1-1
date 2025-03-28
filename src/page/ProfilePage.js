@@ -1,15 +1,10 @@
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Layout from "../components/Layout";
 import auth from "../auth";
-import { createNodeElement, renderByNodeElement } from "./utils";
+import { renderByNodeElement } from "./utils";
 
 export default () => {
   const { username = "", email = "", bio = "" } = auth.getUser();
-  const component = `
-    <div class="bg-gray-100 min-h-screen flex justify-center">
-      <div class="max-w-md w-full">
-        ${Header()}
-
+  const profile = `
         <main class="p-4">
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold text-center text-blue-600 mb-8">
@@ -66,12 +61,8 @@ export default () => {
             </form>
           </div>
         </main>
-
-        ${Footer()}
-      </div>
-    </div>
   `;
-  const element = createNodeElement(component);
+  const element = Layout(profile);
   element.querySelector("nav").addEventListener("click", (e) => {
     e.preventDefault();
     if (e.target.nodeName === "A") {

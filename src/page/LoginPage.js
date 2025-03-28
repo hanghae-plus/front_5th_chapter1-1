@@ -1,9 +1,9 @@
 import auth from "../auth";
-import { createNodeElement, renderByNodeElement } from "./utils";
+import { renderByNodeElement } from "./utils";
+import Dialog from "../components/Dialog";
 
 export default () => {
   const component = `
-    <main class="bg-gray-100 flex items-center justify-center min-h-screen">
       <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
         <form id="login-form">
@@ -23,9 +23,8 @@ export default () => {
           <button class="bg-green-500 text-white px-4 py-2 rounded font-bold">새 계정 만들기</button>
         </div>
       </div>
-    </main>
   `;
-  const element = createNodeElement(component);
+  const element = Dialog(component);
   element.querySelector("#login-form").addEventListener("submit", (e) => {
     e.preventDefault();
     const username = element.querySelector("#username").value;
