@@ -80,19 +80,37 @@ class Router {
   }
   //헤더 링크 클릭 이벤트 , navigateTo 자식 클래스에서 구현
   //헤더 링크 클릭 (로직이 거의 동일한데 살짝 다름 95% 동일)
+  // handleLinkClick = (event) => {
+  //   console.log("handleLinkClick 실행");
+  //   if (event.target.tagName === "A") {
+  //     event.preventDefault();
+  //     console.log(
+  //       "event.target.getAttribute('href')",
+  //       event.target.getAttribute("href"),
+  //     );
+  //     const href = this.cleanPath(event.target.getAttribute("href"));
+  //     const path = href.includes("#")
+  //       ? href.split("#")[1]
+  //       : this.cleanPath(href);
+  //     console.log("path", path); ///{repoName}/logout 경로를 타고 갈때 repo이름이 붙는거 같다.
+  //     if (this.cleanPath(href) === "/logout" || path === "/logout") {
+  //       // 로그아웃 처리 로직
+  //       authService.logout();
+  //       this.navigateTo("/login");
+  //       return;
+  //     }
+  //     this.navigateTo(this.cleanPath(href));
+  //   }
+  // };
+
   handleLinkClick = (event) => {
-    console.log("handleLinkClick 실행");
     if (event.target.tagName === "A") {
       event.preventDefault();
-      console.log(
-        "event.target.getAttribute('href')",
-        event.target.getAttribute("href"),
-      );
       const href = this.cleanPath(event.target.getAttribute("href"));
       const path = href.includes("#")
         ? href.split("#")[1]
         : this.cleanPath(href);
-      console.log("path", path); ///{repoName}/logout 경로를 타고 갈때 repo이름이 붙는거 같다.
+
       if (this.cleanPath(href) === "/logout" || path === "/logout") {
         // 로그아웃 처리 로직
         authService.logout();
@@ -141,29 +159,31 @@ class Router {
 
   //authGuard 생성
   authGuard(path) {
-    console.log("authGuard 실행");
-    console.log("path", path);
     const userData = globalState.getUser("user");
-    console.log("userData", userData);
     //프로필 페이지 접근 시 인증 필요
     // 프로필 페이지 접근 시 인증 필요
     if (path === "/profile" && !userData) {
       console.log("인증 필요: 프로필 페이지 접근 시도");
       //여기서 navigateTo를 실행할 경우 테스트 통과가 되지 못하였다 why?
       // return this.navigateTo("/login");
-      return import.meta.env.VITE_APP_BASE_URL + "/login"; // 리다이렉트할 경로 반환
+      console.log(
+        "import.meta.env.VITE_APP_BASE_URL",
+        import.meta.env.VITE_APP_BASE_URL,
+      );
+      return "/login"; // 리다이렉트할 경로 반환
+      // return "/login";
     }
 
     // 로그인 페이지에 이미 로그인한 상태로 접근 시
     if (path === "/login" && userData) {
       console.log("이미 로그인됨: 로그인 페이지 접근 시도");
-      return import.meta.env.VITE_APP_BASE_URL + "/"; // 홈으로 리다이렉트
+      return "/"; // 홈으로 리다이렉트
     }
 
     if (path === "/logout") {
       console.log("로그아웃 처리");
       authService.logout();
-      return import.meta.env.VITE_APP_BASE_URL + "/login";
+      return "/login";
     }
 
     // 인증 통과 또는 인증이 필요 없는 페이지
@@ -172,7 +192,9 @@ class Router {
 
   //handleRoute 구현 필수
   handleRoute(element, path) {
+    console.log("handleRoute 실행", path);
     const redirectPath = this.authGuard(path);
+    console.log("redirectPath", redirectPath);
     if (redirectPath) {
       console.log("인증 실패: 리다이렉트", redirectPath);
       this.navigateTo(redirectPath);
