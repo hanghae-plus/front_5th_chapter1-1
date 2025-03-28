@@ -1,1 +1,3 @@
-import "./main.js";
+import { initHashRouter } from "./routers/hashRouter";
+
+initHashRouter();
