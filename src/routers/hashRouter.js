@@ -1,4 +1,4 @@
-import { getUser, login, updateProfile } from "../auth/auth";
+import { getUser, login, logout, updateProfile } from "../auth/auth";
 import LoginPage from "../pages/LoginPage";
 import MainPage from "../pages/MainPage";
 import NotFoundPage from "../pages/NotFoundPage";
@@ -30,15 +30,28 @@ export function hashRender() {
   setupEventListeners();
 }
 
+export function onClickLink(e) {
+  const target = e.target.closest("a");
+  if (!target) return;
+
+  e.preventDefault();
+  if (target.href && target.href.includes("logout")) {
+    logout();
+  } else {
+    const path = target.getAttribute("href") || "/";
+    navigate(path);
+  }
+}
+
 export function initHashRouter() {
   window.addEventListener("hashchange", hashRender);
+  document.body.addEventListener("click", onClickLink);
 
   hashRender();
 }
 
 export function navigate(path) {
   window.location.hash = path;
-  hashRender();
 }
 
 export function setupEventListeners() {
