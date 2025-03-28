@@ -54,7 +54,7 @@ export default function ProfilePage({ Header, Footer }) {
                     rows="4"
                     class="w-full p-2 border rounded"
                   >
-    ${bio}</textarea
+    </textarea
                   >
                 </div>
                 <button
