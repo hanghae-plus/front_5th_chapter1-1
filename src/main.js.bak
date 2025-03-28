@@ -1,0 +1,170 @@
+import MainPage from "./pages/MainPage.js";
+import ErrorPage from "./pages/ErrorPage.js";
+import LoginPage from "./pages/LoginPage.js";
+import globalState from "./lib/globalState.js";
+import ProfilePage from "./pages/ProfilePage.js";
+
+const BASE_URL = import.meta.env.VITE_APP_BASE_URL || "/";
+//routing 연결
+const routePath = {
+  [BASE_URL + "login"]: LoginPage,
+  [BASE_URL + "profile"]: ProfilePage,
+  [BASE_URL]: MainPage,
+  [BASE_URL + "error"]: ErrorPage,
+};
+
+console.log("routePath", { routePath });
+
+//페이지 렌더링
+const renderPage = (path) => {
+  // 경로가 routePath에 존재하는지 확인
+  const routeHandler = routePath[path];
+
+  // 경로가 유효하고 함수인 경우
+  if (typeof routeHandler === "function") {
+    return routeHandler();
+  }
+
+  // 경로가 유효하지 않거나 함수가 아닌 경우 ErrorPage 반환
+  return ErrorPage();
+};
+
+//로그아웃 처리, hash 와 동일 로직
+const logoutUser = () => {
+  // 로그아웃 처리 로직
+  // localStorage의 데이터 제거
+  console.log("logoutUser 실행");
+  // localStorage.removeItem("user");
+  globalState.initUser("user");
+};
+
+//헤더 링크 클릭 (로직이 거의 동일한데 살짝 다름 95% 동일)
+const handleLinkClick = (event) => {
+  if (event.target.tagName === "A") {
+    event.preventDefault();
+    const href = event.target.getAttribute("href");
+    console.log("href", href);
+    console.log("BASE_URL", BASE_URL + "logout");
+    console.log("href === BASE_URL + 'logout'", href === BASE_URL + "logout");
+    if (href === BASE_URL + "logout") {
+      console.log("logout 실행");
+      // 로그아웃 처리 로직
+      logoutUser(); // 로그아웃 함수 호출
+      navigateTo(BASE_URL + "login");
+      return;
+    }
+    navigateTo(href);
+  }
+};
+
+//로그인 처리 (거의 동일)
+const handleLogin = (event) => {
+  event.preventDefault(); // 기본 폼 제출 방지
+
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("userPw").value;
+
+  console.log("email", username);
+  console.log("password", password);
+
+  if (username === "testuser") {
+    const user = {
+      username: username,
+      email: "",
+      bio: "",
+    };
+    globalState.setUser("user", user);
+    navigateTo(BASE_URL + "profile");
+  } else if (!username || !password) {
+    alert("이름 또는 비밀번호를 입력해주세요.");
+  } else {
+    alert("이름 또는 비밀번호가 일치하지 않습니다.");
+  }
+};
+
+//profile update 처리
+const handleUpdateProfile = (event) => {
+  event.preventDefault();
+
+  const username = document.getElementById("username").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const bio = document.getElementById("bio").value.trim();
+  // const bio = bioText + (bioText ? ` ${bioText}` : "");
+
+  if (username) {
+    const user = {
+      username: username,
+      email: email,
+      bio: bio,
+    };
+
+    globalState.setUser("user", user);
+    location.reload();
+  }
+};
+
+// //최초 앱 실행 함수
+// const App = () => {
+//   //아 클릭할 때 App()이 새롭게 실행되면서 초기화가 이루어지는구나.
+//   navigateTo(location.pathname);
+// };
+
+//페이지 이동함수
+const navigateTo = (path) => {
+  console.log("navigateTo", path);
+  // 여기서 spa pushState 추가.
+  history.pushState(null, "", path);
+  //페이지 렌더링
+  const rootElement = document.getElementById("root");
+  rootElement.innerHTML = renderPage(path);
+
+  // 로그인 페이지일 때 이벤트 리스너 등록
+  if (path === BASE_URL + "login") {
+    const userData = globalState.getUser("user");
+    if (userData) {
+      navigateTo(BASE_URL + "profile");
+      return;
+    }
+    const loginForm = document.getElementById("login-form");
+    if (loginForm) {
+      loginForm.addEventListener("submit", handleLogin);
+    }
+  }
+
+  if (path === BASE_URL + "profile") {
+    const loginInfo = globalState.getUser("user");
+    console.log("loginInfo", loginInfo);
+    if (!loginInfo) {
+      navigateTo(BASE_URL + "login");
+      return;
+    }
+    const profileForm = document.getElementById("profile-form");
+    if (profileForm) {
+      profileForm.addEventListener("submit", handleUpdateProfile);
+    }
+  }
+
+  if (path !== BASE_URL + "login" && path !== BASE_URL + "logout") {
+    console.log("login or logout");
+    const navElement = document.querySelector("nav");
+
+    if (navElement) {
+      navElement.addEventListener("click", (event) => {
+        if (event.target.tagName === "A") {
+          handleLinkClick(event);
+        }
+      });
+    }
+  }
+};
+//첫 Dom이 로드되었을 때.
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOMContentLoaded", location.pathname);
+  navigateTo(location.pathname);
+});
+
+// popstate 이벤트 처리 popstate는 언제 발생하는건가?
+window.addEventListener("popstate", () => {
+  console.log("popstate 이벤트 처리");
+  navigateTo(location.pathname);
+});
