@@ -1,5 +1,5 @@
 {
-  "name": "front-5th-chapter1-1",
+  "name": "front_5th_chapter1-1",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -47,5 +47,5 @@
     "vite": "^6.0.3",
     "vitest": "^2.1.8"
   },
-  "homepage": "https://kk3june.github.io/front_5th_chapter1-1"
+  "homepage": "https://github.io/kk3june/front_5th_chapter1-1"
 }
