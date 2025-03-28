@@ -16,11 +16,15 @@ export default () => {
       </div>
   `;
   const element = Dialog(component);
-  element.addEventListener("click", (e) => {
+  const clickHandler = (e) => {
     e.preventDefault();
     if (e.target.nodeName === "A") {
       window.router.navigate("/");
     }
-  });
-  renderByNodeElement(element);
+  };
+  element.addEventListener("click", clickHandler);
+  const removeEventListenerCallback = () => {
+    element.removeEventListener("click", clickHandler);
+  };
+  renderByNodeElement(element, removeEventListenerCallback);
 };

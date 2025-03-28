@@ -95,7 +95,7 @@ export default () => {
         </main>
   `;
   const element = Layout(main);
-  element.querySelector("nav").addEventListener("click", (e) => {
+  const navClockHandler = (e) => {
     e.preventDefault();
     if (e.target.nodeName === "A") {
       if (e.target.id === "logout") {
@@ -106,7 +106,11 @@ export default () => {
       const newPathname = e.target.href.replace(location.origin, "");
       window.router.navigate(newPathname);
     }
-  });
+  };
+  element.querySelector("nav").addEventListener("click", navClockHandler);
+  const removeEventListenerCallback = () => {
+    element.querySelector("nav").removeEventListener("click", navClockHandler);
+  };
 
-  renderByNodeElement(element);
+  renderByNodeElement(element, removeEventListenerCallback);
 };

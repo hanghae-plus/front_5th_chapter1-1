@@ -62,8 +62,7 @@ export default () => {
           </div>
         </main>
   `;
-  const element = Layout(profile);
-  element.querySelector("nav").addEventListener("click", (e) => {
+  const navClickHandler = (e) => {
     e.preventDefault();
     if (e.target.nodeName === "A") {
       if (e.target.id === "logout") {
@@ -74,9 +73,9 @@ export default () => {
       const newPathname = e.target.href.replace(location.origin, "");
       window.router.navigate(newPathname);
     }
-  });
+  };
 
-  element.querySelector("#profile-form").addEventListener("submit", (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
     const user = {
       username: document.getElementById("username").value,
@@ -85,7 +84,20 @@ export default () => {
     };
     auth.setUser(user);
     alert("프로필이 업데이트 되었습니다.");
-  });
+  };
 
-  renderByNodeElement(element);
+  const element = Layout(profile);
+  element.querySelector("nav").addEventListener("click", navClickHandler);
+  element
+    .querySelector("#profile-form")
+    .addEventListener("submit", submitHandler);
+
+  const removeEventListenerCallback = () => {
+    element.querySelector("nav").removeEventListener("click", navClickHandler);
+    element
+      .querySelector("#profile-form")
+      .removeEventListener("submit", submitHandler);
+  };
+
+  renderByNodeElement(element, removeEventListenerCallback);
 };

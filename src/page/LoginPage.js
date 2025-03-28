@@ -25,7 +25,7 @@ export default () => {
       </div>
   `;
   const element = Dialog(component);
-  element.querySelector("#login-form").addEventListener("submit", (e) => {
+  const loginSubmitHanlder = (e) => {
     e.preventDefault();
     const username = element.querySelector("#username").value;
     // const password = loginForm.querySelector('input[type="password"]').value
@@ -35,7 +35,14 @@ export default () => {
     }
     auth.login(username);
     window.router.navigate("/");
-  });
-
-  renderByNodeElement(element);
+  };
+  element
+    .querySelector("#login-form")
+    .addEventListener("submit", loginSubmitHanlder);
+  const removeEventListenerCallback = () => {
+    element
+      .querySelector("#login-form")
+      .removeEventListener("submit", loginSubmitHanlder);
+  };
+  renderByNodeElement(element, removeEventListenerCallback);
 };
