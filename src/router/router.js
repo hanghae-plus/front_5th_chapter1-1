@@ -1,6 +1,6 @@
 import LoginPage from "../pages/loginPage";
 import HomePage from "../pages/HomePage";
-import ProfilePage from "../pages/profilePage";
+import ProfilePage from "../pages/ProfilePage";
 import NotFoundPage from "../pages/NotFoundPage";
 import { Header, Footer } from "../componentes/layout";
 import { state } from "../store";
