@@ -20,7 +20,7 @@ export const Header = ({ loggedIn }) => {
           loggedIn
             ? /* html */ `
           <li><a href="/profile" class="${matchedPath("/profile") ? "text-blue-600 font-bold" : "text-gray-600"}">프로필</a></li>
-          <li id="logout"><a href="#" class="text-gray-600">로그아웃</a></li>
+          <li id="logout"><a id="logout" href="#" class="text-gray-600">로그아웃</a></li>
           `
             : /* html */ `
           <li><a href="/login" class="${matchedPath("/login") ? "text-blue-600 font-bold" : "text-gray-600"}">로그인</a></li>
