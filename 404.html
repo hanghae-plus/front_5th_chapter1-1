@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>항해플러스 SNS</title>
+    <script type="text/javascript">
+        var pathSegmentsToKeep = 1;
+        var l = window.location;
+        var pathname = l.pathname;
+        var search = l.search;
+        var hash = l.hash;
+  
+        // 경로에서 슬래시 유지
+        var pathParts = pathname.split("/");
+        var basePath = pathParts.slice(0, 1 + pathSegmentsToKeep).join("/");
+        var remainingPath = pathParts.slice(1 + pathSegmentsToKeep).join("/");
+  
+        // 리다이렉션 URL 생성
+        var redirectUrl =
+          l.protocol +
+          "//" +
+          l.hostname +
+          (l.port ? ":" + l.port : "") +
+          basePath +
+          "/?p=/" +
+          remainingPath +
+          (search ? "&q=" + search.slice(1).replace(/&/g, "~and~") : "") +
+          hash;
+  
+        l.replace(redirectUrl);
+      </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
