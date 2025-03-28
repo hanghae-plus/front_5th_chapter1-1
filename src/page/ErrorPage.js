@@ -1,5 +1,4 @@
 import { createNodeElement, renderByNodeElement } from "./utils";
-import { basePath } from "../constants/basePath";
 
 export default () => {
   const component = `
@@ -21,7 +20,7 @@ export default () => {
   element.addEventListener("click", (e) => {
     e.preventDefault();
     if (e.target.nodeName === "A") {
-      window.router.navigate(basePath.main);
+      window.router.navigate("/");
     }
   });
   renderByNodeElement(element);

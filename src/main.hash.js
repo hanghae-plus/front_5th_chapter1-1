@@ -9,7 +9,7 @@ const guard = {
   main: (component) => {
     return () => {
       if (auth.loggedIn) {
-        hashNavigateTo("/");
+        hashNavigateTo("#/");
         return MainPage();
       }
       return component();
@@ -18,7 +18,7 @@ const guard = {
   auth: (component) => {
     return () => {
       if (!auth.loggedIn) {
-        hashNavigateTo("/login");
+        hashNavigateTo("#/login");
         return LoginPage();
       }
       return component();

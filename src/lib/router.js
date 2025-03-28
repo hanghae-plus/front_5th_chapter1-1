@@ -1,3 +1,5 @@
+import { BASE_ROUTE } from "../constants/basePath";
+
 export const historyRouter = (routes) => {
   let notFound = routes.find((route) => route.fragment === "*").component;
 
@@ -17,7 +19,7 @@ export const historyRouter = (routes) => {
   };
 
   router.navigate = (fragment) => {
-    history.pushState({}, "", fragment);
+    history.pushState({}, "", BASE_ROUTE + fragment);
     checkRoutes();
   };
 
@@ -47,7 +49,9 @@ export const hashRouter = (routes) => {
   };
 
   router.navigate = (fragment) => {
-    window.location.hash = fragment;
+    window.location.hash = window.location.hash.includes("#")
+      ? fragment
+      : "#" + fragment;
     checkRoutes();
   };
 
