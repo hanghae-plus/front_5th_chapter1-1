@@ -15,13 +15,6 @@ export const matchedPath = (path) => {
   return currentPath === path;
 };
 
-export const routes = {
-  "/login": LoginPage,
-  "/profile": ProfilePage,
-  "/": HomePage,
-  "*": NotFoundPage,
-};
-
 const root = document.getElementById("root");
 
 export const router = () => {
