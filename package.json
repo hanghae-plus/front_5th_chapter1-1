@@ -18,8 +18,8 @@
     "test:e2e:report": "npx playwright show-report",
     "test:generate": "playwright codegen localhost:5173",
     "prepare": "husky",
-    "build:test": "vite build --mode dev",
-    "build:prod": "vite build --mode prod",
+    "build:test": "vite build --mode development",
+    "build:prod": "vite build --mode production",
     "predeploy": "pnpm run build:prod && cp dist/index.html dist/404.html",
     "deploy": "gh-pages -d dist"
   },
@@ -47,5 +47,5 @@
     "vite": "^6.0.3",
     "vitest": "^2.1.8"
   },
-  "homepage": "https://kk3june.github.io/front_5th_chapter1-1"
+  "homepage": "https://github.com/kk3june/front_5th_chapter1-1"
 }
