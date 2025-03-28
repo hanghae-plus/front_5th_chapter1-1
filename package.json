@@ -1,4 +1,5 @@
 {
+  "homepage": "https://me-hana.github.io/front_5th_chapter1-1/",
   "name": "front-5th-chapter1-1",
   "private": true,
   "version": "0.0.0",
@@ -18,7 +19,10 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:report": "npx playwright show-report",
     "test:generate": "playwright codegen localhost:5173",
-    "prepare": "husky"
+    "prepare": "husky",
+    "gh-pages": "bash gh-pages-publish.sh",
+    "predeploy": "vite build && cp dist/index.hash.html dist/index.html",
+    "deploy": "npx gh-pages -d dist"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -41,7 +45,7 @@
     "lint-staged": "^15.2.11",
     "prettier": "^3.4.2",
     "vite": "^6.0.3",
-    "vitest": "^2.1.8"
-  },
-  "packageManager": "pnpm@9.15.1+sha512.1acb565e6193efbebda772702950469150cf12bcc764262e7587e71d19dc98a423dff9536e57ea44c49bdf790ff694e83c27be5faa23d67e0c033b583be4bfcf"
+    "vitest": "^2.1.8",
+    "gh-pages": "^6.3.0"
+  }
 }
