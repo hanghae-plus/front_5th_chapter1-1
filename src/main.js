@@ -33,7 +33,7 @@ const routes = [
   { fragment: `${BASE_ROUTE}/`, component: MainPage },
   { fragment: `${BASE_ROUTE}/login`, component: guard.main(LoginPage) },
   { fragment: `${BASE_ROUTE}/profile`, component: guard.auth(ProfilePage) },
-  { fragment: `${BASE_ROUTE}*`, component: ErrorPage },
+  { fragment: `*`, component: ErrorPage },
 ];
 
 const router = (window.router = historyRouter(routes));
