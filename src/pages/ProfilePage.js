@@ -50,10 +50,9 @@ export default function ProfilePage({ Header, Footer }) {
                   <textarea
                     id="bio"
                     name="bio"
-                    value="${bio}"
                     rows="4"
                     class="w-full p-2 border rounded"
-                  >
+                  >${bio}
     </textarea
                   >
                 </div>
