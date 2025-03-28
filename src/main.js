@@ -26,11 +26,14 @@ const guard = {
   },
 };
 
+const isProduction = import.meta.env.MODE === "production";
+const BASE_ROUTE = isProduction ? "/front_5th_chapter1-1" : "";
+
 const routes = [
-  { fragment: "/", component: MainPage },
-  { fragment: "/login", component: guard.main(LoginPage) },
-  { fragment: "/profile", component: guard.auth(ProfilePage) },
-  { fragment: "*", component: ErrorPage },
+  { fragment: `${BASE_ROUTE}/`, component: MainPage },
+  { fragment: `${BASE_ROUTE}/login`, component: guard.main(LoginPage) },
+  { fragment: `${BASE_ROUTE}/profile`, component: guard.auth(ProfilePage) },
+  { fragment: `${BASE_ROUTE}*`, component: ErrorPage },
 ];
 
 const router = (window.router = historyRouter(routes));
