@@ -1,5 +1,6 @@
 import auth from "../auth";
 import { createNodeElement, renderByNodeElement } from "./utils";
+import { basePath } from "../constants/basePath";
 
 export default () => {
   const component = `
@@ -35,7 +36,7 @@ export default () => {
       return;
     }
     auth.login(username);
-    window.router.navigate("/");
+    window.router.navigate(basePath.main);
   });
 
   renderByNodeElement(element);

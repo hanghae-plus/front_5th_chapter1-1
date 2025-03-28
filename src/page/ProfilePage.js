@@ -2,6 +2,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import auth from "../auth";
 import { createNodeElement, renderByNodeElement } from "./utils";
+import { basePath } from "../constants/basePath";
 
 export default () => {
   const { username = "", email = "", bio = "" } = auth.getUser();
@@ -77,7 +78,7 @@ export default () => {
     if (e.target.nodeName === "A") {
       if (e.target.id === "logout") {
         auth.logout();
-        window.router.navigate("/login");
+        window.router.navigate(basePath.login);
         return;
       }
       const newPathname = e.target.href.replace(location.origin, "");

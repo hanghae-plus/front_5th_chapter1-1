@@ -1,4 +1,6 @@
 import { createNodeElement, renderByNodeElement } from "./utils";
+import { basePath } from "../constants/basePath";
+
 export default () => {
   const component = `
     <main class="bg-gray-100 flex items-center justify-center min-h-screen">
@@ -19,7 +21,7 @@ export default () => {
   element.addEventListener("click", (e) => {
     e.preventDefault();
     if (e.target.nodeName === "A") {
-      window.router.navigate("/");
+      window.router.navigate(basePath.main);
     }
   });
   renderByNodeElement(element);

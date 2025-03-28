@@ -2,6 +2,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { createNodeElement, renderByNodeElement } from "./utils";
 import auth from "../auth";
+import { basePath } from "../constants/basePath";
 
 export default () => {
   const component = `
@@ -108,7 +109,7 @@ export default () => {
     if (e.target.nodeName === "A") {
       if (e.target.id === "logout") {
         auth.logout();
-        window.router.navigate("/login");
+        window.router.navigate(basePath.login);
         return;
       }
       const newPathname = e.target.href.replace(location.origin, "");
