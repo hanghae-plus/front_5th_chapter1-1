@@ -82,7 +82,7 @@ test.describe("SPA 기본 기능", () => {
     await page.getByLabel("이메일").click();
     await page.getByLabel("이메일").fill("a@a.aa");
     await page.getByLabel("자기소개").click();
-    await page.getByLabel("자기소개").fill("자기소개입니다.");
+    await page.getByLabel("자기소개").fill("자기소개입니다. 자기소개입니다.");
     page.once("dialog", (dialog) => {
       console.log(`Dialog message: ${dialog.message()}`);
       dialog.dismiss().catch(() => {});
