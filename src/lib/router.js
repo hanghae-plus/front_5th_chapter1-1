@@ -47,7 +47,7 @@ export const hashRouter = (routes) => {
   };
 
   router.navigate = (fragment) => {
-    window.location.hash = "#" + fragment;
+    window.location.hash = fragment;
     checkRoutes();
   };
 
