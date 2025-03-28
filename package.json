@@ -1,4 +1,5 @@
 {
+  "homepage": "https://kk3june.github.io/front_5th_chapter1-1/",
   "name": "front_5th_chapter1-1",
   "private": true,
   "version": "0.0.0",
@@ -6,6 +7,9 @@
   "scripts": {
     "dev": "vite",
     "dev:hash": "vite --open ./index.hash.html",
+    "build": "vite build",
+    "predeploy": "pnpm run build",
+    "deploy": "vite build && gh-pages -d dist",
     "lint:fix": "eslint --fix",
     "prettier:write": "prettier --write ./src",
     "preview": "vite preview",
@@ -17,11 +21,7 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:report": "npx playwright show-report",
     "test:generate": "playwright codegen localhost:5173",
-    "prepare": "husky",
-    "build:test": "vite build --mode development",
-    "build:prod": "vite build --mode production",
-    "predeploy": "pnpm run build:prod",
-    "deploy": "gh-pages -d dist"
+    "prepare": "husky"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -47,5 +47,8 @@
     "vite": "^6.0.3",
     "vitest": "^2.1.8"
   },
-  "homepage": "https://kk3june.github.io/front_5th_chapter1-1"
+  "dependencies": {
+    "front_5th_chapter1-1": "file:",
+    "front-5th-chapter1-1": "file:"
+  }
 }
