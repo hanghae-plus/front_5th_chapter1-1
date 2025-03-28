@@ -5,11 +5,11 @@ import NotFoundPage from "../pages/NotFoundPage";
 import ProfilePage from "../pages/ProfilePage";
 
 const BASE_PATH =
-  process.env.NODE_ENV === "production" ? "/front_5th_chapter1-1" : "/";
+  process.env.NODE_ENV === "production" ? "/front_5th_chapter1-1/" : "/";
 const routes = {
-  [`${BASE_PATH}/`]: MainPage,
-  [`${BASE_PATH}/profile`]: ProfilePage,
-  [`${BASE_PATH}/login`]: LoginPage,
+  [`${BASE_PATH}`]: MainPage,
+  [`${BASE_PATH}profile`]: ProfilePage,
+  [`${BASE_PATH}login`]: LoginPage,
   "*": NotFoundPage,
 };
 
