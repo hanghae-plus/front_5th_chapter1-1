@@ -1,15 +1,14 @@
 import { getUser, login, logout, updateProfile } from "../auth/auth";
 import LoginPage from "../pages/LoginPage";
 import MainPage from "../pages/MainPage";
-import NotFoundPage from "../pages/NotFoundPage";
 import ProfilePage from "../pages/ProfilePage";
+import NotFoundPage from "../pages/NotFoundPage";
+import { BASE_URL } from "../constants/constants";
 
-const BASE_PATH =
-  process.env.NODE_ENV === "production" ? "/front_5th_chapter1-1/" : "/";
 const routes = {
-  [`${BASE_PATH}`]: MainPage,
-  [`${BASE_PATH}profile`]: ProfilePage,
-  [`${BASE_PATH}login`]: LoginPage,
+  [`${BASE_URL}/`]: MainPage,
+  [`${BASE_URL}/profile`]: ProfilePage,
+  [`${BASE_URL}/login`]: LoginPage,
   "*": NotFoundPage,
 };
 
@@ -20,10 +19,10 @@ export function render() {
 
   const user = getUser();
 
-  if (user && path === "/login") {
-    component = routes["/"];
-  } else if (!user && path === "/profile") {
-    component = routes["/login"];
+  if (user && path === `${BASE_URL}/login`) {
+    component = routes[`${BASE_URL}/`];
+  } else if (!user && path === `${BASE_URL}/profile`) {
+    component = routes[`${BASE_URL}/login`];
   } else {
     component = routes[path] || routes["*"];
   }
@@ -40,14 +39,14 @@ export function onClickLink(e) {
   e.preventDefault();
   if (target.href && target.href.includes("#")) {
     logout();
-    navigate("/login");
+    navigate(`/login`);
   } else {
     navigate(target.href);
   }
 }
 
 export function navigate(path) {
-  window.history.pushState({}, "", path);
+  window.history.pushState({}, "", `${BASE_URL}${path}`);
   render();
 }
 
@@ -65,7 +64,7 @@ export function setupEventListeners() {
       event.preventDefault();
       const { username } = event.target.elements;
       login({ username: username.value, email: "", bio: "" });
-      navigate("/profile");
+      navigate(`/profile`);
     });
   }
 
