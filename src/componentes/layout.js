@@ -15,15 +15,15 @@ export const Header = ({ loggedIn }) => {
 
       <nav class="bg-white shadow-md p-2 sticky top-14">
         <ul class="flex justify-around">
-          <li><a href="/" class=${matchedPath("/") ? "text-blue-600 font-bold" : "text-gray-600"}>홈</a></li>
+          <li><a href="/" class="${matchedPath("/") ? "text-blue-600 font-bold" : "text-gray-600"}">홈</a></li>
         ${
           loggedIn
             ? /* html */ `
-          <li><a href="/profile" class=${matchedPath("/profile") ? "text-blue-600 font-bold" : "text-gray-600"}>프로필</a></li>
+          <li><a href="/profile" class="${matchedPath("/profile") ? "text-blue-600 font-bold" : "text-gray-600"}">프로필</a></li>
           <li id="logout"><a href="#" class="text-gray-600">로그아웃</a></li>
           `
             : /* html */ `
-          <li><a href="/login" class=${matchedPath("/login") ? "text-blue-600 font-bold" : "text-gray-600"}>로그인</a></li>
+          <li><a href="/login" class="${matchedPath("/login") ? "text-blue-600 font-bold" : "text-gray-600"}">로그인</a></li>
           `
         }
         </ul>

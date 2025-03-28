@@ -1,4 +1,3 @@
-// import { Header, Footer } from "../componentes/layout";
 import { getUser } from "../store";
 
 export default function ProfilePage({ Header, Footer }) {

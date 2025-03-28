@@ -13,7 +13,14 @@ const render = () => {
 
   document.querySelectorAll("a").forEach((el) => {
     el.addEventListener("click", (e) => {
+      if (e.target.matches('a[href="/login"]')) {
+        e.stopPropagation();
+        e.preventDefault();
+        return;
+      }
+
       e.preventDefault();
+
       const newPathName = e.target.href.replace(location.origin, "");
       navigate(newPathName);
       render();
