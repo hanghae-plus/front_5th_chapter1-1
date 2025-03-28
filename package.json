@@ -21,7 +21,7 @@
     "build:test": "vite build --mode dev",
     "build:prod": "vite build --mode prod",
     "predeploy": "pnpm run build:prod",
-    "deploy": "vite build:prod && gh-pages -d dist"
+    "deploy": "gh-pages -d dist"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -47,5 +47,5 @@
     "vite": "^6.0.3",
     "vitest": "^2.1.8"
   },
-  "homepage": "https://github.com/kk3june/front_5th_chapter1-1"
+  "homepage": "https://kk3june.github.io/front_5th_chapter1-1"
 }
