@@ -37,6 +37,7 @@ export function onClickLink(e) {
   e.preventDefault();
   if (target.href && target.href.includes("#")) {
     logout();
+    navigate("/login");
   } else {
     navigate(target.href);
   }
@@ -47,7 +48,7 @@ export function navigate(path) {
   render();
 }
 
-export function initRouter() {
+export function initHistoryRouter() {
   window.addEventListener("popstate", render);
   document.body.addEventListener("click", onClickLink);
 

@@ -1,3 +1,3 @@
-import { initRouter } from "./routers/router";
+import { initHistoryRouter } from "./routers/historyRouter";
 
-initRouter();
+initHistoryRouter();

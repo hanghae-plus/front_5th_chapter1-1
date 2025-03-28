@@ -12,7 +12,7 @@ const routes = {
 };
 
 export function hashRender() {
-  const path = window.location.hash.replace("#", "") || "/";
+  const path = window.location.hash.replace("#", "");
 
   let component;
   const user = getUser();
@@ -34,12 +34,13 @@ export function onClickLink(e) {
   const target = e.target.closest("a");
   if (!target) return;
 
+  const path = target.href.replace(location.origin, "");
   e.preventDefault();
-  if (target.href && target.href.includes("logout")) {
+  if (target.id === "logout") {
     logout();
+    location.hash = `#/login`;
   } else {
-    const path = target.getAttribute("href") || "/";
-    navigate(path);
+    location.hash = path;
   }
 }
 
@@ -61,7 +62,7 @@ export function setupEventListeners() {
       event.preventDefault();
       const { username } = event.target.elements;
       login({ username: username.value, email: "", bio: "" });
-      navigate("/profile");
+      navigate("#/profile");
     });
   }
 
