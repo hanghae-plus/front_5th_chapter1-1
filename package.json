@@ -20,8 +20,8 @@
     "prepare": "husky",
     "build:test": "vite build --mode dev",
     "build:prod": "vite build --mode prod",
-    "predeploy": "pnpm run build:prod && cp dist/index.html dist/404.html",
-    "deploy": "gh-pages -d dist"
+    "predeploy": "pnpm run build:prod",
+    "deploy": "vite build:prod && gh-pages -d dist"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

@@ -12,7 +12,7 @@ const routes = {
 };
 
 export function hashRender() {
-  const path = window.location.hash.replace("#", "");
+  const path = window.location.hash.replace("#", "") || "/";
 
   let component;
   const user = getUser();
@@ -37,7 +37,7 @@ export function initHashRouter() {
 }
 
 export function navigate(path) {
-  window.history.pushState({}, "", path);
+  window.location.hash = path;
   hashRender();
 }
 
