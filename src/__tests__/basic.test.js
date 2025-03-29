@@ -23,8 +23,10 @@ afterAll(() => {
   localStorage.removeItem("user");
 });
 
+/**브라우저의 url을 변경하고, popstate 이벤트를 발송해서, 해당 이벤트에 대해 등록된 EventListener들을 (동기적으로) 순서대로 호출 -> 라우팅에 따른 페이지 렌더링 트리거  */
 const goTo = (path) => {
   window.history.pushState({}, "", path);
+  // EventTarget 객체로 Event를 발송해서, 해당 이벤트에 대해 등록된 EventListener들을 (동기적으로) 순서대로 호출
   window.dispatchEvent(new Event("popstate"));
 };
 
