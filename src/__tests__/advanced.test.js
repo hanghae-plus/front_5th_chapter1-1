@@ -67,9 +67,7 @@ describe("심화과제 테스트", () => {
   describe("3. 이벤트 위임 활용", () => {
     it("네비게이션의 링크를 클릭에서 이벤트 전파를 막았을 때, 아무일도 일어나지 않는다.", async () => {
       goTo("/");
-
       const firstTarget = document.querySelector('nav a[href="/login"]');
-
       firstTarget.addEventListener("click", (e) => {
         e.stopPropagation();
         e.preventDefault();
