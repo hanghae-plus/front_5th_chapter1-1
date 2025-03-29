@@ -1,13 +1,5 @@
 import userEvent from "@testing-library/user-event";
-import {
-  afterAll,
-  beforeAll,
-  beforeEach,
-  expect,
-  describe,
-  it,
-  vi,
-} from "vitest";
+import { afterAll, beforeAll, beforeEach, expect, describe, it, vi } from "vitest";
 
 beforeAll(async () => {
   // DOM 초기화
@@ -53,14 +45,10 @@ describe("심화과제 테스트", () => {
 
       await user.type(document.getElementById("username"), "testuser");
 
-      loginForm.dispatchEvent(
-        new SubmitEvent("submit", { bubbles: true, cancelable: true }),
-      );
+      loginForm.dispatchEvent(new SubmitEvent("submit", { bubbles: true, cancelable: true }));
 
       goTo("/login");
-      expect(
-        document.querySelector("nav .text-blue-600.font-bold").innerHTML,
-      ).toContain("홈");
+      expect(document.querySelector("nav .text-blue-600.font-bold").innerHTML).toContain("홈");
     });
   });
 

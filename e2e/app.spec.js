@@ -20,9 +20,7 @@ async function login(page) {
 
 test.describe("SPA 기본 기능", () => {
   test("기본 라우팅이 동작한다", async ({ page }) => {
-    await expect(
-      page.getByRole("heading", { name: "항해플러스" }).first(),
-    ).toBeVisible();
+    await expect(page.getByRole("heading", { name: "항해플러스" }).first()).toBeVisible();
     await page.getByRole("link", { name: "로그인" }).click();
     await expect(page.locator("#root")).toMatchAriaSnapshot(`
     - heading "항해플러스" [level=1]
@@ -96,7 +94,7 @@ test.describe("SPA 기본 기능", () => {
     - text: 이메일
     - textbox "이메일": a@a.aa
     - text: 자기소개
-    - textbox "자기소개": 자기소개입니다. 자기소개입니다.
+    - textbox "자기소개": 자기소개입니다.
     - button "프로필 업데이트"
     `);
   });
@@ -105,9 +103,7 @@ test.describe("SPA 기본 기능", () => {
 test.describe("SPA 심화 기능", () => {
   test("해시 기반의 라우팅이 동작한다", async ({ page }) => {
     await page.goto("/index.hash.html");
-    await expect(
-      page.getByRole("heading", { name: "항해플러스" }).first(),
-    ).toBeVisible();
+    await expect(page.getByRole("heading", { name: "항해플러스" }).first()).toBeVisible();
 
     await page.evaluate(() => {
       window.location.hash = "#/login";
@@ -150,9 +146,7 @@ test.describe("SPA 심화 기능", () => {
     `);
   });
 
-  test("로그인된 사용자가 로그인 페이지에 접근시 메인 페이지로 리다이렉트", async ({
-    page,
-  }) => {
+  test("로그인된 사용자가 로그인 페이지에 접근시 메인 페이지로 리다이렉트", async ({ page }) => {
     await login(page);
     await expect(page.getByRole("navigation")).toMatchAriaSnapshot(`
     - navigation:
