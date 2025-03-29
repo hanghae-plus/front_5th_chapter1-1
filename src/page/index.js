@@ -1,5 +1,4 @@
-import { ErrorPage } from "./ErrorPage";
-import { LoginPage } from "./LoginPage";
-import { MainPage } from "./MainPage";
-import { ProfilePage } from "./ProfilePage";
-export { ErrorPage, LoginPage, MainPage, ProfilePage };
+export { ErrorPage } from "./ErrorPage";
+export { LoginPage } from "./LoginPage";
+export { MainPage } from "./MainPage";
+export { ProfilePage } from "./ProfilePage";

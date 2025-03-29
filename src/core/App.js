@@ -1,6 +1,6 @@
 import { MainPage, ProfilePage, LoginPage, ErrorPage } from "../page";
 import User from "../store/user";
-import { getDeployUrl } from "./getDeployUrl";
+import getDeployUrl from "./getDeployUrl";
 import getRouterMode from "./getRouterMode";
 
 export const App = () => {

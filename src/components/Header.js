@@ -1,4 +1,4 @@
-import { getDeployUrl } from "../core/getDeployUrl";
+import getDeployUrl from "../core/getDeployUrl";
 import getRouterMode from "../core/getRouterMode";
 import User from "../store/user";
 
@@ -15,7 +15,7 @@ export const Header = () => /* HTML */ {
     ? `<nav class="bg-white shadow-md p-2 sticky top-14">
 	  <ul class="flex justify-around">
 		<li>
-<a href="/" 
+	<a href="/" 
    class="${
      (
        isHashMode
