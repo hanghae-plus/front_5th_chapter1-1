@@ -47,7 +47,7 @@ export default function Nav() {
     if (anchor) {
       e.preventDefault();
       const path = anchor.getAttribute("data-path");
-      navigate(`${BASE_PATH}${path}`);
+      navigate(path);
     }
   });
 
@@ -56,7 +56,7 @@ export default function Nav() {
     logoutButton.addEventListener("click", (e) => {
       e.preventDefault();
       authStore.clear();
-      navigate(`${BASE_PATH}/login`);
+      navigate(`/login`);
     });
   }
 

@@ -22,6 +22,6 @@ export const render = () => {
   }
 };
 export const navigate = (path) => {
-  history.pushState({}, "", path);
+  history.pushState({}, "", `${BASE_PATH}${path}`);
   render();
 };

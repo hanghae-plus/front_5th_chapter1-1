@@ -22,8 +22,8 @@ export const render = () => {
   }
 };
 export const navigate = (path) => {
-  if (location.hash.slice(1) !== path) {
-    location.hash = path;
+  if (location.hash.slice(1) !== `${BASE_PATH}${path}`) {
+    location.hash = `${BASE_PATH}${path}`;
   } else {
     render();
   }
