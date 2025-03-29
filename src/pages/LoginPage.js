@@ -1,6 +1,6 @@
 import { navigate } from "../router/router";
 import { authStore } from "../stores/authStore";
-
+import { BASE_PATH } from "../router/routes";
 export const LoginPage = () => {
   const loginPageWrapper = document.createElement("div");
 
@@ -34,7 +34,7 @@ export const LoginPage = () => {
     e.preventDefault();
     const username = loginPageWrapper.querySelector("#username").value;
     authStore.user = { username, email: "", bio: "" };
-    navigate("/");
+    navigate(`${BASE_PATH}/`);
   };
   loginForm.addEventListener("submit", handleLogin);
 

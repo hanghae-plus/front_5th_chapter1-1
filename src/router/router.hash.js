@@ -1,11 +1,12 @@
-import { ROUTES } from "./routes.js";
+import { ROUTES, BASE_PATH } from "./routes.js";
 
 export const render = () => {
   const root = document.getElementById("root");
   root.innerHTML = "";
 
   const path = location.hash.slice(1) || "/";
-  const PageComponent = ROUTES[path];
+
+  const PageComponent = ROUTES[BASE_PATH + path];
 
   if (!PageComponent) {
     if (path !== "/404") {
@@ -20,7 +21,6 @@ export const render = () => {
     root.appendChild(page);
   }
 };
-
 export const navigate = (path) => {
   if (location.hash.slice(1) !== path) {
     location.hash = path;

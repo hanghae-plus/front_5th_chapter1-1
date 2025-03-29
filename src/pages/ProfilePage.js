@@ -2,6 +2,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { authStore } from "../stores/authStore";
 import { navigate } from "../router/router";
+import { BASE_PATH } from "../router/routes";
 
 export const ProfilePage = () => {
   const profilePageWrapper = document.createElement("div");
@@ -57,7 +58,7 @@ export const ProfilePage = () => {
     const email = editForm.querySelector("#email").value;
     const bio = editForm.querySelector("#bio").value;
     authStore.user = { username, email, bio };
-    navigate("/profile");
+    navigate(`${BASE_PATH}/profile`);
   };
 
   editForm.addEventListener("submit", handleEdit);
