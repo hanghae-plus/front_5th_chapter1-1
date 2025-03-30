@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="module">
+      function redirectToSPAPath() {
+        const basePath = import.meta.env.VITE_BASE_PATH;
+        const currentHashPath = `#/${location.pathname?.replace(basePath, "")}`;
+        const redirectPath = `${basePath}${currentHashPath}`;
+        window.location.replace(redirectPath);
+      }
+      redirectToSPAPath();
+    </script>
+    <title>Page Not Found</title>
+  </head>
+  <body></body>
+</html>

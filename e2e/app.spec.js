@@ -72,7 +72,7 @@ test.describe("SPA 기본 기능", () => {
     await login(page);
 
     // 프로필 페이지 접근
-    await page.goto("/profile");
+    await page.goto("/index.hash.html#/profile");
 
     // 프로필 정보 확인
     await expect(page.locator("#username")).toHaveValue("testuser");
@@ -96,7 +96,7 @@ test.describe("SPA 기본 기능", () => {
     - text: 이메일
     - textbox "이메일": a@a.aa
     - text: 자기소개
-    - textbox "자기소개": 자기소개입니다. 자기소개입니다.
+    - textbox "자기소개": 자기소개입니다.
     - button "프로필 업데이트"
     `);
   });
