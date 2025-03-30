@@ -52,7 +52,7 @@ export const Router = () => {
         break;
       case "#/login":
         if (isLogIn()) {
-          window.history.hash = "#/";
+          window.location.hash = "#/";
           layout = `${Header()}${HomePage()}${Footer()}`;
         } else {
           layout = `${LoginPage()}`;
@@ -62,7 +62,7 @@ export const Router = () => {
         if (isLogIn()) {
           layout = `${Header()}${ProfilePage()}${Footer()}`;
         } else {
-          window.history.hash = "#/login";
+          window.location.hash = "#/login";
           layout = `${LoginPage()}`;
         }
         break;
