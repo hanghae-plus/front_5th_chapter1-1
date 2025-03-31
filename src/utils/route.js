@@ -32,12 +32,3 @@ class Router {
 }
 
 export const router = new Router();
-// router.addRoute('/', () => console.log('Home Page'));
-// router.addRoute('/about', () => console.log('About Page'));
-
-// document.querySelector('nav').addEventListener('click', (e) => {
-//   if (e.target.tagName === 'A') {
-//       e.preventDefault();
-//       router.navigateTo(e.target.pathname);
-//   }
-// });

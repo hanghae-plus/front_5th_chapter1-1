@@ -7,6 +7,7 @@
     "dev": "vite",
     "dev:hash": "vite --open ./index.hash.html",
     "build": "vite build",
+    "deploy": "gh-pages -d dist",
     "lint:fix": "eslint --fix",
     "prettier:write": "prettier --write ./src",
     "preview": "vite preview",
@@ -20,6 +21,7 @@
     "test:generate": "playwright codegen localhost:5173",
     "prepare": "husky"
   },
+  "homepage": "https://chipmunkcol.github.io/front_5th_chapter1-1/",
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "prettier --write",
