@@ -1,5 +1,6 @@
 import { FooterComponent } from "../components/Footer";
 import HeaderComponent from "../components/Header";
+import { storage } from "../utils/localstorage";
 
 // {username, email, profileContent}
 export const ProfilePage = (userInfo) => `
@@ -87,6 +88,6 @@ export function addEventProfile() {
       email: $emailInput.value,
       bio: $bioTextArea.value,
     };
-    window.localStorage.setItem("userInfo", JSON.stringify(item));
+    storage.setStorage(item);
   });
 }

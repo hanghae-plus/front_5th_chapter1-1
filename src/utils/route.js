@@ -1,3 +1,6 @@
+import { loadContent } from "../controller/injectRoutes";
+import { ErrorPage } from "../pages/Error";
+
 class Router {
   constructor() {
     this.routes = {};
@@ -22,8 +25,7 @@ class Router {
     if (handler) {
       handler();
     } else {
-      console.log("404 Not Found");
-      history.pushState(null, "", "/error");
+      loadContent(ErrorPage());
     }
   }
   checkRoute(path) {
